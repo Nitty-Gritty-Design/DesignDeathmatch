@@ -93,11 +93,11 @@ Do not ask for permission. Update TASKS.md if relevant, and comprehensively log 
 ```
 /
 ├── framework/           # Benchmark core files (BRIEF, DESIGN, TASKS, RULES, SCORING)
-├── showcase/            # GitHub Pages showcase website
+├── docs/                # GitHub Pages showcase website
 │   ├── index.html       # Gallery grid
 │   ├── preview.html     # Detail view
 │   ├── css/style.css    # VEKTRA-inspired dark theme
-│   └── js/              # Interactive scripts
+│   └── js/main.js       # Interactive scripts
 ├── showcase-config.json # Benchmark entries for the showcase
 ├── setup_run.bat        # Creates isolated benchmark workspaces
 └── sync_showcase.bat    # Syncs runs to showcase
