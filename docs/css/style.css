@@ -42,6 +42,8 @@ body {
   font-weight: 600;
   color: var(--color-accent);
   letter-spacing: -0.02em;
+  height: 50px;
+  object-fit: contain;
 }
 .tagline { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
 .intro { font-size: 16px; color: var(--color-text-secondary); margin: 32px 0; max-width: 680px; }
