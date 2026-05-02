@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA — Generative Background (Signal Field)</title>
+    <!-- 
+        Wildcard 6.1: Generative Animated Background
+        Rationale: Creates a living, breathing environment for the brand that 
+        responds to user presence (mouse movement), mirroring the reactive 
+        nature of the VEKTRA software.
+    -->
+    <link rel="stylesheet" href="tokens.css">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: var(--color-bg-primary);
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="signal-field"></canvas>
+
+    <script>
+        const canvas = document.getElementById('signal-field');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let mouse = { x: -1000, y: -1000 };
+        const dots = [];
+        const spacing = 40;
+
+        function resize() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initDots();
+        }
+
+        function initDots() {
+            dots.length = 0;
+            for (let x = spacing / 2; x < width; x += spacing) {
+                for (let y = spacing / 2; y < height; y += spacing) {
+                    dots.push({
+                        baseX: x,
+                        baseY: y,
+                        x: x,
+                        y: y,
+                        size: 1,
+                        angle: 0
+                    });
+                }
+            }
+        }
+
+        window.addEventListener('resize', resize);
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        function animate(time) {
+            ctx.clearRect(0, 0, width, height);
+            
+            const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--color-accent').trim();
+            const mutedColor = getComputedStyle(document.documentElement).getPropertyValue('--color-text-muted').trim();
+
+            dots.forEach(dot => {
+                const dx = mouse.x - dot.baseX;
+                const dy = mouse.y - dot.baseY;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                const force = Math.max(0, 150 - dist) / 150;
+                
+                // Displacement
+                const angle = Math.atan2(dy, dx);
+                dot.x = dot.baseX + Math.cos(angle) * force * 10;
+                dot.y = dot.baseY + Math.sin(angle) * force * 10;
+                
+                // Oscillating size
+                const osc = Math.sin(time * 0.002 + (dot.baseX + dot.baseY) * 0.01) * 0.5 + 0.5;
+                const size = 1 + (force * 3) + (osc * 1);
+
+                ctx.beginPath();
+                ctx.arc(dot.x, dot.y, size, 0, Math.PI * 2);
+                
+                if (force > 0.1) {
+                    ctx.fillStyle = accentColor;
+                    ctx.globalAlpha = force;
+                } else {
+                    ctx.fillStyle = mutedColor;
+                    ctx.globalAlpha = 0.2 + osc * 0.1;
+                }
+                
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+
+        resize();
+        requestAnimationFrame(animate);
+    </script>
+</body>
+</html>

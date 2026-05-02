@@ -1,0 +1,172 @@
+/*
+ * VEKTRA Brand Tokens — v2
+ * ========================
+ *
+ * Design Philosophy:
+ * The palette lives in the tension between terminal darkness and electric signal.
+ * Every color is a frequency — some you see, some you feel. The accent is not
+ * a decoration. It is a transmission.
+ *
+ * SURFACES (Dark):
+ * — Void #060608: The deepest layer. Not pure black — a near-black with a barely
+ *   perceptible cool undertone, like the inside of a CRT before it wakes.
+ *   Used for the outermost background, the page canvas.
+ * — Abyss #0B0B0E: Primary surface. The main content floor. Slightly lighter
+ *   than Void — a dark cool gray that reads as "screen" rather than "hole."
+ * — Shade #111115: Secondary surface. Cards, elevated panels, the layer that
+ *   sits above Abyss. Visible at close range, invisible in peripheral vision.
+ * — Mist #1A1A20: Tertiary surface. Borders, dividers, input backgrounds.
+ *   The lightest surface tone that still reads as "dark."
+ *
+ * SURFACES (Light):
+ * — Parchment #F7F4EF: Light mode background. Warm off-white with a barely
+ *   perceptible yellow undertone. Like graph paper under museum lighting.
+ * — Cloud #EDE9E3: Secondary light surface. Cards, panels.
+ * — Haze #E3DFD8: Tertiary light surface. Borders, dividers.
+ *
+ * TYPOGRAPHY:
+ * — Signal #EDEAE5: Primary text. Not pure white — a warm near-white with a
+ *   barely perceptible cream. Reads like paper under desk light.
+ * — Hum #8A8A96: Secondary text. Muted blue-gray. Used for captions, metadata,
+ *   anything that shouldn't compete with the primary reading layer.
+ * — Static #4E4E5A: Muted text. The quietest readable tone. Used for
+ *   placeholders, disabled states, timestamps in the deep margins.
+ * — Ink #0A0B0E: Light mode text. Near-black with cool undertone.
+ *
+ * ACCENT:
+ * — Transmission #00E5FF: THE accent. Electric, cold, precise. The frequency of
+ *   a cathode ray hitting a phosphor screen. Not the green of a hacker terminal,
+ *   not the blue of a SaaS dashboard — the specific cyan of a signal you can
+ *   almost hear. Used for active states, cursors, key numbers, the logo mark,
+ *   and any moment where VEKTRA draws your eye.
+ * — Deep Signal #007A8A: The accent at reduced intensity. Used for hover states
+ *   on accent elements, backgrounds of badges, and anywhere the full cyan would
+ *   overpower.
+ * — Signal Haze rgba(0,229,255,0.08): The accent at trace intensity. Used for
+ *   glows, ambient lighting, the ghost of a signal.
+ *
+ * BORDERS:
+ * — Grid #1E1E24: Border color. The seam between surfaces. Visible in forms,
+ *   cards, and section dividers.
+ * — Grid Bright #2A2A34: Border hover state.
+ *
+ * LIGHT MODE TEXT:
+ * — Signal Light #F5F2ED: Light mode primary text (reversed from dark).
+ * — Hum Light #5A5A66: Light mode secondary text.
+ * — Static Light #8A8A98: Light mode muted text.
+ *
+ * Rationale for the cyan:
+ * Cyan sits between the expected (blue) and the surprising (green). It suggests
+ * signal, scan, waveform, the glow of measurement equipment that has been on
+ * all night. It is the color of a cathode ray, a frequency display, the trace
+ * of a vector monitor. It is tuned, not chosen. In the context of Berlin's
+ * experimental music scene, it reads as neither club-neon nor corporate-tool —
+ * it reads as instrument.
+ */
+
+:root {
+  /* === Core Surfaces (Dark) === */
+  --color-void:              #060608;
+  --color-bg-primary:        #0B0B0E;
+  --color-bg-secondary:      #111115;
+  --color-surface:           #1A1A20;
+  --color-surface-elevated:  #22222A;
+
+  /* === Typography === */
+  --color-text-primary:      #EDEAE5;
+  --color-text-secondary:    #8A8A96;
+  --color-text-muted:        #4E4E5A;
+
+  /* === Accent === */
+  --color-accent:            #00E5FF;
+  --color-accent-dim:        #007A8A;
+  --color-accent-haze:       rgba(0, 229, 255, 0.08);
+  --color-accent-glow:       rgba(0, 229, 255, 0.15);
+  --color-accent-trace:      rgba(0, 229, 255, 0.03);
+
+  /* === Borders === */
+  --color-border:            #1E1E24;
+  --color-border-hover:      #2A2A34;
+  --color-border-accent:     rgba(0, 229, 255, 0.2);
+
+  /* === Light Mode Surfaces === */
+  --color-bg-primary-light:    #F7F4EF;
+  --color-bg-secondary-light:  #EDE9E3;
+  --color-surface-light:       #E3DFD8;
+  --color-text-primary-light:  #0A0B0E;
+  --color-text-secondary-light: #5A5A66;
+  --color-text-muted-light:    #8A8A98;
+  --color-border-light:        #D6D2CA;
+
+  /* === Typography Families === */
+  --font-mono:    'JetBrains Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-sans:    'Space Grotesk', 'Inter', 'Helvetica Neue', sans-serif;
+
+  /* === Fluid Type Scale (clamp for responsive) === */
+  --type-xs:     clamp(0.7rem, 0.65rem + 0.25vw, 0.85rem);
+  --type-sm:     clamp(0.85rem, 0.8rem + 0.25vw, 1rem);
+  --type-base:   clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+  --type-md:     clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem);
+  --type-lg:     clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem);
+  --type-xl:     clamp(1.8rem, 1.5rem + 1.2vw, 2.4rem);
+  --type-2xl:    clamp(2.2rem, 1.8rem + 1.8vw, 3.2rem);
+  --type-3xl:    clamp(2.8rem, 2.2rem + 2.5vw, 4.2rem);
+  --type-4xl:    clamp(3.5rem, 2.8rem + 3.5vw, 5.5rem);
+  --type-5xl:    clamp(4.5rem, 3.5rem + 5vw, 7.5rem);
+
+  /* === Line Heights === */
+  --leading-micro:    1.0;
+  --leading-tight:    1.1;
+  --leading-snug:     1.25;
+  --leading-normal:   1.5;
+  --leading-relaxed:  1.625;
+  --leading-loose:    2;
+
+  /* === Spacing Scale (4px base, extended) === */
+  --space-4xs:  0.125rem;
+  --space-3xs:  0.25rem;
+  --space-2xs:  0.5rem;
+  --space-xs:   0.75rem;
+  --space-sm:   1rem;
+  --space-md:   1.5rem;
+  --space-lg:   2rem;
+  --space-xl:   3rem;
+  --space-2xl:  4rem;
+  --space-3xl:  6rem;
+  --space-4xl:  8rem;
+  --space-5xl:  12rem;
+  --space-6xl:  16rem;
+
+  /* === Transitions === */
+  --timing-instant:  80ms;
+  --timing-fast:     150ms;
+  --timing-normal:   300ms;
+  --timing-slow:     500ms;
+  --timing-glacial:  800ms;
+  --easing-expo:     cubic-bezier(0.16, 1, 0.3, 1);
+  --easing-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --easing-smooth:   cubic-bezier(0.4, 0, 0.2, 1);
+  --easing-bounce:   cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* === Layout === */
+  --max-width:        1280px;
+  --max-width-wide:   1440px;
+  --nav-height:       72px;
+  --border-radius:    2px;
+  --border-radius-md: 4px;
+  --border-radius-lg: 8px;
+  --border-radius-xl: 16px;
+
+  /* === Z-Index Scale === */
+  --z-base:     1;
+  --z-dropdown: 10;
+  --z-sticky:   50;
+  --z-overlay:  100;
+  --z-modal:    200;
+  --z-toast:    300;
+
+  /* === Blur === */
+  --blur-sm:  4px;
+  --blur-md:  12px;
+  --blur-lg:  24px;
+}

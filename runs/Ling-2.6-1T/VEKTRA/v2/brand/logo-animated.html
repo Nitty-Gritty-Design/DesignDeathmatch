@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Initialization</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: #080809;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'IBM Plex Mono', monospace;
+      overflow: hidden;
+    }
+    
+    :root {
+      --color-bg: #080809;
+      --color-accent: #e84d1b;
+      --color-accent-bright: #ff6a2a;
+      --color-text: #f2f2f0;
+    }
+    
+    .container {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    
+    /* Calibration grid background */
+    .calibration-grid {
+      position: absolute;
+      inset: -40px;
+      background-image: 
+        linear-gradient(rgba(232, 77, 27, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(232, 77, 27, 0.03) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: 0;
+      animation: gridFadeIn 0.8s ease-out 0.2s forwards;
+    }
+    
+    @keyframes gridFadeIn {
+      to { opacity: 1; }
+    }
+    
+    /* Mark container */
+    .mark-container {
+      position: relative;
+      width: 80px;
+      height: 80px;
+    }
+    
+    /* The parametric path */
+    .mark-path {
+      fill: none;
+      stroke: url(#markGradient);
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 200;
+      stroke-dashoffset: 200;
+      filter: drop-shadow(0 0 8px rgba(232, 77, 27, 0.4));
+      animation: drawPath 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+    }
+    
+    @keyframes drawPath {
+      to { stroke-dashoffset: 0; }
+    }
+    
+    /* Node pulses */
+    .node {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      box-shadow: 0 0 12px var(--color-accent-bright);
+    }
+    
+    .node:nth-child(1) {
+      left: 18%;
+      top: 68%;
+      animation: nodeActivate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.35s forwards;
+    }
+    
+    .node:nth-child(2) {
+      left: 38%;
+      top: 42%;
+      animation: nodeActivate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.55s forwards;
+    }
+    
+    .node:nth-child(3) {
+      left: 62%;
+      top: 58%;
+      animation: nodeActivate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.75s forwards;
+    }
+    
+    .node:nth-child(4) {
+      left: 82%;
+      top: 38%;
+      animation: nodeActivate 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) 0.95s forwards;
+    }
+    
+    @keyframes nodeActivate {
+      0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+      50% { transform: translate(-50%, -50%) scale(1.5); opacity: 1; }
+      100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+    }
+    
+    /* Logotype container */
+    .logotype-container {
+      overflow: hidden;
+      height: 40px;
+    }
+    
+    .logotype {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--color-text);
+      letter-spacing: 0.05em;
+      display: flex;
+      gap: 0.05em;
+    }
+    
+    .logotype span {
+      display: inline-block;
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    
+    .logotype span:nth-child(1) { animation: letterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards; }
+    .logotype span:nth-child(2) { animation: letterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.28s forwards; }
+    .logotype span:nth-child(3) { animation: letterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.36s forwards; }
+    .logotype span:nth-child(4) { animation: letterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.44s forwards; }
+    .logotype span:nth-child(5) { animation: letterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.52s forwards; }
+    .logotype span:nth-child(6) { animation: letterSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.6s forwards; }
+    
+    @keyframes letterSlide {
+      to { transform: translateY(0); opacity: 1; }
+    }
+    
+    /* Chromatic aberration effect on letters */
+    .logotype span::before {
+      content: attr(data-char);
+      position: absolute;
+      color: var(--color-accent);
+      opacity: 0;
+      animation: chromaticReveal 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    
+    .logotype span:nth-child(1)::before { animation-delay: 1.24s; }
+    .logotype span:nth-child(2)::before { animation-delay: 1.32s; }
+    .logotype span:nth-child(3)::before { animation-delay: 1.4s; }
+    .logotype span:nth-child(4)::before { animation-delay: 1.48s; }
+    .logotype span:nth-child(5)::before { animation-delay: 1.56s; }
+    .logotype span:nth-child(6)::before { animation-delay: 1.64s; }
+    
+    @keyframes chromaticReveal {
+      0% { opacity: 0; transform: translateX(-2px); }
+      50% { opacity: 0.4; transform: translateX(1px); }
+      100% { opacity: 0; transform: translateX(0); }
+    }
+    
+    /* Breathing pulse after animation */
+    .breathing-indicator {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 12px;
+      height: 12px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      box-shadow: 0 0 16px var(--color-accent-bright);
+      opacity: 0;
+      animation: breathingPulse 2s ease-in-out 2.2s forwards;
+    }
+    
+    @keyframes breathingPulse {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.8; transform: scale(1); }
+      100% { opacity: 0.4; transform: scale(1); }
+    }
+    
+    /* Status label */
+    .status-label {
+      position: absolute;
+      bottom: -40px;
+      left: 0;
+      font-size: 10px;
+      color: var(--color-text);
+      opacity: 0.4;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    
+    /* Reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="calibration-grid"></div>
+    
+    <div class="mark-container">
+      <svg class="mark-container" viewBox="0 0 100 80" role="img" aria-label="VEKTRA">
+        <defs>
+          <linearGradient id="markGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#e84d1b;stop-opacity:1" />
+            <stop offset="50%" style="stop-color:#ff6a2a;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#e84d1b;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <path class="mark-path" d="M 16 56 C 16 42, 28 36, 36 44 C 44 52, 56 46, 68 58 C 80 70, 84 60, 88 64" />
+      </svg>
+      
+      <div class="node"></div>
+      <div class="node"></div>
+      <div class="node"></div>
+      <div class="node"></div>
+      
+      <div class="breathing-indicator"></div>
+    </div>
+    
+    <div class="logotype-container">
+      <div class="logotype">
+        <span data-char="V">V</span>
+        <span data-char="E">E</span>
+        <span data-char="K">K</span>
+        <span data-char="T">T</span>
+        <span data-char="R">R</span>
+        <span data-char="A">A</span>
+      </div>
+    </div>
+    
+    <div class="status-label">System Active</div>
+  </div>
+</body>
+</html>

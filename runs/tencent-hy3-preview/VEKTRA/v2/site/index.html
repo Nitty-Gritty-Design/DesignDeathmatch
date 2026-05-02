@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA v2 — Signal. Motion. Code. One unified graph.</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../brand/tokens.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="../brand/logo-mark.svg">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav sticky">
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="../brand/logo.svg" alt="VEKTRA logo" width="140" height="20">
+      </a>
+      <div class="nav-links">
+        <a href="#what-it-is">Product</a>
+        <a href="#how-it-works">Documentation</a>
+        <a href="#who-uses-it">About</a>
+        <a href="viz.html">Visualization</a>
+      </div>
+      <a href="#hero" class="btn btn-primary nav-cta">Initialize System</a>
+      <button class="nav-hamburger" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero" class="hero">
+    <div class="hero-bg" id="hero-bg"></div>
+    <div class="hero-content">
+      <h1 class="hero-title">Signal. Motion. Code. One unified graph.</h1>
+      <p class="hero-subtitle">VEKTRA collapses audio, visual, and logic into a single inspectable graph. No hidden time, no disconnected parameters. Built for creators who demand systems that behave.</p>
+      <a href="#what-it-is" class="btn btn-primary btn-lg">Open VEKTRA</a>
+    </div>
+  </section>
+
+  <!-- What it is -->
+  <section id="what-it-is" class="section">
+    <div class="container">
+      <h2 class="section-title">What it is</h2>
+      <p class="section-text">VEKTRA is a generative environment where sound, motion, and code share a single signal graph. Modify a frequency, drive a visual parameter. Trigger a gesture, rewrite a patch. Time is explicit, inspectable, and alive. Every node, edge, and value is forkable — no black boxes.</p>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section id="how-it-works" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">How it works</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3 class="card-title">Unified Graph</h3>
+          <p class="card-text">Connect audio oscillators, GLSL shaders, and logic gates in one patch. No context switching between tools — all parameters share the same timebase.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Live Inspection</h3>
+          <p class="card-text">Edit code, tweak frequencies, and adjust parameters with instant feedback. No compile step, no export — the system runs as you shape it.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Signal-Driven Motion</h3>
+          <p class="card-text">Map FFT bins to geometry, LFOs to opacity, tempo to animation curves. The graph breathes with your input, generative and precise.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who uses it -->
+  <section id="who-uses-it" class="section">
+    <div class="container">
+      <h2 class="section-title">Who uses it</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3 class="card-title">Electronic Composers</h3>
+          <p class="card-text">Build generative scores that evolve in real time, with visuals that react to every spectral shift. Perform the patch, not the tool.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Installation Artists</h3>
+          <p class="card-text">Create responsive exhibits where audience movement alters sound and light via the same graph. No middleware, no latency.</p>
+        </div>
+        <div class="card">
+          <h3 class="card-title">Interaction Developers</h3>
+          <p class="card-text">Design signal-driven UIs for galleries, performances, and research environments. Fork any node, inspect every signal.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data visualization preview -->
+  <section id="viz-preview" class="section section-alt">
+    <div class="container">
+      <h2 class="section-title">Signal Visualization</h2>
+      <p class="section-text">Explore VEKTRA's real-time frequency spectrum. <a href="viz.html" class="link">View full interactive visualization →</a></p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-inner">
+      <div class="footer-left">
+        <img src="../brand/logo-light.svg" alt="VEKTRA logo" width="100" height="14">
+        <p class="footer-address">Oranienstraße 45, 10999 Berlin</p>
+      </div>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Use</a>
+        <a href="#">GitHub</a>
+        <a href="#">Documentation</a>
+      </div>
+      <p class="footer-copy">© 2026 VEKTRA. A signal, not a product.</p>
+    </div>
+  </footer>
+
+  <div class="cursor-dot" id="cursorDot"></div>
+  <script src="main.js"></script>
+</body>
+</html>

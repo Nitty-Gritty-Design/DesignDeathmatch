@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Logo Animation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0C0C0E;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .logo-stage {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* === MARK ANIMATION === */
+
+    /*
+     * Animation sequence:
+     * 0–300ms:   horizontal scan line appears (signal rising on scope)
+     * 300–800ms: left triangle resolves from scan line via clip-path
+     * 500–900ms: right triangle resolves with slight delay
+     * 800–1100ms:connector bar fades in
+     * 900–1900ms: logotype characters appear, 40ms stagger each
+     * 1900–2200ms:accent pulse — system confirm
+     * Total: 2.2s. Runs once.
+     */
+
+    .mark-wrap {
+      position: relative;
+      width: 48px;
+      height: 48px;
+    }
+
+    /* Scan line — the signal arriving */
+    .scan-line {
+      position: absolute;
+      left: 4px;
+      top: 50%;
+      width: 0;
+      height: 2px;
+      background: #E8FF47;
+      transform: translateY(-50%);
+      animation: scan-expand 260ms cubic-bezier(0.16, 1, 0.3, 1) 40ms both;
+      transform-origin: left center;
+    }
+
+    @keyframes scan-expand {
+      from { width: 0; opacity: 1; }
+      to   { width: 40px; opacity: 0.6; }
+    }
+
+    /* SVG mark — reveals via clip-path animation */
+    .mark-svg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 48px; height: 48px;
+      opacity: 0;
+      animation: mark-appear 100ms linear 260ms both;
+    }
+
+    @keyframes mark-appear {
+      to { opacity: 1; }
+    }
+
+    /* Left triangle — clip from center outward */
+    .tri-left {
+      clip-path: inset(0 100% 0 0);
+      animation: tri-left-reveal 420ms cubic-bezier(0.16, 1, 0.3, 1) 280ms both;
+    }
+
+    @keyframes tri-left-reveal {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0% 0 0); }
+    }
+
+    /* Right triangle — slightly delayed */
+    .tri-right {
+      clip-path: inset(0 100% 0 0);
+      animation: tri-right-reveal 380ms cubic-bezier(0.16, 1, 0.3, 1) 440ms both;
+    }
+
+    @keyframes tri-right-reveal {
+      from { clip-path: inset(0 100% 0 0); }
+      to   { clip-path: inset(0 0% 0 0); }
+    }
+
+    /* Base bar */
+    .base-bar {
+      opacity: 0;
+      animation: bar-fade 200ms linear 700ms both;
+    }
+
+    @keyframes bar-fade {
+      from { opacity: 0; }
+      to   { opacity: 0.4; }
+    }
+
+    /* === LOGOTYPE ANIMATION === */
+    .logotype {
+      display: flex;
+      align-items: baseline;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .logotype-char {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px;
+      font-weight: 700;
+      color: #F0F0F2;
+      letter-spacing: 3px;
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(8px);
+    }
+
+    /* Each character gets its animation delay — 40ms stagger from 900ms base */
+    .logotype-char:nth-child(1) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  860ms both; }
+    .logotype-char:nth-child(2) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  900ms both; }
+    .logotype-char:nth-child(3) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  940ms both; }
+    .logotype-char:nth-child(4) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  980ms both; }
+    .logotype-char:nth-child(5) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1) 1020ms both; }
+    .logotype-char:nth-child(6) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1) 1060ms both; }
+
+    @keyframes char-enter {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* === SYSTEM CONFIRM PULSE === */
+    /*
+     * At 1900ms: the entire mark pulses once in brightness — system confirm.
+     * Implemented as an overlay that flashes to accent-glow and fades.
+     */
+    .confirm-pulse {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at center, rgba(232,255,71,0.5) 0%, transparent 70%);
+      opacity: 0;
+      border-radius: 2px;
+      animation: pulse-once 280ms cubic-bezier(0.87, 0, 0.13, 1) 1860ms both;
+      pointer-events: none;
+    }
+
+    @keyframes pulse-once {
+      0%   { opacity: 0; }
+      40%  { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    /* Accent color pulse on logotype at end */
+    .logotype-char:nth-child(1) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  860ms both, char-pulse 160ms linear 1900ms both; }
+    .logotype-char:nth-child(2) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  900ms both, char-pulse 160ms linear 1920ms both; }
+    .logotype-char:nth-child(3) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  940ms both, char-pulse 160ms linear 1940ms both; }
+    .logotype-char:nth-child(4) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1)  980ms both, char-pulse 160ms linear 1960ms both; }
+    .logotype-char:nth-child(5) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1) 1020ms both, char-pulse 160ms linear 1980ms both; }
+    .logotype-char:nth-child(6) { animation: char-enter 240ms cubic-bezier(0.16, 1, 0.3, 1) 1060ms both, char-pulse 160ms linear 2000ms both; }
+
+    @keyframes char-pulse {
+      0%   { color: #F0F0F2; }
+      50%  { color: #E8FF47; }
+      100% { color: #F0F0F2; }
+    }
+
+    /* Replay button (per task 5.3 requirement) */
+    .replay-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: transparent;
+      border: 1px solid rgba(232,255,71,0.3);
+      color: #E8FF47;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      padding: 10px 16px;
+      cursor: pointer;
+      transition: all 150ms ease;
+      text-transform: uppercase;
+    }
+
+    .replay-btn:hover {
+      background: rgba(232,255,71,0.08);
+      border-color: rgba(232,255,71,0.6);
+    }
+
+    /* Status display */
+    .status {
+      position: fixed;
+      bottom: 32px;
+      left: 32px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: rgba(240,240,242,0.3);
+      letter-spacing: 0.06em;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #E8FF47;
+      margin-right: 8px;
+      animation: status-blink 1.4s ease 2200ms infinite;
+    }
+
+    @keyframes status-blink {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo-stage">
+    <div class="mark-wrap">
+      <!-- Scan line — appears first -->
+      <div class="scan-line"></div>
+
+      <!-- SVG mark — resolves from scan line -->
+      <svg class="mark-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+        <!-- Left triangle -->
+        <polygon class="tri-left" points="4,44 22,4 31,44" fill="#E8FF47"/>
+        <!-- Right triangle -->
+        <polygon class="tri-right" points="25,44 34,9 44,44" fill="#E8FF47" opacity="0.82"/>
+        <!-- Base bar -->
+        <rect class="base-bar" x="4" y="42" width="40" height="2" fill="#E8FF47"/>
+      </svg>
+
+      <!-- Confirm pulse overlay -->
+      <div class="confirm-pulse"></div>
+    </div>
+
+    <!-- Logotype — characters appear with stagger -->
+    <div class="logotype" aria-label="VEKTRA">
+      <span class="logotype-char">V</span>
+      <span class="logotype-char">E</span>
+      <span class="logotype-char">K</span>
+      <span class="logotype-char">T</span>
+      <span class="logotype-char">R</span>
+      <span class="logotype-char">A</span>
+    </div>
+  </div>
+
+  <div class="status">
+    <span class="status-dot"></span>system initialized · v0.9.1-beta
+  </div>
+
+  <button class="replay-btn" onclick="replay()" aria-label="Replay animation">↺ replay</button>
+
+  <script>
+    // No external libraries — pure CSS animation, replay via class clone technique
+    function replay() {
+      const stage = document.querySelector('.logo-stage');
+      const clone = stage.cloneNode(true);
+      stage.parentNode.replaceChild(clone, stage);
+
+      const statusDot = document.querySelector('.status-dot');
+      statusDot.style.animation = 'none';
+      statusDot.offsetHeight; // reflow
+      statusDot.style.animation = '';
+    }
+  </script>
+</body>
+</html>

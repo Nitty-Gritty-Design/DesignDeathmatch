@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>VEKTRA Logo Animated</title>
+  <style>
+    body { background: #0a0a0f; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" width="240" height="32" viewBox="0 0 240 32">
+    <defs>
+      <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+        .mark-stroke { fill: none; stroke: #00e5ff; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 60; stroke-dashoffset: 60; animation: drawWave 1.2s ease-out forwards; }
+        .arrow-stroke { fill: none; stroke: #00e5ff; stroke-width: 2; stroke-linecap: round; stroke-dasharray: 17; stroke-dashoffset: 17; animation: drawArrow 0.8s ease-out 1.2s forwards; }
+        .arrowhead { fill: #00e5ff; opacity: 0; animation: fadeIn 0.3s ease-out 2s forwards; }
+        .logotype { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 28px; fill: #f0f0f5; opacity: 0; animation: fadeIn 0.5s ease-out 2s forwards; }
+        @keyframes drawWave { to { stroke-dashoffset: 0; } }
+        @keyframes drawArrow { to { stroke-dashoffset: 0; } }
+        @keyframes fadeIn { to { opacity: 1; } }
+      </style>
+    </defs>
+    <path class="mark-stroke" d="M0,16 C8,8 8,24 16,16 C24,8 24,24 32,16 C40,8 40,24 48,16" />
+    <path class="arrow-stroke" d="M48,16 L64,8" />
+    <path class="arrowhead" d="M64,8 L58,10 L58,6 Z" />
+    <text x="80" y="24" class="logotype">VEKTRA</text>
+  </svg>
+</body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Animated Logo</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; background: #0A0A0C; overflow: hidden; }
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .logo-container {
+    width: 400px;
+    height: 100px;
+    position: relative;
+  }
+  svg { width: 100%; height: 100%; }
+
+  /* Zero line */
+  .zero-line {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 120;
+    animation: drawLine 400ms 0ms ease-out forwards;
+  }
+
+  /* Waveform paths */
+  .waveform {
+    stroke-dasharray: 300;
+    stroke-dashoffset: 300;
+    animation: drawLine 800ms 400ms ease-out forwards;
+  }
+
+  /* Arrow paths */
+  .arrow {
+    stroke-dasharray: 80;
+    stroke-dashoffset: 80;
+    animation: drawLine 600ms 1200ms ease-out forwards;
+  }
+
+  /* Logotype characters */
+  .char {
+    opacity: 0;
+    animation: fadeInChar 80ms ease-out forwards;
+  }
+  .char:nth-child(1) { animation-delay: 1800ms; }
+  .char:nth-child(2) { animation-delay: 1880ms; }
+  .char:nth-child(3) { animation-delay: 1960ms; }
+  .char:nth-child(4) { animation-delay: 2040ms; }
+  .char:nth-child(5) { animation-delay: 2120ms; }
+  .char:nth-child(6) { animation-delay: 2200ms; }
+
+  /* Glow pulse on the mark after everything is drawn */
+  .mark-glow {
+    opacity: 0;
+    animation: glowPulse 800ms 2200ms ease-out forwards;
+  }
+
+  @keyframes drawLine {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes fadeInChar {
+    to { opacity: 1; }
+  }
+  @keyframes glowPulse {
+    0% { opacity: 0; }
+    30% { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="logo-container">
+  <svg viewBox="0 0 400 100" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="VEKTRA animated logo">
+    <!-- Zero line (baseline) -->
+    <line class="zero-line" x1="10" y1="50" x2="130" y2="50" stroke="#2A2A32" stroke-width="1"/>
+
+    <!-- Glow layer (behind the mark) -->
+    <g class="mark-glow">
+      <path d="M 10 40 Q 18 40, 22 20 Q 26 0, 34 0 Q 42 0, 46 20 L 54 35 Q 58 40, 62 30 Q 66 20, 70 20 Q 74 20, 78 30 L 82 38 Q 86 42, 90 35 L 94 28 Q 96 25, 98 28 L 102 40"
+        stroke="#00E5FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.3"/>
+      <path d="M 102 40 L 110 32 L 118 8" stroke="#00E5FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.3"/>
+      <path d="M 112 14 L 118 8 L 124 14" stroke="#00E5FF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.3"/>
+    </g>
+
+    <!-- Waveform -->
+    <path class="waveform" d="M 10 40 Q 18 40, 22 20 Q 26 0, 34 0 Q 42 0, 46 20 L 54 35 Q 58 40, 62 30 Q 66 20, 70 20 Q 74 20, 78 30 L 82 38 Q 86 42, 90 35 L 94 28 Q 96 25, 98 28 L 102 40"
+      stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+    <!-- Arrow -->
+    <path class="arrow" d="M 102 40 L 110 32 L 118 8" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <path class="arrow" d="M 112 14 L 118 8 L 124 14" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+
+    <!-- Logotype: character by character for staggered reveal -->
+    <text x="160" y="62" font-family="'JetBrains Mono', monospace" font-weight="300" font-size="42" letter-spacing="6" fill="#E8E6E1">
+      <tspan class="char">V</tspan><tspan class="char">E</tspan><tspan class="char">K</tspan><tspan class="char">T</tspan><tspan class="char">R</tspan><tspan class="char">A</tspan>
+    </text>
+  </svg>
+</div>
+</body>
+</html>

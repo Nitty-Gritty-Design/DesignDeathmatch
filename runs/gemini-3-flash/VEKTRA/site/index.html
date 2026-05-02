@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA — Generative Audio-Visual Environment</title>
+    <meta name="description" content="VEKTRA is a unified graph environment where sound, motion, and code are treated as a single continuous medium.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Libraries -->
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+    <header id="header">
+        <div class="container nav-container">
+            <a href="index.html" class="logo-link" id="logo-link">
+                <img src="../brand/logo.svg" alt="VEKTRA Logo" id="main-logo">
+            </a>
+            
+            <nav id="desktop-nav">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#how-it-works">Systems</a></li>
+                    <li><a href="#who">Users</a></li>
+                    <li><a href="../brand/styleguide.html">Documentation</a></li>
+                </ul>
+            </nav>
+
+            <button class="cta-button" id="header-cta">Initialize</button>
+            
+            <button class="mobile-toggle" id="mobile-nav-toggle" aria-label="Toggle Menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero -->
+        <section class="hero" id="hero">
+            <canvas id="generative-bg"></canvas>
+            <div class="container hero-content">
+                <h1 class="reveal">TIME IS A COORDINATE.<br>SIGNAL IS A FORM.</h1>
+                <p class="reveal">A unified environment for generative audio-visual composition. Designed for those who build systems that behave.</p>
+                <div class="reveal">
+                    <a href="#about" class="cta-button">Explore the Graph</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About (What it is) -->
+        <section id="about" class="section-padding">
+            <div class="container poetic-statement">
+                <h2 class="reveal">The Medium is the Signal</h2>
+                <p class="reveal">Most creative tools separate the visual from the sonic from the logical. VEKTRA treats them as one continuous graph. A change in frequency can drive a visual parameter. A gesture can rewrite a patch. Time is explicit, not hidden. Everything is inspectable, forkable, and live.</p>
+            </div>
+        </section>
+
+        <!-- Systems (How it works) -->
+        <section id="how-it-works" class="section-padding">
+            <div class="container">
+                <div class="grid-3">
+                    <div class="card reveal">
+                        <span class="card-number">01 / NODE_BASED</span>
+                        <h3>Unified Graph Engine</h3>
+                        <p>Logic, audio, and visual nodes share the same memory space, enabling zero-latency cross-modulation between domains.</p>
+                    </div>
+                    <div class="card reveal">
+                        <span class="card-number">02 / TEMPORAL</span>
+                        <h3>Explicit Time Flow</h3>
+                        <p>Sample-accurate temporal control allows for the composition of complex rhythmic and structural behaviors at any scale.</p>
+                    </div>
+                    <div class="card reveal">
+                        <span class="card-number">03 / LIVE_CODE</span>
+                        <h3>Hot-Swappable Logic</h3>
+                        <p>Inject new code into the running environment without interrupting the signal flow. Evolution is instantaneous.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Users (Who uses it) -->
+        <section id="who" class="section-padding">
+            <div class="container">
+                <div class="grid-2">
+                    <div class="reveal">
+                        <h2 class="font-mono" style="margin-bottom: var(--space-4);">Built for the Explorers</h2>
+                        <p style="color: var(--color-text-secondary);">VEKTRA is used by a global community of researchers and artists pushing the boundaries of what a machine can express.</p>
+                    </div>
+                    <div class="grid-2">
+                        <div class="reveal">
+                            <h4 class="font-mono" style="font-size: var(--text-sm); margin-bottom: var(--space-2);">Composers</h4>
+                            <p style="font-size: var(--text-xs); color: var(--color-text-muted);">Crafting sonic landscapes that respond to environment and time.</p>
+                        </div>
+                        <div class="reveal">
+                            <h4 class="font-mono" style="font-size: var(--text-sm); margin-bottom: var(--space-2);">Installation Artists</h4>
+                            <p style="font-size: var(--text-xs); color: var(--color-text-muted);">Creating immersive spaces that breathe and evolve with the observer.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization -->
+        <section id="viz" class="section-padding">
+            <div class="container">
+                <div class="viz-container reveal" id="viz-root">
+                    <!-- Visualization will be injected here -->
+                    <div style="position: absolute; top: 20px; left: 20px; font-family: var(--font-mono); font-size: 11px; color: var(--color-accent);">SIGNAL_MONITOR [ACTIVE]</div>
+                </div>
+                <div style="margin-top: var(--space-4); font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted);">
+                    FIG_01: REAL-TIME CROSS-DOMAIN MODULATION SPECTROGRAM
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h4 class="font-mono">VEKTRA</h4>
+                    <p>Building instruments that think. Established in Berlin, 2019.</p>
+                </div>
+                <div class="footer-links">
+                    <h5 class="font-mono">Navigation</h5>
+                    <ul>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#how-it-works">Systems</a></li>
+                        <li><a href="../brand/styleguide.html">Style Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h5 class="font-mono">Contact</h5>
+                    <ul>
+                        <li><a href="#">Signal@vektra.io</a></li>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">Github</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <div>© 2026 VEKTRA Studio. Köpenicker Str. 126, 10179 Berlin.</div>
+                <div class="font-mono" style="color: var(--color-accent);">SIGNAL_STABLE</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!--
+  Wildcard 6.1 — Generative Animated Background
+  Full-viewport Canvas signal field for the VEKTRA website hero.
+  Oscillating waveforms + particle network that responds to mouse.
+  Vanilla JS Canvas API, requestAnimationFrame, 60fps target.
+  Uses brand tokens: accent cyan #00E5FF, surface #0A0A0C.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Signal Field</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #0A0A0C; }
+  canvas { display: block; width: 100%; height: 100%; }
+  .overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .overlay p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #5E5E68;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-top: 1rem;
+  }
+</style>
+</head>
+<body>
+<canvas id="signalCanvas"></canvas>
+<div class="overlay">
+  <p>Move your cursor through the signal field</p>
+</div>
+<script>
+(function() {
+  'use strict';
+  var canvas = document.getElementById('signalCanvas');
+  var ctx = canvas.getContext('2d');
+  var w, h, dpr;
+  var mouseX = 0.5, mouseY = 0.5;
+  var targetMouseX = 0.5, targetMouseY = 0.5;
+  var time = 0;
+
+  // Config
+  var NUM_WAVES = 7;
+  var NUM_PARTICLES = 50;
+  var NUM_GRID_LINES = 12;
+
+  var waves = [];
+  var particles = [];
+
+  function init() {
+    dpr = window.devicePixelRatio || 1;
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Init waves
+    waves = [];
+    for (var i = 0; i < NUM_WAVES; i++) {
+      waves.push({
+        amplitude: 15 + Math.random() * 35,
+        frequency: 0.002 + Math.random() * 0.005,
+        speed: 0.005 + Math.random() * 0.015,
+        phase: Math.random() * Math.PI * 2,
+        yOffset: 0.15 + (i / NUM_WAVES) * 0.7,
+        opacity: 0.02 + Math.random() * 0.05,
+        harmonic: 1.5 + Math.random() * 2
+      });
+    }
+
+    // Init particles
+    particles = [];
+    for (var p = 0; p < NUM_PARTICLES; p++) {
+      particles.push({
+        x: Math.random(),
+        y: Math.random(),
+        vx: (Math.random() - 0.5) * 0.0004,
+        vy: (Math.random() - 0.5) * 0.0004,
+        radius: 0.8 + Math.random() * 1.5,
+        pulse: Math.random() * Math.PI * 2,
+        pulseSpeed: 0.01 + Math.random() * 0.02
+      });
+    }
+  }
+
+  window.addEventListener('resize', init);
+  init();
+
+  document.addEventListener('mousemove', function(e) {
+    targetMouseX = e.clientX / w;
+    targetMouseY = e.clientY / h;
+  });
+
+  // Touch support
+  document.addEventListener('touchmove', function(e) {
+    if (e.touches.length > 0) {
+      targetMouseX = e.touches[0].clientX / w;
+      targetMouseY = e.touches[0].clientY / h;
+    }
+  }, { passive: true });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function draw() {
+    time++;
+    mouseX = lerp(mouseX, targetMouseX, 0.02);
+    mouseY = lerp(mouseY, targetMouseY, 0.02);
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Subtle grid
+    ctx.strokeStyle = 'rgba(42, 42, 50, 0.15)';
+    ctx.lineWidth = 0.5;
+    for (var g = 0; g <= NUM_GRID_LINES; g++) {
+      var gx = (g / NUM_GRID_LINES) * w;
+      ctx.beginPath();
+      ctx.moveTo(gx, 0);
+      ctx.lineTo(gx, h);
+      ctx.stroke();
+      var gy = (g / NUM_GRID_LINES) * h;
+      ctx.beginPath();
+      ctx.moveTo(0, gy);
+      ctx.lineTo(w, gy);
+      ctx.stroke();
+    }
+
+    // Draw waves
+    waves.forEach(function(wave) {
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(0, 229, 255, ' + wave.opacity + ')';
+      ctx.lineWidth = 1;
+
+      for (var x = 0; x <= w; x += 3) {
+        var baseY = h * wave.yOffset;
+        var nx = x / w;
+        var dist = Math.sqrt(Math.pow((nx - mouseX) * 2.5, 2) + Math.pow((baseY / h - mouseY) * 2, 2));
+        var mouseInfluence = Math.max(0, 1 - dist * 1.2) * 40;
+
+        var y = baseY +
+          Math.sin(x * wave.frequency + time * wave.speed + wave.phase) * wave.amplitude +
+          Math.sin(x * wave.frequency * wave.harmonic + time * wave.speed * 0.6) * (wave.amplitude * 0.25) +
+          mouseInfluence * Math.sin(time * 0.015 + nx * 8);
+
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+
+      // Secondary ghost wave
+      ctx.beginPath();
+      ctx.strokeStyle = 'rgba(0, 229, 255, ' + (wave.opacity * 0.3) + ')';
+      ctx.lineWidth = 0.5;
+      for (var x2 = 0; x2 <= w; x2 += 4) {
+        var baseY2 = h * wave.yOffset;
+        var y2 = baseY2 +
+          Math.sin(x2 * wave.frequency * 0.5 + time * wave.speed * 0.3 + wave.phase + 1) * (wave.amplitude * 1.5);
+        if (x2 === 0) ctx.moveTo(x2, y2);
+        else ctx.lineTo(x2, y2);
+      }
+      ctx.stroke();
+    });
+
+    // Update and draw particles
+    particles.forEach(function(p) {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.pulse += p.pulseSpeed;
+
+      if (p.x < 0 || p.x > 1) p.vx *= -1;
+      if (p.y < 0 || p.y > 1) p.vy *= -1;
+
+      var dx = mouseX - p.x;
+      var dy = mouseY - p.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 0.25) {
+        p.vx += dx * 0.00008;
+        p.vy += dy * 0.00008;
+      }
+
+      p.vx *= 0.9995;
+      p.vy *= 0.9995;
+
+      var px = p.x * w;
+      var py = p.y * h;
+      var pr = p.radius + Math.sin(p.pulse) * 0.4;
+
+      ctx.beginPath();
+      ctx.arc(px, py, pr, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0, 229, 255, 0.35)';
+      ctx.fill();
+    });
+
+    // Draw connections
+    ctx.lineWidth = 0.5;
+    for (var i = 0; i < particles.length; i++) {
+      for (var j = i + 1; j < particles.length; j++) {
+        var dx = particles[i].x - particles[j].x;
+        var dy = particles[i].y - particles[j].y;
+        var d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 0.12) {
+          var alpha = (1 - d / 0.12) * 0.08;
+          ctx.beginPath();
+          ctx.strokeStyle = 'rgba(0, 229, 255, ' + alpha + ')';
+          ctx.moveTo(particles[i].x * w, particles[i].y * h);
+          ctx.lineTo(particles[j].x * w, particles[j].y * h);
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Mouse glow
+    var gradient = ctx.createRadialGradient(mouseX * w, mouseY * h, 0, mouseX * w, mouseY * h, 250);
+    gradient.addColorStop(0, 'rgba(0, 229, 255, 0.03)');
+    gradient.addColorStop(0.5, 'rgba(0, 229, 255, 0.01)');
+    gradient.addColorStop(1, 'rgba(0, 229, 255, 0)');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, w, h);
+
+    // Scanline effect (subtle)
+    var scanY = (time * 0.5) % h;
+    ctx.fillStyle = 'rgba(0, 229, 255, 0.008)';
+    ctx.fillRect(0, scanY, w, 2);
+
+    requestAnimationFrame(draw);
+  }
+
+  draw();
+})();
+</script>
+</body>
+</html>

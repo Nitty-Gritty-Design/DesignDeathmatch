@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VEKTRA Logo Animated V2</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
+    body {
+      background-color: #050505;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .logotype {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 24px;
+      font-weight: 700;
+      fill: #EDEDED;
+      letter-spacing: 0.15em;
+      opacity: 0;
+      transform: translateX(-10px);
+      animation: slideFadeIn 0.8s cubic-bezier(0.19, 1, 0.22, 1) 1.5s forwards;
+    }
+    .v-path {
+      stroke: #FF3300;
+      stroke-width: 2.5;
+      fill: none;
+      stroke-linejoin: miter;
+      stroke-miterlimit: 10;
+      stroke-dasharray: 100;
+      stroke-dashoffset: 100;
+      animation: drawIn 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+    .v-1 { animation-delay: 0s; }
+    .v-2 { animation-delay: 0.15s; opacity: 0.6; }
+    .v-3 { animation-delay: 0.3s; opacity: 0.2; }
+
+    @keyframes drawIn {
+      0% { stroke-dashoffset: 100; }
+      100% { stroke-dashoffset: 0; }
+    }
+    @keyframes slideFadeIn {
+      0% { opacity: 0; transform: translateX(-10px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <svg width="180" height="32" viewBox="0 0 180 32" xmlns="http://www.w3.org/2000/svg">
+    <g transform="translate(0, 0)">
+      <path class="v-path v-1" d="M4 4 L16 28 L28 4" />
+      <path class="v-path v-2" d="M8 8 L16 23 L24 8" />
+      <path class="v-path v-3" d="M12 12 L16 18 L20 12" />
+    </g>
+    <text class="logotype" x="48" y="24">VEKTRA</text>
+  </svg>
+</body>
+</html>

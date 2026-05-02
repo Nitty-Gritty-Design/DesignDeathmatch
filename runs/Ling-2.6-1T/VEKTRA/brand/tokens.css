@@ -1,0 +1,65 @@
+/* VEKTRA Brand Tokens
+ * 
+ * Color System:
+ * --color-bg-primary: Near-black warm gray (#0a0a0b) - primary surface
+ * --color-bg-secondary: Slightly elevated gray (#0f0f10) - secondary surfaces
+ * --color-surface: Card/panel surface (#141415) - elevated elements
+ * --color-accent: Electric signal amber (#ff6a00) - primary accent, used sparingly
+ * --color-accent-dim: Muted amber for subtle states (#ff6a0033) - 20% opacity
+ * --color-text-primary: Pure white (#ffffff) - primary text
+ * --color-text-secondary: Warm gray (#c8c8c8) - secondary text
+ * --color-text-muted: Cool gray (#6b6b6b) - muted/hint text
+ * --color-border: Subtle divider (#2a2a2a) - borders and separators
+ */
+
+:root {
+  --color-bg-primary: #0a0a0b;
+  --color-bg-secondary: #0f0f10;
+  --color-surface: #141415;
+  --color-accent: #ff6a00;
+  --color-accent-dim: rgba(255, 106, 0, 0.2);
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #c8c8c8;
+  --color-text-muted: #6b6b6b;
+  --color-border: #2a2a2a;
+  
+  /* Spacing scale */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  
+  /* Border radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  
+  /* Typography - will be defined in typography.md */
+  --font-mono: 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  
+  /* Transitions */
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+  --ease-in-expo: cubic-bezier(0.95, 0.05, 0.795, 0.035);
+  
+  /* Animation durations */
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-primary: #faf9f7;
+    --color-bg-secondary: #f5f4f2;
+    --color-surface: #ffffff;
+    --color-text-primary: #1a1a1a;
+    --color-text-secondary: #5a5a5a;
+    --color-text-muted: #9a9a9a;
+    --color-border: #e0e0e0;
+  }
+}

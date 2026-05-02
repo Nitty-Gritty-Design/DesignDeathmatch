@@ -1,0 +1,295 @@
+<!--
+  VEKTRA Brand Intro v2 — "System Initialize"
+  A 5-second cinematic intro sequence. Boot terminal → waveform resolve → logo reveal.
+  Skippable via click, ESC, or auto-completes. No external JS libraries.
+  Precise millisecond timing, SMIL animations, CSS keyframes.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — System Initialize</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%; background: #060608;
+    overflow: hidden; font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+  }
+
+  .stage {
+    position: relative; width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+
+  /* Boot terminal */
+  .boot {
+    position: absolute; top: 2.5rem; left: 2.5rem;
+    font-size: 0.7rem; color: #1E1E24; line-height: 1.8;
+    text-align: left;
+  }
+  .boot-line { opacity: 0; animation: bl 50ms ease-out forwards; }
+  .boot-line:nth-child(1) { animation-delay: 150ms; }
+  .boot-line:nth-child(2) { animation-delay: 400ms; }
+  .boot-line:nth-child(3) { animation-delay: 750ms; color: #007A8A; }
+  .boot-line:nth-child(4) { animation-delay: 1100ms; color: #007A8A; }
+  .boot-line:nth-child(5) { animation-delay: 1500ms; }
+  .boot-line:nth-child(6) { animation-delay: 1900ms; }
+  .boot-line:nth-child(7) { animation-delay: 2200ms; }
+  .boot-line:nth-child(8) { animation-delay: 2500ms; color: #00E5FF; }
+  @keyframes bl { to { opacity: 1; } }
+
+  /* Signal scope grid */
+  .scope-grid {
+    position: absolute; inset: 0; opacity: 0; pointer-events: none;
+    animation: sg 800ms 500ms ease-out forwards;
+    background-image:
+      linear-gradient(rgba(30,30,36,0.15) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,30,36,0.15) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  @keyframes sg { to { opacity: 1; } }
+
+  /* Logo stage */
+  .logo-stage {
+    position: relative; width: 480px; height: 120px;
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .scope-svg { position: absolute; width: 100%; height: 100%; }
+
+  /* Lissajous draw-in */
+  .lissajous-draw {
+    stroke-dasharray: 600; stroke-dashoffset: 600;
+    animation: liss 1400ms 800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes liss { to { stroke-dashoffset: 0; } }
+
+  /* Signal dot */
+  .sig-dot {
+    opacity: 0;
+    animation: sd 400ms 2200ms ease-out forwards;
+  }
+  @keyframes sd {
+    0% { opacity: 1; r: 8; }
+    100% { opacity: 1; r: 3; }
+  }
+
+  /* Glow pulse */
+  .mark-glow {
+    opacity: 0;
+    animation: gp 600ms 2400ms ease-out forwards;
+  }
+  @keyframes gp { 0% { opacity: 0.3; } 100% { opacity: 0; } }
+
+  /* Logo reveal */
+  .logo-reveal {
+    position: absolute; width: 100%; height: 100%;
+    opacity: 0; transform: scale(0.92);
+    animation: lr 800ms 2800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes lr { to { opacity: 1; transform: scale(1); } }
+
+  /* Statement */
+  .statement {
+    margin-top: 2rem; font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem; color: #8A8A96; letter-spacing: 0.02em;
+    opacity: 0; transform: translateY(12px);
+    animation: st 600ms 3600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes st { to { opacity: 1; transform: translateY(0); } }
+
+  /* CTA */
+  .cta-intro {
+    margin-top: 2rem; opacity: 0; transform: translateY(12px);
+    animation: ci 600ms 4000ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes ci { to { opacity: 1; transform: translateY(0); } }
+
+  .cta-btn {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: #00E5FF; border: 1px solid rgba(0,229,255,0.3);
+    padding: 0.7rem 1.8rem; letter-spacing: 0.12em; text-transform: uppercase;
+    transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .cta-btn:hover {
+    background: #00E5FF; color: #060608;
+    box-shadow: 0 0 40px rgba(0,229,255,0.2), 0 0 80px rgba(0,229,255,0.08);
+    border-color: #00E5FF;
+  }
+  .cta-btn::after { content: '→'; transition: transform 300ms ease; }
+  .cta-btn:hover::after { transform: translateX(4px); }
+
+  /* Skip */
+  .skip {
+    position: absolute; bottom: 2rem; right: 2rem;
+    font-size: 0.65rem; color: #4E4E5A; letter-spacing: 0.15em;
+    text-transform: uppercase; opacity: 0;
+    animation: sk 400ms 600ms ease-out forwards;
+  }
+  @keyframes sk { to { opacity: 0.6; } }
+
+  /* Stage fade-out */
+  .stage { animation: sf 500ms 5500ms ease-in forwards; }
+  @keyframes sf { to { opacity: 0; transform: scale(1.02); } }
+
+  /* End state */
+  .end {
+    position: absolute; inset: 0; display: flex; align-items: center;
+    justify-content: center; flex-direction: column;
+    opacity: 0; pointer-events: none;
+  }
+  .end.visible { opacity: 1; pointer-events: all; transition: opacity 500ms ease; }
+
+  /* Background canvas */
+  #bgCanvas { position: absolute; inset: 0; z-index: 0; opacity: 0; transition: opacity 800ms ease; }
+  .end.visible #bgCanvas { opacity: 0.6; }
+  .end-content { position: relative; z-index: 1; text-align: center; }
+
+  .ready-text {
+    font-family: 'Space Grotesk', sans-serif; font-size: 0.85rem;
+    color: #4E4E5A; margin-bottom: 2rem;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage" id="stage">
+  <div class="scope-grid"></div>
+
+  <div class="boot">
+    <div class="boot-line">VEKTRA v2.4.1</div>
+    <div class="boot-line">initializing signal graph…</div>
+    <div class="boot-line">audio engine ✓ online</div>
+    <div class="boot-line">visual engine ✓ online</div>
+    <div class="boot-line">midi: listening</div>
+    <div class="boot-line">patch: default</div>
+    <div class="boot-line">nodes: 0 → 47</div>
+    <div class="boot-line">system ready_</div>
+  </div>
+
+  <div class="logo-stage">
+    <!-- Lissajous draw-in -->
+    <svg class="scope-svg" viewBox="0 0 480 120" fill="none">
+      <!-- Grid lines -->
+      <line x1="0" y1="60" x2="160" y2="60" stroke="#111115" stroke-width="0.5"/>
+      <line x1="80" y1="10" x2="80" y2="110" stroke="#111115" stroke-width="0.5"/>
+
+      <!-- Glow pulse -->
+      <g class="mark-glow">
+        <path d="M80 60C80 28 110 10 125 22C140 34 140 70 125 85C110 100 80 100 80 82C80 64 104 52 120 58C136 64 136 88 120 94C104 100 86 82 92 64C98 46 122 40 132 52"
+          stroke="#00E5FF" stroke-width="6" stroke-linecap="round" fill="none" opacity="0.2"/>
+      </g>
+
+      <!-- Main draw-in path -->
+      <path class="lissajous-draw"
+        d="M80 60C80 28 110 10 125 22C140 34 140 70 125 85C110 100 80 100 80 82C80 64 104 52 120 58C136 64 136 88 120 94C104 100 86 82 92 64C98 46 122 40 132 52"
+        stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+
+      <!-- Signal dot -->
+      <circle class="sig-dot" cx="132" cy="52" r="3" fill="#00E5FF"/>
+    </svg>
+
+    <!-- Final logo (revealed) -->
+    <div class="logo-reveal">
+      <svg viewBox="0 0 520 120" fill="none" width="420" height="96">
+        <path d="M50 60C50 35 75 15 90 25C105 35 105 65 90 80C75 95 50 95 50 80C50 65 70 55 85 60C100 65 100 85 85 90C70 95 55 80 60 65C65 50 85 45 95 55"
+          fill="none" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="95" cy="55" r="3" fill="#00E5FF">
+          <animate attributeName="r" values="2.5;4.5;2.5" dur="2.5s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="1;0.5;1" dur="2.5s" repeatCount="indefinite"/>
+        </circle>
+        <text x="145" y="70" font-family="'JetBrains Mono', monospace" font-weight="300" font-size="48" letter-spacing="10" fill="#EDEAE5">VEKTRA</text>
+      </svg>
+    </div>
+  </div>
+
+  <p class="statement">Where signal becomes form.</p>
+
+  <div class="cta-intro">
+    <a href="#" class="cta-btn">Open the graph</a>
+  </div>
+
+  <span class="skip">Click to skip</span>
+</div>
+
+<!-- End state -->
+<div class="end" id="endState">
+  <canvas id="bgCanvas"></canvas>
+  <div class="end-content">
+    <svg viewBox="0 0 520 120" fill="none" width="320" height="76" style="margin-bottom:1.5rem;">
+      <path d="M50 60C50 35 75 15 90 25C105 35 105 65 90 80C75 95 50 95 50 80C50 65 70 55 85 60C100 65 100 85 85 90C70 95 55 80 60 65C65 50 85 45 95 55"
+        fill="none" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="95" cy="55" r="3" fill="#00E5FF"/>
+      <text x="145" y="70" font-family="'JetBrains Mono', monospace" font-weight="300" font-size="48" letter-spacing="10" fill="#EDEAE5">VEKTRA</text>
+    </svg>
+    <p class="ready-text">System ready. Awaiting input.</p>
+    <a href="#" class="cta-btn">graph.init()</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var stage = document.getElementById('stage');
+  var endState = document.getElementById('endState');
+  var bgCanvas = document.getElementById('bgCanvas');
+  var ended = false;
+
+  function endIntro() {
+    if (ended) return;
+    ended = true;
+    stage.style.opacity = '0';
+    stage.style.pointerEvents = 'none';
+    endState.classList.add('visible');
+    initBgCanvas();
+  }
+
+  setTimeout(endIntro, 5800);
+  document.addEventListener('click', function() { if (!ended) endIntro(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape' && !ended) endIntro(); });
+
+  // Background canvas for end state
+  function initBgCanvas() {
+    var ctx = bgCanvas.getContext('2d');
+    var w, h, dpr, t = 0;
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio||1, 2);
+      w = window.innerWidth; h = window.innerHeight;
+      bgCanvas.width = w*dpr; bgCanvas.height = h*dpr;
+      bgCanvas.style.width = w+'px'; bgCanvas.style.height = h+'px';
+      ctx.setTransform(dpr,0,0,dpr,0,0);
+    }
+    window.addEventListener('resize', resize); resize();
+
+    function N(x,y,z){return Math.sin(x*.008+z)*Math.cos(y*.01+z*.5)+Math.sin(x*.018-z*.3)*.4;}
+    var P = [];
+    for(var p=0;p<30;p++){var x=Math.random(),y=Math.random();P.push({x:x,y:y,ox:x,oy:y,vx:0,vy:0,r:.4+Math.random()*.8,k:.0002+Math.random()*.0005,d:.985});}
+
+    function draw() {
+      t++; ctx.clearRect(0,0,w,h);
+      P.forEach(function(pt){
+        var sx=pt.ox-pt.x, sy=pt.oy-pt.y;
+        pt.vx+=sx*pt.k; pt.vy+=sy*pt.k;
+        pt.vx+=(Math.random()-.5)*.000015; pt.vy+=(Math.random()-.5)*.000015;
+        pt.vx*=pt.d; pt.vy*=pt.d; pt.x+=pt.vx; pt.y+=pt.vy;
+        if(pt.x<0){pt.x=0;pt.vx*=-.3;} if(pt.x>1){pt.x=1;pt.vx*=-.3;}
+        if(pt.y<0){pt.y=0;pt.vy*=-.3;} if(pt.y>1){pt.y=1;pt.vy*=-.3;}
+        ctx.beginPath(); ctx.arc(pt.x*w,pt.y*h,pt.r,0,6.28);
+        ctx.fillStyle='rgba(0,229,255,0.12)'; ctx.fill();
+      });
+      ctx.lineWidth=.3;
+      for(var i=0;i<P.length;i++) for(var j=i+1;j<P.length;j++){
+        var dx=P[i].x-P[j].x, dy=P[i].y-P[j].y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<.12){ctx.beginPath();ctx.strokeStyle='rgba(0,229,255,'+(1-d/.12)*.06+')';ctx.moveTo(P[i].x*w,P[i].y*h);ctx.lineTo(P[j].x*w,P[j].y*h);ctx.stroke();}
+      }
+      requestAnimationFrame(draw);
+    }
+    draw();
+  }
+})();
+</script>
+</body>
+</html>

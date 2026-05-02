@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA Logo Animation V2</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="tokens.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: var(--color-bg-primary);
+            overflow: hidden;
+            font-family: var(--font-mono);
+        }
+
+        .logo-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .mark-container {
+            position: relative;
+            width: 44px;
+            height: 44px;
+            border: 1px solid var(--color-border);
+            overflow: hidden;
+        }
+
+        .mark-v2 {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 40px;
+            height: 40px;
+        }
+
+        /* Signal Scanner Effect */
+        .scanner {
+            position: absolute;
+            top: 0;
+            left: -10%;
+            width: 2px;
+            height: 100%;
+            background: var(--color-accent);
+            box-shadow: 0 0 15px var(--color-accent);
+            z-index: 10;
+            animation: scan 1.5s var(--ease-out-expo) forwards;
+        }
+
+        @keyframes scan {
+            0% { left: -10%; }
+            100% { left: 110%; }
+        }
+
+        .bars rect {
+            transform: scaleY(0);
+            transform-origin: bottom;
+            animation: growBar 0.8s var(--ease-out-expo) forwards;
+        }
+
+        @keyframes growBar {
+            0% { transform: scaleY(0); opacity: 0; }
+            100% { transform: scaleY(1); opacity: 1; }
+        }
+
+        .bars rect:nth-child(1) { animation-delay: 0.2s; }
+        .bars rect:nth-child(2) { animation-delay: 0.3s; }
+        .bars rect:nth-child(3) { animation-delay: 0.4s; }
+        .bars rect:nth-child(4) { animation-delay: 0.5s; }
+        .bars rect:nth-child(5) { animation-delay: 0.4s; }
+        .bars rect:nth-child(6) { animation-delay: 0.3s; }
+        .bars rect:nth-child(7) { animation-delay: 0.2s; }
+
+        .logotype {
+            font-size: 28px;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            letter-spacing: 0.8em;
+            opacity: 0;
+            filter: blur(10px);
+            animation: revealText 1.2s var(--ease-out-expo) 0.8s forwards;
+        }
+
+        @keyframes revealText {
+            0% { opacity: 0; letter-spacing: 0.8em; filter: blur(10px); }
+            100% { opacity: 1; letter-spacing: 0.25em; filter: blur(0); }
+        }
+
+        .metadata {
+            position: absolute;
+            bottom: -20px;
+            left: 68px;
+            font-size: 8px;
+            color: var(--color-text-muted);
+            letter-spacing: 0.1em;
+            opacity: 0;
+            animation: fadeIn 0.5s linear 1.8s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .glitch-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: var(--noise-opacity);
+        }
+    </style>
+</head>
+<body>
+    <div class="glitch-overlay"></div>
+    <div class="logo-wrapper">
+        <div class="mark-container">
+            <div class="scanner"></div>
+            <svg class="mark-v2" viewBox="0 0 40 40">
+                <rect x="1" y="1" width="38" height="38" stroke="var(--color-accent)" stroke-width="0.5" stroke-dasharray="1 2"/>
+                <g class="bars">
+                    <rect x="6" y="10" width="1.5" height="10" fill="var(--color-accent)" opacity="0.4"/>
+                    <rect x="10" y="14" width="1.5" height="14" fill="var(--color-accent)" opacity="0.6"/>
+                    <rect x="14" y="18" width="1.5" height="18" fill="var(--color-accent)" opacity="0.8"/>
+                    <rect x="19.25" y="22" width="1.5" height="22" fill="var(--color-accent)"/>
+                    <rect x="24.5" y="18" width="1.5" height="18" fill="var(--color-accent)" opacity="0.8"/>
+                    <rect x="28.5" y="14" width="1.5" height="14" fill="var(--color-accent)" opacity="0.6"/>
+                    <rect x="32.5" y="10" width="1.5" height="10" fill="var(--color-accent)" opacity="0.4"/>
+                </g>
+            </svg>
+        </div>
+        <div class="logotype">VEKTRA</div>
+        <div class="metadata">SIGNAL_GRAPH_ENV // INITIALIZING_SEQ_001</div>
+    </div>
+</body>
+</html>

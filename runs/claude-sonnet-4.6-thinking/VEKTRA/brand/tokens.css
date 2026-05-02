@@ -1,0 +1,187 @@
+/*
+ * VEKTRA — Brand Tokens
+ * =====================
+ * The single source of truth for all visual properties.
+ * Every color, spacing, and typography value used across the VEKTRA
+ * identity system must derive from these tokens.
+ *
+ * Color System:
+ * --color-bg-primary    : Primary surface — very dark warm-black (not pure black)
+ * --color-bg-secondary  : Slightly lighter surface for cards, panels
+ * --color-surface       : Elevated surface, modal, popover backgrounds
+ * --color-accent        : VEKTRA electric chartreuse — #E8FF47
+ *                         Rationale: A frequency that reads like a scope trace or
+ *                         oscilloscope cursor. Not amber, not green, not yellow —
+ *                         its own specific wavelength. Holds legibility on dark
+ *                         and light surfaces. Usable at 4px (a blink, a dot) and
+ *                         at 400px (a hero element). Feels tuned, not chosen.
+ * --color-accent-dim    : Dimmed accent for secondary states, backgrounds
+ * --color-text-primary  : Near-white body text
+ * --color-text-secondary: Mid-gray secondary text
+ * --color-text-muted    : Muted labels, captions, metadata
+ * --color-border        : Subtle border and divider color
+ * --color-error         : Error/warning state (desaturated red to stay on-brand)
+ */
+
+:root {
+  /* === DARK MODE (DEFAULT) === */
+
+  /* Surfaces */
+  --color-bg-primary:    #0C0C0E;  /* near-black with the faintest warm tint */
+  --color-bg-secondary:  #141417;  /* card and panel surfaces */
+  --color-surface:       #1C1C21;  /* elevated surface — popovers, drawers */
+  --color-surface-high:  #242429;  /* highest elevation — modals */
+
+  /* Accent — VEKTRA Electric Chartreuse */
+  --color-accent:        #E8FF47;
+  --color-accent-dim:    rgba(232, 255, 71, 0.12);
+  --color-accent-hover:  #F2FF78;
+  --color-accent-glow:   rgba(232, 255, 71, 0.25);
+
+  /* Text */
+  --color-text-primary:  #F0F0F2;
+  --color-text-secondary:#9494A0;
+  --color-text-muted:    #4E4E5A;
+  --color-text-accent:   #E8FF47;
+  --color-text-inverse:  #0C0C0E;  /* text on accent background */
+
+  /* Borders */
+  --color-border:        #242429;
+  --color-border-subtle: #1C1C21;
+  --color-border-accent: rgba(232, 255, 71, 0.3);
+
+  /* State */
+  --color-error:         #C0392B;
+  --color-success:       #E8FF47;  /* intentional — accent as success signal */
+
+  /* === TYPOGRAPHY === */
+  --font-mono:    'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  --font-sans:    'DM Sans', 'Inter', -apple-system, sans-serif;
+
+  /* Type scale — spans 11px label to 96px hero display */
+  --text-2xs:   0.6875rem;   /* 11px — label, caption, metadata */
+  --text-xs:    0.75rem;     /* 12px — small label */
+  --text-sm:    0.875rem;    /* 14px — body small */
+  --text-base:  1rem;        /* 16px — body */
+  --text-md:    1.125rem;    /* 18px — body large */
+  --text-lg:    1.375rem;    /* 22px — section intro */
+  --text-xl:    1.75rem;     /* 28px — sub-heading */
+  --text-2xl:   2.25rem;     /* 36px — heading */
+  --text-3xl:   3rem;        /* 48px — large heading */
+  --text-4xl:   4rem;        /* 64px — display */
+  --text-5xl:   5rem;        /* 80px — hero */
+  --text-6xl:   6rem;        /* 96px — max display */
+
+  /* Font weights */
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semibold:600;
+  --weight-bold:    700;
+
+  /* Line heights */
+  --leading-tight:   1.1;
+  --leading-snug:    1.25;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.7;
+  --leading-loose:   2;
+
+  /* Letter spacing */
+  --tracking-tight:   -0.03em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.06em;
+  --tracking-widest:   0.15em;
+
+  /* === SPACING === */
+  --space-1:   0.25rem;   /* 4px */
+  --space-2:   0.5rem;    /* 8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+
+  /* === LAYOUT === */
+  --max-width:       1280px;
+  --max-width-text:  680px;
+  --nav-height:      64px;
+  --border-radius:   2px;
+  --border-radius-md:4px;
+  --border-radius-lg:8px;
+
+  /* === MOTION === */
+  /* Timing curves — specified at the millisecond level */
+  --ease-signal:  cubic-bezier(0.16, 1, 0.3, 1);    /* fast-in, slow-out — like a signal rising */
+  --ease-resolve: cubic-bezier(0.4, 0, 0.2, 1);     /* balanced — for state changes */
+  --ease-snap:    cubic-bezier(0.87, 0, 0.13, 1);   /* aggressive snap — for reveals */
+  --ease-drift:   cubic-bezier(0.25, 0.46, 0.45, 0.94); /* organic — for background elements */
+
+  --duration-instant:  80ms;
+  --duration-fast:     150ms;
+  --duration-normal:   250ms;
+  --duration-moderate: 380ms;
+  --duration-slow:     500ms;
+  --duration-enter:    700ms;   /* entrance animations */
+
+  /* === EFFECTS === */
+  --shadow-glow:  0 0 24px var(--color-accent-glow);
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.6);
+  --shadow-sm:    0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* === LIGHT MODE === */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-primary:    #F4F4F2;  /* off-white technical document feel */
+    --color-bg-secondary:  #EAEAE8;
+    --color-surface:       #FFFFFF;
+    --color-surface-high:  #FFFFFF;
+
+    --color-accent:        #6B7A00;  /* darkened chartreuse for light bg legibility */
+    --color-accent-dim:    rgba(107, 122, 0, 0.08);
+    --color-accent-hover:  #556200;
+    --color-accent-glow:   rgba(107, 122, 0, 0.2);
+
+    --color-text-primary:  #111114;
+    --color-text-secondary:#5A5A66;
+    --color-text-muted:    #9494A0;
+    --color-text-accent:   #6B7A00;
+    --color-text-inverse:  #F4F4F2;
+
+    --color-border:        #D8D8D4;
+    --color-border-subtle: #E8E8E4;
+    --color-border-accent: rgba(107, 122, 0, 0.3);
+
+    --shadow-glow:  0 0 24px rgba(107, 122, 0, 0.15);
+    --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --shadow-sm:    0 1px 4px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Light mode class toggle (for manual control) */
+.light-mode {
+  --color-bg-primary:    #F4F4F2;
+  --color-bg-secondary:  #EAEAE8;
+  --color-surface:       #FFFFFF;
+  --color-surface-high:  #FFFFFF;
+  --color-accent:        #6B7A00;
+  --color-accent-dim:    rgba(107, 122, 0, 0.08);
+  --color-accent-hover:  #556200;
+  --color-accent-glow:   rgba(107, 122, 0, 0.2);
+  --color-text-primary:  #111114;
+  --color-text-secondary:#5A5A66;
+  --color-text-muted:    #9494A0;
+  --color-text-accent:   #6B7A00;
+  --color-text-inverse:  #F4F4F2;
+  --color-border:        #D8D8D4;
+  --color-border-subtle: #E8E8E4;
+  --color-border-accent: rgba(107, 122, 0, 0.3);
+  --shadow-glow:  0 0 24px rgba(107, 122, 0, 0.15);
+  --shadow-panel: 0 8px 32px rgba(0, 0, 0, 0.1);
+  --shadow-sm:    0 1px 4px rgba(0, 0, 0, 0.08);
+}

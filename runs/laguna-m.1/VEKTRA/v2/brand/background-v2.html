@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA Signal Field v2</title>
+  <style>
+    @import url('tokens.css');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      overflow: hidden;
+      background: var(--color-bg-primary);
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--color-text-primary);
+      cursor: crosshair;
+    }
+    
+    #signal-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+    
+    .info {
+      position: fixed;
+      bottom: 2rem;
+      left: 2rem;
+      color: var(--color-text-secondary);
+      font-size: 12px;
+      z-index: 10;
+      opacity: 0.7;
+    }
+    
+    .info a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="signal-canvas"></canvas>
+  <div class="info">Move cursor to influence the field. <a href="../site/index.html">Back to site</a></div>
+  
+  <script>
+    // VEKTRA Signal Field v2
+    // High-performance particle system with mouse attraction
+    // 60fps vanilla JS Canvas — no libraries
+    
+    const canvas = document.getElementById('signal-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+    let mouseX = 0.5;
+    let mouseY = 0.5;
+    let time = 0;
+    let deltaTime = 0;
+    let lastTime = 0;
+    
+    // Particle system
+    class Particle {
+      constructor() {
+        this.reset();
+        this.phase = Math.random() * Math.PI * 2;
+        this.frequency = 0.5 + Math.random() * 1.5;
+      }
+      
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.3;
+        this.vy = (Math.random() - 0.5) * 0.3;
+        this.radius = 0.5 + Math.random() * 1.5;
+        this.originalRadius = this.radius;
+        this.attracted = 0;
+      }
+      
+      update() {
+        // Mouse attraction with falloff
+        const dx = width * mouseX - this.x;
+        const dy = height * mouseY - this.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 250) {
+          const force = Math.pow(1 - dist / 250, 2);
+          this.vx += (dx / dist) * force * 0.02;
+          this.vy += (dy / dist) * force * 0.02;
+          this.attracted = Math.min(1, this.attracted + 0.1);
+        } else {
+          this.attracted *= 0.95;
+        }
+        
+        // Update position
+        this.x += this.vx;
+        this.y += this.vy;
+        
+        // Boundary with wrap
+        if (this.x < -50) this.x = width + 50;
+        if (this.x > width + 50) this.x = -50;
+        if (this.y < -50) this.y = height + 50;
+        if (this.y > height + 50) this.y = -50;
+        
+        // Apply friction
+        this.vx *= 0.98;
+        this.vy *= 0.98;
+      }
+      
+      draw() {
+        const pulse = Math.sin(time * 0.02 * this.frequency + this.phase) * 0.5 + 0.5;
+        const size = this.radius * (0.5 + pulse * 0.5 + this.attracted * 0.5);
+        const alpha = 0.2 + pulse * 0.3 + this.attracted * 0.3;
+        
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 122, 0, ${alpha})`;
+        ctx.fill();
+      }
+    }
+    
+    // Connection class for links between particles
+    class Connection {
+      constructor(a, b) {
+        this.a = a;
+        this.b = b;
+      }
+      
+      draw() {
+        const dx = this.a.x - this.b.x;
+        const dy = this.a.y - this.b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (dist < 80) {
+          const alpha = 0.1 * (1 - dist / 80);
+          ctx.beginPath();
+          ctx.moveTo(this.a.x, this.a.y);
+          ctx.lineTo(this.b.x, this.b.y);
+          ctx.strokeStyle = `rgba(255, 122, 0, ${alpha})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    
+    // Initialize particles
+    const particleCount = 200;
+    const particles = [];
+    const connections = [];
+    
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+    
+    // Create connection indices
+    for (let i = 0; i < particleCount; i++) {
+      for (let j = i + 1; j < Math.min(i + 10, particleCount); j++) {
+        connections.push(new Connection(particles[i], particles[j]));
+      }
+    }
+    
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    
+    function draw() {
+      const currentTime = performance.now();
+      deltaTime = (currentTime - lastTime) / 16.67; // Normalize to 60fps
+      lastTime = currentTime;
+      
+      // Trail effect
+      ctx.fillStyle = 'rgba(5, 5, 5, 0.15)';
+      ctx.fillRect(0, 0, width, height);
+      
+      // Update and draw connections first
+      connections.forEach(conn => conn.draw());
+      
+      // Update and draw particles
+      particles.forEach(p => {
+        p.update();
+        p.draw();
+      });
+      
+      time += deltaTime;
+      requestAnimationFrame(draw);
+    }
+    
+    window.addEventListener('resize', resize);
+    window.addEventListener('mousemove', e => {
+      mouseX = e.clientX / width;
+      mouseY = e.clientY / height;
+    });
+    
+    resize();
+    draw();
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</body>
+</html>

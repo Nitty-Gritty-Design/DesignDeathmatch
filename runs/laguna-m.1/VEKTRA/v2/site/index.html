@@ -1,0 +1,134 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Generative Audio-Visual Instruments</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="container flex flex-between">
+      <a href="#" class="nav-logo">
+        <img src="../brand/logo-mark.svg" alt="VEKTRA" width="24" height="24">
+        <span class="mono">VEKTRA</span>
+      </a>
+      <div class="nav-links">
+        <a href="#what" class="nav-link">What it is</a>
+        <a href="#how" class="nav-link">How it works</a>
+        <a href="#who" class="nav-link">Who uses it</a>
+        <a href="#viz" class="nav-link">Signal</a>
+      </div>
+      <button class="hamburger" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <canvas class="signal-bg" id="signal-canvas"></canvas>
+    <div class="container">
+      <div class="hero-content fade-in">
+        <h1 class="hero-title"><span class="accent">VEKTRA</span> treats time, signal, and form as a single medium.</h1>
+        <p class="hero-subtitle mono-small">A signal graph where every node is inspectable, every connection forkable, every parameter generative.</p>
+        <a href="#what" class="hero-cta">Enter the patch</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- What it is -->
+  <section class="section" id="what">
+    <div class="container">
+      <h2 class="section-title fade-in">What it is</h2>
+      <div class="card fade-in">
+        <p class="text-large">
+          VEKTRA is a software environment where sound, motion, and code are treated as a single medium. It is not a DAW. It is not a creative suite. It is closer to a language — a way of thinking about time, signal, and form simultaneously.
+        </p>
+        <p class="text-small mono" style="margin-top: 1rem; color: var(--color-text-muted);">
+          Every change in frequency can drive a visual parameter. Every gesture can rewrite a patch. Time is explicit, not hidden. Everything is inspectable, forkable, and live.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" id="how">
+    <div class="container">
+      <h2 class="section-title fade-in">How it works</h2>
+      <div class="grid fade-in" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div class="card">
+          <h3>The Graph</h3>
+          <p>A connective tissue where audio nodes, visual operators, and logic gates live as equals. Patch cables are first-class citizens.</p>
+        </div>
+        <div class="card">
+          <h3>Time as Signal</h3>
+          <p>Temporal values flow through the system like audio samples. A metronome can modulate a shader. A video frame can trigger synthesis.</p>
+        </div>
+        <div class="card">
+          <h3>Live Inspection</h3>
+          <p>Every parameter, every connection, every sample is visible and modifiable in real-time without stopping execution.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who uses it -->
+  <section class="section" id="who">
+    <div class="container">
+      <h2 class="section-title fade-in">Who uses it</h2>
+      <div class="grid fade-in" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+        <div class="card">
+          <h3>Holger recursion</h3>
+          <p>Electronic composer building self-modifying compositions where spectral analysis drives real-time orchestration.</p>
+        </div>
+        <div class="card">
+          <h3>Siobhan installations</h3>
+          <p>Installation artist creating responsive environments where visitor movement shapes evolving soundscapes.</p>
+        </div>
+        <div class="card">
+          <h3>Marcus research</h3>
+          <p>PhD researcher at IRCAM exploring non-linear time structures in generative composition systems.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data Visualization -->
+  <section class="section" id="viz">
+    <div class="container">
+      <h2 class="section-title fade-in">Signal Flow</h2>
+      <div class="visualization fade-in">
+        <p class="viz-title">Audio-Visual Patch Network</p>
+        <canvas id="signal-visualization" width="800" height="300"></canvas>
+        <p style="margin-top: 1rem; font-size: 14px; color: var(--color-text-muted);">
+          An interactive visualization of how audio parameters connect in a VEKTRA patch. Hover over nodes to explore signal paths.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-links">
+        <a href="#" class="footer-link">Documentation</a>
+        <a href="#" class="footer-link">GitHub</a>
+        <a href="#" class="footer-link">Community</a>
+        <a href="mailto:hello@vektra.berlin" class="footer-link">Contact</a>
+      </div>
+      <p class="footer-copyright">
+        VEKTRA Studio GmbH • Reuterstrasse 124, 12047 Berlin • Building instruments for the signal age.
+      </p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

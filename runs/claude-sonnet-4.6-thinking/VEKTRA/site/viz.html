@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Graph</title>
+  <meta name="description" content="Interactive visualization of a VEKTRA patch — a live signal graph where audio parameters drive visual outputs.">
+
+  <!--
+    Visualization type: Force-directed signal graph
+    Rationale: VEKTRA's core concept is a patch graph — nodes are signal processors,
+    edges are signal paths. A force-directed network graph is not just aesthetically
+    appropriate — it IS the thing being shown. Nodes represent real parameter types
+    in VEKTRA (oscillator, filter, shader, recorder, etc). Edge weights represent
+    signal strength in the current simulated patch.
+    Library: D3.js v7 via CDN — force simulation would require significant vanilla
+    code to replicate; D3's force layout is the right tool at minimal size.
+  -->
+
+  <!-- D3.js via CDN — force-directed graph simulation -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* All colors via CSS variables — sourced from brand/tokens.css values */
+    :root {
+      --color-bg-primary:    #0C0C0E;
+      --color-bg-secondary:  #141417;
+      --color-surface:       #1C1C21;
+      --color-accent:        #E8FF47;
+      --color-accent-dim:    rgba(232, 255, 71, 0.12);
+      --color-text-primary:  #F0F0F2;
+      --color-text-secondary:#9494A0;
+      --color-text-muted:    #4E4E5A;
+      --color-border:        #242429;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-mono);
+      overflow: hidden;
+      height: 100vh;
+      width: 100%;
+    }
+
+    #graph-container {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+    }
+
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Node types */
+    .node circle {
+      stroke-width: 1.5;
+      cursor: pointer;
+      transition: r 0.15s ease, stroke-width 0.15s ease;
+    }
+
+    .node.source circle       { fill: rgba(232,255,71,0.15); stroke: #E8FF47; }
+    .node.processor circle    { fill: rgba(240,240,242,0.06); stroke: #6B6B7A; }
+    .node.output circle       { fill: rgba(232,255,71,0.08); stroke: rgba(232,255,71,0.5); }
+    .node.hovered circle      { stroke-width: 2.5; }
+    .node.source.hovered circle    { fill: rgba(232,255,71,0.28); }
+    .node.processor.hovered circle { fill: rgba(240,240,242,0.14); stroke: #9494A0; }
+
+    .node text {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      fill: var(--color-text-secondary);
+      pointer-events: none;
+      dominant-baseline: middle;
+      text-anchor: middle;
+    }
+
+    .node.source text, .node.output text { fill: var(--color-text-primary); }
+
+    /* Edges */
+    .link {
+      stroke: rgba(232, 255, 71, 0.08);
+      stroke-width: 1;
+      fill: none;
+    }
+
+    .link.active {
+      stroke: rgba(232, 255, 71, 0.4);
+      stroke-width: 1.5;
+      animation: pulse-link 1.8s ease infinite;
+    }
+
+    @keyframes pulse-link {
+      0%, 100% { stroke-opacity: 0.4; }
+      50%       { stroke-opacity: 0.8; }
+    }
+
+    /* Tooltip */
+    #tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: 10px 14px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-primary);
+      max-width: 220px;
+      line-height: 1.6;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      z-index: 10;
+    }
+
+    #tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #tooltip .tip-label {
+      font-size: 9px;
+      color: var(--color-accent);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    #tooltip .tip-name {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      margin-bottom: 6px;
+    }
+
+    #tooltip .tip-value {
+      color: var(--color-text-secondary);
+      font-size: 10px;
+    }
+
+    /* Controls */
+    #controls {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 5;
+    }
+
+    .ctrl-btn {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .ctrl-btn:hover {
+      color: var(--color-accent);
+      border-color: rgba(232,255,71,0.3);
+    }
+
+    /* Legend */
+    #legend {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 10px;
+      color: var(--color-text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      border: 1.5px solid;
+      flex-shrink: 0;
+    }
+
+    /* Signal strength indicator */
+    #signal-bar {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font-size: 10px;
+      color: var(--color-text-muted);
+    }
+
+    #signal-bar span {
+      display: block;
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .signal-meters {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .signal-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .signal-row-label {
+      width: 60px;
+      color: var(--color-text-muted);
+      font-size: 9px;
+    }
+
+    .signal-track {
+      width: 80px;
+      height: 3px;
+      background: var(--color-border);
+      position: relative;
+    }
+
+    .signal-fill {
+      height: 100%;
+      background: var(--color-accent);
+      transition: width 0.3s ease;
+    }
+
+    .signal-val {
+      font-size: 9px;
+      color: var(--color-text-secondary);
+      width: 36px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+<div id="graph-container">
+  <svg id="graph-svg"></svg>
+  <div id="tooltip">
+    <div class="tip-label" id="tip-label"></div>
+    <div class="tip-name" id="tip-name"></div>
+    <div class="tip-value" id="tip-value"></div>
+  </div>
+
+  <!-- Signal meters (simulated live values) -->
+  <div id="signal-bar">
+    <span>Live signal</span>
+    <div class="signal-meters" id="signal-meters"></div>
+  </div>
+
+  <!-- Legend -->
+  <div id="legend">
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color:#E8FF47;background:rgba(232,255,71,0.15)"></div>
+      <span>source</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color:#6B6B7A;background:rgba(240,240,242,0.06)"></div>
+      <span>processor</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-dot" style="border-color:rgba(232,255,71,0.5);background:rgba(232,255,71,0.08)"></div>
+      <span>output</span>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <div id="controls">
+    <button class="ctrl-btn" id="btn-reset">↺ reset view</button>
+    <button class="ctrl-btn" id="btn-animate">◈ animate signals</button>
+    <button class="ctrl-btn" id="btn-new">⊕ new patch</button>
+  </div>
+</div>
+
+<script>
+// === VEKTRA Signal Graph Visualization ===
+// Invented data: a plausible VEKTRA patch for a live AV performance
+// Nodes are signal processors; edges represent data flow with strength values
+
+// Node definitions — realistic VEKTRA node types
+const nodes = [
+  // Sources
+  { id: 'osc1',     label: 'osc.sine',    type: 'source',    r: 18, desc: 'Oscillator · 220 Hz · amplitude 0.82', param: '220 Hz' },
+  { id: 'osc2',     label: 'osc.noise',   type: 'source',    r: 14, desc: 'Bandlimited noise · bw 0.3', param: '1k–4k Hz' },
+  { id: 'mic',      label: 'mic.in',      type: 'source',    r: 12, desc: 'Microphone input · latency 4ms', param: '48kHz · 24bit' },
+  { id: 'midi',     label: 'midi.clock',  type: 'source',    r: 10, desc: 'MIDI clock · 120 BPM', param: '120 BPM' },
+  { id: 'mouse',    label: 'mouse.xy',    type: 'source',    r: 10, desc: 'Mouse position signal · normalized 0–1', param: 'x:0.62 y:0.31' },
+
+  // Processors
+  { id: 'env',      label: 'env.adsr',    type: 'processor', r: 14, desc: 'ADSR envelope · A:12ms D:80ms S:0.6 R:340ms', param: '12/80/0.6/340ms' },
+  { id: 'filt',     label: 'filt.lpf',    type: 'processor', r: 16, desc: 'Low-pass filter · cutoff driven by env · Q 1.4', param: 'fc: env×8kHz' },
+  { id: 'delay',    label: 'delay.tap',   type: 'processor', r: 12, desc: 'Tap delay · 3 taps · 1/8 · 3/16 · 5/16 beat', param: '250 · 375 · 625ms' },
+  { id: 'fft',      label: 'fft.analyze', type: 'processor', r: 13, desc: 'FFT analysis · 2048 bins · Hann window', param: '2048 bins' },
+  { id: 'lfo',      label: 'lfo.tri',     type: 'processor', r: 11, desc: 'LFO triangle · 0.25 Hz · depth 1.0', param: '0.25 Hz' },
+  { id: 'map',      label: 'map.range',   type: 'processor', r: 10, desc: 'Range mapper · input [0,1] → output [0.2, 4.8]', param: '[0,1]→[0.2,4.8]' },
+  { id: 'thresh',   label: 'thresh.gate', type: 'processor', r: 10, desc: 'Threshold gate · fires at >0.7 amplitude', param: 'thresh: 0.7' },
+  { id: 'shader',   label: 'shader.frag', type: 'processor', r: 15, desc: 'GLSL fragment shader · receives 4 signal inputs', param: '4 uniforms' },
+  { id: 'particle', label: 'particle.sys',type: 'processor', r: 13, desc: 'Particle system · 4800 pts · driven by FFT', param: '4800 pts' },
+
+  // Outputs
+  { id: 'audio',    label: 'out.audio',   type: 'output',    r: 16, desc: 'Audio output · stereo · ASIO · 48kHz', param: 'stereo · 48kHz' },
+  { id: 'display',  label: 'out.display', type: 'output',    r: 16, desc: 'Display output · HDMI · 1920×1080 · 60fps', param: '1920×1080 · 60fps' },
+  { id: 'osc_out',  label: 'out.osc',     type: 'output',    r: 10, desc: 'OSC output → lighting controller · UDP', param: 'UDP:9000' },
+];
+
+// Edge definitions — signal paths between nodes
+// strength: 0–1 representing signal flow intensity
+const links = [
+  { source: 'osc1',  target: 'env',     strength: 0.9 },
+  { source: 'osc1',  target: 'filt',    strength: 0.75 },
+  { source: 'osc2',  target: 'filt',    strength: 0.4 },
+  { source: 'mic',   target: 'fft',     strength: 0.85 },
+  { source: 'mic',   target: 'thresh',  strength: 0.85 },
+  { source: 'midi',  target: 'env',     strength: 0.6 },
+  { source: 'midi',  target: 'lfo',     strength: 0.5 },
+  { source: 'mouse', target: 'map',     strength: 0.7 },
+  { source: 'env',   target: 'filt',    strength: 1.0 },
+  { source: 'env',   target: 'delay',   strength: 0.5 },
+  { source: 'filt',  target: 'delay',   strength: 0.8 },
+  { source: 'filt',  target: 'audio',   strength: 0.9 },
+  { source: 'delay', target: 'audio',   strength: 0.5 },
+  { source: 'fft',   target: 'particle',strength: 0.95 },
+  { source: 'fft',   target: 'shader',  strength: 0.7 },
+  { source: 'lfo',   target: 'shader',  strength: 0.4 },
+  { source: 'map',   target: 'shader',  strength: 0.6 },
+  { source: 'thresh',target: 'particle',strength: 0.6 },
+  { source: 'thresh',target: 'osc_out', strength: 0.8 },
+  { source: 'shader',target: 'display', strength: 1.0 },
+  { source: 'particle',target:'display',strength: 0.9 },
+  { source: 'lfo',   target: 'map',     strength: 0.5 },
+];
+
+const W = window.innerWidth, H = window.innerHeight;
+const svg = d3.select('#graph-svg')
+  .attr('viewBox', [0, 0, W, H]);
+
+// Defs — arrowhead marker
+const defs = svg.append('defs');
+defs.append('marker')
+  .attr('id', 'arrow')
+  .attr('viewBox', '0 -4 8 8')
+  .attr('refX', 20).attr('refY', 0)
+  .attr('markerWidth', 4).attr('markerHeight', 4)
+  .attr('orient', 'auto')
+  .append('path')
+    .attr('d', 'M0,-4L8,0L0,4')
+    .attr('fill', 'rgba(232,255,71,0.3)');
+
+// Container group for zoom
+const g = svg.append('g');
+
+// Zoom behavior
+const zoom = d3.zoom()
+  .scaleExtent([0.3, 3])
+  .on('zoom', (event) => g.attr('transform', event.transform));
+svg.call(zoom);
+
+// Force simulation
+const simulation = d3.forceSimulation(nodes)
+  .force('link', d3.forceLink(links).id(d => d.id).distance(d => 110 - d.strength * 40).strength(0.6))
+  .force('charge', d3.forceManyBody().strength(-320))
+  .force('center', d3.forceCenter(W / 2, H / 2))
+  .force('collision', d3.forceCollide().radius(d => d.r + 18));
+
+// Draw links
+const link = g.append('g').selectAll('line')
+  .data(links).join('line')
+  .attr('class', 'link')
+  .attr('stroke-width', d => 0.5 + d.strength * 1.5)
+  .attr('stroke-opacity', d => 0.05 + d.strength * 0.2)
+  .attr('marker-end', 'url(#arrow)');
+
+// Draw nodes
+const node = g.append('g').selectAll('g')
+  .data(nodes).join('g')
+  .attr('class', d => `node ${d.type}`)
+  .attr('role', 'button')
+  .attr('tabindex', '0')
+  .call(d3.drag()
+    .on('start', (event, d) => {
+      if (!event.active) simulation.alphaTarget(0.3).restart();
+      d.fx = d.x; d.fy = d.y;
+    })
+    .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+    .on('end', (event, d) => {
+      if (!event.active) simulation.alphaTarget(0);
+      d.fx = null; d.fy = null;
+    })
+  );
+
+node.append('circle').attr('r', d => d.r);
+
+node.append('text')
+  .text(d => d.label)
+  .attr('y', d => d.r + 13)
+  .style('font-size', '9px');
+
+// Tooltip
+const tooltip = document.getElementById('tooltip');
+const tipLabel = document.getElementById('tip-label');
+const tipName  = document.getElementById('tip-name');
+const tipValue = document.getElementById('tip-value');
+
+node.on('mouseenter', function(event, d) {
+  d3.select(this).classed('hovered', true);
+
+  // Highlight connected edges
+  link
+    .classed('active', l => l.source === d || l.target === d)
+    .attr('stroke-opacity', l => (l.source === d || l.target === d) ? 0.5 + l.strength * 0.4 : 0.05);
+
+  tipLabel.textContent = d.type;
+  tipName.textContent  = d.label;
+  tipValue.textContent = d.desc;
+  tooltip.classList.add('visible');
+})
+.on('mousemove', function(event) {
+  const x = event.clientX + 16;
+  const y = event.clientY - 10;
+  tooltip.style.left = Math.min(x, window.innerWidth - 240) + 'px';
+  tooltip.style.top  = y + 'px';
+})
+.on('mouseleave', function() {
+  d3.select(this).classed('hovered', false);
+  link
+    .classed('active', false)
+    .attr('stroke-opacity', d => 0.05 + d.strength * 0.2);
+  tooltip.classList.remove('visible');
+});
+
+// Simulation tick
+simulation.on('tick', () => {
+  link
+    .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+    .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+  node.attr('transform', d => `translate(${d.x},${d.y})`);
+});
+
+// Signal meters — live simulation of signal values
+const meterSources = [
+  { label: 'osc.sine',  key: 'osc1' },
+  { label: 'mic.in',    key: 'mic'  },
+  { label: 'fft.peak',  key: 'fft'  },
+  { label: 'env.level', key: 'env'  },
+];
+
+const metersEl = document.getElementById('signal-meters');
+meterSources.forEach(m => {
+  const row = document.createElement('div');
+  row.className = 'signal-row';
+  row.innerHTML = `
+    <span class="signal-row-label">${m.label}</span>
+    <div class="signal-track"><div class="signal-fill" id="meter-${m.key}" style="width:0%"></div></div>
+    <span class="signal-val" id="val-${m.key}">0.00</span>
+  `;
+  metersEl.appendChild(row);
+});
+
+let animating = true;
+function animateMeters() {
+  if (!animating) return;
+  const t = Date.now() / 1000;
+  meterSources.forEach((m, i) => {
+    const v = Math.abs(Math.sin(t * (0.7 + i * 0.3) + i)) * 0.6 + 0.1 + Math.random() * 0.2;
+    const clamped = Math.min(v, 0.98);
+    const el = document.getElementById('meter-' + m.key);
+    const val = document.getElementById('val-' + m.key);
+    if (el) el.style.width = (clamped * 100) + '%';
+    if (val) val.textContent = clamped.toFixed(2);
+  });
+  requestAnimationFrame(animateMeters);
+}
+animateMeters();
+
+// Controls
+document.getElementById('btn-reset').addEventListener('click', () => {
+  svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity);
+});
+
+document.getElementById('btn-animate').addEventListener('click', function() {
+  animating = !animating;
+  this.textContent = animating ? '◈ animate signals' : '◻ signals paused';
+  if (animating) animateMeters();
+});
+
+document.getElementById('btn-new').addEventListener('click', () => {
+  // Randomize layout
+  nodes.forEach(n => {
+    n.x = W * 0.2 + Math.random() * W * 0.6;
+    n.y = H * 0.2 + Math.random() * H * 0.6;
+  });
+  simulation.alpha(0.8).restart();
+});
+
+window.addEventListener('resize', () => {
+  const nW = window.innerWidth, nH = window.innerHeight;
+  svg.attr('viewBox', [0, 0, nW, nH]);
+  simulation.force('center', d3.forceCenter(nW / 2, nH / 2)).alpha(0.3).restart();
+});
+</script>
+</body>
+</html>

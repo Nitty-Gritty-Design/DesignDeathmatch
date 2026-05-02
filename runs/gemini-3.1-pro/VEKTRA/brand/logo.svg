@@ -1,0 +1,19 @@
+<svg width="150" height="24" viewBox="0 0 150 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
+    .logotype {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      fill: #FFFFFF;
+      letter-spacing: 2px;
+    }
+    .mark {
+      fill: #FF3300;
+    }
+  </style>
+  <rect class="mark" x="0" y="8" width="8" height="16" />
+  <rect class="mark" x="12" y="0" width="8" height="24" />
+  <rect class="mark" x="24" y="12" width="8" height="12" />
+  <text class="logotype" x="42" y="19">VEKTRA</text>
+</svg>

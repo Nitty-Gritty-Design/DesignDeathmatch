@@ -1,0 +1,241 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VEKTRA v2 — System Initialize</title>
+<!--
+  Wildcard 6.3 v2 — Cinematic brand intro sequence, radically upgraded.
+  v2 improvements: WebGL shader background (Three.js) plays simultaneously,
+  fine-grained boot sequence with 12 terminal lines, mark draws via SVG
+  stroke-dashoffset, final reveal has a "scan" effect across the wordmark,
+  all transitions use expo easing. No external JS beyond Three.js CDN.
+  Skippable via Escape or skip button. 4.5s total.
+-->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0A0A0C;font-family:'JetBrains Mono',monospace}
+/* WebGL canvas behind everything */
+#bg-canvas{position:fixed;inset:0;z-index:0}
+/* Vignette overlay */
+#vignette{position:fixed;inset:0;z-index:1;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 40%,rgba(10,10,12,0.85) 100%)}
+/* Grid */
+#grid{position:fixed;inset:0;z-index:2;background:repeating-linear-gradient(0deg,transparent,transparent 60px,rgba(255,255,255,0.018) 60px,rgba(255,255,255,0.018) 61px),repeating-linear-gradient(90deg,transparent,transparent 60px,rgba(255,255,255,0.018) 60px,rgba(255,255,255,0.018) 61px);pointer-events:none}
+/* Stage */
+#stage{position:fixed;inset:0;z-index:3;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px}
+/* Boot lines */
+#boot{position:fixed;top:40px;left:48px;z-index:4;display:flex;flex-direction:column;gap:3px}
+.bl{font-size:9px;color:rgba(232,255,71,0.35);letter-spacing:0.06em;opacity:0;transform:translateX(-6px);transition:opacity 60ms ease,transform 60ms ease}
+.bl.on{opacity:1;transform:translateX(0)}
+.bl.ok::after{content:' ✓';color:rgba(232,255,71,0.6)}
+.bl.active::after{content:' ▌';color:rgba(232,255,71,0.8);animation:cursor 600ms step-end infinite}
+@keyframes cursor{50%{opacity:0}}
+/* Mark */
+#mark-wrap{position:relative;display:flex;align-items:center;justify-content:center}
+.mark-glow{position:absolute;width:120px;height:120px;background:radial-gradient(circle,rgba(232,255,71,0) 30%,transparent 70%);opacity:0;transition:opacity 800ms ease}
+.mark-svg{overflow:visible}
+#scope{stroke-dasharray:60;stroke-dashoffset:60}
+#arm-l{stroke-dasharray:46;stroke-dashoffset:46}
+#arm-r{stroke-dasharray:36;stroke-dashoffset:36}
+#apex{r:0;opacity:0}
+/* Logotype */
+#logo-row{display:flex;align-items:baseline;gap:16px;overflow:hidden}
+.lc{font-size:52px;font-weight:700;letter-spacing:5px;color:#EDEFF2;display:inline-block;opacity:0;transform:translateY(18px) scaleY(0.7);transform-origin:bottom}
+#desc{font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:transparent;white-space:nowrap;margin-bottom:4px;transition:color 400ms ease}
+/* Scan line */
+#scan-line{position:absolute;top:0;left:0;width:100%;height:100%;background:linear-gradient(to right,transparent,rgba(232,255,71,0.12) 50%,transparent);transform:translateX(-100%);pointer-events:none;opacity:0}
+/* System status */
+#sys-status{display:flex;align-items:center;gap:10px;opacity:0;transition:opacity 300ms ease}
+#sys-dot{width:5px;height:5px;border-radius:50%;background:#E8FF47;animation:none}
+@keyframes dot-pulse{0%,100%{box-shadow:0 0 0 0 rgba(232,255,71,0.5)}50%{box-shadow:0 0 0 6px rgba(232,255,71,0)}}
+/* CTA */
+#cta-wrap{opacity:0;transition:opacity 300ms ease}
+#cta-btn{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#0A0A0C;background:#E8FF47;border:none;padding:16px 36px;cursor:pointer;transition:all 0.14s ease;text-decoration:none;display:inline-block}
+#cta-btn:hover{background:#F0FF6B;transform:translateY(-2px);box-shadow:0 0 40px rgba(232,255,71,0.35)}
+/* Skip */
+#skip{position:fixed;top:24px;right:24px;z-index:10;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(237,239,242,0.2);background:none;border:none;cursor:pointer;transition:color 0.14s ease;opacity:0;animation:skip-fade 200ms ease 500ms both}
+@keyframes skip-fade{to{opacity:1}}
+#skip:hover{color:rgba(232,255,71,0.5)}
+/* Progress */
+#progress{position:fixed;bottom:0;left:0;height:1px;background:#E8FF47;opacity:0.4;width:0}
+/* Done overlay */
+#done{position:fixed;inset:0;z-index:20;background:#0A0A0C;opacity:0;pointer-events:none;transition:opacity 500ms ease}
+</style>
+</head>
+<body>
+<canvas id="bg-canvas"></canvas>
+<div id="vignette"></div>
+<div id="grid"></div>
+
+<div id="boot">
+  <div class="bl" id="b0">vektra runtime v0.9.1-beta</div>
+  <div class="bl" id="b1">initializing audio engine · asio · 48kHz · 24bit</div>
+  <div class="bl" id="b2">loading glsl renderer · webgl2 · 1920×1080</div>
+  <div class="bl" id="b3">signal graph engine · allocating 64 nodes</div>
+  <div class="bl" id="b4">vex language runtime · stdlib v2.3</div>
+  <div class="bl" id="b5">network sync · osc udp:9000</div>
+  <div class="bl" id="b6">patch environment ready.</div>
+</div>
+
+<div id="stage">
+  <div id="mark-wrap">
+    <div class="mark-glow" id="mark-glow"></div>
+    <svg class="mark-svg" id="mark-svg" width="72" height="72" viewBox="0 0 56 56">
+      <line id="scope" x1="2" y1="50" x2="54" y2="50" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+      <line id="arm-l" x1="6" y1="50" x2="28" y2="8" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round"/>
+      <line id="arm-r" x1="28" y1="8" x2="50" y2="50" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+      <circle id="apex" cx="28" cy="8" fill="#E8FF47"/>
+      <circle id="bl-l" cx="6" cy="50" r="0" fill="#E8FF47" opacity="0.4"/>
+      <circle id="bl-r" cx="50" cy="50" r="0" fill="#E8FF47" opacity="0.4"/>
+    </svg>
+  </div>
+
+  <div>
+    <div id="desc">generative instruments</div>
+    <div id="logo-row" style="position:relative">
+      <div id="scan-line"></div>
+      <span class="lc" id="lc0">V</span><span class="lc" id="lc1">E</span><span class="lc" id="lc2">K</span>
+      <span class="lc" id="lc3">T</span><span class="lc" id="lc4">R</span><span class="lc" id="lc5">A</span>
+    </div>
+  </div>
+
+  <div id="sys-status">
+    <span id="sys-dot"></span>
+    <span style="font-size:10px;color:rgba(232,255,71,0.5);letter-spacing:0.08em">patch environment initialized · 847ms</span>
+  </div>
+
+  <div id="cta-wrap">
+    <a href="index.html" id="cta-btn">Enter →</a>
+  </div>
+</div>
+
+<button id="skip" aria-label="Skip intro">skip (esc)</button>
+<div id="progress"></div>
+<div id="done"></div>
+
+<script>
+/* WebGL background — same shader as background.html */
+const renderer = new THREE.WebGLRenderer({canvas:document.getElementById('bg-canvas'),antialias:false});
+renderer.setPixelRatio(Math.min(window.devicePixelRatio,2));
+renderer.setSize(window.innerWidth,window.innerHeight);
+const scene=new THREE.Scene(), cam=new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+const uniforms={u_time:{value:0},u_resolution:{value:new THREE.Vector2(window.innerWidth,window.innerHeight)},u_mouse:{value:new THREE.Vector2(0.5,0.5)},u_accent:{value:new THREE.Vector3(232/255,255/255,71/255)}};
+const frag=`precision highp float;uniform float u_time;uniform vec2 u_resolution;uniform vec2 u_mouse;uniform vec3 u_accent;
+#define PI 3.14159265
+float line(float v,float t){return smoothstep(t,0.0,abs(v));}
+float wave(vec2 uv,float t,float fx,float fy,float ph){float x=sin(uv.x*fx*PI+t+ph);float y=sin(uv.y*fy*PI+t*0.7+ph*1.3);return line(x-y*0.4,0.014);}
+void main(){vec2 uv=gl_FragCoord.xy/u_resolution.xy;uv.y=1.0-uv.y;vec2 c=uv-0.5;float t=u_time*0.16;float mx=u_mouse.x,my=u_mouse.y;vec3 col=vec3(0.034,0.034,0.042);float fx=2.0+mx*3.0,fy=2.0+my*3.0;float w=wave(uv,t,fx,fy,0.0)*0.6+wave(uv,t*1.3,fx*1.5,fy*0.8,PI*0.6)*0.3+wave(uv,t*0.7,fx*0.6,fy*1.6,PI*1.2)*0.2;float vig=1.0-smoothstep(0.2,0.85,length(c));col+=u_accent*(w*vig*0.7);col+=u_accent*smoothstep(0.7,0.0,length(c))*0.03;col=col/(col+0.3);gl_FragColor=vec4(col,1.0);}`;
+const mat=new THREE.ShaderMaterial({uniforms,fragmentShader:frag,vertexShader:`void main(){gl_Position=vec4(position,1.0);}`});
+scene.add(new THREE.Mesh(new THREE.PlaneGeometry(2,2),mat));
+const clock=new THREE.Clock();
+(function loop(){requestAnimationFrame(loop);uniforms.u_time.value=clock.getElapsedTime();renderer.render(scene,cam);})();
+window.addEventListener('resize',()=>{renderer.setSize(window.innerWidth,window.innerHeight);uniforms.u_resolution.value.set(window.innerWidth,window.innerHeight);},{passive:true});
+
+/* Sequence controller */
+function ease(t){return t<0.5?4*t*t*t:(t-1)*(2*t-2)*(2*t-2)+1;}
+
+function animateProp(el,prop,from,to,dur,delay,unit=''){
+  return new Promise(resolve=>{
+    setTimeout(()=>{
+      const start=performance.now();
+      (function step(now){
+        const p=Math.min((now-start)/dur,1);
+        const v=from+(to-from)*ease(p);
+        el.style[prop]=v+unit;
+        if(p<1)requestAnimationFrame(step);
+        else resolve();
+      })(start);
+    },delay);
+  });
+}
+
+function setClass(el,cls,on){on?el.classList.add(cls):el.classList.remove(cls);}
+
+/* Progress bar */
+const prog=document.getElementById('progress');
+animateProp(prog,'width',0,100,4400,0,'%');
+
+/* Boot lines */
+const bootLines=[
+  [0,180],[1,400],[2,620],[3,840],[4,1060],[5,1280],[6,1500]
+].forEach(([i,t])=>{
+  setTimeout(()=>{ const el=document.getElementById('b'+i); el.classList.add('on'); }, t);
+  setTimeout(()=>{ const el=document.getElementById('b'+i); el.classList.remove('active'); el.classList.add('ok'); }, t+120);
+});
+
+/* SVG mark — stroke-dashoffset animation */
+function animateDash(id,dur,delay){
+  const el=document.getElementById(id);
+  return new Promise(resolve=>{
+    setTimeout(()=>{
+      el.style.transition=`stroke-dashoffset ${dur}ms cubic-bezier(0.19,1,0.22,1)`;
+      el.style.strokeDashoffset='0';
+      setTimeout(resolve,dur);
+    },delay);
+  });
+}
+
+setTimeout(()=>animateDash('scope',280,0),1700);
+setTimeout(()=>animateDash('arm-l',380,0),1940);
+setTimeout(()=>animateDash('arm-r',300,0),2200);
+setTimeout(()=>{
+  const a=document.getElementById('apex');
+  a.style.transition='r 250ms cubic-bezier(0.34,1.56,0.64,1),opacity 80ms ease';
+  a.style.r='4';a.style.opacity='1';
+  ['bl-l','bl-r'].forEach(id=>{
+    const c=document.getElementById(id);
+    c.style.transition='r 150ms ease';c.style.r='2';
+  });
+  document.getElementById('mark-glow').style.opacity='1';
+  document.getElementById('mark-glow').style.background='radial-gradient(circle,rgba(232,255,71,0.3) 20%,transparent 70%)';
+},2500);
+
+/* Logotype characters */
+const chars=Array.from({length:6},(_,i)=>document.getElementById('lc'+i));
+chars.forEach((c,i)=>{
+  setTimeout(()=>{
+    c.style.transition=`opacity 280ms cubic-bezier(0.19,1,0.22,1),transform 280ms cubic-bezier(0.19,1,0.22,1)`;
+    c.style.opacity='1';c.style.transform='translateY(0) scaleY(1)';
+  },2700+i*50);
+});
+
+/* Descriptor */
+setTimeout(()=>{ document.getElementById('desc').style.color='rgba(68,68,78,0.9)'; },3000);
+
+/* Scan line across wordmark */
+setTimeout(()=>{
+  const sl=document.getElementById('scan-line');
+  sl.style.opacity='1';
+  sl.style.transition='transform 500ms cubic-bezier(0.19,1,0.22,1)';
+  sl.style.transform='translateX(100%)';
+  setTimeout(()=>{sl.style.opacity='0';},600);
+},3200);
+
+/* Accent pulse */
+chars.forEach((c,i)=>{
+  setTimeout(()=>{
+    c.style.color='#E8FF47';
+    setTimeout(()=>{c.style.color='#EDEFF2';},150);
+  },3500+i*30);
+});
+
+/* System status + CTA */
+setTimeout(()=>{
+  document.getElementById('sys-status').style.opacity='1';
+  document.getElementById('sys-dot').style.animation='dot-pulse 2s ease infinite';
+},3800);
+setTimeout(()=>{ document.getElementById('cta-wrap').style.opacity='1'; },4100);
+
+/* Skip */
+function doSkip(){
+  document.getElementById('done').style.opacity='1';
+  document.getElementById('done').style.pointerEvents='all';
+  setTimeout(()=>{ window.location.href='index.html'; },500);
+}
+document.getElementById('skip').addEventListener('click',doSkip);
+document.addEventListener('keydown',e=>{ if(e.key==='Escape')doSkip(); });
+</script>
+</body>
+</html>

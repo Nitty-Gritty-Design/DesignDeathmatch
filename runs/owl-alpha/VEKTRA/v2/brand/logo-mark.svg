@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" fill="none" role="img" aria-label="VEKTRA mark">
+  <!--
+    VEKTRA Standalone Mark v2 — Lissajous Signal Form
+    Lissajous curve: x = sin(3t), y = sin(2t+π/4) — 3:2 frequency ratio.
+    The signal dot pulses at the leading edge.
+  -->
+
+  <!-- Glow layer -->
+  <g opacity="0.15" filter="url(#markGlow)">
+    <path d="
+      M 60 60
+      C 60 28, 90 10, 105 22
+      C 120 34, 120 70, 105 85
+      C 90 100, 60 100, 60 82
+      C 60 64, 84 52, 100 58
+      C 116 64, 116 88, 100 94
+      C 84 100, 66 82, 72 64
+      C 78 46, 102 40, 112 52
+    " fill="none" stroke="#00E5FF" stroke-width="8" stroke-linecap="round"/>
+  </g>
+
+  <!-- Primary mark -->
+  <path d="
+    M 60 60
+    C 60 28, 90 10, 105 22
+    C 120 34, 120 70, 105 85
+    C 90 100, 60 100, 60 82
+    C 60 64, 84 52, 100 58
+    C 116 64, 116 88, 100 94
+    C 84 100, 66 82, 72 64
+    C 78 46, 102 40, 112 52
+  " fill="none" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Signal dot -->
+  <circle cx="112" cy="52" r="3.5" fill="#00E5FF">
+    <animate attributeName="r" values="3;5;3" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <defs>
+    <filter id="markGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

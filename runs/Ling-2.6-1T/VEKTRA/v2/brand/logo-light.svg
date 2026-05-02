@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 80" width="320" height="80" role="img" aria-label="VEKTRA">
+  <defs>
+    <linearGradient id="markGradientLight" x1="0%" y1="50%" x2="100%" y2="50%">
+      <stop offset="0%" style="stop-color:#c43e18;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#d45a28;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#c43e18;stop-opacity:1" />
+    </linearGradient>
+    
+    <style>
+      .mark-path {
+        fill: none;
+        stroke: url(#markGradientLight);
+        stroke-width: 2.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      
+      .logotype {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 28px;
+        font-weight: 500;
+        fill: #1a1a18;
+        letter-spacing: 0.05em;
+      }
+    </style>
+  </defs>
+  
+  <path class="mark-path" d="
+    M 14 52
+    C 14 42, 22 38, 28 44
+    C 34 50, 42 46, 50 56
+    C 58 66, 68 58, 78 64
+    C 88 70, 98 60, 110 68
+  " />
+  
+  <text class="logotype" x="130" y="44">VEKTRA</text>
+</svg>

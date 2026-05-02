@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Style Guide v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    /* ============================================
+       Base & Reset
+       ============================================ */
+    
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    body {
+      font-family: var(--font-sans, Inter), sans-serif;
+      font-size: var(--font-size-base, 14px);
+      line-height: var(--line-height-normal, 1.5);
+      color: var(--color-text-primary, #f2f2f0);
+      background: var(--color-bg-primary, #080809);
+      overflow-x: hidden;
+    }
+    
+    /* ============================================
+       Background System
+       ============================================ */
+    
+    #bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    
+    /* ============================================
+       Layout
+       ============================================ */
+    
+    .container {
+      max-width: var(--container-max, 1440px);
+      margin: 0 auto;
+      padding: 0 var(--space-xl, 24px);
+      position: relative;
+      z-index: 1;
+    }
+    
+    /* ============================================
+       Header
+       ============================================ */
+    
+    .styleguide-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-xl, 24px) 0;
+      border-bottom: 1px solid var(--color-border, #242428);
+      margin-bottom: var(--space-3xl, 48px);
+    }
+    
+    .styleguide-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md, 12px);
+    }
+    
+    .styleguide-logo svg {
+      width: 44px;
+      height: 44px;
+    }
+    
+    .styleguide-title {
+      font-family: var(--font-display, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-2xl, 28px);
+      font-weight: var(--font-weight-regular, 400);
+      letter-spacing: -0.02em;
+    }
+    
+    .styleguide-subtitle {
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-muted, #5a5a54);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+    }
+    
+    .styleguide-version {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs, 6px);
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-micro, 9px);
+      color: var(--color-accent, #e84d1b);
+      background: var(--color-accent-dim, rgba(232, 77, 27, 0.1));
+      border: 1px solid var(--color-border-accent, rgba(232, 77, 27, 0.3));
+      padding: 2px 8px;
+      border-radius: var(--radius-full, 9999px);
+      margin-left: var(--space-md, 12px);
+    }
+    
+    /* ============================================
+       Section Headers
+       ============================================ */
+    
+    .styleguide-section {
+      margin-bottom: var(--space-4xl, 64px);
+      padding-bottom: var(--space-3xl, 48px);
+      border-bottom: 1px solid var(--color-border, #242428);
+    }
+    
+    .styleguide-section:last-child {
+      border-bottom: none;
+    }
+    
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-lg, 16px);
+      margin-bottom: var(--space-xl, 24px);
+    }
+    
+    .section-number {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-accent, #e84d1b);
+      background: var(--color-accent-dim, rgba(232, 77, 27, 0.08));
+      padding: 4px 10px;
+      border-radius: var(--radius-sm, 2px);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+    
+    .section-title {
+      font-family: var(--font-display, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-4xl, 64px);
+      font-weight: var(--font-weight-regular, 400);
+      letter-spacing: -0.03em;
+      line-height: 1;
+    }
+    
+    .section-desc {
+      color: var(--color-text-secondary, #9a9a94);
+      font-size: var(--font-size-lg, 16px);
+      max-width: 600px;
+      margin-left: auto;
+    }
+    
+    /* ============================================
+       Color Swatches
+       ============================================ */
+    
+    .color-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: var(--space-lg, 16px);
+    }
+    
+    .color-swatch {
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      overflow: hidden;
+      transition: all var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .color-swatch:hover {
+      border-color: var(--color-border-accent, rgba(232, 77, 27, 0.4));
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+    
+    .color-swatch-color {
+      height: 100px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      padding: var(--space-sm, 8px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .color-swatch-color::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(0,0,0,0.1) 100%);
+    }
+    
+    .color-swatch-hex {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xs, 10px);
+      color: rgba(255,255,255,0.8);
+      font-weight: var(--font-weight-medium, 500);
+      position: relative;
+      z-index: 1;
+    }
+    
+    .color-swatch-info {
+      padding: var(--space-lg, 16px);
+    }
+    
+    .color-swatch-name {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-sm, 12px);
+      font-weight: var(--font-weight-medium, 500);
+      margin-bottom: 2px;
+    }
+    
+    .color-swatch-hex-display {
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-muted, #5a5a54);
+      margin-bottom: 6px;
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+    }
+    
+    .color-swatch-usage {
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-secondary, #9a9a94);
+      font-style: italic;
+    }
+    
+    /* Light mode variants */
+    .color-swatch.light-mode {
+      background: var(--color-surface, #ffffff);
+      border-color: var(--color-border, #e0e0d8);
+    }
+    
+    .color-swatch.light-mode .color-swatch-hex {
+      color: rgba(0,0,0,0.6);
+    }
+    
+    /* ============================================
+       Typography Section
+       ============================================ */
+    
+    .type-scale-grid {
+      display: grid;
+      gap: var(--space-md, 12px);
+    }
+    
+    .type-scale-item {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-2xl, 32px);
+      padding: var(--space-xl, 24px);
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      transition: all var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .type-scale-item:hover {
+      border-color: var(--color-border-accent);
+      background: var(--color-surface-hover, #1a1a1c);
+    }
+    
+    .type-scale-preview {
+      flex: 1;
+    }
+    
+    .type-scale-preview.mono {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+    }
+    
+    .type-scale-preview.sans {
+      font-family: var(--font-sans, Inter), sans-serif;
+    }
+    
+    .type-scale-meta {
+      flex: 0 0 220px;
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-muted, #5a5a54);
+      padding-left: var(--space-2xl, 32px);
+      border-left: 1px solid var(--color-border, #242428);
+    }
+    
+    .type-scale-meta span {
+      display: block;
+      margin-bottom: 4px;
+    }
+    
+    .type-scale-meta .meta-label {
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      font-size: 9px;
+    }
+    
+    /* ============================================
+       Logo Showcase
+       ============================================ */
+    
+    .logo-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--space-xl, 24px);
+    }
+    
+    .logo-variant {
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      padding: var(--space-xl, 24px);
+      text-align: center;
+      transition: all var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .logo-variant:hover {
+      border-color: var(--color-border-accent);
+      background: var(--color-surface-hover, #1a1a1c);
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    
+    .logo-variant svg {
+      width: 140px;
+      height: 140px;
+      margin-bottom: var(--space-lg, 16px);
+    }
+    
+    .logo-variant-label {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-muted, #5a5a54);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    /* Animated Logo Container */
+    
+    .animated-logo-container {
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      padding: var(--space-2xl, 32px);
+      text-align: center;
+      margin-bottom: var(--space-xl, 24px);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .animated-logo-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--color-accent, #e84d1b), transparent);
+      opacity: 0.3;
+    }
+    
+    .animated-logo-container h3 {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-sm, 12px);
+      margin-bottom: var(--space-lg, 16px);
+      color: var(--color-text-secondary, #9a9a94);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    
+    .animated-logo-container iframe {
+      width: 100%;
+      max-width: 480px;
+      height: 240px;
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-sm, 2px);
+      background: var(--color-bg-primary, #080809);
+    }
+    
+    .replay-btn {
+      margin-top: var(--space-lg, 16px);
+    }
+    
+    /* ============================================
+       Components Grid
+       ============================================ */
+    
+    .components-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-xl, 24px);
+    }
+    
+    .component-card {
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      padding: var(--space-xl, 24px);
+      transition: all var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .component-card:hover {
+      border-color: var(--color-border-accent);
+      background: var(--color-surface-hover, #1a1a1c);
+      transform: translateY(-2px);
+    }
+    
+    .component-title {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xl, 20px);
+      margin-bottom: var(--space-lg, 16px);
+      color: var(--color-accent, #e84d1b);
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm, 8px);
+    }
+    
+    .component-title::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent, #e84d1b);
+      border-radius: var(--radius-full, 9999px);
+    }
+    
+    /* Buttons Row */
+    
+    .button-row {
+      display: flex;
+      gap: var(--space-md, 12px);
+      flex-wrap: wrap;
+      margin-top: var(--space-lg, 16px);
+    }
+    
+    /* Code Block */
+    
+    .code-block {
+      background: var(--color-bg-primary, #080809);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      padding: var(--space-lg, 16px);
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xs, 10px);
+      overflow-x: auto;
+      margin-top: var(--space-lg, 16px);
+      position: relative;
+    }
+    
+    .code-block::before {
+      content: 'code';
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--color-accent, #e84d1b);
+      color: var(--color-bg-primary, #080809);
+      font-size: 9px;
+      padding: 2px 6px;
+      border-radius: 0 var(--radius-sm, 2px) 0 var(--radius-sm, 2px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    
+    .code-block code {
+      color: var(--color-text-secondary, #9a9a94);
+      line-height: 1.7;
+    }
+    
+    .code-block .token-keyword { color: var(--color-accent, #e84d1b); }
+    .code-block .token-string { color: #7ee787; }
+    .code-block .token-comment { color: var(--color-text-muted, #5a5a54); }
+    .code-block .token-function { color: #c586c0; }
+    
+    /* Input Field */
+    
+    .input-field {
+      width: 100%;
+      padding: var(--space-md, 12px);
+      background: var(--color-bg-primary, #080809);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-sm, 2px);
+      color: var(--color-text-primary, #f2f2f0);
+      font-family: var(--font-sans, Inter), sans-serif;
+      font-size: var(--font-size-base, 14px);
+      transition: all var(--duration-fast, 120ms) var(--ease-in-out-cubic, cubic-bezier(0.65, 0, 0.35, 1));
+    }
+    
+    .input-field:focus {
+      outline: none;
+      border-color: var(--color-accent, #e84d1b);
+      box-shadow: 0 0 0 2px var(--color-accent-dim, rgba(232, 77, 27, 0.1));
+    }
+    
+    .input-field::placeholder {
+      color: var(--color-text-muted, #5a5a54);
+    }
+    
+    /* ============================================
+       Motion Section
+       ============================================ */
+    
+    .motion-demos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-xl, 24px);
+    }
+    
+    .motion-demo {
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      padding: var(--space-xl, 24px);
+      text-align: center;
+      transition: all var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .motion-demo:hover {
+      border-color: var(--color-border-accent);
+      background: var(--color-surface-hover, #1a1a1c);
+    }
+    
+    .motion-demo-box {
+      width: 80px;
+      height: 80px;
+      background: var(--color-accent, #e84d1b);
+      margin: 0 auto var(--space-lg, 16px);
+      border-radius: var(--radius-sm, 2px);
+      transition: transform var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .motion-demo:hover .motion-demo-box {
+      animation: demoPulse 0.6s var(--ease-out-expo, cubic-bezier(0.16, 1, 0.3, 1));
+    }
+    
+    @keyframes demoPulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+      100% { transform: scale(1); }
+    }
+    
+    .motion-demo-label {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-secondary, #9a9a94);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-sm, 8px);
+    }
+    
+    .motion-demo-code {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-micro, 9px);
+      color: var(--color-text-muted, #5a5a54);
+      padding: 6px 10px;
+      background: var(--color-bg-primary, #080809);
+      border-radius: var(--radius-sm, 2px);
+      display: inline-block;
+    }
+    
+    /* ============================================
+       Voice Section
+       ============================================ */
+    
+    .voice-examples {
+      display: grid;
+      gap: var(--space-lg, 16px);
+    }
+    
+    .voice-example {
+      background: var(--color-surface, #121214);
+      border: 1px solid var(--color-border, #242428);
+      border-radius: var(--radius-md, 4px);
+      padding: var(--space-xl, 24px);
+      transition: all var(--duration-normal, 240ms) var(--ease-out-quart, cubic-bezier(0.165, 0.84, 0.44, 1));
+    }
+    
+    .voice-example:hover {
+      border-color: var(--color-border-accent);
+      background: var(--color-surface-hover, #1a1a1c);
+    }
+    
+    .voice-example-label {
+      font-family: var(--font-mono, 'IBM Plex Mono'), monospace;
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-accent, #e84d1b);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: var(--space-md, 12px);
+    }
+    
+    .voice-example-text {
+      font-size: var(--font-size-lg, 16px);
+      line-height: var(--line-height-loose, 1.7);
+      color: var(--color-text-primary, #f2f2f0);
+    }
+    
+    /* ============================================
+       Footer
+       ============================================ */
+    
+    .styleguide-footer {
+      margin-top: var(--space-4xl, 64px);
+      padding-top: var(--space-2xl, 32px);
+      border-top: 1px solid var(--color-border, #242428);
+      text-align: center;
+      font-size: var(--font-size-xs, 10px);
+      color: var(--color-text-muted, #5a5a54);
+    }
+    
+    /* ============================================
+       Responsive
+       ============================================ */
+    
+    @media (max-width: 1024px) {
+      .section-title { font-size: 48px; }
+      .type-scale-item { flex-direction: column; gap: var(--space-md, 12px); }
+      .type-scale-meta { flex: none; padding-left: 0; border-left: none; border-top: 1px solid var(--color-border); padding-top: var(--space-md, 12px); }
+    }
+    
+    @media (max-width: 768px) {
+      .styleguide-header { flex-direction: column; gap: var(--space-md, 12px); text-align: center; }
+      .section-title { font-size: 36px; }
+      .section-desc { margin-left: 0; }
+      .components-grid { grid-template-columns: 1fr; }
+    }
+    
+    @media (max-width: 480px) {
+      .container { padding: 0 var(--space-md, 12px); }
+      .section-title { font-size: 28px; }
+      .type-scale-item { padding: var(--space-lg, 16px); }
+    }
+    
+    /* ============================================
+       Reduced Motion
+       ============================================ */
+    
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  
+  <div class="container">
+    <!-- Header -->
+    <header class="styleguide-header">
+      <div class="styleguide-logo">
+        <svg viewBox="0 0 48 48" role="img">
+          <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 12 40 C 12 30, 20 26, 26 32 C 32 38, 40 32, 44 36" />
+        </svg>
+        <div>
+          <div class="styleguide-title">VEKTRA</div>
+          <div class="styleguide-subtitle">Design System v2.0</div>
+        </div>
+        <span class="styleguide-version">Premium</span>
+      </div>
+    </header>
+    
+    <!-- Section 1: Color -->
+    <section class="styleguide-section">
+      <div class="section-header">
+        <span class="section-number">01</span>
+        <h2 class="section-title">Color System</h2>
+        <span class="section-desc">Deep tonal range with electric signal accent</span>
+      </div>
+      <div class="color-grid">
+        <div class="color-swatch">
+          <div class="color-swatch-color" style="background: var(--color-bg-primary, #080809);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Background Primary</div>
+            <div class="color-swatch-hex-display">var(--color-bg-primary)</div>
+            <div class="color-swatch-hex">#080809</div>
+            <div class="color-swatch-usage">Deep void black with subtle warmth</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-color" style="background: var(--color-surface, #121214);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Surface</div>
+            <div class="color-swatch-hex-display">var(--color-surface)</div>
+            <div class="color-swatch-hex">#121214</div>
+            <div class="color-swatch-usage">Card / elevated panel</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-color" style="background: var(--color-accent, #e84d1b);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Accent</div>
+            <div class="color-swatch-hex-display">var(--color-accent)</div>
+            <div class="color-swatch-hex">#e84d1b</div>
+            <div class="color-swatch-usage">Primary signal color</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-color" style="background: var(--color-text-primary, #f2f2f0);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Text Primary</div>
+            <div class="color-swatch-hex-display">var(--color-text-primary)</div>
+            <div class="color-swatch-hex">#f2f2f0</div>
+            <div class="color-swatch-usage">Primary text (off-white)</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-color" style="background: var(--color-text-secondary, #9a9a94);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Text Secondary</div>
+            <div class="color-swatch-hex-display">var(--color-text-secondary)</div>
+            <div class="color-swatch-hex">#9a9a94</div>
+            <div class="color-swatch-usage">Secondary text</div>
+          </div>
+        </div>
+        <div class="color-swatch">
+          <div class="color-swatch-color" style="background: var(--color-border, #242428);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Border</div>
+            <div class="color-swatch-hex-display">var(--color-border)</div>
+            <div class="color-swatch-hex">#242428</div>
+            <div class="color-swatch-usage">Borders & dividers</div>
+          </div>
+        </div>
+      </div>
+      
+      <h3 style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-sm, 12px); color: var(--color-text-muted, #5a5a54); margin-top: var(--space-xl, 24px);">Light Mode Variants</h3>
+      <div class="color-grid" style="margin-top: var(--space-lg, 16px);">
+        <div class="color-swatch light-mode">
+          <div class="color-swatch-color" style="background: var(--color-bg-primary, #f7f6f3);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Background (Light)</div>
+            <div class="color-swatch-hex">#f7f6f3</div>
+          </div>
+        </div>
+        <div class="color-swatch light-mode">
+          <div class="color-swatch-color" style="background: var(--color-surface, #ffffff);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Surface (Light)</div>
+            <div class="color-swatch-hex">#ffffff</div>
+          </div>
+        </div>
+        <div class="color-swatch light-mode">
+          <div class="color-swatch-color" style="background: var(--color-text-primary, #1a1a18);"></div>
+          <div class="color-swatch-info">
+            <div class="color-swatch-name">Text (Light)</div>
+            <div class="color-swatch-hex">#1a1a18</div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 2: Typography -->
+    <section class="styleguide-section">
+      <div class="section-header">
+        <span class="section-number">02</span>
+        <h2 class="section-title">Typography</h2>
+        <span class="section-desc">Monospace precision meets grotesque clarity</span>
+      </div>
+      
+      <div class="type-scale-grid">
+        <div class="type-scale-item">
+          <div class="type-scale-preview mono" style="font-size: 88px; line-height: 1;">Aa</div>
+          <div class="type-scale-meta">
+            <span class="meta-label">IBM Plex Mono</span>
+            <span>88px / Display</span>
+            <span>Weight: 400</span>
+          </div>
+        </div>
+        <div class="type-scale-item">
+          <div class="type-scale-preview sans" style="font-size: 64px; line-height: 1.1;">Aa</div>
+          <div class="type-scale-meta">
+            <span class="meta-label">Inter</span>
+            <span>64px / Heading 1</span>
+            <span>Weight: 400</span>
+          </div>
+        </div>
+        <div class="type-scale-item">
+          <div class="type-scale-preview sans" style="font-size: 20px; line-height: 1.5;">The quick brown fox jumps over the lazy dog. 0123456789</div>
+          <div class="type-scale-meta">
+            <span class="meta-label">Inter</span>
+            <span>20px / Body</span>
+            <span>Weight: 400</span>
+          </div>
+        </div>
+        <div class="type-scale-item">
+          <div class="type-scale-preview mono" style="font-size: 12px; line-height: 1.6;">ABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789</div>
+          <div class="type-scale-meta">
+            <span class="meta-label">IBM Plex Mono</span>
+            <span>12px / Code</span>
+            <span>Weight: 400</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 3: Logo -->
+    <section class="styleguide-section">
+      <div class="section-header">
+        <span class="section-number">03</span>
+        <h2 class="section-title">Logo System</h2>
+        <span class="section-desc">Parametric waveform with monospace logotype</span>
+      </div>
+      
+      <div class="logo-showcase">
+        <div class="logo-variant">
+          <svg viewBox="0 0 280 64" role="img" aria-label="VEKTRA logo">
+            <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 14 52 C 14 42, 22 38, 28 44 C 34 50, 42 46, 50 56 C 58 66, 68 58, 78 64 C 88 70, 98 60, 110 68" />
+            <text x="130" y="44" font-family="var(--font-mono, 'IBM Plex Mono'), monospace" font-size="28" font-weight="500" fill="currentColor" letter-spacing="0.05em">VEKTRA</text>
+          </svg>
+          <div class="logo-variant-label">Primary (Dark)</div>
+        </div>
+        <div class="logo-variant">
+          <svg viewBox="0 0 280 64" role="img" aria-label="VEKTRA logo light">
+            <path fill="none" stroke="#c43e18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 14 52 C 14 42, 22 38, 28 44 C 34 50, 42 46, 50 56 C 58 66, 68 58, 78 64 C 88 70, 98 60, 110 68" />
+            <text x="130" y="44" font-family="var(--font-mono, 'IBM Plex Mono'), monospace" font-size="28" font-weight="500" fill="#1a1a18" letter-spacing="0.05em">VEKTRA</text>
+          </svg>
+          <div class="logo-variant-label">Light Background</div>
+        </div>
+        <div class="logo-variant">
+          <svg viewBox="0 0 48 48" role="img" aria-label="VEKTRA mark">
+            <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 16 48 C 16 38, 24 34, 30 40 C 36 46, 44 42, 50 52 C 56 62, 58 54, 58 54" />
+          </svg>
+          <div class="logo-variant-label">Mark Only</div>
+        </div>
+      </div>
+      
+      <div class="animated-logo-container">
+        <h3>Animated Logo — Signal Initialization Sequence</h3>
+        <iframe src="logo-animated.html" title="VEKTRA animated logo"></iframe>
+        <button class="btn btn-primary replay-btn" onclick="this.parentElement.querySelector('iframe').src='logo-animated.html'">Replay Animation</button>
+      </div>
+    </section>
+    
+    <!-- Section 4: Components -->
+    <section class="styleguide-section">
+      <div class="section-header">
+        <span class="section-number">04</span>
+        <h2 class="section-title">Component Library</h2>
+        <span class="section-desc">UI elements built with brand tokens</span>
+      </div>
+      
+      <div class="components-grid">
+        <div class="component-card">
+          <div class="component-title">Buttons</div>
+          <div class="button-row">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-secondary">Secondary</button>
+          </div>
+          <div class="button-row" style="margin-top: var(--space-sm, 8px);">
+            <button class="btn btn-primary" disabled style="opacity: 0.5; cursor: not-allowed;">Disabled</button>
+          </div>
+          <div class="code-block">
+            <code>
+              <span class="token-keyword">&lt;button</span> <span class="token-string">class</span>=<span class="token-string">"btn btn-primary"</span><span class="token-keyword">&gt;</span>Primary<span class="token-keyword">&lt;/button&gt;</span>
+            </code>
+          </div>
+        </div>
+        
+        <div class="component-card">
+          <div class="component-title">Text Input</div>
+          <input type="text" class="input-field" placeholder="Enter value..." value="Sample input">
+          <div class="code-block" style="margin-top: var(--space-lg, 16px);">
+            <code>
+              <span class="token-keyword">&lt;input</span> <span class="token-string">type</span>=<span class="token-string">"text"</span> <span class="token-string">placeholder</span>=<span class="token-string">"..."</span><span class="token-keyword">&gt;</span>
+            </code>
+          </div>
+        </div>
+        
+        <div class="component-card">
+          <div class="component-title">Code Block</div>
+          <div class="code-block">
+            <code>
+              <span class="token-comment">// VEKTRA signal processing</span><br>
+              <span class="token-keyword">function</span> <span class="token-function">processSignal</span>(input) {<br>
+              &nbsp;&nbsp;<span class="token-keyword">return</span> input.<span class="token-function">map</span>(x => x * <span class="token-string">2.0</span>);<br>
+              }
+            </code>
+          </div>
+        </div>
+        
+        <div class="component-card">
+          <div class="component-title">Card</div>
+          <div style="background: var(--color-surface, #121214); border: 1px solid var(--color-border, #242428); border-radius: var(--radius-md, 4px); padding: var(--space-lg, 16px);">
+            <div style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-xl, 20px); margin-bottom: var(--space-sm, 8px);">System Configuration</div>
+            <div style="color: var(--color-text-secondary, #9a9a94); font-size: var(--font-size-base, 14px); line-height: var(--line-height-normal, 1.5);">A sample card demonstrating proper spacing, typography hierarchy, and border treatment within the VEKTRA design system.</div>
+          </div>
+        </div>
+        
+        <div class="component-card">
+          <div class="component-title">Badge</div>
+          <div style="display: flex; gap: var(--space-md, 12px); flex-wrap: wrap;">
+            <span style="background: var(--color-accent-dim, rgba(232, 77, 27, 0.15)); color: var(--color-accent, #e84d1b); padding: 4px 12px; border-radius: var(--radius-full, 9999px); font-size: var(--font-size-xs, 10px); font-family: var(--font-mono, 'IBM Plex Mono'), monospace;">Live</span>
+            <span style="background: var(--color-surface, #121214); border: 1px solid var(--color-border, #242428); color: var(--color-text-secondary, #9a9a94); padding: 4px 12px; border-radius: var(--radius-full, 9999px); font-size: var(--font-size-xs, 10px); font-family: var(--font-mono, 'IBM Plex Mono'), monospace;">Draft</span>
+          </div>
+        </div>
+        
+        <div class="component-card">
+          <div class="component-title">Navigation Bar</div>
+          <div style="background: var(--color-surface, #121214); border: 1px solid var(--color-border, #242428); border-radius: var(--radius-md, 4px); padding: var(--space-md, 12px); display: flex; align-items: center; gap: var(--space-lg, 16px);">
+            <svg width="24" height="24" viewBox="0 0 48 48" role="img"><path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 12 40 C 12 30, 20 26, 26 32 C 32 38, 40 32, 44 36" /></svg>
+            <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-xs, 10px);">Home</span>
+            <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-xs, 10px);">Docs</span>
+            <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-xs, 10px);">Examples</span>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 5: Motion -->
+    <section class="styleguide-section">
+      <div class="section-header">
+        <span class="section-number">05</span>
+        <h2 class="section-title">Motion System</h2>
+        <span class="section-desc">Precision timing curves and transitions</span>
+      </div>
+      
+      <div class="motion-demos">
+        <div class="motion-demo">
+          <div class="motion-demo-box"></div>
+          <div class="motion-demo-label">Ease Out Expo</div>
+          <div class="motion-demo-code">cubic-bezier(0.16, 1, 0.3, 1)</div>
+        </div>
+        <div class="motion-demo">
+          <div class="motion-demo-box" style="animation-name: demoInOut;"></div>
+          <div class="motion-demo-label">Ease In Out Cubic</div>
+          <div class="motion-demo-code">cubic-bezier(0.65, 0, 0.35, 1)</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: var(--space-xl, 24px);">
+        <div style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-xs, 10px); color: var(--color-text-muted, #5a5a54); margin-bottom: var(--space-sm, 8px); text-transform: uppercase; letter-spacing: 0.08em;">CSS Custom Properties</div>
+        <div class="code-block">
+          <code>
+            :root {<br>
+            &nbsp;&nbsp;--ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);<br>
+            &nbsp;&nbsp;--ease-out-quart: cubic-bezier(0.165, 0.84, 0.44, 1);<br>
+            &nbsp;&nbsp;--ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);<br>
+            &nbsp;&nbsp;--ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);<br>
+            &nbsp;&nbsp;--duration-fast: 120ms;<br>
+            &nbsp;&nbsp;--duration-normal: 240ms;<br>
+            &nbsp;&nbsp;--duration-slow: 400ms;<br>
+            &nbsp;&nbsp;--duration-glacial: 800ms;<br>
+            }
+          </code>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Section 6: Voice -->
+    <section class="styleguide-section">
+      <div class="section-header">
+        <span class="section-number">06</span>
+        <h2 class="section-title">Brand Voice</h2>
+        <span class="section-desc">Precise, generative, inspectable, signal-driven</span>
+      </div>
+      
+      <div class="voice-examples">
+        <div class="voice-example">
+          <div class="voice-example-label">Hero Headline</div>
+          <div class="voice-example-text">A software environment where sound, motion, and code converge as one living signal.</div>
+        </div>
+        <div class="voice-example">
+          <div class="voice-example-label">Product Description</div>
+          <div class="voice-example-text">VEKTRA treats time as an explicit, malleable parameter—every oscillator, envelope, and transform exists simultaneously as mathematics, visualization, and possibility. Edit running systems without interruption. Fork any state to explore parallel realities.</div>
+        </div>
+        <div class="voice-example">
+          <div class="voice-example-label">UI Label / Error</div>
+          <div class="voice-example-text">Frequency not found. The requested signal does not exist in this domain. Return to source.</div>
+        </div>
+      </div>
+      
+      <div style="margin-top: var(--space-xl, 24px); padding: var(--space-xl, 24px); background: var(--color-surface, #121214); border: 1px solid var(--color-border, #242428); border-radius: var(--radius-md, 4px);">
+        <div style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-xs, 10px); color: var(--color-accent, #e84d1b); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: var(--space-md, 12px);">Five Defining Words</div>
+        <div style="display: flex; gap: var(--space-lg, 16px); flex-wrap: wrap;">
+          <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-sm, 12px); color: var(--color-text-primary, #f2f2f0);">Precise</span>
+          <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-sm, 12px); color: var(--color-text-primary, #f2f2f0);">Generative</span>
+          <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-sm, 12px); color: var(--color-text-primary, #f2f2f0);">Inspectable</span>
+          <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-sm, 12px); color: var(--color-text-primary, #f2f2f0);">Signal-driven</span>
+          <span style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; font-size: var(--font-size-sm, 12px); color: var(--color-text-primary, #f2f2f0);">Uncompromising</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer class="styleguide-footer">
+      <div style="font-family: var(--font-mono, 'IBM Plex Mono'), monospace; margin-bottom: var(--space-sm, 8px);">VEKTRA Design System v2.0</div>
+      <div style="font-size: var(--font-size-xs, 10px);">Built with brand tokens from tokens.css — Premium Edition</div>
+    </footer>
+  </div>
+  
+  <script>
+    // Background canvas for style guide
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    let width = 0;
+    let height = 0;
+    let time = 0;
+    let animationId = null;
+    
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      
+      particles = [];
+      const count = Math.min(40, Math.floor(width / 30));
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.2,
+          vy: (Math.random() - 0.5) * 0.2,
+          radius: Math.max(0.5, 1 + Math.random() * 1.5)
+        });
+      }
+    }
+    
+    function animate() {
+      time += 0.016;
+      
+      ctx.clearRect(0, 0, width, height);
+      
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, Math.max(0.1, p.radius), 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(232, 77, 27, 0.15)';
+        ctx.fill();
+      });
+      
+      animationId = requestAnimationFrame(animate);
+    }
+    
+    resize();
+    window.addEventListener('resize', resize);
+    animate();
+    
+    // Reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (animationId) cancelAnimationFrame(animationId);
+    }
+  </script>
+</body>
+</html>

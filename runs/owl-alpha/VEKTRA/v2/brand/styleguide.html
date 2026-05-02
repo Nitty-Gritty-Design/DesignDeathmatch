@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Brand Style Guide v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --color-void:#060608; --color-bg-primary:#0B0B0E; --color-bg-secondary:#111115;
+    --color-surface:#1A1A20; --color-text-primary:#EDEAE5; --color-text-secondary:#8A8A96;
+    --color-text-muted:#4E4E5A; --color-accent:#00E5FF; --color-accent-dim:#007A8A;
+    --color-accent-haze:rgba(0,229,255,0.08); --color-accent-glow:rgba(0,229,255,0.15);
+    --color-accent-trace:rgba(0,229,255,0.03); --color-border:#1E1E24;
+    --color-border-accent:rgba(0,229,255,0.2);
+    --font-mono:'JetBrains Mono',monospace; --font-sans:'Space Grotesk',sans-serif;
+    --timing-fast:150ms; --timing-normal:300ms; --timing-slow:500ms; --timing-glacial:800ms;
+    --easing-expo:cubic-bezier(0.16,1,0.3,1); --easing-spring:cubic-bezier(0.34,1.56,0.64,1);
+    --border-radius:2px; --border-radius-md:4px; --border-radius-lg:8px;
+  }
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+  html{font-size:16px;scroll-behavior:smooth;}
+  body{font-family:var(--font-sans);font-size:1rem;line-height:1.5;color:var(--color-text-primary);background:var(--color-bg-primary);-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--color-accent);color:var(--color-bg-primary);}
+  a{color:inherit;text-decoration:none;} ul{list-style:none;}
+
+  .sg-container{max-width:1000px;margin:0 auto;padding:0 2rem;}
+  .sg-section{padding:5rem 0;border-bottom:1px solid var(--color-border);}
+  .sg-section:last-child{border-bottom:none;}
+
+  .sg-header{padding:3rem 0 2rem;border-bottom:1px solid var(--color-border);}
+  .sg-header-inner{display:flex;align-items:center;justify-content:space-between;}
+  .sg-logo{display:flex;align-items:center;gap:1rem;}
+  .svg-logo-mark{width:36px;height:36px;}
+  .sg-logo-type{font-family:var(--font-mono);font-weight:300;font-size:1.4rem;letter-spacing:0.15em;}
+  .sg-tag{font-family:var(--font-mono);font-size:0.7rem;color:var(--color-text-muted);letter-spacing:0.1em;text-transform:uppercase;}
+
+  .sg-label{font-family:var(--font-mono);font-size:0.7rem;color:var(--color-accent);letter-spacing:0.15em;text-transform:uppercase;display:block;margin-bottom:0.5rem;}
+  .sg-title{font-size:clamp(1.5rem,4vw,2.5rem);font-weight:600;line-height:1.1;margin-bottom:2rem;}
+
+  /* Color swatches */
+  .sg-palette{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:1rem;}
+  .sg-swatch{border:1px solid var(--color-border);border-radius:var(--border-radius-lg);overflow:hidden;transition:border-color var(--timing-normal) var(--easing-expo);}
+  .sg-swatch:hover{border-color:var(--color-border-accent);}
+  .sg-swatch-color{height:72px;}
+  .sg-swatch-info{padding:0.75rem;background:var(--color-surface);}
+  .sg-swatch-name{font-family:var(--font-mono);font-size:0.75rem;color:var(--color-text-primary);margin-bottom:0.15rem;}
+  .sg-swatch-var{font-family:var(--font-mono);font-size:0.65rem;color:var(--color-accent);}
+  .sg-swatch-hex{font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);}
+  .sg-swatch-use{font-size:0.7rem;color:var(--color-text-secondary);margin-top:0.2rem;}
+
+  /* Typography */
+  .sg-type-block{margin-bottom:2.5rem;}
+  .sg-type-meta{font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);margin-bottom:0.5rem;letter-spacing:0.1em;text-transform:uppercase;}
+  .sg-type-specimen{margin-bottom:0.5rem;}
+  .sg-scale-table{width:100%;border-collapse:collapse;}
+  .sg-scale-table td{padding:0.5rem 0;border-bottom:1px solid var(--color-border);font-size:0.85rem;color:var(--color-text-secondary);}
+  .sg-scale-table td:first-child{font-family:var(--font-mono);font-size:0.65rem;color:var(--color-accent);width:90px;}
+  .sg-scale-table td:nth-child(2){font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);width:80px;}
+
+  /* Logo */
+  .sg-logo-group{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
+  .sg-logo-card{border:1px solid var(--color-border);border-radius:var(--border-radius-lg);padding:2rem;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:160px;transition:border-color var(--timing-normal) var(--easing-expo);}
+  .sg-logo-card:hover{border-color:var(--color-border-accent);}
+  .sg-logo-card svg{max-width:100%;height:auto;}
+  .sg-logo-label{font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);margin-top:1rem;letter-spacing:0.1em;text-transform:uppercase;}
+  .sg-logo-onlight{background:#F7F4EF;}
+  .sg-logo-onlight svg text{fill:#0A0B0E!important;}
+
+  .sg-replay{font-family:var(--font-mono);font-size:0.7rem;color:var(--color-accent);background:transparent;border:1px solid var(--color-accent);padding:0.4rem 1.2rem;border-radius:var(--border-radius);cursor:pointer;letter-spacing:0.1em;text-transform:uppercase;transition:all var(--timing-normal) var(--easing-expo);}
+  .sg-replay:hover{background:var(--color-accent);color:var(--color-bg-primary);}
+
+  /* Components */
+  .sg-comp-group{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;margin-bottom:1.5rem;}
+  .sg-comp-label{font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);width:100%;margin-bottom:0.4rem;letter-spacing:0.1em;text-transform:uppercase;}
+
+  .sg-btn{display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1.2rem;font-family:var(--font-mono);font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border:1px solid transparent;border-radius:var(--border-radius);cursor:pointer;transition:all var(--timing-normal) var(--easing-expo);}
+  .sg-btn-primary{background:var(--color-accent);color:var(--color-bg-primary);border-color:var(--color-accent);}
+  .sg-btn-primary:hover{background:transparent;color:var(--color-accent);box-shadow:0 0 30px var(--color-accent-haze);}
+  .sg-btn-ghost{background:transparent;color:var(--color-text-primary);border-color:var(--color-border);}
+  .sg-btn-ghost:hover{border-color:var(--color-accent);color:var(--color-accent);}
+
+  .sg-input{font-family:var(--font-mono);font-size:0.8rem;padding:0.5rem 0.7rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--border-radius);color:var(--color-text-primary);outline:none;transition:border-color var(--timing-fast) var(--easing-expo);min-width:180px;}
+  .sg-input:focus{border-color:var(--color-accent);}
+  .sg-input::placeholder{color:var(--color-text-muted);}
+
+  .sg-code{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--border-radius-md);padding:1rem;font-family:var(--font-mono);font-size:0.75rem;line-height:1.7;color:var(--color-text-secondary);width:100%;}
+  .sg-code-comment{color:var(--color-accent-dim);}
+
+  .sg-card{border:1px solid var(--color-border);border-radius:var(--border-radius-lg);padding:1.5rem;background:var(--color-bg-secondary);max-width:280px;transition:all var(--timing-normal) var(--easing-expo);}
+  .sg-card:hover{border-color:var(--color-border-accent);transform:translateY(-2px);}
+  .sg-card h4{font-size:1rem;font-weight:600;margin-bottom:0.4rem;}
+  .sg-card p{font-size:0.8rem;color:var(--color-text-secondary);line-height:1.5;}
+
+  .sg-badge{display:inline-flex;align-items:center;padding:0.15rem 0.5rem;font-family:var(--font-mono);font-size:0.6rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;border-radius:2px;}
+  .sg-badge-accent{background:rgba(0,122,138,0.2);color:var(--color-accent);}
+  .sg-badge-muted{background:var(--color-surface);color:var(--color-text-muted);border:1px solid var(--color-border);}
+
+  .sg-nav-demo{display:flex;align-items:center;justify-content:space-between;padding:0.7rem 1.5rem;background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--border-radius-md);width:100%;}
+  .sg-nav-demo-links{display:flex;gap:1.5rem;}
+  .sg-nav-demo-links a{font-family:var(--font-mono);font-size:0.7rem;color:var(--color-text-secondary);text-transform:uppercase;letter-spacing:0.05em;transition:color var(--timing-fast) var(--easing-expo);}
+  .sg-nav-demo-links a:hover{color:var(--color-accent);}
+
+  /* Motion */
+  .sg-motion-row{display:flex;gap:2rem;flex-wrap:wrap;}
+  .sg-motion-box{width:110px;height:110px;border:1px solid var(--color-border);border-radius:var(--border-radius-md);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);cursor:pointer;transition:all var(--timing-slow) var(--easing-expo);}
+  .sg-motion-box:hover{border-color:var(--color-accent);color:var(--color-accent);box-shadow:0 0 30px var(--color-accent-haze);transform:translateY(-4px);}
+  .sg-motion-box.bounce{transition-timing-function:var(--easing-spring);}
+  .sg-motion-box.bounce:hover{transform:scale(1.08);}
+
+  .sg-timing-table{width:100%;border-collapse:collapse;}
+  .sg-timing-table th{text-align:left;font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);padding:0.5rem;border-bottom:1px solid var(--color-border);letter-spacing:0.1em;text-transform:uppercase;}
+  .sg-timing-table td{padding:0.7rem 0.5rem;border-bottom:1px solid var(--color-border);font-size:0.8rem;color:var(--color-text-secondary);}
+  .sg-timing-table td:first-child{font-family:var(--font-mono);color:var(--color-accent);}
+
+  /* Voice */
+  .sg-voice-block{background:var(--color-surface);border:1px solid var(--color-border);border-radius:var(--border-radius-lg);padding:2rem;margin-bottom:1.5rem;}
+  .sg-voice-block p{line-height:1.7;color:var(--color-text-secondary);}
+  .sg-voice-words{display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1rem;}
+  .sg-voice-word{font-family:var(--font-mono);font-size:0.7rem;padding:0.2rem 0.7rem;border:1px solid var(--color-accent-dim);border-radius:2px;color:var(--color-accent);}
+  .sg-voice-word.not{border-color:var(--color-text-muted);color:var(--color-text-muted);text-decoration:line-through;}
+  .sg-copy-example{border-left:2px solid var(--color-accent);padding-left:1rem;margin-bottom:1.5rem;}
+  .sg-copy-label{font-family:var(--font-mono);font-size:0.6rem;color:var(--color-accent);letter-spacing:0.15em;text-transform:uppercase;margin-bottom:0.4rem;}
+  .sg-copy-text{font-size:1.05rem;line-height:1.5;color:var(--color-text-primary);}
+  .sg-copy-text-sm{font-size:0.85rem;color:var(--color-text-secondary);}
+
+  .sg-footer{padding:2rem 0;text-align:center;font-family:var(--font-mono);font-size:0.65rem;color:var(--color-text-muted);letter-spacing:0.05em;}
+
+  @media(max-width:768px) {
+    .sg-container{padding:0 1rem;}
+    .sg-section{padding:3rem 0;}
+    .sg-palette{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));}
+    .sg-logo-group{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header class="sg-header">
+  <div class="sg-container">
+    <div class="sg-header-inner">
+      <div class="sg-logo">
+        <svg class="svg-logo-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+          <path d="M60 60C60 28 90 10 105 22C120 34 120 70 105 85C90 100 60 100 60 82C60 64 84 52 100 58C116 64 116 88 100 94C84 100 66 82 72 64C78 46 102 40 112 52" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <circle cx="112" cy="52" r="3.5" fill="#00E5FF"/>
+        </svg>
+        <span class="sg-logo-type">VEKTRA</span>
+      </div>
+      <span class="sg-tag">Brand Style Guide — v2.0</span>
+    </div>
+  </div>
+</header>
+
+<!-- Color -->
+<section class="sg-section" id="color">
+  <div class="sg-container">
+    <span class="sg-label">01 — Color</span>
+    <h2 class="sg-title">Palette</h2>
+    <p style="color:var(--color-text-secondary);margin-bottom:2rem;line-height:1.6;">Built on near-black and near-white with one electric accent. Every color is a frequency — some you see, some you feel.</p>
+    <h3 style="font-family:var(--font-mono);font-size:0.7rem;color:var(--color-text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">Dark Mode</h3>
+    <div class="sg-palette" style="margin-bottom:2rem;">
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#060608;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Void</div><div class="sg-swatch-var">--color-void</div><div class="sg-swatch-hex">#060608</div><div class="sg-swatch-use">Deepest layer</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#0B0B0E;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Abyss</div><div class="sg-swatch-var">--color-bg-primary</div><div class="sg-swatch-hex">#0B0B0E</div><div class="sg-swatch-use">Primary surface</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#111115;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Shade</div><div class="sg-swatch-var">--color-bg-secondary</div><div class="sg-swatch-hex">#111115</div><div class="sg-swatch-use">Secondary surface</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#1A1A20;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Mist</div><div class="sg-swatch-var">--color-surface</div><div class="sg-swatch-hex">#1A1A20</div><div class="sg-swatch-use">Tertiary / containers</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#EDEAE5;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Signal</div><div class="sg-swatch-var">--color-text-primary</div><div class="sg-swatch-hex">#EDEAE5</div><div class="sg-swatch-use">Primary text</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#8A8A96;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Hum</div><div class="sg-swatch-var">--color-text-secondary</div><div class="sg-swatch-hex">#8A8A96</div><div class="sg-swatch-use">Secondary text</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#4E4E5A;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Static</div><div class="sg-swatch-var">--color-text-muted</div><div class="sg-swatch-hex">#4E4E5A</div><div class="sg-swatch-use">Muted / placeholders</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#00E5FF;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Transmission</div><div class="sg-swatch-var">--color-accent</div><div class="sg-swatch-hex">#00E5FF</div><div class="sg-swatch-use">THE accent</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#007A8A;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Deep Signal</div><div class="sg-swatch-var">--color-accent-dim</div><div class="sg-swatch-hex">#007A8A</div><div class="sg-swatch-use">Hover states</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#1E1E24;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Grid</div><div class="sg-swatch-var">--color-border</div><div class="sg-swatch-hex">#1E1E24</div><div class="sg-swatch-use">Borders</div></div></div>
+    </div>
+    <h3 style="font-family:var(--font-mono);font-size:0.7rem;color:var(--color-text-muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:1rem;">Light Mode</h3>
+    <div class="sg-palette">
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#F7F4EF;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Parchment</div><div class="sg-swatch-var">--color-bg-primary-light</div><div class="sg-swatch-hex">#F7F4EF</div><div class="sg-swatch-use">Light background</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#0A0B0E;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Ink</div><div class="sg-swatch-var">--color-text-primary-light</div><div class="sg-swatch-hex">#0A0B0E</div><div class="sg-swatch-use">Light mode text</div></div></div>
+      <div class="sg-swatch"><div class="sg-swatch-color" style="background:#D6D2CA;"></div><div class="sg-swatch-info"><div class="sg-swatch-name">Silver</div><div class="sg-swatch-var">--color-border-light</div><div class="sg-swatch-hex">#D6D2CA</div><div class="sg-swatch-use">Light borders</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Typography -->
+<section class="sg-section" id="typography">
+  <div class="sg-container">
+    <span class="sg-label">02 — Typography</span>
+    <h2 class="sg-title">Type system</h2>
+    <div class="sg-type-block">
+      <div class="sg-type-meta">Space Grotesk — Geometric sans · Body, UI, headlines</div>
+      <div class="sg-type-specimen" style="font-size:2.5rem;font-weight:600;line-height:1.1;">Signal becomes form</div>
+      <div class="sg-type-specimen" style="font-weight:300;font-size:1.5rem;color:var(--color-text-secondary);">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789</div>
+    </div>
+    <div class="sg-type-block">
+      <div class="sg-type-meta">JetBrains Mono — Monospace · Code, terminal, display headlines</div>
+      <div class="sg-type-specimen" style="font-family:var(--font-mono);font-weight:300;font-size:4rem;line-height:1;">VEKTRA</div>
+      <div class="sg-type-specimen" style="font-family:var(--font-mono);font-weight:300;font-size:1.5rem;color:var(--color-text-secondary);">Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789</div>
+    </div>
+    <div class="sg-type-block">
+      <div class="sg-type-meta">Fluid Type Scale</div>
+      <table class="sg-scale-table">
+        <tr><td>--type-5xl</td><td>clamp(4.5rem, 3.5rem + 5vw, 7.5rem)</td><td style="font-size:3rem;">Display</td></tr>
+        <tr><td>--type-4xl</td><td>clamp(3.5rem, 2.8rem + 3.5vw, 5.5rem)</td><td style="font-size:2.5rem;">Hero</td></tr>
+        <tr><td>--type-3xl</td><td>clamp(2.8rem, 2.2rem + 2.5vw, 4.2rem)</td><td style="font-size:2rem;">Headline</td></tr>
+        <tr><td>--type-2xl</td><td>clamp(2.2rem, 1.8rem + 1.8vw, 3.2rem)</td><td style="font-size:1.6rem;">Section</td></tr>
+        <tr><td>--type-xl</td><td>clamp(1.8rem, 1.5rem + 1.2vw, 2.4rem)</td><td style="font-size:1.3rem;">Subhead</td></tr>
+        <tr><td>--type-lg</td><td>clamp(1.4rem, 1.2rem + 0.8vw, 1.8rem)</td><td style="font-size:1.1rem;">Large</td></tr>
+        <tr><td>--type-md</td><td>clamp(1.15rem, 1.05rem + 0.5vw, 1.4rem)</td><td style="font-size:1rem;">Lead</td></tr>
+        <tr><td>--type-base</td><td>clamp(1rem, 0.95rem + 0.25vw, 1.15rem)</td><td style="font-size:0.95rem;">Body</td></tr>
+        <tr><td>--type-xs</td><td>clamp(0.7rem, 0.65rem + 0.25vw, 0.85rem)</td><td style="font-size:0.8rem;">UI label</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- Logo -->
+<section class="sg-section" id="logo">
+  <div class="sg-container">
+    <span class="sg-label">03 — Logo</span>
+    <h2 class="sg-title">Mark & logotype</h2>
+    <p style="color:var(--color-text-secondary);margin-bottom:2rem;line-height:1.6;">Derived from a Lissajous curve — the figure generated by two oscillating signals at a 3:2 frequency ratio. The mark is a signal caught mid-oscillation: a form that is simultaneously mathematical and organic, precise and alive.</p>
+    <div class="sg-logo-group">
+      <div class="sg-logo-card">
+        <svg viewBox="0 0 520 120" fill="none" width="240"><path d="M50 60C50 35 75 15 90 25C105 35 105 65 90 80C75 95 50 95 50 80C50 65 70 55 85 60C100 65 100 85 85 90C70 95 55 80 60 65C65 50 85 45 95 55" fill="none" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="95" cy="55" r="3" fill="#00E5FF"/><text x="145" y="70" font-family="'JetBrains Mono',monospace" font-weight="300" font-size="48" letter-spacing="10" fill="#EDEAE5">VEKTRA</text></svg>
+        <span class="sg-logo-label">Primary lockup — dark</span>
+      </div>
+      <div class="sg-logo-card sg-logo-onlight">
+        <svg viewBox="0 0 520 120" fill="none" width="240"><path d="M50 60C50 35 75 15 90 25C105 35 105 65 90 80C75 95 50 95 50 80C50 65 70 55 85 60C100 65 100 85 85 90C70 95 55 80 60 65C65 50 85 45 95 55" fill="none" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="95" cy="55" r="3" fill="#00E5FF"/><text x="145" y="70" font-family="'JetBrains Mono',monospace" font-weight="300" font-size="48" letter-spacing="10" fill="#0A0B0E">VEKTRA</text></svg>
+        <span class="sg-logo-label">Primary lockup — light</span>
+      </div>
+      <div class="sg-logo-card">
+        <svg viewBox="0 0 120 120" fill="none" width="72" height="72"><path d="M60 60C60 28 90 10 105 22C120 34 120 70 105 85C90 100 60 100 60 82C60 64 84 52 100 58C116 64 116 88 100 94C84 100 66 82 72 64C78 46 102 40 112 52" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="112" cy="52" r="3.5" fill="#00E5FF"/></svg>
+        <span class="sg-logo-label">Standalone mark — 72px</span>
+      </div>
+      <div class="sg-logo-card">
+        <svg viewBox="0 0 120 120" fill="none" width="28" height="28"><path d="M60 60C60 28 90 10 105 22C120 34 120 70 105 85C90 100 60 100 60 82C60 64 84 52 100 58C116 64 116 88 100 94C84 100 66 82 72 64C78 46 102 40 112 52" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="112" cy="52" r="3.5" fill="#00E5FF"/></svg>
+        <span class="sg-logo-label">Standalone mark — 28px (favicon)</span>
+      </div>
+    </div>
+    <div style="margin-top:1.5rem;text-align:center;">
+      <div id="animWrap" style="width:360px;height:80px;margin:0 auto;"></div>
+      <button class="sg-replay" id="replayBtn" style="margin-top:1rem;">Replay animation</button>
+    </div>
+  </div>
+</section>
+
+<!-- Components -->
+<section class="sg-section" id="components">
+  <div class="sg-container">
+    <span class="sg-label">04 — Components</span>
+    <h2 class="sg-title">Interface elements</h2>
+    <div class="sg-comp-group"><span class="sg-comp-label">Buttons</span><button class="sg-btn sg-btn-primary">Primary</button><button class="sg-btn sg-btn-ghost">Ghost</button></div>
+    <div class="sg-comp-group"><span class="sg-comp-label">Text input</span><input type="text" class="sg-input" placeholder="Enter a frequency…"></div>
+    <div class="sg-comp-group"><span class="sg-comp-label">Code block</span><div class="sg-code"><code><span class="sg-code-comment">// frequency drives particle size</span><br>osc(440) → particles.scale<br>osc(440) → particles.hue</code></div></div>
+    <div class="sg-comp-group"><span class="sg-comp-label">Card</span><div class="sg-card"><h4>Signal graph</h4><p>Every parameter is a node. Every connection is an edge.</p></div></div>
+    <div class="sg-comp-group"><span class="sg-comp-label">Badges</span><span class="sg-badge sg-badge-accent">Live</span><span class="sg-badge sg-badge-muted">Beta</span></div>
+    <div class="sg-comp-group"><span class="sg-comp-label">Navigation</span><nav class="sg-nav-demo"><span style="font-family:var(--font-mono);font-weight:300;font-size:0.85rem;letter-spacing:0.15em;">VEKTRA</span><div class="sg-nav-demo-links"><a href="#">What</a><a href="#">How</a><a href="#">Who</a></div><button class="sg-btn sg-btn-primary" style="padding:0.3rem 0.7rem;font-size:0.65rem;">Open</button></nav></div>
+  </div>
+</section>
+
+<!-- Motion -->
+<section class="sg-section" id="motion">
+  <div class="sg-container">
+    <span class="sg-label">05 — Motion</span>
+    <h2 class="sg-title">Timing & transitions</h2>
+    <div class="sg-comp-group"><span class="sg-comp-label">Hover transitions (hover the boxes)</span><div class="sg-motion-row"><div class="sg-motion-box">300ms<br>expo</div><div class="sg-motion-box bounce">500ms<br>spring</div></div></div>
+    <div class="sg-type-block" style="margin-top:2rem;">
+      <div class="sg-type-meta">Timing tokens</div>
+      <table class="sg-timing-table"><tr><th>Token</th><th>Duration</th><th>Use</th></tr><tr><td>--timing-instant</td><td>80ms</td><td>Micro-interactions</td></tr><tr><td>--timing-fast</td><td>150ms</td><td>Cursor feedback</td></tr><tr><td>--timing-normal</td><td>300ms</td><td>Standard transitions</td></tr><tr><td>--timing-slow</td><td>500ms</td><td>Entrance animations</td></tr><tr><td>--timing-glacial</td><td>800ms</td><td>Reveals, page transitions</td></tr><tr><td>--easing-expo</td><td colspan="2">cubic-bezier(0.16, 1, 0.3, 1) — decelerate</td></tr><tr><td>--easing-spring</td><td colspan="2">cubic-bezier(0.34, 1.56, 0.64, 1) — overshoot</td></tr></table>
+    </div>
+  </div>
+</section>
+
+<!-- Voice -->
+<section class="sg-section" id="voice">
+  <div class="sg-container">
+    <span class="sg-label">06 — Voice</span>
+    <h2 class="sg-title">Brand voice</h2>
+    <div class="sg-voice-block"><p>VEKTRA speaks like a system that knows exactly what it is. Not a marketer. Not a tutorial. Not a manifesto. The voice is the voice of a tool that has been used enough to develop opinions — precise, confident, occasionally poetic, never decorative.</p></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;margin-bottom:2rem;">
+      <div><div class="sg-comp-label" style="color:var(--color-accent);margin-bottom:0.75rem;">The voice is:</div><div class="sg-voice-words"><span class="sg-voice-word">Precise</span><span class="sg-voice-word">Electric</span><span class="sg-voice-word">Technical</span><span class="sg-voice-word">Poetic</span><span class="sg-voice-word">Berlin</span></div></div>
+      <div><div class="sg-comp-label" style="color:var(--color-text-muted);margin-bottom:0.75rem;">The voice is not:</div><div class="sg-voice-words"><span class="sg-voice-word not">Hypeful</span><span class="sg-voice-word not">Cute</span><span class="sg-voice-word not">Corporate</span><span class="sg-voice-word not">Obtuse</span><span class="sg-voice-word not">Generic</span></div></div>
+    </div>
+    <div class="sg-copy-example"><div class="sg-copy-label">Hero headline</div><div class="sg-copy-text">Sound is a signal. Vision is a signal. Code is a signal. VEKTRA is where they converge.</div></div>
+    <div class="sg-copy-example"><div class="sg-copy-label">Product description</div><div class="sg-copy-text-sm">A single graph for everything that moves — frequency, motion, time, light. Patches that breathe. Parameters that listen.</div></div>
+    <div class="sg-copy-example"><div class="sg-copy-label">404 error</div><div class="sg-copy-text-sm">Signal lost. The patch you're looking for doesn't exist — or it hasn't been written yet. Return to the graph.</div></div>
+  </div>
+</section>
+
+<footer class="sg-footer"><div class="sg-container">VEKTRA Brand Style Guide v2.0 — Everything is inspectable, forkable, and live.</div></footer>
+
+<script>
+(function(){
+  var wrap=document.getElementById('animWrap'),btn=document.getElementById('replayBtn');
+  if(!wrap||!btn)return;
+  function build(){
+    wrap.innerHTML='';
+    var s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('viewBox','0 0 480 80');s.setAttribute('width','100%');s.setAttribute('height','100%');s.style.display='block';
+    var zl=document.createElementNS('http://www.w3.org/2000/svg','line');
+    zl.setAttribute('x1','10');zl.setAttribute('y1','40');zl.setAttribute('x2','140');zl.setAttribute('y2','40');
+    zl.setAttribute('stroke','#1E1E24');zl.setAttribute('stroke-width','1');
+    var za=document.createElementNS('http://www.w3.org/2000/svg','animate');
+    za.setAttribute('attributeName','stroke-dashoffset');za.setAttribute('from','130');za.setAttribute('to','0');
+    za.setAttribute('dur','400ms');za.setAttribute('begin','0ms');za.setAttribute('fill','freeze');
+    zl.setAttribute('stroke-dasharray','130');zl.appendChild(za);s.appendChild(zl);
+    var w=document.createElementNS('http://www.w3.org/2000/svg','path');
+    w.setAttribute('d','M10 40C10 15 30 0 42 8C54 16 54 40 42 50C30 60 10 60 10 48C10 36 26 28 38 32C50 36 50 52 38 56C26 60 14 48 18 36C22 24 40 20 48 28');
+    w.setAttribute('stroke','#00E5FF');w.setAttribute('stroke-width','2.5');w.setAttribute('stroke-linecap','round');w.setAttribute('fill','none');
+    var wa=document.createElementNS('http://www.w3.org/2000/svg','animate');
+    wa.setAttribute('attributeName','stroke-dashoffset');wa.setAttribute('from','400');wa.setAttribute('to','0');
+    wa.setAttribute('dur','1200ms');wa.setAttribute('begin','400ms');wa.setAttribute('fill','freeze');
+    w.setAttribute('stroke-dasharray','400');w.appendChild(wa);s.appendChild(w);
+    var chars=['V','E','K','T','R','A'];
+    var txt=document.createElementNS('http://www.w3.org/2000/svg','text');
+    txt.setAttribute('x','170');txt.setAttribute('y','52');
+    txt.setAttribute('font-family',"'JetBrains Mono', monospace");txt.setAttribute('font-weight','300');
+    txt.setAttribute('font-size','36');txt.setAttribute('letter-spacing','8');txt.setAttribute('fill','#EDEAE5');
+    chars.forEach(function(ch,i){
+      var ts=document.createElementNS('http://www.w3.org/2000/svg','tspan');ts.textContent=ch;
+      var ca=document.createElementNS('http://www.w3.org/2000/svg','animate');
+      ca.setAttribute('attributeName','opacity');ca.setAttribute('from','0');ca.setAttribute('to','1');
+      ca.setAttribute('dur','80ms');ca.setAttribute('begin',(1800+i*80)+'ms');ca.setAttribute('fill','freeze');
+      ts.appendChild(ca);txt.appendChild(ts);
+    });
+    s.appendChild(txt);wrap.appendChild(s);
+  }
+  build();btn.addEventListener('click',build);
+})();
+</script>
+</body>
+</html>

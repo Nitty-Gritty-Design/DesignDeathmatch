@@ -1,0 +1,322 @@
+<!--
+  Wildcard 6.3 — Animated Brand Intro Sequence
+  A 4-second cinematic intro for VEKTRA. System initializing.
+  Precise, timed to the millisecond. No external JS.
+  The kind of thing that would play before a product demo at a festival.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Intro</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body {
+    width: 100%; height: 100%;
+    background: #0A0A0C;
+    overflow: hidden;
+    font-family: 'JetBrains Mono', monospace;
+    cursor: pointer;
+  }
+
+  .intro-stage {
+    position: relative;
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  /* Skip prompt */
+  .skip-hint {
+    position: absolute;
+    bottom: 2rem;
+    right: 2rem;
+    font-size: 0.65rem;
+    color: #5E5E68;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeIn 300ms 500ms ease-out forwards;
+  }
+
+  /* Boot terminal */
+  .boot-terminal {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    font-size: 0.7rem;
+    color: #2A2A32;
+    line-height: 1.6;
+    text-align: left;
+  }
+  .boot-line {
+    opacity: 0;
+    animation: fadeInChar 40ms ease-out forwards;
+  }
+  .boot-line:nth-child(1) { animation-delay: 100ms; }
+  .boot-line:nth-child(2) { animation-delay: 350ms; }
+  .boot-line:nth-child(3) { animation-delay: 700ms; }
+  .boot-line:nth-child(4) { animation-delay: 1100ms; }
+  .boot-line:nth-child(5) { animation-delay: 1500ms; }
+  .boot-line:nth-child(6) { animation-delay: 1900ms; }
+  .boot-line:nth-child(7) { animation-delay: 2300ms; }
+  .boot-line:nth-child(8) { animation-delay: 2600ms; color: #00E5FF; }
+
+  /* Logo container */
+  .logo-stage {
+    position: relative;
+    width: 400px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Signal waveform that draws in */
+  .signal-path {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+  }
+  .signal-path svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* The mark + logotype */
+  .intro-logo {
+    opacity: 0;
+    animation: logoReveal 600ms 2800ms ease-out forwards;
+  }
+
+  /* Statement */
+  .intro-statement {
+    margin-top: 2rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1rem;
+    color: #9B9BA3;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideUp 500ms 3400ms ease-out forwards;
+  }
+
+  /* CTA */
+  .intro-cta {
+    margin-top: 2rem;
+    opacity: 0;
+    transform: translateY(10px);
+    animation: slideUp 500ms 3800ms ease-out forwards;
+  }
+  .intro-cta a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: #00E5FF;
+    border: 1px solid #00E5FF;
+    padding: 0.6rem 1.5rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .intro-cta a:hover {
+    background: #00E5FF;
+    color: #0A0A0C;
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+  }
+  .intro-cta a::after {
+    content: '→';
+    transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .intro-cta a:hover::after {
+    transform: translateX(4px);
+  }
+
+  /* Final hold then fade */
+  .intro-stage {
+    animation: holdThenFade 600ms 5000ms ease-in forwards;
+  }
+  .intro-stage.hold-complete {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* End state */
+  .end-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0;
+    pointer-events: none;
+  }
+  .end-state.visible {
+    opacity: 1;
+    pointer-events: all;
+    animation: fadeIn 400ms ease-out forwards;
+  }
+  .end-state .logo-end {
+    margin-bottom: 1.5rem;
+  }
+  .end-state p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    color: #5E5E68;
+    margin-bottom: 2rem;
+  }
+
+  /* Animations */
+  @keyframes fadeInChar { to { opacity: 1; } }
+  @keyframes fadeIn { to { opacity: 1; } }
+  @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
+  @keyframes logoReveal {
+    0% { opacity: 0; transform: scale(0.95); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes holdThenFade {
+    0% { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* SVG stroke animation */
+  .draw-path {
+    stroke-dasharray: 500;
+    stroke-dashoffset: 500;
+    animation: drawPath 1200ms 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @keyframes drawPath { to { stroke-dashoffset: 0; } }
+
+  .draw-arrow {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 100;
+    animation: drawPath 600ms 1800ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  /* Pulse ring */
+  .pulse-ring {
+    opacity: 0;
+    animation: pulseOnce 800ms 2600ms ease-out forwards;
+  }
+  @keyframes pulseOnce {
+    0% { opacity: 0.5; transform: scale(0.8); }
+    100% { opacity: 0; transform: scale(1.3); }
+  }
+</style>
+</head>
+<body>
+
+<div class="intro-stage" id="introStage">
+  <!-- Boot terminal -->
+  <div class="boot-terminal">
+    <div class="boot-line">VEKTRA v2.4.1</div>
+    <div class="boot-line">signal graph initialized</div>
+    <div class="boot-line">audio engine: online</div>
+    <div class="boot-line">visual engine: online</div>
+    <div class="boot-line">midi: listening</div>
+    <div class="boot-line">patch: default</div>
+    <div class="boot-line">nodes: 0</div>
+    <div class="boot-line">ready_</div>
+  </div>
+
+  <!-- Logo stage -->
+  <div class="logo-stage">
+    <!-- Pulse ring behind logo -->
+    <div class="pulse-ring" style="position:absolute; width:120px; height:120px; border:1px solid #00E5FF; border-radius:50%;"></div>
+
+    <!-- Signal path drawing -->
+    <div class="signal-path">
+      <svg viewBox="0 0 400 120" fill="none">
+        <!-- Zero line -->
+        <line x1="0" y1="60" x2="400" y2="60" stroke="#1C1C22" stroke-width="1"/>
+        <!-- Waveform drawing in -->
+        <path class="draw-path" d="M20 60Q35 60 42 35Q50 10 60 10Q70 10 78 35L90 52Q95 60 102 48Q110 35 118 35Q126 35 134 48L142 56Q148 62 156 52L164 42Q168 38 172 42L180 55"
+          stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <!-- Arrow -->
+        <path class="draw-arrow" d="M180 55L195 40L210 10"
+          stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path class="draw-arrow" d="M202 18L210 10L218 18"
+          stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+
+    <!-- Logo reveal -->
+    <div class="intro-logo">
+      <svg viewBox="0 0 400 100" fill="none" width="320" height="80">
+        <g transform="translate(10,10)">
+          <path d="M0 40Q8 40 12 20Q16 0 24 0Q32 0 36 20L44 35Q48 40 52 30Q56 20 60 20Q64 20 68 30L72 38Q76 42 80 35L84 28Q86 25 88 28L92 40" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M92 40L100 32L110 8" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M104 14L110 8L116 14" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </g>
+        <text x="160" y="62" font-family="'JetBrains Mono',monospace" font-weight="300" font-size="42" letter-spacing="6" fill="#E8E6E1">VEKTRA</text>
+      </svg>
+    </div>
+  </div>
+
+  <!-- Statement -->
+  <p class="intro-statement">Where signal becomes form.</p>
+
+  <!-- CTA -->
+  <div class="intro-cta">
+    <a href="#">Open the graph</a>
+  </div>
+
+  <!-- Skip hint -->
+  <span class="skip-hint" id="skipHint">Click to skip</span>
+</div>
+
+<!-- End state (after intro) -->
+<div class="end-state" id="endState">
+  <div class="logo-end">
+    <svg viewBox="0 0 400 100" fill="none" width="280" height="70">
+      <g transform="translate(10,10)">
+        <path d="M0 40Q8 40 12 20Q16 0 24 0Q32 0 36 20L44 35Q48 40 52 30Q56 20 60 20Q64 20 68 30L72 38Q76 42 80 35L84 28Q86 25 88 28L92 40" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M92 40L100 32L110 8" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        <path d="M104 14L110 8L116 14" stroke="#00E5FF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </g>
+      <text x="160" y="62" font-family="'JetBrains Mono',monospace" font-weight="300" font-size="42" letter-spacing="6" fill="#E8E6E1">VEKTRA</text>
+    </svg>
+  </div>
+  <p>System ready. Awaiting input.</p>
+  <div class="intro-cta" style="opacity:1; transform:none; animation:none;">
+    <a href="#">graph.init()</a>
+  </div>
+</div>
+
+<script>
+(function() {
+  var stage = document.getElementById('introStage');
+  var endState = document.getElementById('endState');
+  var skipHint = document.getElementById('skipHint');
+  var ended = false;
+
+  function endIntro() {
+    if (ended) return;
+    ended = true;
+    stage.style.opacity = '0';
+    stage.style.pointerEvents = 'none';
+    endState.classList.add('visible');
+  }
+
+  // Auto-end after animation
+  setTimeout(endIntro, 5200);
+
+  // Click to skip
+  document.addEventListener('click', function() {
+    if (!ended) endIntro();
+  });
+
+  // ESC to skip
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && !ended) endIntro();
+  });
+})();
+</script>
+</body>
+</html>

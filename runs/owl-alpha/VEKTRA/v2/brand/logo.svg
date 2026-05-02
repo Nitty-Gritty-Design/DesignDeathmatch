@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 120" fill="none" role="img" aria-label="VEKTRA logo">
+  <!--
+    VEKTRA Mark v2 — Lissajous Signal Form
+
+    The mark is derived from a Lissajous curve: x = sin(3t), y = sin(2t+π/4).
+    This is the figure you see on an oscilloscope in X-Y mode when two signals
+    at a 3:2 frequency ratio are fed into the horizontal and vertical axes.
+    The 3:2 ratio produces the iconic "bowtie" topology — a form that is
+    simultaneously mathematical and organic, precise and alive.
+
+    The curve is rendered as a single continuous stroke with varying opacity:
+    the leading edge is bright (the signal is "here"), the trailing edge fades
+    (the signal was "there"). This creates a sense of motion and time — the
+    mark is not a static shape, it is a signal caught mid-oscillation.
+
+    The logotype uses JetBrains Mono at weight 300 with +0.18em tracking.
+    The mark sits to the left, vertically centered with the logotype's x-height.
+  -->
+
+  <!-- Glow layer (subtle ambient light behind the mark) -->
+  <g opacity="0.12" filter="url(#markGlow)">
+    <path d="
+      M 50 60
+      C 50 35, 75 15, 90 25
+      C 105 35, 105 65, 90 80
+      C 75 95, 50 95, 50 80
+      C 50 65, 70 55, 85 60
+      C 100 65, 100 85, 85 90
+      C 70 95, 55 80, 60 65
+      C 65 50, 85 45, 95 55
+    " fill="none" stroke="#00E5FF" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- Primary mark: Lissajous curve (3:2 ratio) -->
+  <path d="
+    M 50 60
+    C 50 35, 75 15, 90 25
+    C 105 35, 105 65, 90 80
+    C 75 95, 50 95, 50 80
+    C 50 65, 70 55, 85 60
+    C 100 65, 100 85, 85 90
+    C 70 95, 55 80, 60 65
+    C 65 50, 85 45, 95 55
+  " fill="none" stroke="#00E5FF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Signal dot: the "current position" of the signal -->
+  <circle cx="95" cy="55" r="3" fill="#00E5FF">
+    <animate attributeName="r" values="2.5;4;2.5" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- Logotype -->
+  <text x="145" y="70" font-family="'JetBrains Mono', monospace" font-weight="300" font-size="48" letter-spacing="10" fill="#EDEAE5">VEKTRA</text>
+
+  <!-- Glow filter definition -->
+  <defs>
+    <filter id="markGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+</svg>

@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VEKTRA v2 — Logo Animation</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0A0A0C;display:flex;align-items:center;justify-content:center;min-height:100vh;font-family:'JetBrains Mono',monospace;overflow:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 41px),repeating-linear-gradient(90deg,transparent,transparent 40px,rgba(255,255,255,0.012) 40px,rgba(255,255,255,0.012) 41px);pointer-events:none}
+
+.stage{display:flex;flex-direction:column;align-items:center;gap:52px}
+.mark-area{position:relative;width:80px;height:80px;display:flex;align-items:center;justify-content:center}
+
+/* Glow ring — expands on completion */
+.glow-ring{position:absolute;inset:-16px;border-radius:50%;background:radial-gradient(circle,rgba(232,255,71,0) 40%,transparent 70%);opacity:0;animation:ring-bloom 600ms cubic-bezier(0.19,1,0.22,1) 2400ms both}
+@keyframes ring-bloom{to{background:radial-gradient(circle,rgba(232,255,71,0.28) 20%,transparent 70%);opacity:1}}
+
+/* SVG mark paths — drawn via stroke-dashoffset */
+.mark-svg{overflow:visible}
+
+/* Scope line — horizontal baseline, appears first */
+#scope-line{
+  stroke-dasharray:60;
+  stroke-dashoffset:60;
+  animation:draw 300ms cubic-bezier(0.87,0,0.13,1) 80ms both;
+}
+
+/* Left arm — rising */
+#arm-left{
+  stroke-dasharray:44;
+  stroke-dashoffset:44;
+  animation:draw 360ms cubic-bezier(0.16,1,0.3,1) 320ms both;
+}
+
+/* Right arm — falling, delayed */
+#arm-right{
+  stroke-dasharray:33;
+  stroke-dashoffset:33;
+  animation:draw 280ms cubic-bezier(0.16,1,0.3,1) 580ms both;
+}
+
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* Apex dot — pops in after arms complete */
+#apex-dot{
+  r:0;
+  opacity:0;
+  animation:dot-pop 200ms cubic-bezier(0.34,1.56,0.64,1) 820ms both;
+}
+@keyframes dot-pop{
+  0%{r:0;opacity:0}
+  60%{r:6px;opacity:1}
+  100%{r:4px;opacity:1}
+}
+
+/* Base dots */
+#base-left,#base-right{
+  r:0;opacity:0;
+  animation:base-in 160ms ease 920ms both;
+}
+@keyframes base-in{to{r:2px;opacity:0.4}}
+
+/* Apex glow */
+#apex-glow{
+  r:0;opacity:0;
+  animation:glow-pop 500ms cubic-bezier(0.19,1,0.22,1) 820ms both;
+}
+@keyframes glow-pop{to{r:20px;opacity:1}}
+
+/* Logotype row */
+.logotype-row{display:flex;align-items:baseline;gap:20px}
+
+/* Main wordmark */
+.wordmark{
+  display:flex;
+  letter-spacing:5px;
+}
+.wm-char{
+  font-size:44px;
+  font-weight:700;
+  color:#EDEFF2;
+  display:inline-block;
+  opacity:0;
+  transform:translateY(14px) scaleY(0.8);
+  transform-origin:bottom;
+}
+.wm-char:nth-child(1){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1000ms both}
+.wm-char:nth-child(2){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1048ms both}
+.wm-char:nth-child(3){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1096ms both}
+.wm-char:nth-child(4){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1144ms both}
+.wm-char:nth-child(5){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1192ms both}
+.wm-char:nth-child(6){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1240ms both}
+
+@keyframes char-rise{
+  from{opacity:0;transform:translateY(14px) scaleY(0.8)}
+  to{opacity:1;transform:translateY(0) scaleY(1)}
+}
+
+/* Descriptor */
+.descriptor{
+  font-size:9px;
+  font-weight:400;
+  letter-spacing:0.2em;
+  text-transform:uppercase;
+  color:transparent;
+  white-space:nowrap;
+  animation:desc-in 500ms ease 1500ms both;
+}
+@keyframes desc-in{to{color:rgba(68,68,78,0.9)}}
+
+/* Final accent flush — all chars pulse to accent */
+.wm-char:nth-child(1){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1000ms both,char-accent 200ms ease 2100ms both}
+.wm-char:nth-child(2){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1048ms both,char-accent 200ms ease 2120ms both}
+.wm-char:nth-child(3){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1096ms both,char-accent 200ms ease 2140ms both}
+.wm-char:nth-child(4){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1144ms both,char-accent 200ms ease 2160ms both}
+.wm-char:nth-child(5){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1192ms both,char-accent 200ms ease 2180ms both}
+.wm-char:nth-child(6){animation:char-rise 300ms cubic-bezier(0.16,1,0.3,1) 1240ms both,char-accent 200ms ease 2200ms both}
+@keyframes char-accent{50%{color:#E8FF47}}
+
+/* System status line */
+.status-bar{
+  display:flex;align-items:center;gap:10px;
+  font-size:10px;color:rgba(232,255,71,0.4);letter-spacing:0.06em;
+  opacity:0;animation:status-in 300ms ease 2400ms both;
+}
+.status-bar::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:#E8FF47;animation:status-blink 1.4s ease 2700ms infinite}
+@keyframes status-blink{0%,100%{opacity:1}50%{opacity:0}}
+@keyframes status-in{to{opacity:1}}
+
+/* Replay */
+.replay-btn{position:fixed;bottom:28px;right:28px;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#E8FF47;background:transparent;border:1px solid rgba(232,255,71,0.25);padding:10px 18px;cursor:pointer;transition:all 140ms ease}
+.replay-btn:hover{background:rgba(232,255,71,0.08);border-color:rgba(232,255,71,0.5)}
+</style>
+</head>
+<body>
+<div class="stage">
+  <div class="mark-area">
+    <div class="glow-ring"></div>
+    <svg class="mark-svg" width="64" height="64" viewBox="0 0 56 56">
+      <defs>
+        <radialGradient id="apexGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#E8FF47" stop-opacity="0.4"/>
+          <stop offset="100%" stop-color="#E8FF47" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle id="apex-glow" cx="28" cy="10" fill="url(#apexGlow)"/>
+      <line id="scope-line" x1="2" y1="50" x2="54" y2="50" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.32"/>
+      <line id="arm-left" x1="6" y1="50" x2="28" y2="10" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round"/>
+      <line id="arm-right" x1="28" y1="10" x2="50" y2="50" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+      <circle id="base-left" cx="6" cy="50" fill="#E8FF47"/>
+      <circle id="base-right" cx="50" cy="50" fill="#E8FF47"/>
+      <circle id="apex-dot" cx="28" cy="10" fill="#E8FF47"/>
+    </svg>
+  </div>
+
+  <div class="logotype-row">
+    <div class="wordmark" aria-label="VEKTRA">
+      <span class="wm-char">V</span><span class="wm-char">E</span><span class="wm-char">K</span><span class="wm-char">T</span><span class="wm-char">R</span><span class="wm-char">A</span>
+    </div>
+    <span class="descriptor">generative instruments</span>
+  </div>
+
+  <div class="status-bar">patch environment initialized · v0.9.1</div>
+</div>
+
+<button class="replay-btn" onclick="replay()">↺ replay</button>
+<script>
+function replay(){
+  const s=document.querySelector('.stage');
+  const c=s.cloneNode(true);
+  s.parentNode.replaceChild(c,s);
+}
+</script>
+</body>
+</html>

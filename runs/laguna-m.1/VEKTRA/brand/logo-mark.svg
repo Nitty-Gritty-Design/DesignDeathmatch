@@ -1,0 +1,20 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+  <defs>
+    <style>
+      .mark { fill: none; stroke: var(--color-accent, #ff8c00); stroke-width: 2; }
+    </style>
+  </defs>
+  <!-- Mark: 2x2 grid with intersecting lines, simplified for small size -->
+  <g transform="translate(5, 5)">
+    <!-- Top-left: rising waveform angle -->
+    <path class="mark" d="M 0 20 L 15 5"/>
+    <!-- Top-right: descending vector -->
+    <path class="mark" d="M 25 5 L 40 20"/>
+    <!-- Bottom-left: sustained signal -->
+    <path class="mark" d="M 0 35 L 15 35"/>
+    <!-- Bottom-right: connecting element -->
+    <path class="mark" d="M 25 35 L 40 20"/>
+    <!-- Central intersection -->
+    <circle cx="20" cy="20" r="2" fill="var(--color-accent, #ff8c00)"/>
+  </g>
+</svg>

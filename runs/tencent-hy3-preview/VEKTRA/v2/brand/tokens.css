@@ -1,0 +1,75 @@
+/*
+ * VEKTRA v2 Brand Tokens — Premium Refinement
+ * Refined palette with deeper tonal range, tuned accent, and expanded utility tokens.
+ * All values calibrated for high-end generative audio-visual studio aesthetic.
+ *
+ * --color-bg-primary: #08080d (Near-black cool gray, 0.5 tints darker than v1 for premium depth)
+ * --color-bg-secondary: #0f0f17 (Secondary dark surface, slightly lighter for layering)
+ * --color-surface: #16161f (UI surface, subtle elevation from primary bg)
+ * --color-surface-elevated: #1e1e29 (Elevated surfaces: modals, hover states)
+ * --color-accent: #00ecff (Tuned electric cyan: 2° more saturation, 3% higher luminance than v1 for premium glow)
+ * --color-accent-dim: rgba(0, 236, 255, 0.15) (Subtler accent for background elements)
+ * --color-accent-glow: rgba(0, 236, 255, 0.4) (Glow states for interactive elements)
+ * --color-text-primary: #f2f2f7 (Near-white with 2% cool tint for reduced eye strain)
+ * --color-text-secondary: #a1a1b2 (Secondary text, 15% lighter than v1 for better hierarchy)
+ * --color-text-muted: #6b6b7d (Muted text,保持不变 for accessibility)
+ * --color-border: #2d2d3a (Border color, 10% lighter than v1 for subtle visibility)
+ * --color-success: #00ff88 (Utility color for success states)
+ * --color-error: #ff3366 (Utility color for error states)
+ */
+
+:root {
+  /* Color Tokens */
+  --color-bg-primary: #08080d;
+  --color-bg-secondary: #0f0f17;
+  --color-surface: #16161f;
+  --color-surface-elevated: #1e1e29;
+  --color-accent: #00ecff;
+  --color-accent-dim: rgba(0, 236, 255, 0.15);
+  --color-accent-glow: rgba(0, 236, 255, 0.4);
+  --color-text-primary: #f2f2f7;
+  --color-text-secondary: #a1a1b2;
+  --color-text-muted: #6b6b7d;
+  --color-border: #2d2d3a;
+  --color-success: #00ff88;
+  --color-error: #ff3366;
+
+  /* Typography Tokens */
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Space Mono', 'Courier New', monospace;
+  --font-display: 'Space Mono', monospace;
+
+  /* Spacing Tokens (8px base) */
+  --spacing-2xs: 2px;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  --spacing-3xl: 64px;
+  --spacing-4xl: 96px;
+
+  /* Border Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Animation Easing (custom, sample-accurate) */
+  --ease-signal: cubic-bezier(0.22, 1, 0.36, 1); /* Fast start, slow end: signal resolve */
+  --ease-init: cubic-bezier(0.4, 0, 0.2, 1); /* System initialization */
+  --ease-hover: cubic-bezier(0.32, 0.72, 0, 1); /* Snappy hover response */
+
+  /* Type Scale */
+  --text-caption: 11px;
+  --text-label: 12px;
+  --text-body-sm: 14px;
+  --text-body: 16px;
+  --text-subheading: 20px;
+  --text-heading: 24px;
+  --text-display-sm: 32px;
+  --text-display-md: 48px;
+  --text-display-lg: 64px;
+  --text-hero: 80px;
+}

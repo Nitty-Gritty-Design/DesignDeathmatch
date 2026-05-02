@@ -1,0 +1,97 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Style Guide v2</title>
+  <link href="style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg-primary: #050505;
+      --color-bg-secondary: #0a0a0a;
+      --color-surface: #121212;
+      --color-accent: #ff7a00;
+      --color-border: #1a1a1a;
+    }
+    
+    body { font-family: 'Inter', sans-serif; background: var(--color-bg-primary); color: #ececec; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+    section { margin-bottom: 4rem; }
+    h1 { font-size: 48px; margin-bottom: 2rem; }
+    h2 { font-size: 32px; margin-bottom: 1.5rem; }
+    
+    .swatch { display: inline-block; width: 60px; height: 60px; border-radius: 3px; margin-right: 1rem; vertical-align: middle; border: 1px solid var(--color-border); }
+    .color-row { margin-bottom: 1.5rem; padding: 1rem; background: var(--color-surface); }
+    .color-name { font-family: 'JetBrains Mono', monospace; font-size: 14px; }
+    .token-name { color: #8a8a8a; font-size: 12px; }
+    
+    .type-demo { margin-bottom: 2rem; padding: 1.5rem; background: var(--color-surface); }
+    .type-demo h1 { font-size: 80px; font-weight: 600; }
+    .mono-display { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--color-accent); }
+    
+    .logo-showcase { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 2rem; align-items: center; }
+    .logo-variant { text-align: center; padding: 1rem; }
+    
+    .component-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+    .component-demo { padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); }
+    
+    button { background: var(--color-accent); color: #050505; border: none; padding: 0.75rem 1.5rem; font-family: 'JetBrains Mono', monospace; cursor: pointer; transition: all 0.3s; }
+    button:hover { background: #ff9500; transform: translateY(-1px); box-shadow: 0 0 20px rgba(255, 122, 0, 0.4); }
+    input { background: var(--color-bg-secondary); border: 1px solid var(--color-border); color: #ececec; padding: 0.5rem; font-family: 'JetBrains Mono', monospace; }
+    .code-block { background: var(--color-bg-secondary); padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 14px; border-left: 2px solid var(--color-accent); }
+    .badge { display: inline-block; padding: 0.25rem 0.75rem; background: var(--color-accent); color: #050505; font-family: 'JetBrains Mono', monospace; font-size: 12px; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>VEKTRA Style Guide</h1>
+    
+    <section>
+      <h2>Color</h2>
+      <div class="color-row">
+        <span class="swatch" style="background: #050505;"></span>
+        <strong>--color-bg-primary</strong>
+        <span class="token-name">Deep obsidian</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #ff7a00;"></span>
+        <strong>--color-accent</strong>
+        <span class="token-name">Laser amber (595nm)</span>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Typography</h2>
+      <div class="type-demo">
+        <h1>Display Huge</h1>
+        <p class="mono-display">Mono at display size</p>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Logo</h2>
+      <div class="logo-showcase">
+        <div class="logo-variant">
+          <img src="../brand/logo.svg" alt="VEKTRA Logo" width="200">
+          <p>Full lockup</p>
+        </div>
+        <div class="logo-variant">
+          <img src="../brand/logo-mark.svg" alt="VEKTRA Mark" width="60">
+          <p>Mark only</p>
+        </div>
+      </div>
+    </section>
+    
+    <section>
+      <h2>Components</h2>
+      <div class="component-grid">
+        <div class="component-demo"><button>Default</button></div>
+        <div class="component-demo"><span class="badge">generative</span></div>
+      </div>
+    </section>
+  </div>
+</body>
+</html>

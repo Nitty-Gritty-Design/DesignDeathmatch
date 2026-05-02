@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 64 32">
+  <style>
+    .mark { fill: none; stroke: #00e5ff; stroke-width: 3; stroke-linecap: round; }
+  </style>
+  <g class="mark">
+    <path d="M0,16 C8,8 8,24 16,16 C24,8 24,24 32,16 C40,8 40,24 48,16" />
+    <path d="M48,16 L64,8" />
+    <path d="M64,8 L58,10 L58,6 Z" />
+  </g>
+</svg>

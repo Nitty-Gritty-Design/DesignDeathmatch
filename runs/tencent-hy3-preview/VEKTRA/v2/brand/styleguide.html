@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA v2 — Premium Brand Style Guide</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    @import url('tokens.css');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-sans); background: var(--color-bg-primary); color: var(--color-text-primary); line-height:1.6; }
+    .container { max-width:1440px; margin:0 auto; padding: var(--spacing-4xl) var(--spacing-xl); }
+    h1 { font-family: var(--font-display); font-size: var(--text-hero); margin-bottom: var(--spacing-2xl); letter-spacing: -0.06em; }
+    h2 { font-family: var(--font-display); font-size: var(--text-display-sm); margin: var(--spacing-3xl) 0 var(--spacing-lg); border-bottom:1px solid var(--color-border); padding-bottom: var(--spacing-sm); letter-spacing: -0.03em; }
+    h3 { font-family: var(--font-display); font-size: var(--text-display-sm); margin: var(--spacing-lg) 0 var(--spacing-sm); }
+
+    /* Color swatches */
+    .swatch-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:var(--spacing-md); margin-bottom: var(--spacing-2xl); }
+    .swatch { padding: var(--spacing-md); border:1px solid var(--color-border); border-radius: var(--radius-md); transition: transform 0.2s var(--ease-hover), border-color 0.2s var(--ease-hover); }
+    .swatch:hover { transform: translateY(-4px); border-color: var(--color-accent); }
+    .swatch-preview { width:100%; height:100px; border-radius: var(--radius-sm); margin-bottom: var(--spacing-sm); }
+    .swatch-label { font-family: var(--font-mono); font-size: var(--text-label); margin-bottom:2px; letter-spacing: -0.02em; }
+    .swatch-value { font-size: var(--text-caption); color:var(--color-text-secondary); line-height:1.4; }
+
+    /* Typography */
+    .type-demo { margin: var(--spacing-md) 0; padding: var(--spacing-md); background: var(--color-surface); border-radius: var(--radius-md); }
+    .type-label { font-size: var(--text-caption); color:var(--color-text-muted); font-family: var(--font-mono); margin-bottom: var(--spacing-xs); }
+
+    /* Logos */
+    .logo-grid { display:flex; gap:var(--spacing-xl); align-items:center; flex-wrap:wrap; margin-bottom: var(--spacing-2xl); }
+    .logo-item { padding: var(--spacing-md); border:1px solid var(--color-border); border-radius: var(--radius-md); transition: border-color 0.2s var(--ease-hover); }
+    .logo-item:hover { border-color: var(--color-accent); }
+    .replay-btn { padding:var(--spacing-sm) var(--spacing-md); background:var(--color-accent); color:var(--color-bg-primary); border:none; border-radius:var(--radius-sm); cursor:pointer; font-weight:600; margin-top:var(--spacing-sm); font-size: var(--text-label); transition: opacity 0.2s var(--ease-hover); }
+    .replay-btn:hover { opacity:0.9; }
+
+    /* Components */
+    .component-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(320px, 1fr)); gap:var(--spacing-lg); margin-bottom: var(--spacing-2xl); }
+    .component-item { padding: var(--spacing-lg); border:1px solid var(--color-border); border-radius: var(--radius-md); background: var(--color-surface); }
+    .btn { display:inline-block; padding:var(--spacing-sm) var(--spacing-md); border-radius:var(--radius-sm); font-family:var(--font-sans); font-weight:600; cursor:pointer; transition: all 0.2s var(--ease-hover); border:1px solid transparent; margin-right:var(--spacing-sm); margin-bottom:var(--spacing-sm); font-size: var(--text-body); letter-spacing: 0.01em; }
+    .btn-default { background:var(--color-accent); color:var(--color-bg-primary); border-color:var(--color-accent); }
+    .btn-default:hover { background:transparent; color:var(--color-accent); box-shadow: 0 0 16px var(--color-accent-glow); }
+    .btn-outline { background:transparent; border-color:var(--color-accent); color:var(--color-accent); }
+    .btn-outline:hover { background:var(--color-accent); color:var(--color-bg-primary); }
+    .btn-disabled { background:var(--color-border); color:var(--color-text-muted); cursor:not-allowed; }
+    .input { padding:var(--spacing-sm); background:var(--color-surface-elevated); border:1px solid var(--color-border); border-radius:var(--radius-sm); color:var(--color-text-primary); width:100%; margin-bottom:var(--spacing-sm); font-family: var(--font-mono); font-size: var(--text-body); }
+    .input:focus { outline:2px solid var(--color-accent); outline-offset:2px; }
+    .code-block { padding:var(--spacing-md); background:var(--color-surface-elevated); border:1px solid var(--color-border); border-radius:var(--radius-sm); font-family:var(--font-mono); font-size:var(--text-body-sm); overflow-x:auto; margin-bottom:var(--spacing-sm); line-height:1.5; }
+    .card-demo { padding:var(--spacing-md); background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-md); margin-bottom:var(--spacing-sm); }
+    .badge { display:inline-block; padding:2px var(--spacing-sm); background:var(--color-accent-dim); color:var(--color-accent); border-radius:var(--radius-sm); font-family:var(--font-mono); font-size:var(--text-caption); margin-right:var(--spacing-sm); letter-spacing: 0.02em; }
+
+    /* Motion */
+    .motion-demo { padding:var(--spacing-md); background:var(--color-surface); border:1px solid var(--color-border); border-radius:var(--radius-md); margin-bottom:var(--spacing-md); cursor:pointer; transition: all 0.3s cubic-bezier(0.32, 0.72, 0, 1); }
+    .motion-demo:hover { transform:translateX(20px); border-color:var(--color-accent); box-shadow: 0 4px 16px rgba(0,236,255,0.1); }
+
+    /* Voice */
+    .voice-box { padding:var(--spacing-lg); background:var(--color-surface); border-left:4px solid var(--color-accent); margin-bottom:var(--spacing-md); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>VEKTRA v2 Brand Style Guide</h1>
+
+    <!-- Color -->
+    <h2>1. Color</h2>
+    <div class="swatch-grid">
+      <div class="swatch">
+        <div class="swatch-preview" style="background:var(--color-bg-primary);"></div>
+        <div class="swatch-label">--color-bg-primary</div>
+        <div class="swatch-value">#08080d · Primary dark background<br>Near-black cool gray, premium depth</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-preview" style="background:var(--color-bg-secondary);"></div>
+        <div class="swatch-label">--color-bg-secondary</div>
+        <div class="swatch-value">#0f0f17 · Secondary dark surface<br>Layering for hierarchy</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-preview" style="background:var(--color-surface);"></div>
+        <div class="swatch-label">--color-surface</div>
+        <div class="swatch-value">#16161f · UI surface<br>Cards, modals, panes</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-preview" style="background:var(--color-accent);"></div>
+        <div class="swatch-label">--color-accent</div>
+        <div class="swatch-value">#00ecff · Tuned electric cyan<br>Signal, interactive states</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-preview" style="background:var(--color-text-primary);"></div>
+        <div class="swatch-label">--color-text-primary</div>
+        <div class="swatch-value">#f2f2f7 · Primary text<br>Near-white with cool tint</div>
+      </div>
+      <div class="swatch">
+        <div class="swatch-preview" style="background:var(--color-border);"></div>
+        <div class="swatch-label">--color-border</div>
+        <div class="swatch-value">#2d2d3a · Border color<br>Subtle UI separation</div>
+      </div>
+    </div>
+
+    <!-- Typography -->
+    <h2>2. Typography</h2>
+    <div class="type-demo">
+      <div class="type-label">Space Mono 80px (Hero) · Letter-spacing: -0.06em</div>
+      <div style="font-family:var(--font-display); font-size:var(--text-hero); font-weight:700; line-height:1.05; letter-spacing:-0.06em;">Signal. Motion. Code.</div>
+    </div>
+    <div class="type-demo">
+      <div class="type-label">Inter 16px (Body) · Line-height: 1.6</div>
+      <div style="font-family:var(--font-sans); font-size:var(--text-body); line-height:1.6;">VEKTRA collapses audio, visual, and logic into a single inspectable graph. No hidden time, no disconnected parameters.</div>
+    </div>
+    <div class="type-demo">
+      <div class="type-label">Space Mono 12px (Label) · Letter-spacing: 0.02em</div>
+      <div style="font-family:var(--font-mono); font-size:var(--text-label);">FREQUENCY: 440Hz · AMPLITUDE: 0.8 · STATUS: ACTIVE</div>
+    </div>
+
+    <!-- Logo -->
+    <h2>3. Logo</h2>
+    <div class="logo-grid">
+      <div class="logo-item">
+        <p style="font-size:var(--text-caption); color:var(--color-text-muted); margin-bottom:var(--spacing-sm);">Primary (Dark)</p>
+        <img src="logo.svg" alt="VEKTRA primary logo" width="280" height="40">
+      </div>
+      <div class="logo-item">
+        <p style="font-size:var(--text-caption); color:var(--color-text-muted); margin-bottom:var(--spacing-sm);">Light Background</p>
+        <img src="logo-light.svg" alt="VEKTRA light logo" width="280" height="40" style="background:#f5f5f0; padding:8px;">
+      </div>
+      <div class="logo-item">
+        <p style="font-size:var(--text-caption); color:var(--color-text-muted); margin-bottom:var(--spacing-sm);">Mark Only</p>
+        <img src="logo-mark.svg" alt="VEKTRA logo mark" width="40" height="40">
+      </div>
+    </div>
+    <div class="logo-item">
+      <p style="font-size:var(--text-caption); color:var(--color-text-muted); margin-bottom:var(--spacing-sm);">Animated Logo (3.2s, no loop)</p>
+      <iframe src="logo-animated.html" width="280" height="40" style="border:none;"></iframe>
+      <button class="replay-btn" onclick="this.previousElementSibling.src = this.previousElementSibling.src;">Replay Animation</button>
+    </div>
+
+    <!-- Components -->
+    <h2>4. Components</h2>
+    <div class="component-grid">
+      <div class="component-item">
+        <h3>Buttons</h3>
+        <div class="btn btn-default">Primary Button</div>
+        <div class="btn btn-outline">Secondary Button</div>
+        <div class="btn btn-disabled">Disabled Button</div>
+      </div>
+      <div class="component-item">
+        <h3>Text Input</h3>
+        <input type="text" class="input" placeholder="Enter frequency value...">
+        <input type="text" class="input" value="440" style="border-color:var(--color-accent);">
+      </div>
+      <div class="component-item">
+        <h3>Code Block</h3>
+        <div class="code-block">const patch = new VEKTRA.Graph();
+patch.addNode('sine', { freq: 440, amp: 0.8 });
+patch.connect('sine', 'output');
+// Signal flows immediately</div>
+      </div>
+      <div class="component-item">
+        <h3>Badge / Tag</h3>
+        <div class="badge">Signal</div>
+        <div class="badge">Live</div>
+        <div class="badge">Inspectable</div>
+        <div class="badge">Forkable</div>
+      </div>
+    </div>
+
+    <!-- Motion -->
+    <h2>5. Motion</h2>
+    <p style="color:var(--color-text-secondary); margin-bottom:var(--spacing-md); font-size:var(--text-body);">Timing curves: --ease-signal (cubic-bezier(0.22, 1, 0.36, 1)) for resolve, --ease-hover (cubic-bezier(0.32, 0.72, 0, 1)) for snappy interaction. Hover the box below:</p>
+    <div class="motion-demo">Hover me — custom easing, translateX, border-color, and box-shadow transition.</div>
+
+    <!-- Voice -->
+    <h2>6. Voice</h2>
+    <div class="voice-box">
+      <p style="font-style:italic; margin-bottom:var(--spacing-sm); font-size:var(--text-body);">"VEKTRA’s voice is calibrated for experts who value signal over noise. It is surgically precise, unapologetically technical, and unexpectedly poetic — the documentation of a system that thinks in frequencies."</p>
+      <p style="font-size:var(--text-caption); color:var(--color-text-muted);">Voice statement</p>
+    </div>
+    <div class="type-demo">
+      <div class="type-label">Copy example: Hero headline</div>
+      <div style="font-family:var(--font-display); font-size:var(--text-display-md); font-weight:700; letter-spacing:-0.04em;">Signal. Motion. Code. One unified graph.</div>
+    </div>
+  </div>
+</body>
+</html>

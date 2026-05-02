@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" width="280" height="48" role="img" aria-label="VEKTRA — light version">
+  <title>VEKTRA (light)</title>
+  <!--
+    VEKTRA Light Logo — optimized for light/white backgrounds
+    Mark: darkened chartreuse (#6B7A00) for legibility on light
+    Logotype: near-black (#111114)
+  -->
+  
+  <!-- Signal Vector Mark — dark accent for light bg -->
+  <polygon points="0,40 18,4 27,40" fill="#6B7A00"/>
+  <polygon points="21,40 30,8 40,40" fill="#6B7A00" opacity="0.82"/>
+  <rect x="0" y="38" width="40" height="2" fill="#6B7A00" opacity="0.4"/>
+  
+  <!-- Logotype — dark text -->
+  <text 
+    x="56" 
+    y="35" 
+    font-family="'JetBrains Mono', 'Courier New', monospace" 
+    font-size="26" 
+    font-weight="700" 
+    fill="#111114" 
+    letter-spacing="3"
+    dominant-baseline="auto">VEKTRA</text>
+</svg>

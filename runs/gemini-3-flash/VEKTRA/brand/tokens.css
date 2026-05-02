@@ -1,0 +1,71 @@
+/* 
+   VEKTRA BRAND TOKENS
+   Version: 1.0.0
+   Description: Core design tokens for the VEKTRA visual identity.
+   Aesthetic: Technical rigor meets generative soul.
+*/
+
+:root {
+    /* Colors */
+    --color-bg-primary: #0A0A0A;    /* Deep technical charcoal, not pure black */
+    --color-bg-secondary: #0E0E0E;  /* Subtle offset for depth */
+    --color-surface: #161616;       /* Component surfaces */
+    
+    /* The Accent: Signal Orange (#FF4D00)
+       Rationale: A high-visibility, industrial frequency that suggests
+       energy, warning, and precision. Used as the primary signal. */
+    --color-accent: #FF4D00;
+    --color-accent-dim: rgba(255, 77, 0, 0.15);
+    
+    /* Typography Colors */
+    --color-text-primary: #F5F5F5;   /* Off-white for reduced eye strain */
+    --color-text-secondary: #A1A1A1; /* Subdued labels and metadata */
+    --color-text-muted: #525252;    /* Tertiary info and inactive states */
+    
+    /* Borders & UI Elements */
+    --color-border: #262626;        /* Subtle structural lines */
+    --color-border-bright: #383838; /* Interactive borders */
+    
+    /* Typography Scale (Major Second: 1.125) */
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'Fira Code', monospace;
+    
+    --text-xs: 0.6875rem; /* 11px */
+    --text-sm: 0.8125rem; /* 13px */
+    --text-base: 1rem;    /* 16px */
+    --text-md: 1.25rem;   /* 20px */
+    --text-lg: 1.75rem;   /* 28px */
+    --text-xl: 3rem;      /* 48px */
+    --text-display: 5rem; /* 80px */
+    
+    /* Spacing (8px Grid) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+    --space-16: 4rem;
+    
+    /* Motion Constants */
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --duration-fast: 200ms;
+    --duration-base: 400ms;
+    --duration-slow: 800ms;
+}
+
+/* Light Mode Overrides */
+@media (prefers-color-scheme: light) {
+    :root {
+        --color-bg-primary: #F7F7F7;
+        --color-bg-secondary: #EFEFEF;
+        --color-surface: #FFFFFF;
+        --color-text-primary: #0A0A0A;
+        --color-text-secondary: #525252;
+        --color-text-muted: #8C8C8C;
+        --color-border: #DEDEDE;
+        --color-border-bright: #C0C0C0;
+        --color-accent-dim: rgba(255, 77, 0, 0.1);
+    }
+}

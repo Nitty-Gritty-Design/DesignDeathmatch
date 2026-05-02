@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Visualization</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../brand/tokens.css">
+  <style>
+    @import url('../brand/tokens.css');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-sans); background: var(--color-bg-primary); color: var(--color-text-primary); padding: var(--spacing-xl); }
+    .container { max-width: 1440px; margin:0 auto; }
+    h1 { font-family: var(--font-mono); font-size:40px; margin-bottom: var(--spacing-lg); }
+    .viz-container { background: var(--color-surface); border:1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--spacing-lg); margin-bottom: var(--spacing-lg); }
+    canvas { width:100%; height:400px; display:block; }
+    .tooltip { position:absolute; background: var(--color-bg-primary); border:1px solid var(--color-border); padding: var(--spacing-sm); font-family: var(--font-mono); font-size:12px; pointer-events:none; opacity:0; transition: opacity 0.2s; }
+    .controls { display:flex; gap:var(--spacing-md); margin-top: var(--spacing-md); }
+    .btn { padding: var(--spacing-sm) var(--spacing-md); background: var(--color-accent); color: var(--color-bg-primary); border:none; border-radius: var(--radius-sm); cursor:pointer; font-weight:600; transition: opacity 0.2s; }
+    .btn:hover { opacity:0.8; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Signal Spectrum Visualization</h1>
+    <p style="color:var(--color-text-secondary); margin-bottom:var(--spacing-xl);">Real-time simulation of VEKTRA's audio frequency spectrum. Hover bars for frequency values, click to pin a band.</p>
+    <div class="viz-container">
+      <canvas id="spectrum" width="1200" height="400"></canvas>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="pauseBtn">Pause</button>
+      <button class="btn" id="resetBtn">Reset Pin</button>
+    </div>
+  </div>
+
+  <script>
+    // Using Canvas API for 2D frequency spectrum — lightweight, performant, no library needed
+    const canvas = document.getElementById('spectrum');
+    const ctx = canvas.getContext('2d');
+    const tooltip = document.getElementById('tooltip');
+    const pauseBtn = document.getElementById('pauseBtn');
+    const resetBtn = document.getElementById('resetBtn');
+
+    const BINS = 128;
+    let frequencies = new Array(BINS).fill(0);
+    let pinnedBin = null;
+    let paused = false;
+
+    // Generate simulated frequency data (plausible audio spectrum: higher energy in low frequencies)
+    function generateFrequencies() {
+      if (paused) return;
+      frequencies = frequencies.map((_, i) => {
+        const base = i < 20 ? 200 : i < 60 ? 100 : 40; // Low freq higher energy
+        return Math.min(255, base + Math.random() * 60 - 30);
+      });
+    }
+
+    // Draw spectrum
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const barWidth = canvas.width / BINS;
+      const maxHeight = canvas.height - 40;
+
+      frequencies.forEach((val, i) => {
+        const height = (val / 255) * maxHeight;
+        const x = i * barWidth;
+        const y = canvas.height - height;
+
+        // Use accent color, pinned bin is brighter
+        ctx.fillStyle = i === pinnedBin ? 'var(--color-accent)' : 'rgba(0, 229, 255, 0.7)';
+        ctx.fillRect(x, y, barWidth - 1, height);
+
+        // Draw frequency labels for every 16th bin
+        if (i % 16 === 0) {
+          ctx.fillStyle = 'var(--color-text-secondary)';
+          ctx.font = '12px var(--font-mono)';
+          ctx.fillText(`${i * 172}Hz`, x, canvas.height - 10);
+        }
+      });
+
+      // Draw pinned band indicator
+      if (pinnedBin !== null) {
+        ctx.strokeStyle = 'var(--color-text-primary)';
+        ctx.setLineDash([4, 4]);
+        ctx.beginPath();
+        ctx.moveTo(pinnedBin * barWidth, 0);
+        ctx.lineTo(pinnedBin * barWidth, canvas.height);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      }
+    }
+
+    // Animation loop
+    function animate() {
+      generateFrequencies();
+      draw();
+      requestAnimationFrame(animate);
+    }
+
+    // Tooltip on hover
+    canvas.addEventListener('mousemove', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const bin = Math.floor(x / (canvas.width / BINS));
+      if (bin >= 0 && bin < BINS) {
+        tooltip.style.opacity = 1;
+        tooltip.style.left = `${e.clientX + 10}px`;
+        tooltip.style.top = `${e.clientY + 10}px`;
+        tooltip.textContent = `Freq: ${bin * 172}Hz | Value: ${frequencies[bin].toFixed(1)}`;
+      } else {
+        tooltip.style.opacity = 0;
+      }
+    });
+
+    canvas.addEventListener('mouseleave', () => { tooltip.style.opacity = 0; });
+
+    // Pin bin on click
+    canvas.addEventListener('click', (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      pinnedBin = Math.floor(x / (canvas.width / BINS));
+    });
+
+    // Controls
+    pauseBtn.addEventListener('click', () => { paused = !paused; pauseBtn.textContent = paused ? 'Resume' : 'Pause'; });
+    resetBtn.addEventListener('click', () => { pinnedBin = null; });
+
+    // Start animation
+    animate();
+  </script>
+</body>
+</html>

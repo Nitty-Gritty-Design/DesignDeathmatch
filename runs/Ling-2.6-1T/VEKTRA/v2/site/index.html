@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Generative Audio-Visual Instruments</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Generative Background Canvas -->
+  <canvas id="bg-canvas" aria-hidden="true"></canvas>
+  <canvas id="grid-canvas" aria-hidden="true"></canvas>
+  
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" aria-label="VEKTRA Home">
+        <svg width="36" height="36" viewBox="0 0 48 48" role="img">
+          <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 12 40 C 12 30, 20 26, 26 32 C 32 38, 40 32, 44 36" />
+        </svg>
+        <span class="nav-logo-text">VEKTRA</span>
+      </a>
+      
+      <div class="nav-links" id="nav-links">
+        <a href="#what-is" class="nav-link">What It Is</a>
+        <a href="#how-it-works" class="nav-link">How It Works</a>
+        <a href="#who-uses" class="nav-link">Who Uses It</a>
+        <a href="#visualization" class="nav-link">Visualization</a>
+      </div>
+      
+      <button class="btn btn-primary nav-cta" aria-label="Get started">Initialize</button>
+      
+      <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- Hero Section -->
+  <section class="hero" id="hero">
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        System Online
+      </div>
+      <h1 class="hero-title">
+        A software environment where sound, motion, and code converge as one living signal.
+      </h1>
+      <p class="hero-description">
+        VEKTRA treats time as an explicit, malleable parameter—every oscillator, envelope, and transform exists simultaneously as mathematics, visualization, and possibility. Edit running systems without interruption. Fork any state to explore parallel realities.
+      </p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-large">
+          <span class="btn-text">Initialize System</span>
+          <span class="btn-glow"></span>
+        </button>
+        <button class="btn btn-secondary btn-large">View Architecture</button>
+      </div>
+      <div class="hero-metrics">
+        <div class="metric">
+          <div class="metric-value">12</div>
+          <div class="metric-label">Active Parameters</div>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <div class="metric-value">∞</div>
+          <div class="metric-label">Possible States</div>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <div class="metric-value">44.1</div>
+          <div class="metric-label">kHz Sample Rate</div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" id="hero-visual" aria-hidden="true">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+  </section>
+  
+  <!-- What It Is -->
+  <section class="section" id="what-is">
+    <div class="container">
+      <h2 class="section-title">What It Is</h2>
+      <div class="section-content">
+        <p class="lead">
+          VEKTRA is not a DAW. It is not a creative suite. It is not a plugin. It is closer to a language—a way of thinking about time, signal, and form simultaneously.
+        </p>
+        <div class="content-grid">
+          <div class="content-block">
+            <div class="content-icon">
+              <svg width="24" height="24" viewBox="0 0 48 48" role="img" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 8 L 24 40 M 8 24 L 40 24 M 12 12 L 36 36 M 36 12 L 12 36" />
+              </svg>
+            </div>
+            <h3 class="content-title">Unified Signal Graph</h3>
+            <p class="content-desc">Nodes connect through a unified graph where audio, visual, and control signals flow bidirectionally. No separate tracks, no hidden layers.</p>
+          </div>
+          
+          <div class="content-block">
+            <div class="content-icon">
+              <svg width="24" height="24" viewBox="0 0 48 48" role="img" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-width="2" d="M 4 24 L 44 24 M 24 4 L 24 44 M 4 24 A 20 20 0 0 1 24 4 M 24 4 A 20 20 0 0 1 44 24" />
+              </svg>
+            </div>
+            <h3 class="content-title">Live Code Environment</h3>
+            <p class="content-desc">Edit running patches in real-time. Every change takes effect immediately without stopping the signal. Fork any state to explore alternatives.</p>
+          </div>
+          
+          <div class="content-block">
+            <div class="content-icon">
+              <svg width="24" height="24" viewBox="0 0 48 48" role="img" aria-hidden="true">
+                <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 8 L 24 40 M 8 24 L 40 24 M 24 8 C 32 8 38 14 38 24 C 38 34 32 40 24 40 C 16 40 10 34 10 24" />
+              </svg>
+            </div>
+            <h3 class="content-title">Parametric Time</h3>
+            <p class="content-desc">Time is a first-class parameter. Scrub, warp, and reverse any signal independently. Create non-linear compositions with explicit temporal relationships.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <!-- How It Works -->
+  <section class="section section-alt" id="how-it-works">
+    <div class="container">
+      <h2 class="section-title">How It Works</h2>
+      <div class="features-grid">
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 8 L 24 40 M 8 24 L 40 24 M 16 16 L 32 32 M 32 16 L 16 32" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Signal Graph Architecture</h3>
+          <p class="feature-desc">Nodes connect through a unified graph where audio, visual, and control signals flow bidirectionally. No separate tracks, no hidden layers.</p>
+        </article>
+        
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 6 24 L 18 12 L 30 24 L 42 12" />
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 6 36 L 18 24 L 30 36 L 42 24" opacity="0.5" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Live Code Environment</h3>
+          <p class="feature-desc">Edit running patches in real-time. Every change takes effect immediately without stopping the signal. Fork any state to explore alternatives.</p>
+        </article>
+        
+        <article class="feature-card">
+          <div class="feature-icon">
+            <svg width="40" height="40" viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 8 L 24 40 M 8 24 L 40 24 M 24 8 C 32 8 38 14 38 24 C 38 34 32 40 24 40 C 16 40 10 34 10 24" />
+            </svg>
+          </div>
+          <h3 class="feature-title">Parametric Time</h3>
+          <p class="feature-desc">Time is a first-class parameter. Scrub, warp, and reverse any signal independently. Create non-linear compositions with explicit temporal relationships.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Who Uses It -->
+  <section class="section" id="who-uses">
+    <div class="container">
+      <h2 class="section-title">Who Uses It</h2>
+      <div class="users-grid">
+        <article class="user-card">
+          <div class="user-icon">
+            <svg width="32" height="32" viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 8 C 16 8, 10 14, 10 22 C 10 30, 16 36, 24 36 C 32 36, 38 30, 38 22 C 38 14, 32 8, 24 8 Z" />
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 8 L 24 40 M 8 24 L 40 24" />
+            </svg>
+          </div>
+          <h3 class="user-name">Experimental Electronic Musicians</h3>
+          <p class="user-desc">Composers building custom performance systems that blur the line between instrument, score, and recording.</p>
+        </article>
+        
+        <article class="user-card">
+          <div class="user-icon">
+            <svg width="32" height="32" viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 12 12 L 36 12 L 36 36 L 12 36 Z" />
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 24 12 L 24 36 M 12 24 L 36 24" opacity="0.5" />
+              <circle cx="24" cy="24" r="6" fill="none" stroke="currentColor" stroke-width="2" />
+            </svg>
+          </div>
+          <h3 class="user-name">Installation Artists</h3>
+          <p class="user-desc">Artists creating responsive environments where sound and image emerge from shared generative processes.</p>
+        </article>
+        
+        <article class="user-card">
+          <div class="user-icon">
+            <svg width="32" height="32" viewBox="0 0 48 48" role="img" aria-hidden="true">
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 12 24 L 20 16 L 28 24 L 36 16" />
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 16 32 L 24 24 L 32 32" />
+              <path fill="none" stroke="currentColor" stroke-width="2" d="M 20 36 L 28 28" />
+            </svg>
+          </div>
+          <h3 class="user-name">Interaction Designers</h3>
+          <p class="user-desc">Designers at studios like onformative and Universal Everything prototyping behaviors that feel alive.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Data Visualization -->
+  <section class="section section-alt" id="visualization">
+    <div class="container">
+      <h2 class="section-title">Signal Visualization</h2>
+      <div class="viz-container">
+        <canvas id="signal-viz" aria-label="Interactive signal visualization showing frequency spectrum"></canvas>
+        <div class="viz-controls">
+          <label class="control-group">
+            <span class="control-label">Frequency</span>
+            <input type="range" id="freq-slider" min="1" max="20" value="5" class="slider">
+            <span class="control-value" id="freq-value">5 Hz</span>
+          </label>
+          <label class="control-group">
+            <span class="control-label">Amplitude</span>
+            <input type="range" id="amp-slider" min="10" max="100" value="50" class="slider">
+            <span class="control-value" id="amp-value">50%</span>
+          </label>
+          <label class="control-group">
+            <span class="control-label">Complexity</span>
+            <input type="range" id="comp-slider" min="1" max="5" value="3" class="slider">
+            <span class="control-value" id="comp-value">3</span>
+          </label>
+          <button class="btn btn-small" id="viz-reset">Reset</button>
+        </div>
+        <p class="viz-note">This visualization shows a simulated frequency spectrum based on VEKTRA's signal processing architecture. Hover over the graph to inspect individual frequency components.</p>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <a href="#" class="footer-logo">
+            <svg width="28" height="28" viewBox="0 0 48 48" role="img">
+              <path fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d="M 12 40 C 12 30, 20 26, 26 32 C 32 38, 40 32, 44 36" />
+            </svg>
+          </a>
+          <p class="footer-copy">Building tools for those who make things that behave.</p>
+        </div>
+        <div class="footer-links">
+          <a href="#" class="footer-link">Documentation</a>
+          <a href="#" class="footer-link">Examples</a>
+          <a href="#" class="footer-link">API Reference</a>
+          <a href="#" class="footer-link">System Status</a>
+        </div>
+      </div>
+      <div class="footer-meta">
+        <address class="footer-address">
+          VEKTRA Studio GmbH<br>
+          Oranienstraße 174<br>
+          10999 Berlin, Germany
+        </address>
+        <p class="footer-copyright">© 2026 VEKTRA Studio GmbH. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+  
+  <script src="main.js"></script>
+</body>
+</html>

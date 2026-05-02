@@ -1,0 +1,169 @@
+<!--
+  VEKTRA Generative Background v2 — "Signal Field"
+  Full-viewport Canvas: Lissajous-based signal field with Perlin-like noise,
+  spring-physics particles, flowing signal trails, and multi-layered mouse interaction.
+  Vanilla JS Canvas API, requestAnimationFrame, 60fps target.
+  Uses brand tokens: accent cyan #00E5FF, void #060608.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Signal Field v2</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 100%; height: 100%; overflow: hidden; background: #060608; }
+  canvas { display: block; width: 100%; height: 100%; }
+  .hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #4E4E5A;
+    letter-spacing: 0.15em; text-transform: uppercase; pointer-events: none;
+    animation: hintFade 4s ease-in-out infinite;
+  }
+  @keyframes hintFade { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.7; } }
+</style>
+</head>
+<body>
+<canvas id="signalCanvas"></canvas>
+<span class="hint">Move through the signal field</span>
+<script>
+(function() {
+  'use strict';
+  var C = document.getElementById('signalCanvas').getContext('2d');
+  var w, h, dpr, t = 0;
+  var mx = 0.5, my = 0.5, tmx = 0.5, tmy = 0.5;
+
+  // Noise
+  function N(x, y, z) {
+    return Math.sin(x*.01+z)*Math.cos(y*.013+z*.7) +
+           Math.sin(x*.023-z*.5)*Math.cos(y*.017+z*.3)*.5 +
+           Math.sin((x+y)*.008+z*.2)*.25;
+  }
+
+  // Waves
+  var W = [];
+  for (var i = 0; i < 10; i++) W.push({
+    a: 10 + Math.random()*25, f: .001 + Math.random()*.004,
+    s: .002 + Math.random()*.006, p: Math.random()*6.28,
+    y: .08 + i*.082, o: .01 + Math.random()*.035,
+    h: 1.5 + Math.random()*2, ns: .3 + Math.random()*1.2
+  });
+
+  // Particles (spring physics)
+  var P = [];
+  for (var p = 0; p < 65; p++) {
+    var x = Math.random(), y = Math.random();
+    P.push({ x: x, y: y, ox: x, oy: y, vx: 0, vy: 0,
+      r: .5 + Math.random()*1.2, pu: Math.random()*6.28,
+      ps: .006 + Math.random()*.012, k: .0003 + Math.random()*.0008, d: .98 + Math.random()*.015 });
+  }
+
+  // Flow particles
+  var F = [];
+  for (var f = 0; f < 20; f++) F.push({
+    x: Math.random(), y: .05 + Math.random()*.9,
+    sp: .0003 + Math.random()*.001, sz: .8 + Math.random()*1.5, op: .15 + Math.random()*.35
+  });
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio||1, 2);
+    w = window.innerWidth; h = window.innerHeight;
+    C.canvas.width = w*dpr; C.canvas.height = h*dpr;
+    C.canvas.style.width = w+'px'; C.canvas.style.height = h+'px';
+    C.setTransform(dpr,0,0,dpr,0,0);
+  }
+  window.addEventListener('resize', resize); resize();
+
+  document.addEventListener('mousemove', function(e) { tmx = e.clientX/w; tmy = e.clientY/h; });
+  document.addEventListener('touchmove', function(e) {
+    if(e.touches.length>0){ tmx=e.touches[0].clientX/w; tmy=e.touches[0].clientY/h; }
+  }, {passive:true});
+
+  function lerp(a,b,t){return a+(b-a)*t;}
+
+  function draw() {
+    t++; mx=lerp(mx,tmx,.02); my=lerp(my,tmy,.02);
+    C.clearRect(0,0,w,h);
+
+    // Grid (very subtle)
+    C.strokeStyle='rgba(30,30,36,0.08)'; C.lineWidth=.3;
+    for(var g=0;g<15;g++){
+      var gx=(g/15)*w; C.beginPath(); C.moveTo(gx,0); C.lineTo(gx,h); C.stroke();
+      var gy=(g/15)*h; C.beginPath(); C.moveTo(0,gy); C.lineTo(w,gy); C.stroke();
+    }
+
+    // Waves
+    W.forEach(function(wv){
+      C.beginPath(); C.strokeStyle='rgba(0,229,255,'+wv.o+')'; C.lineWidth=.7;
+      for(var x=0;x<=w;x+=3){
+        var by=h*wv.y;
+        var y=by+
+          Math.sin(x*wv.f+t*wv.s+wv.p)*wv.a+
+          Math.sin(x*wv.f*wv.h+t*wv.s*.5)*(wv.a*.25)+
+          N(x,by,t*wv.s*8)*wv.a*wv.ns;
+        var dx=x/w-mx, dy=by/h-my, d=Math.sqrt(dx*dx*3+dy*dy);
+        y+=Math.max(0,1-d*1.3)*30*Math.sin(t*.015+x*10);
+        x===0?C.moveTo(x,y):C.lineTo(x,y);
+      }
+      C.stroke();
+    });
+
+    // Flow particles with trails
+    F.forEach(function(fp){
+      fp.x+=fp.sp; if(fp.x>1.05)fp.x=-.05;
+      var fpx=fp.x*w, fpy=h*fp.y+Math.sin(fpx*.003+t*.01)*18;
+      for(var tr=0;tr<8;tr++){
+        var tx=(fp.x-fp.sp*tr*10)*w, ty=h*fp.y+Math.sin(tx*.003+t*.01)*18;
+        var ta=fp.op*(1-tr*.12);
+        C.beginPath(); C.arc(tx,ty,fp.sz*(1-tr*.1),0,6.28);
+        C.fillStyle='rgba(0,229,255,'+ta+')'; C.fill();
+      }
+    });
+
+    // Spring particles
+    P.forEach(function(pt){
+      var sx=pt.ox-pt.x, sy=pt.oy-pt.y;
+      pt.vx+=sx*pt.k; pt.vy+=sy*pt.k;
+      pt.vx+=(Math.random()-.5)*.00002; pt.vy+=(Math.random()-.5)*.00002;
+      var mdx=pt.x-mx, mdy=pt.y-my, md=Math.sqrt(mdx*mdx+mdy*mdy);
+      if(md<.22){var f=(.22-md)*.00025;pt.vx+=mdx*f;pt.vy+=mdy*f;}
+      pt.vx*=pt.d; pt.vy*=pt.d;
+      pt.x+=pt.vx; pt.y+=pt.vy;
+      if(pt.x<0){pt.x=0;pt.vx*=-.4;} if(pt.x>1){pt.x=1;pt.vx*=-.4;}
+      if(pt.y<0){pt.y=0;pt.vy*=-.4;} if(pt.y>1){pt.y=1;pt.vy*=-.4;}
+      pt.pu+=pt.ps;
+      C.beginPath(); C.arc(pt.x*w,pt.y*h,pt.r+Math.sin(pt.pu)*.25,0,6.28);
+      C.fillStyle='rgba(0,229,255,0.25)'; C.fill();
+    });
+
+    // Connections
+    C.lineWidth=.35;
+    for(var i=0;i<P.length;i++) for(var j=i+1;j<P.length;j++){
+      var dx=P[i].x-P[j].x, dy=P[i].y-P[j].y, d=Math.sqrt(dx*dx+dy*dy);
+      if(d<.09){
+        C.beginPath(); C.strokeStyle='rgba(0,229,255,'+(1-d/.09)*.1+')';
+        C.moveTo(P[i].x*w,P[i].y*h); C.lineTo(P[j].x*w,P[j].y*h); C.stroke();
+      }
+    }
+
+    // Mouse glow (multi-layered)
+    var g1=C.createRadialGradient(mx*w,my*h,0,mx*w,my*h,200);
+    g1.addColorStop(0,'rgba(0,229,255,0.03)'); g1.addColorStop(1,'rgba(0,229,255,0)');
+    C.fillStyle=g1; C.fillRect(0,0,w,h);
+
+    // Vignette
+    var vig=C.createRadialGradient(w/2,h/2,w*.2,w/2,h/2,w*.8);
+    vig.addColorStop(0,'rgba(0,0,0,0)'); vig.addColorStop(1,'rgba(0,0,0,0.5)');
+    C.fillStyle=vig; C.fillRect(0,0,w,h);
+
+    // Scanline
+    var sy=(t*.25)%h; C.fillStyle='rgba(0,229,255,0.004)'; C.fillRect(0,sy,w,1);
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,19 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 70" width="240" height="70">
+  <defs>
+    <style>
+      .mark { fill: none; stroke: var(--color-accent, #ff7a00); stroke-width: 2.5; stroke-linecap: round; }
+      .logotype { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 32px; letter-spacing: -0.04em; fill: var(--color-text-primary, #ececec); }
+    </style>
+  </defs>
+  <!-- Mark: Interlocking triangles forming signal vector -->
+  <g transform="translate(28, 35)">
+    <!-- Top triangle (frequency domain) -->
+    <path class="mark" d="M 0 0 L 15 -26 L 30 0"/>
+    <!-- Bottom triangle (time domain, inverted) -->
+    <path class="mark" d="M 0 2 L 15 28 L 30 2"/>
+    <!-- Center connection -->
+    <path class="mark" d="M 15 -26 L 15 28"/>
+  </g>
+  <!-- Logotype -->
+  <text x="76" y="46" class="logotype">VEKTRA</text>
+</svg>

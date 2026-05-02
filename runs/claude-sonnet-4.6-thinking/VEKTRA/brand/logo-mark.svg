@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" role="img" aria-label="VEKTRA mark">
+  <title>VEKTRA mark</title>
+  <!--
+    VEKTRA Standalone Mark — signal-vector chevron
+    Used at small sizes: favicon, loading states, app icon
+    Centered in 48×48 for icon use; mark is 40×40 centered
+    The asymmetry (left wider, right narrower) distinguishes it from a play button
+  -->
+  
+  <!-- Background (optional — remove if using on colored bg) -->
+  <!-- <rect width="48" height="48" fill="#0C0C0E"/> -->
+  
+  <!-- Mark, centered: left origin at x=4 -->
+  <!-- Left triangle — wider, steeper -->
+  <polygon points="4,44 22,4 31,44" fill="#E8FF47"/>
+  <!-- Right triangle — narrower, slightly shallower peak -->
+  <polygon points="25,44 34,9 44,44" fill="#E8FF47" opacity="0.82"/>
+  <!-- Base connector bar -->
+  <rect x="4" y="42" width="40" height="2" fill="#E8FF47" opacity="0.4"/>
+</svg>

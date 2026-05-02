@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VEKTRA Logo Animated</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&display=swap');
+    body {
+      background-color: #09090B;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      color: #FFFFFF;
+    }
+    .logotype {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 20px;
+      font-weight: 700;
+      fill: #FFFFFF;
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: snapIn 0.1s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards;
+    }
+    .mark {
+      fill: #FF3300;
+      transform-origin: center;
+      animation: expandY 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .mark-1 { animation-delay: 0s; transform: scaleY(0); }
+    .mark-2 { animation-delay: 0.1s; transform: scaleY(0); }
+    .mark-3 { animation-delay: 0.2s; transform: scaleY(0); }
+    
+    @keyframes expandY {
+      0% { transform: scaleY(0); }
+      100% { transform: scaleY(1); }
+    }
+    @keyframes snapIn {
+      0% { opacity: 0; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="150" height="24" viewBox="0 0 150 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!-- Center the transforms by setting transform-origin to the vertical center (12px) -->
+    <rect class="mark mark-1" style="transform-origin: 50% 12px;" x="0" y="8" width="8" height="16" />
+    <rect class="mark mark-2" style="transform-origin: 50% 12px;" x="12" y="0" width="8" height="24" />
+    <rect class="mark mark-3" style="transform-origin: 50% 12px;" x="24" y="12" width="8" height="12" />
+    <text class="logotype" x="42" y="19">VEKTRA</text>
+  </svg>
+</body>
+</html>

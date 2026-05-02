@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA v2 — Signal Spectrum Visualization</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../brand/tokens.css">
+  <style>
+    @import url('../brand/tokens.css');
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family: var(--font-sans); background: var(--color-bg-primary); color: var(--color-text-primary); padding: var(--spacing-xl); }
+    .container { max-width: 1440px; margin:0 auto; }
+    h1 { font-family: var(--font-display); font-size: var(--text-display-sm); margin-bottom: var(--spacing-lg); letter-spacing: -0.03em; }
+    .subtitle { color: var(--color-text-secondary); margin-bottom: var(--spacing-2xl); font-size: var(--text-body); max-width: 700px; line-height: 1.6; }
+    .viz-container { background: var(--color-surface); border:1px solid var(--color-border); border-radius: var(--radius-md); padding: var(--spacing-lg); margin-bottom: var(--spacing-lg); position: relative; }
+    .tooltip { position: absolute; background: var(--color-bg-primary); border:1px solid var(--color-accent); padding: var(--spacing-sm); font-family: var(--font-mono); font-size: var(--text-label); pointer-events: none; opacity:0; transition: opacity 0.15s var(--ease-hover); border-radius: var(--radius-sm); box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
+    .controls { display:flex; gap:var(--spacing-md); margin-top: var(--spacing-md); flex-wrap:wrap; }
+    .btn { padding: var(--spacing-sm) var(--spacing-md); background: var(--color-accent); color: var(--color-bg-primary); border:none; border-radius: var(--radius-sm); cursor:pointer; font-weight:600; font-size: var(--text-label); transition: all 0.2s var(--ease-hover); letter-spacing: 0.02em; }
+    .btn:hover { opacity:0.9; box-shadow: 0 0 12px var(--color-accent-glow); }
+    .btn-outline { background: transparent; border:1px solid var(--color-accent); color: var(--color-accent); }
+    .axis-label { font-family: var(--font-mono); font-size: var(--text-caption); fill: var(--color-text-secondary); }
+    .peak-line { stroke: var(--color-error); stroke-width: 1; stroke-dasharray: 4 2; opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <!-- Using D3.js via CDN for sophisticated frequency spectrum visualization with axes, tooltips, and interactive zoom — more expressive than vanilla Canvas for complex data display -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.2/d3.min.js"></script>
+  <div class="container">
+    <h1>Signal Spectrum Visualization</h1>
+    <p class="subtitle">Real-time simulation of VEKTRA's audio frequency spectrum. Hover bars for frequency values, scroll to zoom, drag to pan, click to pin a band. Peak hold tracks maximum values.</p>
+    <div class="viz-container">
+      <svg id="spectrum" width="1200" height="500"></svg>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+    <div class="controls">
+      <button class="btn" id="pauseBtn">Pause</button>
+      <button class="btn btn-outline" id="resetBtn">Reset Pin</button>
+      <button class="btn btn-outline" id="resetPeakBtn">Reset Peak Hold</button>
+      <div style="margin-left:auto; color:var(--color-text-secondary); font-size:var(--text-label); display:flex; align-items:center;">Peak Hold: <span id="peakStatus" style="margin-left:4px; color:var(--color-error);">ON</span></div>
+    </div>
+  </div>
+
+  <script>
+    const width = 1200, height = 500;
+    const margin = { top: 20, right: 20, bottom: 40, left: 50 };
+    const innerWidth = width - margin.left - margin.right;
+    const innerHeight = height - margin.top - margin.bottom;
+    const BINS = 128;
+    let frequencies = new Array(BINS).fill(0);
+    let peakValues = new Array(BINS).fill(0);
+    let pinnedBin = null;
+    let paused = false;
+    let peakHold = true;
+
+    // Generate simulated frequency data (realistic audio spectrum)
+    function generateFrequencies() {
+      if (paused) return;
+      frequencies = frequencies.map((_, i) => {
+        const base = i < 16 ? 180 : i < 48 ? 100 : 40; // Low freq higher energy
+        const noise = (Math.random() - 0.5) * 60;
+        return Math.min(255, Math.max(0, base + noise));
+      });
+      // Update peak values
+      if (peakHold) {
+        peakValues = peakValues.map((peak, i) => Math.max(peak, frequencies[i]));
+      }
+    }
+
+    // Setup SVG
+    const svg = d3.select('#spectrum')
+      .attr('viewBox', `0 0 ${width} ${height}`)
+      .append('g')
+      .attr('transform', `translate(${margin.left}, ${margin.top})`);
+
+    // Scales
+    const xScale = d3.scaleLinear().domain([0, BINS]).range([0, innerWidth]);
+    const yScale = d3.scaleLinear().domain([0, 255]).range([innerHeight, 0]);
+    const freqScale = d3.scaleLinear().domain([0, BINS]).range([0, 22050]); // Nyquist 22050Hz
+
+    // Axes
+    const xAxis = d3.axisBottom(xScale).ticks(10).tickFormat(d => `${Math.round(freqScale(d))}Hz`);
+    const yAxis = d3.axisLeft(yScale).ticks(8);
+
+    svg.append('g').attr('class', 'x-axis').attr('transform', `translate(0, ${innerHeight})`).call(xAxis)
+      .selectAll('text').attr('class', 'axis-label');
+    svg.append('g').attr('class', 'y-axis').call(yAxis)
+      .selectAll('text').attr('class', 'axis-label');
+
+    // Axis labels
+    svg.append('text').attr('class', 'axis-label').attr('x', innerWidth/2).attr('y', innerHeight + 35).attr('text-anchor', 'middle').text('Frequency (Hz)');
+    svg.append('text').attr('class', 'axis-label').attr('transform', 'rotate(-90)').attr('x', -innerHeight/2).attr('y', -35).attr('text-anchor', 'middle').text('Amplitude (0-255)');
+
+    // Bars
+    const bars = svg.selectAll('.bar').data(frequencies).enter().append('rect')
+      .attr('class', 'bar')
+      .attr('x', (d,i) => xScale(i))
+      .attr('width', innerWidth / BINS - 1)
+      .attr('y', innerHeight)
+      .attr('height', 0)
+      .attr('fill', 'rgba(0, 236, 255, 0.7)');
+
+    // Peak lines
+    const peakLines = svg.selectAll('.peak').data(peakValues).enter().append('line')
+      .attr('class', 'peak-line')
+      .attr('x1', (d,i) => xScale(i))
+      .attr('x2', (d,i) => xScale(i) + innerWidth/BINS -1);
+
+    // Tooltip
+    const tooltip = d3.select('#tooltip');
+    svg.selectAll('.bar').on('mousemove', function(event, d) {
+        const bin = Math.floor((event.offsetX - margin.left) / (innerWidth / BINS));
+        if (bin >=0 && bin < BINS) {
+          tooltip.style('opacity', 1)
+            .style('left', `${event.pageX + 10}px`)
+            .style('top', `${event.pageY + 10}px`)
+            .html(`<strong>Freq:</strong> ${Math.round(freqScale(bin))}Hz<br><strong>Value:</strong> ${frequencies[bin].toFixed(1)}<br><strong>Peak:</strong> ${peakValues[bin].toFixed(1)}`);
+        }
+      })
+      .on('mouseleave', () => tooltip.style('opacity', 0))
+      .on('click', function(event, d) {
+        const bin = Math.floor((event.offsetX - margin.left) / (innerWidth / BINS));
+        pinnedBin = bin === pinnedBin ? null : bin;
+      });
+
+    // Zoom & Pan
+    const zoom = d3.zoom().scaleExtent([1, 10]).on('zoom', (event) => {
+        const newXScale = event.transform.rescaleX(xScale);
+        svg.select('.x-axis').call(xAxis.scale(newXScale));
+        bars.attr('x', (d,i) => newXScale(i)).attr('width', innerWidth / BINS / event.transform.k -1);
+        peakLines.attr('x1', (d,i) => newXScale(i)).attr('x2', (d,i) => newXScale(i) + innerWidth/BINS/event.transform.k -1);
+      });
+    svg.call(zoom);
+
+    // Animation loop
+    function animate() {
+      generateFrequencies();
+      bars.data(frequencies)
+        .transition().duration(50).ease(d3.easeLinear)
+        .attr('y', d => yScale(d))
+        .attr('height', d => innerHeight - yScale(d))
+        .attr('fill', (d,i) => i === pinnedBin ? 'var(--color-accent)' : 'rgba(0, 236, 255, 0.7)');
+      peakLines.data(peakValues)
+        .attr('y1', d => yScale(d))
+        .attr('y2', d => yScale(d));
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    // Controls
+    document.getElementById('pauseBtn').addEventListener('click', function() {
+      paused = !paused;
+      this.textContent = paused ? 'Resume' : 'Pause';
+    });
+    document.getElementById('resetBtn').addEventListener('click', () => pinnedBin = null);
+    document.getElementById('resetPeakBtn').addEventListener('click', () => peakValues.fill(0));
+    document.getElementById('peakStatus').addEventListener('click', function() {
+      peakHold = !peakHold;
+      this.textContent = peakHold ? 'ON' : 'OFF';
+      this.style.color = peakHold ? 'var(--color-error)' : 'var(--color-text-muted)';
+    });
+  </script>
+</body>
+</html>

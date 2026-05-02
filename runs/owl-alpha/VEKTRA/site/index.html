@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Where signal becomes form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../brand/tokens.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="dark">
+
+<!-- Navigation -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" aria-label="VEKTRA home">
+      <svg viewBox="0 0 400 100" fill="none" aria-hidden="true">
+        <g transform="translate(10,10)">
+          <path d="M0 40Q8 40 12 20Q16 0 24 0Q32 0 36 20L44 35Q48 40 52 30Q56 20 60 20Q64 20 68 30L72 38Q76 42 80 35L84 28Q86 25 88 28L92 40" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M92 40L100 32L110 8" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          <path d="M104 14L110 8L116 14" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </g>
+        <text x="160" y="62" font-family="'JetBrains Mono',monospace" font-weight="300" font-size="42" letter-spacing="6" fill="var(--color-text-primary)">VEKTRA</text>
+      </svg>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#what" class="nav-link">What it is</a></li>
+      <li><a href="#how" class="nav-link">How it works</a></li>
+      <li><a href="#who" class="nav-link">Who uses it</a></li>
+      <li><a href="#signal" class="nav-link">Signal</a></li>
+    </ul>
+    <a href="#start" class="nav-cta btn btn-primary">Open the graph</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+      <span class="hamburger-line"></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+  <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
+  <div class="hero-content">
+    <p class="hero-label reveal"><span class="accent">//</span> Berlin, 2019</p>
+    <h1 class="hero-title reveal reveal-delay-1">
+      <span class="mono-display">Sound</span> is a signal.<br>
+      <span class="mono-display">Vision</span> is a signal.<br>
+      <span class="mono-display">Code</span> is a signal.<br>
+      <span class="accent mono-display">VEKTRA</span> is where<br>
+      they converge.
+    </h1>
+    <p class="hero-sub reveal reveal-delay-2">A single graph for everything that moves — frequency, motion, time, light. Patches that breathe. Parameters that listen.</p>
+    <div class="hero-actions reveal reveal-delay-3">
+      <a href="#start" class="btn btn-primary btn-lg">Start patching</a>
+      <a href="#what" class="btn btn-ghost btn-lg">Read the signal</a>
+    </div>
+  </div>
+  <div class="hero-scroll-indicator reveal reveal-delay-3">
+    <span class="scroll-line"></span>
+  </div>
+</section>
+
+<!-- What it is -->
+<section class="section" id="what">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">01</span>
+      <h2 class="section-title">What it is</h2>
+    </div>
+    <div class="what-grid">
+      <div class="what-main reveal reveal-delay-1">
+        <p class="lead">VEKTRA is not a DAW. It is not a creative suite. It is not a plugin. It is closer to a language — a way of thinking about time, signal, and form simultaneously.</p>
+        <p>Most creative tools separate the visual from the sonic from the logical. VEKTRA treats them as one graph. A change in frequency can drive a visual parameter. A gesture can rewrite a patch. Time is explicit, not hidden. Everything is inspectable, forkable, and live.</p>
+      </div>
+      <div class="what-specs reveal reveal-delay-2">
+        <div class="spec-item">
+          <span class="spec-label">Type</span>
+          <span class="spec-value">Audio-visual environment</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Paradigm</span>
+          <span class="spec-value">Signal graph</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Time model</span>
+          <span class="spec-value">Explicit / sample-accurate</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">State</span>
+          <span class="spec-value">Always live</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">License</span>
+          <span class="spec-value">Open core</span>
+        </div>
+        <div class="spec-item">
+          <span class="spec-label">Origin</span>
+          <span class="spec-value">Leipzig residency, 2019</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="section section-alt" id="how">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">02</span>
+      <h2 class="section-title">How it works</h2>
+    </div>
+    <div class="how-grid">
+      <div class="how-card reveal reveal-delay-1">
+        <div class="card-header">
+          <span class="card-num">01</span>
+          <h3>Signal graph</h3>
+        </div>
+        <p>Every parameter is a node. Every connection is an edge. The graph is the interface — not a metaphor for it. Audio rate, control rate, and visual rate share the same topology. Change a connection and the system recompiles in real time.</p>
+        <div class="card-code">
+          <code><span class="code-comment">// frequency drives particle size</span><br>osc(440) → particles.scale<br>osc(440) → particles.hue</code>
+        </div>
+      </div>
+      <div class="how-card reveal reveal-delay-2">
+        <div class="card-header">
+          <span class="card-num">02</span>
+          <h3>Live patching</h3>
+        </div>
+        <p>Nothing stops. You rewire while the signal flows. Nodes hot-swap. Edges reroute. The system never goes silent — it adapts. This is not "non-destructive editing." This is a living circuit.</p>
+        <div class="card-code">
+          <code><span class="code-comment">// gesture rewrites the patch</span><br>midi.cc(1) → graph.rewire<br>camera.motion → lfo.rate</code>
+        </div>
+      </div>
+      <div class="how-card reveal reveal-delay-3">
+        <div class="card-header">
+          <span class="card-num">03</span>
+          <h3>Inspectable state</h3>
+        </div>
+        <p>Every value is visible. Every signal can be probed. Open any node and see its waveform, its history, its connections. The system is transparent by default — because you cannot compose what you cannot see.</p>
+        <div class="card-code">
+          <code><span class="code-comment">// probe any node</span><br>graph.probe("reverb.wet")<br>→ waveform.display</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Who uses it -->
+<section class="section" id="who">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Who uses it</h2>
+    </div>
+    <div class="who-grid">
+      <div class="who-card reveal reveal-delay-1">
+        <div class="who-icon">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M10 30V10L30 5V25" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"/><circle cx="14" cy="26" r="4" stroke="var(--color-accent)" stroke-width="2"/><circle cx="26" cy="21" r="4" stroke="var(--color-accent)" stroke-width="2"/></svg>
+        </div>
+        <h3>Élodie Vasseur</h3>
+        <p class="who-role">Experimental composer · IRCAM</p>
+        <p>"I use VEKTRA to compose pieces where the score is a signal graph. The performers read the waveform. The piece reinterprets itself every night."</p>
+      </div>
+      <div class="who-card reveal reveal-delay-2">
+        <div class="who-icon">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><rect x="8" y="8" width="24" height="24" rx="2" stroke="var(--color-accent)" stroke-width="2"/><path d="M8 20h24M20 8v24" stroke="var(--color-accent)" stroke-width="2"/><circle cx="20" cy="20" r="3" fill="var(--color-accent)"/></svg>
+        </div>
+        <h3>Marcus Fell</h3>
+        <p class="who-role">Installation artist · onformative</p>
+        <p>"The gallery responds to visitors as a signal processing system. Footsteps become frequencies. Movement becomes form. VEKTRA is the only tool that doesn't fight this thinking."</p>
+      </div>
+      <div class="who-card reveal reveal-delay-3">
+        <div class="who-icon">
+          <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M12 14L8 20l4 6" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"/><path d="M28 14l4 6-4 6" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"/><path d="M22 10L18 30" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Kai Brückner</h3>
+        <p class="who-role">Developer · Eurorack + Haskell</p>
+        <p>"I have 47 modules and a Haskell side project. VEKTRA is the only environment where both make sense at the same time. The graph is the patch bay."</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Data Visualization: Signal parameter network -->
+<section class="section section-alt" id="signal">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Signal map</h2>
+    </div>
+    <p class="viz-intro reveal reveal-delay-1">A real-time simulation of how audio parameters connect in a VEKTRA patch. Each node is a signal source or processor. Edges show data flow. Hover to inspect. Drag to rewire.</p>
+    <!--
+      Visualization choice: Interactive force-directed graph of a VEKTRA signal patch.
+      Rationale: It directly represents VEKTRA's core concept — a signal graph — and makes
+      the abstract product tangible. Users can see what a "patch" looks like.
+      Using D3.js (CDN) for force-directed layout — vanilla JS would require writing
+      a physics simulation from scratch, which adds no design value.
+    -->
+    <div class="viz-container reveal reveal-delay-2" id="vizContainer">
+      <svg id="vizSvg" viewBox="0 0 800 500" aria-label="Interactive signal graph visualization"></svg>
+      <div class="viz-tooltip" id="vizTooltip" role="tooltip" aria-hidden="true"></div>
+    </div>
+    <div class="viz-legend reveal reveal-delay-3">
+      <span class="legend-item"><span class="legend-dot legend-source"></span> Signal source</span>
+      <span class="legend-item"><span class="legend-dot legend-processor"></span> Processor</span>
+      <span class="legend-dot legend-output"></span> Output</span>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section section-cta" id="start">
+  <div class="container">
+    <div class="cta-content reveal">
+      <h2 class="cta-title mono-display">graph.init()</h2>
+      <p class="cta-sub">The signal is waiting. Open the graph and start patching.</p>
+      <a href="#" class="btn btn-primary btn-xl">Download VEKTRA</a>
+      <p class="cta-note">macOS · Linux · Windows — free during beta</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <svg class="footer-logo" viewBox="0 0 400 100" fill="none" aria-label="VEKTRA">
+          <g transform="translate(10,10)">
+            <path d="M0 40Q8 40 12 20Q16 0 24 0Q32 0 36 20L44 35Q48 40 52 30Q56 20 60 20Q64 20 68 30L72 38Q76 42 80 35L84 28Q86 25 88 28L92 40" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M92 40L100 32L110 8" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path d="M104 14L110 8L116 14" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+          </g>
+          <text x="160" y="62" font-family="'JetBrains Mono',monospace" font-weight="300" font-size="42" letter-spacing="6" fill="var(--color-text-primary)">VEKTRA</text>
+        </svg>
+        <p>Where signal becomes form.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Product</h4>
+        <ul>
+          <li><a href="#">Documentation</a></li>
+          <li><a href="#">Patches</a></li>
+          <li><a href="#">Releases</a></li>
+          <li><a href="#">Roadmap</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="#">Forum</a></li>
+          <li><a href="#">Discord</a></li>
+          <li><a href="#">Showcase</a></li>
+          <li><a href="#">Workshops</a></li>
+        </ul>
+      </div>
+      <div class="footer-links">
+        <h4>Studio</h4>
+        <ul>
+          <li><a href="#">About</a></li>
+          <li><a href="#">Blog</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>VEKTRA GmbH — Grünberger Straße 84, 10245 Berlin</p>
+      <p>&copy; 2026 VEKTRA. Everything is inspectable, forkable, and live.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- D3 for force-directed graph visualization -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7/dist/d3.min.js"></script>
+<script src="main.js"></script>
+</body>
+</html>

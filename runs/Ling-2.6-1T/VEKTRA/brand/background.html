@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Generative Background</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: #0a0a0b;
+      overflow: hidden;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    #bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    
+    .info {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 11px;
+      pointer-events: none;
+      z-index: 10;
+    }
+    
+    .title {
+      position: fixed;
+      top: 24px;
+      left: 24px;
+      color: rgba(255, 255, 255, 0.8);
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="title">Signal Field</div>
+  <div class="info">Move cursor to influence field</div>
+  
+  <script>
+    // VEKTRA Generative Background
+    // Signal field visualization using brand tokens
+    // Electric amber accent (#ff6a00) on near-black surface (#0a0a0b)
+    
+    const canvas = document.getElementById('bg');
+    const ctx = canvas.getContext('2d');
+    
+    // Brand token values
+    const COLOR_BG = '#0a0a0b';
+    const COLOR_ACCENT = '#ff6a00';
+    const COLOR_ACCENT_DIM = 'rgba(255, 106, 0, 0.15)';
+    const COLOR_SURFACE = '#141415';
+    
+    let width = 0;
+    let height = 0;
+    let particles = [];
+    let connections = [];
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+    let time = 0;
+    
+    const PARTICLE_COUNT = 80;
+    const MAX_DISTANCE = 120;
+    
+    function init() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width * window.devicePixelRatio;
+      canvas.height = height * window.devicePixelRatio;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.scale(window.devicePixelRatio, window.devicePixelRatio);
+      
+      particles = [];
+      for (let i = 0; i < PARTICLE_COUNT; i++) {
+        particles.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.4,
+          vy: (Math.random() - 0.5) * 0.4,
+          radius: Math.max(0.5, 1 + Math.random() * 2),
+          baseRadius: Math.max(0.5, 1 + Math.random() * 2),
+          phase: Math.random() * Math.PI * 2,
+          frequency: 0.5 + Math.random() * 2
+        });
+      }
+    }
+    
+    function draw() {
+      time += 0.016;
+      
+      // Smooth mouse follow
+      mouseX += (targetMouseX - mouseX) * 0.08;
+      mouseY += (targetMouseY - mouseY) * 0.08;
+      
+      // Clear with slight trail effect
+      ctx.fillStyle = COLOR_BG;
+      ctx.globalAlpha = 0.15;
+      ctx.fillRect(0, 0, width, height);
+      ctx.globalAlpha = 1;
+      
+      // Draw subtle grid
+      ctx.strokeStyle = 'rgba(42, 42, 42, 0.3)';
+      ctx.lineWidth = 0.5;
+      const gridSize = 60;
+      for (let x = 0; x < width; x += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += gridSize) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+      
+      // Update and draw particles
+      particles.forEach((p, i) => {
+        // Wave motion
+        p.phase += 0.02 * p.frequency;
+        const waveForce = Math.sin(p.phase) * 0.3;
+        
+        // Mouse influence
+        const dx = mouseX - p.x;
+        const dy = mouseY - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const influence = dist < 200 ? (1 - dist / 200) * 0.5 : 0;
+        
+        if (dist > 0 && influence > 0) {
+          p.vx += (dx / dist) * influence * 0.2;
+          p.vy += (dy / dist) * influence * 0.2;
+        }
+        
+        // Apply wave and damping
+        p.vx += waveForce * 0.1;
+        p.vy += Math.cos(p.phase * 0.7) * 0.05;
+        p.vx *= 0.97;
+        p.vy *= 0.97;
+        
+        p.x += p.vx;
+        p.y += p.vy;
+        
+        // Boundary wrap
+        if (p.x < -20) p.x = width + 20;
+        if (p.x > width + 20) p.x = -20;
+        if (p.y < -20) p.y = height + 20;
+        if (p.y > height + 20) p.y = -20;
+        
+        // Draw particle
+        const radius = p.baseRadius + (influence * 3) + Math.sin(p.phase) * 0.5;
+        const alpha = 0.5 + influence * 0.5;
+        
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, Math.max(0.1, radius), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 106, 0, ${alpha})`;
+        ctx.fill();
+        
+        // Glow for particles near mouse
+        if (influence > 0.3) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, radius * 2, 0, Math.PI * 2);
+          const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, radius * 2);
+          gradient.addColorStop(0, `rgba(255, 106, 0, ${influence * 0.3})`);
+          gradient.addColorStop(1, 'rgba(255, 106, 0, 0)');
+          ctx.fillStyle = gradient;
+          ctx.fill();
+        }
+      });
+      
+      // Draw connections between nearby particles
+      ctx.strokeStyle = 'rgba(255, 106, 0, 0.1)';
+      ctx.lineWidth = 0.5;
+      
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          
+          if (dist < MAX_DISTANCE) {
+            ctx.globalAlpha = (1 - dist / MAX_DISTANCE) * 0.3;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+      ctx.globalAlpha = 1;
+      
+      // Draw signal wave at bottom
+      const waveY = height - 60;
+      ctx.strokeStyle = COLOR_ACCENT;
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.3;
+      ctx.beginPath();
+      for (let x = 0; x < width; x += 2) {
+        const y = waveY + Math.sin(x * 0.01 + time * 2) * 10 * Math.sin(time * 0.5) * 0.5;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.stroke();
+      ctx.globalAlpha = 1;
+      
+      requestAnimationFrame(draw);
+    }
+    
+    // Event listeners
+    window.addEventListener('mousemove', (e) => {
+      targetMouseX = e.clientX;
+      targetMouseY = e.clientY;
+    });
+    
+    window.addEventListener('touchmove', (e) => {
+      if (e.touches.length > 0) {
+        targetMouseX = e.touches[0].clientX;
+        targetMouseY = e.touches[0].clientY;
+      }
+    });
+    
+    window.addEventListener('resize', init);
+    
+    // Initialize
+    targetMouseX = width / 2;
+    targetMouseY = height / 2;
+    init();
+    draw();
+  </script>
+</body>
+</html>

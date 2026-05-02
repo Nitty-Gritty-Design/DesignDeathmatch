@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" width="280" height="48" role="img" aria-label="VEKTRA">
+  <title>VEKTRA</title>
+  <!-- 
+    VEKTRA Primary Logo — Mark + Logotype
+    Mark: asymmetric signal-vector chevron, left triangle wider than right
+    Logotype: VEKTRA in JetBrains Mono Bold equivalent geometry
+    Dark mode default: accent (#E8FF47) on transparent/dark background
+  -->
+  
+  <!-- Signal Vector Mark -->
+  <!-- Left triangle: taller, wider — the incoming signal -->
+  <polygon points="0,40 18,4 27,40" fill="#E8FF47"/>
+  <!-- Right triangle: slightly narrower, same peak — the vector pointing forward -->
+  <polygon points="21,40 30,8 40,40" fill="#E8FF47" opacity="0.82"/>
+  <!-- Connector detail: thin horizontal bar at base, 2px -->
+  <rect x="0" y="38" width="40" height="2" fill="#E8FF47" opacity="0.4"/>
+  
+  <!-- Logotype: VEKTRA in geometric monospace-style paths -->
+  <!-- Using embedded text with monospace font rendering — SVG fonts-as-paths approach -->
+  <text 
+    x="56" 
+    y="35" 
+    font-family="'JetBrains Mono', 'Courier New', monospace" 
+    font-size="26" 
+    font-weight="700" 
+    fill="#F0F0F2" 
+    letter-spacing="3"
+    dominant-baseline="auto">VEKTRA</text>
+</svg>

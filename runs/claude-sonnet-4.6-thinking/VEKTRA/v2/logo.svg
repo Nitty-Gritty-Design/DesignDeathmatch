@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 56" width="320" height="56" role="img" aria-label="VEKTRA">
+  <title>VEKTRA</title>
+  <!--
+    VEKTRA Logo v2 — "The Oscilloscope Event"
+    Mark concept: A single sample event — four nodes connected by three precisely
+    angled strokes. Reads as a waveform peak, a signal spike, a routing node, 
+    and an abstract V simultaneously. Thin strokes (2px) give it technical precision
+    vs the filled triangles of v1. The dot at the apex is the "signal" — the moment
+    of maximum amplitude. Asymmetric: left arm longer and shallower, right arm
+    shorter and steeper — references a real waveform attack/decay asymmetry.
+  -->
+
+  <!-- Mark: 52×44, origin 0,0 -->
+  <g id="mark">
+    <!-- Ground line — horizontal baseline -->
+    <line x1="0" y1="43" x2="52" y2="43" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+    <!-- Left arm — longer, shallower rise (attack) -->
+    <line x1="2" y1="43" x2="26" y2="6" stroke="#E8FF47" stroke-width="2" stroke-linecap="round"/>
+    <!-- Right arm — shorter, steeper fall (decay) -->
+    <line x1="26" y1="6" x2="50" y2="43" stroke="#E8FF47" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+    <!-- Apex dot — the signal event -->
+    <circle cx="26" cy="6" r="3" fill="#E8FF47"/>
+    <!-- Base nodes — grounding points -->
+    <circle cx="2" cy="43" r="1.5" fill="#E8FF47" opacity="0.4"/>
+    <circle cx="50" cy="43" r="1.5" fill="#E8FF47" opacity="0.4"/>
+  </g>
+
+  <!-- Logotype: VEKTRA — DM Sans-geometry lettering -->
+  <text
+    x="68"
+    y="37"
+    font-family="'JetBrains Mono','Courier New',monospace"
+    font-size="28"
+    font-weight="700"
+    fill="#EDEFF2"
+    letter-spacing="4"
+    dominant-baseline="auto">VEKTRA</text>
+
+  <!-- Version tag -->
+  <text
+    x="68"
+    y="50"
+    font-family="'JetBrains Mono',monospace"
+    font-size="8"
+    font-weight="400"
+    fill="#44444E"
+    letter-spacing="2">GENERATIVE INSTRUMENTS</text>
+</svg>

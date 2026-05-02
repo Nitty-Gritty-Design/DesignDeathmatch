@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Logo Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background: var(--color-bg-primary, #0a0a0b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'IBM Plex Mono', monospace;
+    }
+    
+    :root {
+      --color-bg-primary: #0a0a0b;
+      --color-accent: #ff6a00;
+      --color-text-primary: #ffffff;
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .mark {
+      width: 64px;
+      height: 64px;
+    }
+    
+    .mark-path {
+      fill: none;
+      stroke: var(--color-accent);
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 80;
+      stroke-dashoffset: 80;
+      animation: drawMark 0.8s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1)) forwards;
+    }
+    
+    .logotype {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 32px;
+      font-weight: 500;
+      color: var(--color-text-primary);
+      letter-spacing: 0.05em;
+    }
+    
+    .logotype span {
+      display: inline-block;
+      opacity: 0;
+      animation: letterIn 0.4s var(--ease-out-expo, cubic-bezier(0.19, 1, 0.22, 1)) forwards;
+    }
+    
+    .logotype span:nth-child(1) { animation-delay: 0.8s; }
+    .logotype span:nth-child(2) { animation-delay: 0.84s; }
+    .logotype span:nth-child(3) { animation-delay: 0.88s; }
+    .logotype span:nth-child(4) { animation-delay: 0.92s; }
+    .logotype span:nth-child(5) { animation-delay: 0.96s; }
+    .logotype span:nth-child(6) { animation-delay: 1.0s; }
+    
+    .glow {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      opacity: 0;
+      animation: glowPulse 0.6s 1.2s ease-out forwards;
+    }
+    
+    @keyframes drawMark {
+      to { stroke-dashoffset: 0; }
+    }
+    
+    @keyframes letterIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes glowPulse {
+      0% { opacity: 0; transform: scale(0.5); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+      100% { opacity: 0; transform: scale(1.5); }
+    }
+    
+    .label {
+      position: absolute;
+      bottom: 40px;
+      font-size: 12px;
+      color: var(--color-text-muted, #6b6b6b);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container">
+    <svg class="mark" viewBox="0 0 48 48" role="img">
+      <path class="mark-path" d="M 10 38 L 10 22 L 22 14 L 34 30" />
+      <circle class="glow" cx="34" cy="30" r="4" />
+    </svg>
+    <div class="logotype">
+      <span>V</span>
+      <span>E</span>
+      <span>K</span>
+      <span>T</span>
+      <span>R</span>
+      <span>A</span>
+    </div>
+  </div>
+  <div class="label">Signal initializing</div>
+</body>
+</html>

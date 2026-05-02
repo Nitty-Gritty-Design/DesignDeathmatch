@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA — V2.0 // GENERATIVE_INSTRUMENTS</title>
+    <meta name="description" content="Award-winning generative audio-visual studio based in Berlin. v2 iteration.">
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style_v2.css">
+    
+    <!-- Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div id="cursor"></div>
+
+    <header>
+        <div class="container nav-inner">
+            <a href="index_v2.html" class="logo-v2">
+                <img src="../brand/logo_v2.svg" alt="VEKTRA Logo V2">
+            </a>
+            <nav>
+                <ul>
+                    <li><a href="#about" class="nav-link">PROCESS</a></li>
+                    <li><a href="#systems" class="nav-link">SYSTEMS</a></li>
+                    <li><a href="#v2-viz" class="nav-link">MONITOR</a></li>
+                    <li><a href="../brand/logo_animated_v2.html" class="nav-link" style="color: var(--color-accent);">REVEAL_V2</a></li>
+                </ul>
+            </nav>
+            <div class="font-mono" style="font-size: 10px; color: var(--color-text-muted);">
+                LOC // BERLIN_DE
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero V2 -->
+        <section class="hero">
+            <div id="webgl-bg"></div>
+            <div class="container hero-content">
+                <span class="hero-metadata reveal-v2">CORE_ENGINE_V2 // STABLE_SIGNAL</span>
+                <h1 class="reveal-v2">THE SIGNAL IS THE MEDIUM.</h1>
+                <p class="reveal-v2" style="font-size: 1.25rem;">Building tools for the edge of art and engineering. VEKTRA is a unified environment where time, signal, and form dissolve into a single expressive medium.</p>
+                <div class="reveal-v2" style="margin-top: var(--space-8);">
+                    <a href="#about" class="btn-v2">EXPLORE_THE_GRAPH</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About V2 -->
+        <section id="about" class="section">
+            <div class="container">
+                <div class="feature-grid">
+                    <div class="feature-card reveal-v2" style="grid-column: span 8;">
+                        <span class="card-idx">01 // PHI_PROTOCOL</span>
+                        <h2 style="font-size: var(--text-lg); margin-bottom: var(--space-4);">UNIFIED_GRAPH_DYNAMICS</h2>
+                        <p>In VEKTRA V2, we've eliminated the abstraction between sonic and visual domains. Every node in our graph is a first-class citizen of the signal path. Frequencies modulate geometry; motion generates harmonics. The system is the composition.</p>
+                    </div>
+                    <div class="feature-card reveal-v2">
+                        <span class="card-idx">02 // LATENCY</span>
+                        <h3>ZERO_DROP</h3>
+                        <p>Sample-accurate synchronization across all output devices.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Systems V2 -->
+        <section id="systems" class="section">
+            <div class="container">
+                <div class="feature-grid">
+                    <div class="feature-card reveal-v2">
+                        <span class="card-idx">03 // ENGINE</span>
+                        <h3>GENERATIVE_SOUL</h3>
+                        <p>Logic that behaves like a biological system. Evolution, not just reaction.</p>
+                    </div>
+                    <div class="feature-card reveal-v2">
+                        <span class="card-idx">04 // INTERFACE</span>
+                        <h3>TACTILE_CODE</h3>
+                        <p>Direct manipulation of the signal graph through hardware and gesture.</p>
+                    </div>
+                    <div class="feature-card reveal-v2">
+                        <span class="card-idx">05 // ARCHIVE</span>
+                        <h3>FORKABLE_TIME</h3>
+                        <p>Branch any composition at any moment in the temporal sequence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualization V2 -->
+        <section id="v2-viz" class="section">
+            <div class="container">
+                <div class="reveal-v2">
+                    <span class="font-mono" style="font-size: 10px; color: var(--color-accent);">SIGNAL_MONITOR_V2.0</span>
+                    <h2 style="margin-top: var(--space-2);">REALTIME_FLOW_ANALYSIS</h2>
+                </div>
+                <div class="viz-module reveal-v2" id="viz-container-v2">
+                    <!-- Complex JS Viz will be injected here -->
+                </div>
+                <div class="footer-inner" style="margin-top: var(--space-4);">
+                    <span>FIG_2A // MULTIDIMENSIONAL_SIGNAL_PROJECTION</span>
+                    <span>STATUS: OPTIMAL</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div>© 2026 VEKTRA_STUDIO // ALL_RIGHTS_RESERVED</div>
+                <div>BUILT_ON_THE_EDGE // V2.0.0_STABLE</div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="main_v2.js"></script>
+</body>
+</html>

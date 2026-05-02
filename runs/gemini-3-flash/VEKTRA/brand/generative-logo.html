@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA — Generative Logo System</title>
+    <!-- 
+        Wildcard 6.4: Generative Logo System
+        Rationale: In the VEKTRA world, nothing is static. The logo itself 
+        becomes a parameter. This system generates variations of the 
+        "signal node" mark, demonstrating the brand's algorithmic DNA.
+    -->
+    <link rel="stylesheet" href="tokens.css">
+    <style>
+        body {
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-primary);
+            font-family: var(--font-mono);
+            padding: 40px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 20px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+        }
+
+        .logo-item {
+            aspect-ratio: 1;
+            border: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            transition: border-color 0.2s;
+        }
+
+        .logo-item:hover {
+            border-color: var(--color-accent);
+        }
+
+        .logo-id {
+            font-size: 9px;
+            color: var(--color-text-muted);
+            margin-top: 10px;
+        }
+
+        button {
+            background: var(--color-accent);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-family: var(--font-mono);
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            background: white;
+            color: var(--color-accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>LOGO_GENERATOR_V1</h1>
+        <button onclick="generateGrid()">GENERATE_NEW_DNA</button>
+    </div>
+    <div class="grid" id="logo-grid"></div>
+
+    <script>
+        function generateLogoSVG(seed) {
+            const bars = 3;
+            const barWidth = 4;
+            const gap = 6;
+            const frameSize = 40;
+            const accent = "#FF4D00";
+            
+            // Deterministic random heights based on seed
+            const heights = [];
+            let currentSeed = seed;
+            for(let i=0; i<bars; i++) {
+                currentSeed = (currentSeed * 16807) % 2147483647;
+                heights.push(10 + (currentSeed % 25)); // 10-35px
+            }
+
+            return `
+                <svg width="${frameSize}" height="${frameSize}" viewBox="0 0 ${frameSize} ${frameSize}" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="1" y="1" width="38" height="38" stroke="${accent}" stroke-width="2"/>
+                    <rect x="9" y="${32 - heights[0]}" width="${barWidth}" height="${heights[0]}" fill="${accent}"/>
+                    <rect x="18" y="${32 - heights[1]}" width="${barWidth}" height="${heights[1]}" fill="${accent}"/>
+                    <rect x="27" y="${32 - heights[2]}" width="${barWidth}" height="${heights[2]}" fill="${accent}"/>
+                </svg>
+            `;
+        }
+
+        function generateGrid() {
+            const grid = document.getElementById('logo-grid');
+            grid.innerHTML = '';
+            for (let i = 0; i < 24; i++) {
+                const seed = Math.floor(Math.random() * 1000000);
+                const item = document.createElement('div');
+                item.className = 'logo-item';
+                item.innerHTML = `
+                    ${generateLogoSVG(seed)}
+                    <div class="logo-id">DNA_0x${seed.toString(16).toUpperCase()}</div>
+                `;
+                grid.appendChild(item);
+            }
+        }
+
+        generateGrid();
+    </script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Style Guide</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --color-bg-primary: #0a0a0a;
+      --color-bg-secondary: #121212;
+      --color-surface: #1a1a1a;
+      --color-accent: #ff8c00;
+      --color-accent-dim: #cc7000;
+      --color-text-primary: #f0f0f0;
+      --color-text-secondary: #a0a0a0;
+      --color-text-muted: #606060;
+      --color-border: #2a2a2a;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    
+    section {
+      margin-bottom: 4rem;
+    }
+    
+    h1 { font-size: 48px; margin-bottom: 2rem; }
+    h2 { font-size: 32px; margin-bottom: 1.5rem; }
+    h3 { font-size: 24px; margin-bottom: 1rem; }
+    
+    .swatch {
+      display: inline-block;
+      width: 60px;
+      height: 60px;
+      border-radius: 4px;
+      margin-right: 1rem;
+      vertical-align: middle;
+      border: 1px solid var(--color-border);
+    }
+    
+    .color-row {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background: var(--color-surface);
+    }
+    
+    .color-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+    }
+    
+    .token-name {
+      color: var(--color-text-muted);
+      font-size: 12px;
+    }
+    
+    .type-demo {
+      margin-bottom: 2rem;
+      padding: 1.5rem;
+      background: var(--color-surface);
+    }
+    
+    .type-demo h1 { font-size: 80px; font-weight: 700; }
+    .type-demo h2 { font-size: 48px; font-weight: 600; }
+    .type-demo h3 { font-size: 32px; font-weight: 600; }
+    .type-demo p { font-size: 18px; }
+    .type-demo .mono-display { font-family: 'JetBrains Mono', monospace; font-size: 32px; color: var(--color-accent); }
+    
+    .component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+    
+    .component-demo {
+      padding: 1.5rem;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+    }
+    
+    button {
+      background: var(--color-accent);
+      color: var(--color-text-inverse);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    
+    button:hover {
+      background: var(--color-accent-bright);
+    }
+    
+    button:active {
+      transform: scale(0.98);
+    }
+    
+    button:disabled {
+      background: var(--color-border);
+      cursor: not-allowed;
+    }
+    
+    input {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      padding: 0.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      width: 100%;
+      max-width: 200px;
+    }
+    
+    input:focus {
+      outline: 1px solid var(--color-accent);
+    }
+    
+    .code-block {
+      background: var(--color-bg-secondary);
+      padding: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 14px;
+      overflow-x: auto;
+      border-left: 2px solid var(--color-accent);
+    }
+    
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      background: var(--color-accent);
+      color: var(--color-text-inverse);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+    }
+    
+    .light-section {
+      background: #f8f8f8;
+      color: #1a1a1a;
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+    
+    .light-section .swatch {
+      border: 1px solid #ddd;
+    }
+    
+    .logo-showcase {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 2rem;
+      align-items: center;
+    }
+    
+    .logo-variant {
+      text-align: center;
+      padding: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>VEKTRA Style Guide</h1>
+    
+    <!-- Color -->
+    <section>
+      <h2>Color</h2>
+      <div class="color-row">
+        <span class="swatch" style="background: #0a0a0a;"></span>
+        <strong>--color-bg-primary</strong>
+        <span class="token-name">Near-black surface</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #121212;"></span>
+        <strong>--color-bg-secondary</strong>
+        <span class="token-name">Secondary background</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #1a1a1a;"></span>
+        <strong>--color-surface</strong>
+        <span class="token-name">Elevated surfaces</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #ff8c00;"></span>
+        <strong>--color-accent</strong>
+        <span class="token-name">Electric amber</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #f0f0f0;"></span>
+        <strong>--color-text-primary</strong>
+        <span class="token-name">Primary text</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #a0a0a0;"></span>
+        <strong>--color-text-secondary</strong>
+        <span class="token-name">Secondary text</span>
+      </div>
+      <div class="color-row">
+        <span class="swatch" style="background: #2a2a2a;"></span>
+        <strong>--color-border</strong>
+        <span class="token-name">Borders and dividers</span>
+      </div>
+      
+      <h3 style="margin-top: 2rem;">Light Mode</h3>
+      <div class="light-section">
+        <div class="color-row">
+          <span class="swatch" style="background: #f8f8f8;"></span>
+          <strong>--color-bg-primary</strong>
+          <span class="token-name">Off-white surface</span>
+        </div>
+        <div class="color-row">
+          <span class="swatch" style="background: #1a1a1a;"></span>
+          <strong>--color-text-primary</strong>
+          <span class="token-name">Dark text for contrast</span>
+        </div>
+        <div class="color-row">
+          <span class="swatch" style="background: #ff8c00;"></span>
+          <strong>--color-accent</strong>
+          <span class="token-name">Unchanged — accent carries</span>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Typography -->
+    <section>
+      <h2>Typography</h2>
+      <div class="type-demo">
+        <h1>Display Huge</h1>
+        <h2>Display Medium</h2>
+        <h3>Heading 2</h3>
+        <p class="text-large">Body Large — VEKTRA treats time, signal, and form as a single medium.</p>
+        <p>Body — This is the primary text style for content and documentation.</p>
+        <p class="text-small">Small text — Used for captions and UI labels.</p>
+        <p class="mono-display">Mono at display size</p>
+      </div>
+      
+      <h3>Type Scale</h3>
+      <table>
+        <tr><td>Display Huge</td><td>80px / 700</td><td>Line height: 1.1</td></tr>
+        <tr><td>Display Large</td><td>64px / 700</td><td>Line height: 1.15</td></tr>
+        <tr><td>Display Medium</td><td>48px / 600</td><td>Line height: 1.2</td></tr>
+        <tr><td>Heading 1</td><td>24px / 600</td><td>Line height: 1.3</td></tr>
+        <tr><td>Body Large</td><td>18px / 400</td><td>Line height: 1.6</td></tr>
+        <tr><td>Body</td><td>16px / 400</td><td>Line height: 1.6</td></tr>
+        <tr><td>Small</td><td>14px / 400</td><td>Line height: 1.5</td></tr>
+        <tr><td>Mono</td><td>14px / 400</td><td>Line height: 1.5</td></tr>
+      </table>
+    </section>
+    
+    <!-- Logo -->
+    <section>
+      <h2>Logo</h2>
+      <div class="logo-showcase">
+        <div class="logo-variant">
+          <img src="../brand/logo.svg" alt="VEKTRA Logo" width="200">
+          <p>Full lockup</p>
+        </div>
+        <div class="logo-variant">
+          <img src="../brand/logo-mark.svg" alt="VEKTRA Mark" width="60">
+          <p>Mark only</p>
+        </div>
+        <div class="logo-variant">
+          <img src="../brand/logo-light.svg" alt="VEKTRA Light" width="200" style="background: var(--color-bg-secondary); padding: 1rem;">
+          <p>Light version</p>
+        </div>
+      </div>
+      <p style="margin-top: 1rem;">
+        <a href="logo-animated.html" style="color: var(--color-accent);">View animated logo →</a>
+      </p>
+    </section>
+    
+    <!-- Components -->
+    <section>
+      <h2>Components</h2>
+      
+      <h3>Buttons</h3>
+      <div class="component-grid">
+        <div class="component-demo">
+          <button>Default</button>
+        </div>
+        <div class="component-demo">
+          <button style="background: var(--color-bg-secondary); color: var(--color-text-primary); border: 1px solid var(--color-border);">Secondary</button>
+        </div>
+        <div class="component-demo">
+          <button disabled>Disabled</button>
+        </div>
+      </div>
+      
+      <h3 style="margin-top: 2rem;">Input</h3>
+      <div class="component-demo">
+        <input type="text" placeholder="Enter parameter value">
+      </div>
+      
+      <h3 style="margin-top: 2rem;">Code Block</h3>
+      <div class="code-block">
+        <pre><code>// VEKTRA patch
+freq = audio.in(0);
+shifted = freq.shift(0.5);
+filtered = shifted.lowpass(800);
+out(filter);</code></pre>
+      </div>
+      
+      <h3 style="margin-top: 2rem;">Badge</h3>
+      <span class="badge">generative</span>
+    </section>
+    
+    <!-- Motion -->
+    <section>
+      <h2>Motion</h2>
+      <p>Timing curves are specified in milliseconds by timing.</p>
+      <ul>
+        <li><strong>--ease-signal</strong> cubic-bezier(0.4, 0, 0.2, 1) — Primary interactions</li>
+        <li><strong>--ease-out</strong> cubic-bezier(0.25, 0.1, 0.25, 1) — Element entrance</li>
+        <li><strong>Duration</strong> 200–500ms for UI, 2000ms for logo animation</li>
+      </ul>
+    </section>
+    
+    <!-- Voice -->
+    <section>
+      <h2>Voice</h2>
+      <blockquote style="border-left: 2px solid var(--color-accent); padding-left: 1rem; font-style: italic;">
+        VEKTRA speaks with the authority of someone who understands the invisible connections between things.
+      </blockquote>
+      <p><strong>Words:</strong> Precise, lyrical, uncompromising, alive, exact</p>
+      <p><strong>Not:</strong> Marketing, generic, decorative, assumptive, pleasant</p>
+    </section>
+  </div>
+</body>
+</html>
