@@ -96,7 +96,7 @@
 
     async function loadModelData(modelId) {
       try {
-        const response = await fetch('../showcase-config.json');
+        const response = await fetch('showcase-config.json');
         const config = await response.json();
         const entry = config.entries.find(e => e.id === modelId);
         if (!entry) {

@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => loadShowcaseData());
 
 async function loadShowcaseData() {
   try {
-    const response = await fetch('../showcase-config.json');
+    const response = await fetch('showcase-config.json');
     const config = await response.json();
     renderGallery(config.entries);
   } catch (error) {
