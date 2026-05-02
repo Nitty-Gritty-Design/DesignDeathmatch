@@ -30,6 +30,7 @@ function renderGallery(entries) {
           <span class="score-text">${entry.score.total} / 157.5</span>
         </div>
         <a href="preview.html?id=${entry.id}" class="card-button">View Preview →</a>
+        <a href="${entry.site}" target="_blank" class="card-button" style="margin-left: 8px;">Open Site</a>
       </div>
     </div>
   `).join('');
