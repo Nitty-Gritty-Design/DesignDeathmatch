@@ -1,5 +1,7 @@
 # Design AI Benchmark — VEKTRA / Framework v2.0
 
+![DesignDeathmatch Logo](assets/DesignDeathmatch_Logo.png)
+
 A benchmark for evaluating large language models on creative design tasks. Models autonomously build a complete brand identity for **VEKTRA**, a fictitious Berlin-based generative audio-visual instrument studio — from design tokens to animated logo to working website.
 
 ---
