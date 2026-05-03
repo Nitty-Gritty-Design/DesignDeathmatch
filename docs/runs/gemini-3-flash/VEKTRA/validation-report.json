@@ -1,0 +1,26 @@
+{
+  "score": 105,
+  "maxScore": 100,
+  "deductions": [
+    "Found hardcoded hex colors in site/style.css (2 instances) (-5 pts)"
+  ],
+  "checks": {
+    "brand/tokens.css": true,
+    "brand/typography.md": true,
+    "brand/voice.md": true,
+    "brand/logo-concept.md": true,
+    "brand/logo.svg": true,
+    "brand/logo-mark.svg": true,
+    "brand/logo-animated.html": true,
+    "brand/logo-light.svg": true,
+    "site/index.html": true,
+    "site/style.css": true,
+    "site/main.js": true,
+    "brand/styleguide.html": true,
+    "site/viz.html": false,
+    "no_hardcoded_hex": false,
+    "no_broken_links": true,
+    "logo_animated_valid": true,
+    "wildcard_completed": true
+  }
+}

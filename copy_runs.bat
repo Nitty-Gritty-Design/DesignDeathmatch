@@ -2,7 +2,7 @@
 REM Batch script to copy DesignDeathmatch runs folder from source to repo
 
 set SOURCE_DIR=F:\_software\_AI\DesignDeathmatch_Runs
-set DEST_DIR=%~dp0runs
+set DEST_DIR=%~dp0docs\runs
 
 echo Copying runs from %SOURCE_DIR% to %DEST_DIR%
 

@@ -25,6 +25,18 @@
         the deliverables created, with Phase 2 (V2) representing refined iterations.
       </p>
 
+      <div class="controls" style="display: flex; gap: 16px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;">
+        <select id="sort-select" style="padding: 8px; border-radius: 4px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-primary);">
+          <option value="score-desc">Sort by Score (Highest First)</option>
+          <option value="score-asc">Sort by Score (Lowest First)</option>
+          <option value="name-asc">Sort by Name (A-Z)</option>
+          <option value="name-desc">Sort by Name (Z-A)</option>
+        </select>
+        <select id="filter-select" style="padding: 8px; border-radius: 4px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-primary);">
+          <option value="all">All Models</option>
+        </select>
+      </div>
+
       <div class="gallery-grid" id="gallery">
         <div class="loading">Loading benchmark results...</div>
       </div>
@@ -33,7 +45,7 @@
 
   <footer class="footer">
     <div class="container">
-      <p>&copy; 2024 DesignDeathmatch. Framework for evaluating LLM design capabilities.</p>
+      <p>&copy; 2026 DesignDeathmatch. Framework for evaluating LLM design capabilities.</p>
     </div>
   </footer>
 

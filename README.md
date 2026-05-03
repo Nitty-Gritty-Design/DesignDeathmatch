@@ -71,11 +71,12 @@ Do not ask for permission. Update TASKS.md if relevant, and comprehensively log 
 
 ### After the run
 
-1. Run automated checks from `SCORING.md` against the output folder.
-2. Open each HTML file in a browser (Chrome or Firefox). Check each automated item.
-3. Complete the human review rubric — ideally with 2 reviewers, averaging scores.
-4. Fill in the scoring sheet at the bottom of `SCORING.md`.
-5. Record all process metrics from `RUNLOG.md`.
+1. Run the automated validation script: `node validate_run.js docs/runs/<model-name>/VEKTRA` (for V1) or `node validate_run.js docs/runs/<model-name>/VEKTRA/v2` (for V2). This will generate a `validation-report.json`.
+2. Open each HTML file in a browser (Chrome or Firefox). Check for visual correctness.
+3. Complete the human review rubric from `SCORING.md` — ideally with 2 reviewers, averaging scores.
+4. Add the entry to `docs/showcase-config.json`.
+5. Sync the runs and generate the showcase using `sync_showcase.bat`.
+6. Run `upload_benchmark.bat` to commit and push the new run data.
 
 ---
 
@@ -94,15 +95,19 @@ Do not ask for permission. Update TASKS.md if relevant, and comprehensively log 
 
 ```
 /
-├── framework/           # Benchmark core files (BRIEF, DESIGN, TASKS, RULES, SCORING)
 ├── docs/                # GitHub Pages showcase website
+│   ├── runs/            # Benchmark run results
 │   ├── index.html       # Gallery grid
 │   ├── preview.html     # Detail view
-│   ├── css/style.css    # VEKTRA-inspired dark theme
-│   └── js/main.js       # Interactive scripts
-├── showcase-config.json # Benchmark entries for the showcase
+│   ├── css/style.css    # Neutral grayscale theme
+│   ├── js/main.js       # Interactive scripts
+│   └── showcase-config.json # Benchmark entries for the showcase
+├── framework/           # Old reference folder (Core files now live in root)
+├── validate_run.js      # Automated validation script for benchmark results
 ├── setup_run.bat        # Creates isolated benchmark workspaces
-└── sync_showcase.bat    # Syncs runs to showcase
+├── sync_showcase.bat    # Generates showcase assets
+├── copy_runs.bat        # Copies runs from external directory to docs/runs
+└── upload_benchmark.bat # Commits and pushes new benchmark runs
 ```
 
 The actual benchmark runs are stored separately in `..\DesignDeathmatch_Runs\` to keep the repository lightweight.

@@ -24,11 +24,11 @@ build/
 .env.local
 
 # Showcase assets (synced separately)
-showcase/assets/screenshots/*.png
-showcase/assets/thumbnails/*.png
-showcase/assets/screenshots/*.jpg
-showcase/assets/thumbnails/*.jpg
+docs/assets/screenshots/*.png
+docs/assets/thumbnails/*.png
+docs/assets/screenshots/*.jpg
+docs/assets/thumbnails/*.jpg
 
 # Keep placeholder files
-!showcase/assets/screenshots/.gitkeep
-!showcase/assets/thumbnails/.gitkeep
+!docs/assets/screenshots/.gitkeep
+!docs/assets/thumbnails/.gitkeep

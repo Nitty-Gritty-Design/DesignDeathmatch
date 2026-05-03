@@ -1,0 +1,29 @@
+{
+  "score": 97.5,
+  "maxScore": 100,
+  "deductions": [
+    "Missing file: brand/typography.md (-2.5 pts)",
+    "Missing file: brand/voice.md (-2.5 pts)",
+    "Missing file: brand/logo-concept.md (-2.5 pts)",
+    "Missing file: brand/logo-animated.html (-2.5 pts)",
+    "Missing file: brand/logo-light.svg (-2.5 pts)"
+  ],
+  "checks": {
+    "brand/tokens.css": true,
+    "brand/typography.md": false,
+    "brand/voice.md": false,
+    "brand/logo-concept.md": false,
+    "brand/logo.svg": true,
+    "brand/logo-mark.svg": true,
+    "brand/logo-animated.html": false,
+    "brand/logo-light.svg": false,
+    "site/index.html": true,
+    "site/style.css": true,
+    "site/main.js": true,
+    "brand/styleguide.html": true,
+    "site/viz.html": false,
+    "no_hardcoded_hex": true,
+    "no_broken_links": true,
+    "wildcard_completed": true
+  }
+}

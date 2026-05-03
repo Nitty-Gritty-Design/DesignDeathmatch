@@ -17,7 +17,9 @@ A benchmark for evaluating large language models on creative design tasks. Model
 
 ## Files
 
-| File | Purpose | Given to model? |
+The source of truth for the framework files lives in the repository root directory. They are copied automatically during setup.
+
+| File (in root) | Purpose | Given to model? |
 |---|---|---|
 | `BRIEF.md` | Creative prompt — the VEKTRA brand | ✅ Yes |
 | `DESIGN.md` | Style references + design token guidance | ✅ Yes |
