@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 72" width="320" height="72">
+  <title>VEKTRA Logo Light v2</title>
+  <g fill="none" stroke="#060A09" stroke-width="2.5" stroke-linecap="square" stroke-linejoin="miter">
+    <line x1="10" y1="36" x2="54" y2="36"/>
+    <polyline points="32,2 26,16 18,32 10,48 6,60"/>
+    <polyline points="32,2 38,16 46,32 54,48 58,60"/>
+  </g>
+  <text x="82" y="48" fill="#060A09" font-family="'IBM Plex Mono', monospace" font-size="34" font-weight="700" letter-spacing="-0.06em">VEKTRA</text>
+</svg>

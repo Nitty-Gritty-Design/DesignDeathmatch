@@ -1,0 +1,261 @@
+/*
+ * ═══════════════════════════════════════════════════════════════════════
+ * VEKTRA v2 — Design Tokens
+ * ═══════════════════════════════════════════════════════════════════════
+ *
+ * This is the computational substrate of the VEKTRA visual identity.
+ * Every value is a deliberate assertion. Nothing is a default.
+ *
+ * ═══════════════════════════════════════════════════════════════════════
+ * PHILOSOPHY
+ * ═══════════════════════════════════════════════════════════════════════
+ * Color is frequency. Spacing is rhythm. Timing is signal.
+ * The token system treats visual parameters the way VEKTRA treats audio
+ * parameters — as continuously variable values in a relational graph.
+ *
+ * ═══════════════════════════════════════════════════════════════════════
+ * ACCENT COLOR — #C8751E "Resonant Copper"
+ * ═══════════════════════════════════════════════════════════════════════
+ * Shifted from the v1 amber (#E8962E) toward a deeper, warmer copper.
+ * This is not a UI accent — it is a material property. It suggests
+ * precision-machined metal, heated elements,800 the glow of vacuum tubes.
+ * At full opacity it commands; at 15% it whispers. At 2px it reads
+ * as a cursor blink; at 300px it reads as a field.
+ *
+ * The copper range (#C8751E through #F0D890) was chosen because:
+ * — It is thermally associative (warmth, current, signal)
+ * — It contrasts against cool near-black without feeling like "dark mode"
+ * — It is rare in SaaS branding (not blue, not green, not purple)
+ * — It scales from micro-interaction to hero statement
+ * — At low opacity it produces a glow that reads as electric, not decorative
+ *
+ * ═══════════════════════════════════════════════════════════════════════
+ * SURFACE SYSTEM
+ * ═══════════════════════════════════════════════════════════════════════
+ * Five-surface elevation model, each with 4 luminance steps.
+ * Surfaces are cool-warm gray — a deliberate ambiguity between
+ * "precision instrument" and "dark room."
+ *
+ * ═══════════════════════════════════════════════════════════════════════
+ * TYPOGRAPHY
+ * ═══════════════════════════════════════════════════════════════════════
+ * JetBrains Mono  — monospace: code, terminals, display moments
+ * Space Grotesk   — sans: body, UI, editorial headings
+ *
+ * ═══════════════════════════════════════════════════════════════════════
+ * MOTION
+ * ═══════════════════════════════════════════════════════════════════════
+ * Four timing curves, each with a specific semantic role.
+ * Named after signal operations: impulse, resolve, drift, attract.
+ */
+
+:root {
+  /* ── Accent spectrum ── */
+  --color-accent:            #C8751E;  /* resonant copper — primary */
+  --color-accent-glow:       #E8A040;  /* heated copper — hover/glow states */
+  --color-accent-bright:     #F0C860;  /* bright copper — rare highlights */
+  --color-accent-dim:        #5C3210;  /* dimmed copper — backgrounds, pre-states */
+  --color-accent-subtle:     #2E1A08;  /* near-black copper — deepest accent surface */
+
+  /* ── Surface system (dark) ── */
+  --color-bg-deep:           #080706;  /* deepest: modal backdrops, full-bleed hero */
+  --color-bg-primary:        #0C0B0A;  /* primary: page background */
+  --color-bg-secondary:      #141210;  /* secondary: section alternation */
+  --color-surface:           #1A1714;  /* elevated: cards, panels */
+  --color-surface-high:      #221E1A;  /* high: interactive surfaces, hovered panels */
+
+  /* ── Text (dark) ── */
+  --color-text-primary:      #E8E4DE;  /* primary text — warm off-white */
+  --color-text-secondary:    #A09890;  /* secondary text — body, descriptions */
+  --color-text-tertiary:     #6E6660;  /* tertiary — metadata, labels, captions */
+  --color-text-muted:        #4A443E;  /* muted — edge of legibility */
+
+  /* ── Border & separator ── */
+  --color-border:            #282420;  /* structural lines */
+  --color-border-subtle:     #1E1A16;  /* barely-visible separators */
+  --color-border-accent:     #8B5218;  /* accent-bordered elements (code blocks, inputs focused) */
+
+  /* ── Semantic ── */
+  --color-success:           #2E8B57;
+  --color-warning:           #C8751E;
+  --color-error:             #8B2E2E;
+
+  /* ── Typography ── */
+  --font-mono: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', 'IBM Plex Mono', monospace;
+  --font-sans: 'Space Grotesk', 'Inter Display', system-ui, -apple-system, sans-serif;
+
+  /* ── Type scale (major third, base 16px → 1.25 ratio) ── */
+  --text-2xs: 0.625rem;     /* 10px — absolute minimum for mono */
+  --text-xs:  0.75rem;      /* 12px — captions, key hints */
+  --text-sm:  0.875rem;     /* 14px — UI, secondary nav, small body */
+  --text-base: 1rem;        /* 16px — body, base */
+  --text-lg:  1.125rem;     /* 18px — lead paragraphs */
+  --text-xl:  1.25rem;      /* 20px — card titles, UI headings */
+  --text-2xl: 1.5rem;       /* 24px — h4, section subheads */
+  --text-3xl: 1.875rem;     /* 30px — h3 */
+  --text-4xl: 2.5rem;       /* 40px — h2 */
+  --text-5xl: 3.25rem;      /* 52px — h1 */
+  --text-6xl: 4.25rem;      /* 68px — display */
+  --text-7xl: 5.5rem;       /* 88px — hero headline */
+
+  /* ── Line heights ── */
+  --leading-tight:     1.05;
+  --leading-snug:      1.15;
+  --leading-normal:    1.5;
+  --leading-relaxed:   1.65;
+  --leading-loose:     1.8;
+
+  /* ── Tracking ── */
+  --tracking-tight:    -0.04em;
+  --tracking-normal:   -0.01em;
+  --tracking-wide:     0.02em;
+  --tracking-mono:     0.0em;
+  --tracking-overline: 0.12em;
+
+  /* ── Spacing (4px base, minor third scale) ── */
+  --space-1:  0.25rem;  /*  4px */
+  --space-2:  0.5rem;   /*  8px */
+  --space-3:  0.75rem;  /* 12px */
+  --space-4:  1rem;     /* 16px */
+  --space-5:  1.25rem;  /* 20px */
+  --space-6:  1.5rem;   /* 24px */
+  --space-8:  2rem;     /* 32px */
+  --space-10: 2.5rem;   /* 40px */
+  --space-12: 3rem;     /* 48px */
+  --space-16: 4rem;     /* 64px */
+  --space-20: 5rem;     /* 80px */
+  --space-24: 6rem;     /* 96px */
+  --space-32: 8rem;     /* 128px */
+  --space-40: 10rem;    /* 160px */
+
+  /* ── Layout ── */
+  --width-content:  1200px;
+  --width-narrow:    720px;
+  --width-wide:     1440px;
+
+  /* ── Border radius ── */
+  --radius-none: 0;
+  --radius-sm:   2px;
+  --radius-md:   4px;
+  --radius-lg:   8px;
+  --radius-xl:   16px;
+  --radius-full: 9999px;
+
+  /* ── Motion: duration tokens ── */
+  --duration-instant: 80ms;
+  --duration-fast:    150ms;
+  --duration-normal:  280ms;
+  --duration-slow:    500ms;
+  --duration-glacial: 900ms;
+
+  /* ── Motion: easing curves ── */
+  /* impulse: micro-interactions, hover responses. Sharp, immediate. */
+  --ease-impulse: cubic-bezier(0.32, 0.72, 0.00, 1.00);
+  /* resolve: entrance animations, reveals. Decelerating, precise. */
+  --ease-resolve: cubic-bezier(0.16, 0.00, 0.08, 1.00);
+  /* drift: ambient motion, backgrounds. Organic, never settles fully. */
+  --ease-drift: cubic-bezier(0.40, 0.00, 0.60, 1.00);
+  /* attract: magnetic interactions, spring-like. Overshoots slightly. */
+  --ease-attract: cubic-bezier(0.34, 1.56, 0.64, 1.00);
+
+  /* ── Motion: spring parameters (for JS springs) ── */
+  --spring-tension: 300;
+  --spring-friction: 20;
+  --spring-precision: 0.01;
+
+  /* ── Z-index scale ── */
+  --z-base:      1;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-toast:     500;
+
+  /* ── Shadows (used sparingly — VEKTRA is flat-first) ── */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.5);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.6);
+
+  /* ── Filters ── */
+  --blur-sm:  4px;
+  --blur-md:  12px;
+  --blur-lg:  24px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   LIGHT MODE
+   ═══════════════════════════════════════════════════════════════════════ */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Accent — deeper for contrast on light */
+    --color-accent:            #B06818;
+    --color-accent-glow:       #D08028;
+    --color-accent-bright:     #E09830;
+    --color-accent-dim:        #F0D8A0;
+    --color-accent-subtle:     #FFF4E0;
+
+    /* Surfaces — warm document whites */
+    --color-bg-deep:           #FFFDF8;
+    --color-bg-primary:        #F8F5EE;
+    --color-bg-secondary:      #F0ECE4;
+    --color-surface:           #E8E4DA;
+    --color-surface-high:      #E0DCD0;
+
+    /* Text */
+    --color-text-primary:      #141210;
+    --color-text-secondary:    #5A5450;
+    --color-text-tertiary:     #8E8880;
+    --color-text-muted:        #B0A8A0;
+
+    /* Border */
+    --color-border:            #D4CFC6;
+    --color-border-subtle:     #E8E4DC;
+    --color-border-accent:     #C8A868;
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.08);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.12);
+    --shadow-lg: 0 8px 32px rgba(0,0,0,0.18);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════
+   DARK MODE CLASS TOGGLE (overrides media query)
+   ═══════════════════════════════════════════════════════════════════════ */
+.theme-dark {
+  --color-bg-deep:           #080706;
+  --color-bg-primary:        #0C0B0A;
+  --color-bg-secondary:      #141210;
+  --color-surface:           #1A1714;
+  --color-surface-high:      #221E1A;
+  --color-text-primary:      #E8E4DE;
+  --color-text-secondary:    #A09890;
+  --color-text-tertiary:     #6E6660;
+  --color-text-muted:        #4A443E;
+  --color-border:            #282420;
+  --color-border-subtle:     #1E1A16;
+  --color-accent:            #C8751E;
+  --color-accent-glow:       #E8A040;
+  --color-accent-bright:     #F0C860;
+  --color-accent-dim:        #5C3210;
+  --color-accent-subtle:     #2E1A08;
+}
+
+.theme-light {
+  --color-bg-deep:           #FFFDF8;
+  --color-bg-primary:        #F8F5EE;
+  --color-bg-secondary:      #F0ECE4;
+  --color-surface:           #E8E4DA;
+  --color-surface-high:      #E0DCD0;
+  --color-text-primary:      #141210;
+  --color-text-secondary:    #5A5450;
+  --color-text-tertiary:     #8E8880;
+  --color-text-muted:        #B0A8A0;
+  --color-border:            #D4CFC6;
+  --color-border-subtle:     #E8E4DC;
+  --color-accent:            #B06818;
+  --color-accent-glow:       #D08028;
+  --color-accent-bright:     #E09830;
+  --color-accent-dim:        #F0D8A0;
+  --color-accent-subtle:     #FFF4E0;
+}

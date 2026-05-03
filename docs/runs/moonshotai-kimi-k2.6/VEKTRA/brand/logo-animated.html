@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA Logo — Animated</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0A0E0D;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  .logo-wrap {
+    width: 280px;
+    height: 64px;
+  }
+  svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Diamond sides */
+  .d-side {
+    stroke-dasharray: 40;
+    stroke-dashoffset: 40;
+    animation: draw 500ms var(--ease) forwards;
+  }
+  .d1 { --ease: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 0ms; }
+  .d2 { --ease: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 120ms; }
+  .d3 { --ease: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 240ms; }
+  .d4 { --ease: cubic-bezier(0.16, 1, 0.3, 1); animation-delay: 360ms; }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Signal line resolve */
+  .signal-main {
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+    animation: resolve 600ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: 600ms;
+  }
+  .signal-tick {
+    opacity: 0;
+    animation: tickIn 300ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .t1 { animation-delay: 900ms; }
+  .t2 { animation-delay: 1000ms; }
+
+  @keyframes resolve {
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes tickIn {
+    to { opacity: 1; }
+  }
+
+  /* Glow pulse on signal resolve */
+  .glow {
+    opacity: 0;
+    animation: glowPulse 400ms ease-out forwards;
+    animation-delay: 1000ms;
+  }
+  @keyframes glowPulse {
+    0% { opacity: 0; }
+    50% { opacity: 0.35; }
+    100% { opacity: 0; }
+  }
+
+  /* Logotype letter reveal */
+  .letter {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+  }
+  .letter span {
+    display: inline-block;
+    transform: translateY(110%);
+    animation: rise 400ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  .l1 span { animation-delay: 1200ms; }
+  .l2 span { animation-delay: 1320ms; }
+  .l3 span { animation-delay: 1440ms; }
+  .l4 span { animation-delay: 1560ms; }
+  .l5 span { animation-delay: 1680ms; }
+  .l6 span { animation-delay: 1800ms; }
+
+  @keyframes rise {
+    to { transform: translateY(0); }
+  }
+
+  /* Static fallback for no-js: all elements visible */
+  @media (prefers-reduced-motion: reduce) {
+    .d-side, .signal-main { stroke-dashoffset: 0; }
+    .signal-tick, .glow { opacity: 1; }
+    .letter span { transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+  <div class="logo-wrap">
+    <svg viewBox="0 0 280 64" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <!-- Glow layer behind signal -->
+      <g class="glow" fill="none" stroke="#00F0C8" stroke-width="4" stroke-linecap="square" filter="url(#glow)">
+        <line x1="14" y1="32" x2="50" y2="32" />
+        <line x1="26" y1="24" x2="38" y2="24" />
+        <line x1="26" y1="40" x2="38" y2="40" />
+      </g>
+      <!-- Diamond mark -->
+      <g fill="none" stroke="#F4F2EE" stroke-width="2" stroke-linecap="square" stroke-linejoin="miter">
+        <line class="d-side d1" x1="32" y1="4" x2="60" y2="32" />
+        <line class="d-side d2" x1="60" y1="32" x2="32" y2="60" />
+        <line class="d-side d3" x1="32" y1="60" x2="4" y2="32" />
+        <line class="d-side d4" x1="4" y1="32" x2="32" y2="4" />
+      </g>
+      <!-- Signal waveform -->
+      <g fill="none" stroke="#00F0C8" stroke-width="2" stroke-linecap="square">
+        <line class="signal-main" x1="14" y1="32" x2="50" y2="32" />
+        <line class="signal-tick t1" x1="26" y1="24" x2="38" y2="24" />
+        <line class="signal-tick t2" x1="26" y1="40" x2="38" y2="40" />
+      </g>
+      <!-- Logotype rendered as foreignObject for typographic control -->
+      <foreignObject x="84" y="14" width="200" height="40">
+        <div xmlns="http://www.w3.org/1999/xhtml"
+             style="font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:700;letter-spacing:-0.04em;color:#F4F2EE;line-height:1;">
+          <span class="letter l1"><span>V</span></span><span class="letter l2"><span>E</span></span><span class="letter l3"><span>K</span></span><span class="letter l4"><span>T</span></span><span class="letter l5"><span>R</span></span><span class="letter l6"><span>A</span></span>
+        </div>
+      </foreignObject>
+    </svg>
+  </div>
+</body>
+</html>

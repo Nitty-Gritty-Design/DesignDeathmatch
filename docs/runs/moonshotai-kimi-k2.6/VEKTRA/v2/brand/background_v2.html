@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — The Signal Field v2</title>
+<!--
+  Wildcard 6.1 v2: Generative animated background.
+  A full-viewport Canvas signal field using vanilla JS Canvas 2D.
+  Multi-layer additive sine waves, particle field with spring physics,
+  mouse-reactive disturbance, scanline overlay.
+  Responds to mouse movement. 60fps via requestAnimationFrame.
+  Uses brand tokens imported from tokens_v2.css.
+-->
+<link rel="stylesheet" href="tokens_v2.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: var(--color-bg-primary);
+    font-family: var(--font-mono);
+  }
+  #signalCanvas {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+  }
+  .overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    text-align: center;
+    padding: 24px;
+  }
+  .overlay h1 {
+    font-size: clamp(4rem, 14vw, 10rem);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.04em;
+    color: var(--color-text-primary);
+    opacity: 0.06;
+    line-height: 0.85;
+    user-select: none;
+  }
+  .overlay p {
+    margin-top: 20px;
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    opacity: 0.4;
+    user-select: none;
+  }
+</style>
+</head>
+<body>
+<canvas id="signalCanvas"></canvas>
+<div class="overlay">
+  <h1>VEKTRA</h1>
+  <p>Move cursor to disturb the field</p>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  const canvas = document.getElementById('signalCanvas');
+  const ctx = canvas.getContext('2d');
+  let width, height, dpr;
+  const mouse = { x: -9999, y: -9999, targetX: -9999, targetY: -9999 };
+  let time = 0;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width * dpr;
+    canvas.height = height * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  window.addEventListener('resize', () => { resize(); initParticles(); });
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.targetX = e.clientX;
+    mouse.targetY = e.clientY;
+  });
+  window.addEventListener('mouseleave', () => {
+    mouse.targetX = -9999;
+    mouse.targetY = -9999;
+  });
+
+  // Brand colors from CSS (with fallback)
+  const accent = { r: 0, g: 229, b: 191 };
+  const muted = { r: 155, g: 168, b: 164 };
+  const primary = { r: 242, g: 240, b: 236 };
+
+  // Wave layers — 8 oscillators
+  const waves = Array.from({ length: 8 }, (_, i) => ({
+    yOffset: 0.25 + (i / 7) * 0.5,
+    amp: 22 + i * 7,
+    freq: 0.003 + i * 0.0012,
+    speed: 0.5 + i * 0.2,
+    phase: i * 0.9,
+    opacity: 0.06 + (7 - i) * 0.02,
+    lineWidth: 0.7 + (7 - i) * 0.12,
+  }));
+
+  // Particle field
+  const PARTICLE_COUNT = 160;
+  let particles = [];
+
+  function initParticles() {
+    particles = Array.from({ length: PARTICLE_COUNT }, () => ({
+      baseX: Math.random(),
+      baseY: Math.random(),
+      x: 0, y: 0,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.15 + Math.random() * 0.35,
+      radius: 0.5 + Math.random() * 1.0,
+    }));
+  }
+  initParticles();
+
+  // Lerp helper
+  const lerp = (a, b, t) => a + (b - a) * t;
+
+  function draw() {
+    time += 0.016;
+
+    // Smooth mouse follow
+    mouse.x = lerp(mouse.x, mouse.targetX, 0.035);
+    mouse.y = lerp(mouse.y, mouse.targetY, 0.035);
+
+    const mouseActive = mouse.x > -1000;
+    const mx = mouseActive ? mouse.x : width * 0.5;
+    const my = mouseActive ? mouse.y : height * 0.5;
+    const mouseNormX = (mx / width - 0.5) * 2;
+    const mouseNormY = (my / height - 0.5) * 2;
+
+    // Clear
+    ctx.fillStyle = '#060A09';
+    ctx.fillRect(0, 0, width, height);
+
+    // Draw particles
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      const px = p.baseX * width;
+      const py = p.baseY * height;
+      const dx = px - mx;
+      const dy = py - my;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      const influence = mouseActive ? Math.max(0, 1 - dist / 280) : 0;
+
+      p.x = px + Math.sin(time * p.speed + p.phase) * 3 * (1 + influence * 5);
+      p.y = py + Math.cos(time * p.speed * 0.7 + p.phase) * 2 * (1 + influence * 5);
+
+      const alpha = 0.1 + influence * 0.45;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius * (1 + influence * 0.5), 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${muted.r},${muted.g},${muted.b},${alpha})`;
+      ctx.fill();
+    }
+
+    // Connection web
+    ctx.lineWidth = 0.4;
+    for (let i = 0; i < particles.length; i++) {
+      for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x;
+        const dy = particles[i].y - particles[j].y;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        if (d < 85) {
+          const a = (1 - d / 85) * 0.07;
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(${accent.r},${accent.g},${accent.b},${a})`;
+          ctx.stroke();
+        }
+      }
+    }
+
+    // Layered sine waves with additive blending
+    ctx.save();
+    ctx.globalCompositeOperation = 'screen';
+
+    for (let i = 0; i < waves.length; i++) {
+      const w = waves[i];
+      const waveY = height * w.yOffset + mouseNormY * 18 * (i + 1) / waves.length;
+      const ampMod = 1 + Math.abs(mouseNormY) * 0.7 + (mouseActive ? 0.4 : 0);
+      const freqMod = 1 + mouseNormX * 0.25;
+
+      ctx.beginPath();
+      for (let x = 0; x <= width; x += 2) {
+        const envelope = Math.sin((x / width) * Math.PI);
+        const y = waveY + Math.sin(x * w.freq * freqMod + time * w.speed + w.phase) * w.amp * ampMod * envelope;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      ctx.strokeStyle = `rgba(${accent.r},${accent.g},${accent.b},${w.opacity})`;
+      ctx.lineWidth = w.lineWidth;
+      ctx.stroke();
+    }
+
+    ctx.restore();
+
+    // Mouse cursor field
+    if (mouseActive) {
+      ctx.beginPath();
+      ctx.arc(mx, my, 52 + Math.sin(time * 1.8) * 10, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${accent.r},${accent.g},${accent.b},0.05)`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(mx, my, 3, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${accent.r},${accent.g},${accent.b},0.55)`;
+      ctx.fill();
+    }
+
+    // Scanline overlay
+    ctx.fillStyle = 'rgba(6, 10, 9, 0.025)';
+    for (let y = 0; y < height; y += 3) {
+      ctx.fillRect(0, y, width, 1);
+    }
+
+    requestAnimationFrame(draw);
+  }
+
+  requestAnimationFrame(draw);
+})();
+</script>
+</body>
+</html>

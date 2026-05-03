@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 128" width="120" height="128">
+  <defs>
+    <style>
+      .mark-stroke { fill: none; stroke: #E8E4E0; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+      .vertex { fill: #E8962E; }
+    </style>
+  </defs>
+  <polyline class="mark-stroke" points="10,8 30,34 22,62 40,88 62,118"/>
+  <polyline class="mark-stroke" points="62,118 82,88 96,62 114,8"/>
+  <circle class="vertex" cx="62" cy="118" r="4.5"/>
+</svg>

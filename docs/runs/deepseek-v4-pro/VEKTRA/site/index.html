@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Generative Audio-Visual Instruments</title>
+  <meta name="description" content="VEKTRA is an environment where sound, motion, and code are treated as a single medium. Built in Berlin.">
+  <link rel="icon" href="../brand/logo-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="nav" id="nav">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <img src="../brand/logo.svg" alt="VEKTRA" class="nav-logo-img">
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span class="nav-toggle-line"></span>
+        <span class="nav-toggle-line"></span>
+      </button>
+      <div class="nav-menu" id="navMenu">
+        <a href="#what" class="nav-link">About</a>
+        <a href="#how" class="nav-link">Product</a>
+        <a href="#who" class="nav-link">Users</a>
+        <a href="#viz" class="nav-link">Signal</a>
+        <a href="#" class="nav-cta btn btn-accent">Request Access</a>
+      </div>
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero" id="hero">
+      <canvas class="hero-bg" id="heroBg" aria-hidden="true"></canvas>
+      <div class="hero-content">
+        <h1 class="hero-headline">
+          <span class="hero-line reveal-text">The space between</span>
+          <span class="hero-line reveal-text delay-1">a frequency and a gesture</span>
+          <span class="hero-line reveal-text delay-2">is smaller than you think.</span>
+        </h1>
+        <p class="hero-sub reveal-text delay-3">
+          VEKTRA is an environment where oscillators drive vertices, where a microphone input can rewrite a shader, and where time is not a timeline but a signal you can route, multiply, and invert.
+        </p>
+        <div class="hero-cta reveal-text delay-4">
+          <a href="#" class="btn btn-accent">Request access</a>
+          <a href="#what" class="btn btn-ghost">Learn more</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="what">
+      <div class="section-inner">
+        <h5 class="overline">What it is</h5>
+        <h2 class="section-heading reveal-section">One graph. Three dimensions.</h2>
+        <div class="what-grid">
+          <p class="what-text reveal-section">
+            Most creative tools force you to choose: are you working in sound, in image, or in logic? They give you a timeline for audio, a canvas for visuals, a code editor for behavior — and then ask you to keep them synchronized by hand.
+          </p>
+          <p class="what-text reveal-section">
+            VEKTRA refuses that separation. In VEKTRA, everything is a node in a shared signal graph. A frequency can drive a vertex position. A camera gesture can rewrite a patch parameter. Code is not a layer on top — it is the medium itself, live and inspectable at every point in the graph.
+          </p>
+          <p class="what-text reveal-section">
+            This is not a DAW with a visualizer bolted on. This is not a creative suite with an API. This is a single environment built from first principles around the idea that time, signal, and form are the same thing viewed through different lenses.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="how">
+      <div class="section-inner">
+        <h5 class="overline">How it works</h5>
+        <h2 class="section-heading reveal-section">Three concepts</h2>
+        <div class="how-grid">
+          <div class="how-card reveal-section">
+            <div class="how-card-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M12 2v4m0 12v4M2 12h4m12 0h4"/>
+                <path d="M5.64 5.64l2.83 2.83m7.07 7.07l2.83 2.83M5.64 18.36l2.83-2.83m7.07-7.07l2.83-2.83"/>
+              </svg>
+            </div>
+            <h3 class="how-card-title">Signal Graph</h3>
+            <p class="how-card-text">
+              Every element — oscillator, shader, input, output — is a node. Connections are patch cords you can inspect, reroute, and modulate. The graph is the application.
+            </p>
+          </div>
+          <div class="how-card reveal-section delay-1">
+            <div class="how-card-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <polyline points="3,18 7,10 11,15 15,5 19,11 21,8"/>
+              </svg>
+            </div>
+            <h3 class="how-card-title">Live Time</h3>
+            <p class="how-card-text">
+              Time is not a playback head — it is a signal you can route, multiply, divide, reverse, and synchronize across domains. Tempo is just another frequency.
+            </p>
+          </div>
+          <div class="how-card reveal-section delay-2">
+            <div class="how-card-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M8 6l-6 6 6 6"/>
+                <path d="M4 12h12"/>
+                <path d="M16 6l6 6-6 6"/>
+              </svg>
+            </div>
+            <h3 class="how-card-title">Fork Everything</h3>
+            <p class="how-card-text">
+              Every patch, every parameter, every node connection can be branched, versioned, and merged. VEKTRA's graph inherits from git: inspectable history, sharable state, infinite undo.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="who">
+      <div class="section-inner">
+        <h5 class="overline">Who uses it</h5>
+        <h2 class="section-heading reveal-section">Built for practitioners</h2>
+        <div class="who-grid">
+          <div class="who-card reveal-section">
+            <div class="who-card-role">The Composer</div>
+            <h3 class="who-card-name">Mira Olsen</h3>
+            <p class="who-card-text">
+              "VEKTRA lets me think about a piece the way I hear it — not as tracks, but as a system of relationships. I patch a frequency into a visual parameter and suddenly the work has a life I didn't plan."
+            </p>
+            <span class="who-card-tag">Electronic composition</span>
+            <span class="who-card-tag">Spatial audio</span>
+          </div>
+          <div class="who-card reveal-section delay-1">
+            <div class="who-card-role">The Installation Artist</div>
+            <h3 class="who-card-name">Kai Ritter</h3>
+            <p class="who-card-text">
+              "My installations react to the room — microphone input, camera feed, sensor data. VEKTRA treats all of those as the same kind of thing: a signal. I don't have to translate between tools anymore."
+            </p>
+            <span class="who-card-tag">Interactive space</span>
+            <span class="who-card-tag">Real-time generative</span>
+          </div>
+          <div class="who-card reveal-section delay-2">
+            <div class="who-card-role">The Developer</div>
+            <h3 class="who-card-name">Sasha Petrov</h3>
+            <p class="who-card-text">
+              "I have a Eurorack, a Haskell side project, and strong opinions about type systems. VEKTRA is the first creative tool that treats my code as part of the instrument, not a scripting afterthought."
+            </p>
+            <span class="who-card-tag">Live coding</span>
+            <span class="who-card-tag">Algorithmic composition</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="viz">
+      <div class="section-inner">
+        <h5 class="overline">The Signal</h5>
+        <h2 class="section-heading reveal-section">A living waveform</h2>
+        <p class="viz-intro reveal-section">
+          Below is a frequency-domain visualization of an imagined VEKTRA graph. Hover over the nodes to inspect their connections. Drag the threshold slider to filter by amplitude.
+        </p>
+        <div class="viz-container reveal-section" id="vizContainer">
+          <div class="viz-toolbar">
+            <label class="viz-label">
+              <span class="viz-label-text">Threshold</span>
+              <input type="range" min="0" max="100" value="30" class="viz-slider" id="vizThreshold">
+              <span class="viz-value" id="vizThresholdValue">0.30</span>
+            </label>
+          </div>
+          <canvas class="viz-canvas" id="vizCanvas" width="960" height="480"></canvas>
+          <div class="viz-tooltip" id="vizTooltip" hidden></div>
+        </div>
+        <p class="viz-link reveal-section">
+          <a href="viz.html" class="btn btn-ghost">Open full visualization &rarr;</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <img src="../brand/logo.svg" alt="VEKTRA" class="footer-logo">
+        <p class="footer-tagline">Everything is inspectable, forkable, and alive.</p>
+      </div>
+      <div class="footer-links">
+        <div class="footer-col">
+          <span class="footer-col-title">Product</span>
+          <a href="#">Overview</a>
+          <a href="#">Signal Graph</a>
+          <a href="#">Documentation</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Studio</span>
+          <a href="#">About</a>
+          <a href="#">Research</a>
+          <a href="#">Contact</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title">Legal</span>
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <address class="footer-address">VEKTRA GmbH &middot; Revaler Str. 99 &middot; 10245 Berlin &middot; Germany</address>
+      <p class="footer-copy">&copy; 2026 VEKTRA. Built in Berlin.</p>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

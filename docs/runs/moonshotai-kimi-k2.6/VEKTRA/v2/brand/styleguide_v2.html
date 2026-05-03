@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA Style Guide — v2</title>
+<link rel="stylesheet" href="tokens_v2.css">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--font-sans);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  :focus-visible { outline: 1.5px solid var(--color-accent); outline-offset: 3px; }
+  ::selection { background: var(--color-accent-dim); color: var(--color-text-primary); }
+
+  /* Nav */
+  .sg-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: color-mix(in srgb, var(--color-bg-primary) 95%, transparent);
+    backdrop-filter: blur(16px) saturate(1.2);
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .sg-nav-inner {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+  }
+  .sg-nav a {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    transition: color 200ms;
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .sg-nav a:hover { color: var(--color-accent); }
+  .sg-nav-links { display: flex; gap: 28px; }
+
+  /* Sections */
+  .sg-section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 120px 24px;
+    border-bottom: 1px solid var(--color-border-subtle);
+  }
+  .sg-section h2 {
+    font-family: var(--font-mono);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 500;
+    margin-bottom: 64px;
+    color: var(--color-text-primary);
+  }
+  .sg-label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-muted);
+    margin-bottom: 20px;
+  }
+
+  /* Color swatches */
+  .swatch-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .swatch {
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+    transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 300ms;
+  }
+  .swatch:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+  }
+  .swatch-top, .swatch-bottom {
+    height: 100px;
+    display: flex;
+    align-items: flex-end;
+    padding: 14px;
+  }
+  .swatch-bottom { border-top: 1px solid var(--color-border); }
+  .swatch-meta {
+    padding: 18px;
+    background: var(--color-surface);
+  }
+  .swatch-meta code {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    color: var(--color-accent);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .swatch-meta p {
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+  .swatch-meta .hex {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    margin-top: 6px;
+    display: block;
+  }
+
+  /* Typography */
+  .type-specimen {
+    display: grid;
+    gap: 40px;
+  }
+  .type-row {
+    display: flex;
+    align-items: baseline;
+    gap: 32px;
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--color-border-subtle);
+    padding-bottom: 32px;
+  }
+  .type-row:last-child { border-bottom: none; }
+  .type-token {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    min-width: 140px;
+    flex-shrink: 0;
+  }
+
+  /* Logo */
+  .logo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 28px;
+  }
+  .logo-cell {
+    border: 1px solid var(--color-border);
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    min-height: 220px;
+    transition: border-color 300ms;
+  }
+  .logo-cell:hover { border-color: var(--color-accent-dim); }
+  .logo-cell.dark { background: var(--color-bg-secondary); }
+  .logo-cell.light { background: var(--color-bg-primary); }
+  .logo-cell label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .anim-logo-wrap {
+    position: relative;
+    width: 320px;
+    height: 72px;
+  }
+  .anim-logo-wrap iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+  .replay-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 200ms, color 200ms, box-shadow 200ms;
+  }
+  .replay-btn:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    box-shadow: 0 0 16px var(--color-accent-glow);
+  }
+
+  /* Components */
+  .comp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 32px;
+  }
+  .comp-cell {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    transition: border-color 300ms;
+  }
+  .comp-cell:hover { border-color: var(--color-accent-dim); }
+  .comp-cell label {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 28px;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-primary);
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 200ms, box-shadow 200ms, transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    z-index: -1;
+  }
+  .btn:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 24px var(--color-accent-glow);
+    transform: translateY(-2px);
+    color: var(--color-bg-primary);
+  }
+  .btn:hover::before { transform: scaleX(1); }
+  .btn:active { transform: translateY(0); }
+  .btn:disabled { opacity: 0.35; cursor: not-allowed; border-color: var(--color-border); box-shadow: none; transform: none; }
+  .btn:disabled::before { transform: scaleX(0); }
+  .btn-primary {
+    background: var(--color-accent);
+    color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+  }
+  .btn-primary::before { background: var(--color-bg-primary); }
+  .btn-primary:hover { color: var(--color-text-primary); box-shadow: 0 0 32px var(--color-accent-glow); }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    font-family: var(--font-sans);
+    font-size: 0.875rem;
+    transition: border-color 200ms, box-shadow 200ms;
+  }
+  input[type="text"]:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-accent-glow);
+    outline: none;
+  }
+
+  .code-block {
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+    padding: 20px;
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.7;
+    color: var(--color-text-primary);
+    position: relative;
+  }
+  .code-block::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: var(--color-accent);
+    opacity: 0.3;
+  }
+  .code-block .comment { color: var(--color-text-muted); }
+  .code-block .keyword { color: var(--color-accent); }
+
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 200ms, transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .card:hover { border-color: var(--color-accent-dim); transform: translateY(-4px); }
+  .card:hover::before { transform: scaleX(1); }
+
+  .badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-secondary);
+    transition: border-color 200ms, color 200ms;
+  }
+  .badge:hover { border-color: var(--color-accent); color: var(--color-accent); }
+  .badge-accent { border-color: var(--color-accent); color: var(--color-accent); }
+
+  .nav-demo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    background: var(--color-bg-primary);
+    border: 1px solid var(--color-border);
+  }
+  .nav-demo span { font-family: var(--font-mono); font-weight: 700; font-size: 1rem; letter-spacing: -0.06em; }
+  .nav-demo a { font-size: 0.75rem; color: var(--color-text-secondary); transition: color 200ms; font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.06em; }
+  .nav-demo a:hover { color: var(--color-accent); }
+
+  /* Motion */
+  .motion-demo {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 56px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 28px;
+  }
+  .motion-box {
+    width: 72px;
+    height: 72px;
+    background: var(--color-accent);
+    opacity: 0;
+    transform: translateY(32px) scale(0.95);
+  }
+  .motion-box.triggered {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1),
+                transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .motion-trigger {
+    padding: 10px 20px;
+    border: 1px solid var(--color-border);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--color-text-secondary);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 200ms, color 200ms, box-shadow 200ms;
+  }
+  .motion-trigger:hover { border-color: var(--color-accent); color: var(--color-accent); box-shadow: 0 0 16px var(--color-accent-glow); }
+
+  /* Voice */
+  .voice-quote {
+    border-left: 2px solid var(--color-accent);
+    padding-left: 28px;
+    margin-bottom: 40px;
+    max-width: 68ch;
+  }
+  .voice-quote p {
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+    font-style: italic;
+  }
+  .voice-example {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: border-color 300ms;
+  }
+  .voice-example:hover { border-color: var(--color-accent-dim); }
+  .voice-example .tag {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  @media (min-width: 768px) {
+    .sg-section { padding: 140px 48px; }
+  }
+</style>
+</head>
+<body>
+
+<nav class="sg-nav" role="navigation" aria-label="Style guide">
+  <div class="sg-nav-inner">
+    <a href="../site/index_v2.html" style="font-family:var(--font-mono);font-weight:700;font-size:1rem;letter-spacing:-0.06em;color:var(--color-text-primary)">VEKTRA</a>
+    <div class="sg-nav-links">
+      <a href="#color">Color</a>
+      <a href="#typography">Type</a>
+      <a href="#logo">Logo</a>
+      <a href="#components">Components</a>
+      <a href="#motion">Motion</a>
+      <a href="#voice">Voice</a>
+    </div>
+  </div>
+</nav>
+
+<!-- 5.1 Color -->
+<section class="sg-section" id="color">
+  <h2>Color</h2>
+  <p class="sg-label">Dark mode swatches</p>
+  <div class="swatch-grid">
+    <div class="swatch">
+      <div class="swatch-top" style="background:#060A09"><span style="color:#F2F0EC;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-bg-primary</code>
+        <p>The void. Primary canvas. A cool near-black with a whisper of pine-green.</p>
+        <span class="hex">#060A09 / #F2F0EC</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#020504"><span style="color:#F2F0EC;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-bg-secondary</code>
+        <p>Absolute depth. Backdrops, modals, the void behind void.</p>
+        <span class="hex">#020504 / #E6E4E0</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#0E1412"><span style="color:#F2F0EC;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-surface</code>
+        <p>Elevated planes. Cards, panels, code blocks. Same temperature as the void.</p>
+        <span class="hex">#0E1412 / #FFFFFF</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#00E5BF"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#060A09"><span style="color:#00E5BF;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-accent</code>
+        <p>Phosphor cyan. The oscilloscope trace. Used precisely, never decoratively.</p>
+        <span class="hex">#00E5BF</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#005E4E"><span style="color:#F2F0EC;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#005E4E;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-accent-dim</code>
+        <p>Subtle fills, hover backgrounds, indicators that must not shout.</p>
+        <span class="hex">#005E4E</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#F2F0EC"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#060A09"><span style="color:#F2F0EC;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-text-primary</code>
+        <p>Primary content. Warm off-white with enough body to hold a page.</p>
+        <span class="hex">#F2F0EC / #060A09</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#9BA8A4"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#3A4643;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-text-secondary</code>
+        <p>Captions, metadata. Muted sage. Readable without demanding attention.</p>
+        <span class="hex">#9BA8A4 / #3A4643</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#4F5956"><span style="color:#060A09;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#7A8683;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-text-muted</code>
+        <p>Disabled, timestamps, borders of text. Structural, not communicative.</p>
+        <span class="hex">#4F5956 / #7A8683</span>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-top" style="background:#1A211E"><span style="color:#F2F0EC;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-bottom" style="background:#F2F0EC"><span style="color:#D8D6D2;font-family:var(--font-mono);font-size:0.75rem">Aa</span></div>
+      <div class="swatch-meta">
+        <code>--color-border</code>
+        <p>Hairline structure. Dividers, card outlines, the grid itself.</p>
+        <span class="hex">#1A211E / #D8D6D2</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5.2 Typography -->
+<section class="sg-section" id="typography">
+  <h2>Typography</h2>
+  <div class="type-specimen">
+    <div class="type-row">
+      <span class="type-token">text-96<br>Mono 700</span>
+      <span style="font-family:var(--font-mono);font-size:clamp(3.5rem,8vw,6rem);font-weight:700;line-height:0.9;text-transform:uppercase;letter-spacing:-0.04em">Signal<br>resolves</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-72<br>Mono 700</span>
+      <span style="font-family:var(--font-mono);font-size:4.5rem;font-weight:700;line-height:0.95;letter-spacing:-0.03em">Generative<br>graph</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-56<br>Mono 700</span>
+      <span style="font-family:var(--font-mono);font-size:3.5rem;font-weight:700;line-height:1;letter-spacing:-0.03em">One graph.<br>All media.</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-40<br>Sans 700</span>
+      <span style="font-family:var(--font-sans);font-size:2.5rem;font-weight:700;line-height:1.1;letter-spacing:-0.025em">How it works</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-32<br>Sans 500</span>
+      <span style="font-family:var(--font-sans);font-size:2rem;font-weight:500;line-height:1.15;letter-spacing:-0.02em">Graph-based patching</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-20<br>Sans 500</span>
+      <span style="font-family:var(--font-sans);font-size:1.25rem;font-weight:500;line-height:1.35;letter-spacing:-0.015em">Every parameter is a node. Every connection is a signal.</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-16<br>Sans 400</span>
+      <span style="font-family:var(--font-sans);font-size:1rem;line-height:1.6;letter-spacing:-0.01em;max-width:48ch">VEKTRA treats sound, motion, and logic as one medium. A change in frequency can drive a visual parameter. A gesture can rewrite a patch.</span>
+    </div>
+    <div class="type-row">
+      <span class="type-token">text-11<br>Mono 500</span>
+      <span style="font-family:var(--font-mono);font-size:0.6875rem;font-weight:500;line-height:1.35;text-transform:uppercase;letter-spacing:0.06em">Node address · 440 Hz · active · v2.4.0</span>
+    </div>
+  </div>
+</section>
+
+<!-- 5.3 Logo -->
+<section class="sg-section" id="logo">
+  <h2>Logo</h2>
+  <div class="logo-grid">
+    <div class="logo-cell dark">
+      <label>Primary dark</label>
+      <img src="logo_v2.svg" alt="VEKTRA primary logo v2" width="240">
+    </div>
+    <div class="logo-cell light" style="background:var(--color-bg-primary)">
+      <label>Primary light</label>
+      <img src="logo-light_v2.svg" alt="VEKTRA light logo v2" width="240">
+    </div>
+    <div class="logo-cell dark">
+      <label>Mark only</label>
+      <img src="logo-mark_v2.svg" alt="VEKTRA mark v2" width="56">
+    </div>
+    <div class="logo-cell dark">
+      <label>Animated — click replay</label>
+      <div class="anim-logo-wrap">
+        <iframe id="animLogo" src="logo-animated_v2.html" title="VEKTRA animated logo v2"></iframe>
+      </div>
+      <button class="replay-btn" onclick="document.getElementById('animLogo').src='logo-animated_v2.html'">Replay animation</button>
+    </div>
+  </div>
+</section>
+
+<!-- 5.4 Components -->
+<section class="sg-section" id="components">
+  <h2>Components</h2>
+  <div class="comp-grid">
+    <div class="comp-cell">
+      <label>Button default</label>
+      <button class="btn">Explore</button>
+    </div>
+    <div class="comp-cell">
+      <label>Button primary / hover</label>
+      <button class="btn btn-primary">Initialize</button>
+    </div>
+    <div class="comp-cell">
+      <label>Button disabled</label>
+      <button class="btn" disabled>Unavailable</button>
+    </div>
+    <div class="comp-cell">
+      <label>Text input</label>
+      <input type="text" placeholder="Node address…" aria-label="Demo input">
+    </div>
+    <div class="comp-cell">
+      <label>Code block</label>
+      <div class="code-block">
+        <span class="comment">// Connect frequency to rotation</span><br>
+        <span class="keyword">patch</span>.connect(osc.frequency, plane.rotationX)
+      </div>
+    </div>
+    <div class="comp-cell">
+      <label>Card</label>
+      <div class="card">
+        <span style="font-family:var(--font-mono);font-size:0.6875rem;color:var(--color-accent);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:10px">01 / Graph</span>
+        <strong style="display:block;margin-bottom:6px;font-size:1.1rem">Graph-based patching</strong>
+        <span style="font-size:0.875rem;color:var(--color-text-secondary)">Every parameter is a node.</span>
+      </div>
+    </div>
+    <div class="comp-cell">
+      <label>Badge / tag</label>
+      <div>
+        <span class="badge">stable</span>
+        <span class="badge badge-accent">live</span>
+      </div>
+    </div>
+    <div class="comp-cell">
+      <label>Navigation bar</label>
+      <div class="nav-demo">
+        <span>VEKTRA</span>
+        <div style="display:flex;gap:18px">
+          <a href="#">Product</a>
+          <a href="#">Docs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5.5 Motion -->
+<section class="sg-section" id="motion">
+  <h2>Motion</h2>
+  <p class="sg-label">Timing curves</p>
+  <div class="code-block" style="margin-bottom:56px;max-width:640px">
+    --ease-signal: cubic-bezier(0.22, 1, 0.36, 1) &nbsp;&nbsp;<span class="comment">/* primary entrance: elegant deceleration */</span><br>
+    --ease-snap:   cubic-bezier(0.68, -0.15, 0.265, 1.25) <span class="comment">/* playful precise snap */</span><br>
+    --ease-drift:  cubic-bezier(0.4, 0, 0.2, 1) &nbsp;&nbsp;<span class="comment">/* ambient continuous */</span><br>
+    --duration-instant: 100ms<br>
+    --duration-fast:    200ms<br>
+    --duration-base:    350ms<br>
+    --duration-slow:    600ms<br>
+    --duration-entrance: 900ms<br>
+    --duration-dramatic: 1400ms
+  </div>
+
+  <p class="sg-label">Pattern: entrance (ease-signal, 900ms)</p>
+  <div class="motion-demo">
+    <div class="motion-box" id="motionBox1"></div>
+    <button class="motion-trigger" onclick="triggerMotion('motionBox1')">Trigger entrance</button>
+  </div>
+
+  <p class="sg-label" style="margin-top:56px">Pattern: hover transition (200ms → 600ms)</p>
+  <div class="motion-demo" style="margin-top:16px">
+    <button class="btn" style="transition:border-color 200ms, box-shadow 200ms, transform 600ms cubic-bezier(0.22, 1, 0.36, 1)">Hover this button</button>
+    <span style="font-size:0.75rem;color:var(--color-text-muted)">Border and shadow: 200ms. Transform: 600ms with ease-signal.</span>
+  </div>
+</section>
+
+<!-- 5.6 Voice -->
+<section class="sg-section" id="voice">
+  <h2>Voice</h2>
+  <div class="voice-quote">
+    <p>VEKTRA speaks with the precision of a technician who has just discovered something beautiful. We do not persuade — we describe what is possible, and we describe it exactly. Every sentence earns its punctuation.</p>
+  </div>
+
+  <p class="sg-label">Five words</p>
+  <p style="margin-bottom:36px;color:var(--color-text-secondary)">Precise · Confident · Tuned · Restrained · Alive</p>
+
+  <p class="sg-label">Five words it is not</p>
+  <p style="margin-bottom:36px;color:var(--color-text-secondary)">Hype-driven · Corporate · Cryptic · Playful (cutesy) · Apologetic</p>
+
+  <p class="sg-label">Copy examples</p>
+  <div class="voice-example">
+    <span class="tag">Hero headline</span>
+    <p style="font-family:var(--font-mono);font-size:clamp(1.5rem,3vw,2.5rem);font-weight:700;line-height:1.2">Sound, motion, and logic. One graph.</p>
+  </div>
+  <div class="voice-example">
+    <span class="tag">Body copy</span>
+    <p style="font-size:1rem;line-height:1.65;max-width:58ch">VEKTRA is a generative environment where a change in frequency can drive a visual parameter, a gesture can rewrite a patch, and time is explicit — not hidden behind a playhead.</p>
+  </div>
+  <div class="voice-example">
+    <span class="tag">UI label</span>
+    <p style="font-family:var(--font-mono);font-size:0.8125rem">Signal lost. Check the node address and try again.</p>
+  </div>
+</section>
+
+<script>
+  function triggerMotion(id) {
+    const el = document.getElementById(id);
+    el.classList.remove('triggered');
+    void el.offsetWidth;
+    el.classList.add('triggered');
+  }
+</script>
+
+</body>
+</html>

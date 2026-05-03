@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Field v2</title>
+  <!-- 6.1 Wildcard v2: Multi-layer generative signal field with particle physics,
+       mouse-attraction vortex, scroll parallax, and depth-of-field effect.
+       Built on vanilla Canvas API with requestAnimationFrame loop. -->
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #080706; overflow: hidden; font-family: 'JetBrains Mono',monospace; }
+    canvas { display: block; position: fixed; inset: 0; }
+    .ui { position: fixed; bottom: 24px; left: 24px; display: flex; gap: 16px; align-items: baseline; }
+    .ui-item { font-family: 'JetBrains Mono',monospace; font-size: 0.625rem; color: rgba(160,152,144,0.5); text-transform: uppercase; letter-spacing: 0.08em; }
+    .hero-overlay {
+      position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+      pointer-events: none; z-index: 2;
+    }
+    .hero-text {
+      font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 700;
+      color: rgba(232,228,222,0.85); text-align: center;
+      letter-spacing: -0.04em; line-height: 1.0; user-select: none;
+    }
+    .hero-sub {
+      font-size: clamp(0.875rem, 2vw, 1.125rem); color: rgba(160,152,144,0.7);
+      font-family: 'Space Grotesk',sans-serif; margin-top: 16px; font-weight: 400;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+  <div class="hero-overlay">
+    <div>
+      <div class="hero-text">The signal<br>is the field</div>
+      <div class="hero-sub">One graph. Infinite connections.</div>
+    </div>
+  </div>
+  <div class="ui">
+    <span class="ui-item" id="fpsDisplay">60 fps</span>
+    <span class="ui-item" id="particleCount">0 particles</span>
+    <span class="ui-item">· move cursor ·</span>
+  </div>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById('bg');
+      var ctx = canvas.getContext('2d', { alpha: false });
+      var fpsEl = document.getElementById('fpsDisplay');
+      var countEl = document.getElementById('particleCount');
+
+      var W, H, dpr;
+      var particles = [];
+      var PARTICLE_COUNT = Math.min(180, Math.max(80, Math.floor(window.innerWidth * 0.12)));
+      var mouse = { x: -3000, y: -3000, tx: -3000, ty: -3000, active: false };
+      var time = 0;
+
+      function resize() {
+        W = window.innerWidth; H = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = Math.floor(W * dpr);
+        canvas.height = Math.floor(H * dpr);
+        canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function initParticles() {
+        particles = [];
+        for (var i = 0; i < PARTICLE_COUNT; i++) {
+          var depth = Math.random();
+          particles.push({
+            x: Math.random() * W, y: Math.random() * H,
+            baseX: Math.random() * W, baseY: Math.random() * H,
+            vx: 0, vy: 0,
+            radius: Math.random() * 2.4 + 0.5 + depth * 0.8,
+            phase: Math.random() * Math.PI * 2,
+            freq: Math.random() * 0.005 + 0.0015,
+            amp: Math.random() * 35 + 8 + depth * 20,
+            depth: depth
+          });
+        }
+        countEl.textContent = PARTICLE_COUNT + ' particles';
+      }
+
+      var frames = 0, lastFps = performance.now();
+
+      function draw() {
+        ctx.fillStyle = '#080706'; ctx.fillRect(0, 0, W, H);
+
+        time += 0.016;
+        mouse.x += (mouse.tx - mouse.x) * 0.055;
+        mouse.y += (mouse.ty - mouse.y) * 0.055;
+
+        // Layer 1: Distant background — slow large particles
+        // Layer 2: Connections
+        for (var i = 0; i < particles.length; i++) {
+          for (var j = i + 1; j < particles.length; j++) {
+            var dx = particles[i].x - particles[j].x;
+            var dy = particles[i].y - particles[j].y;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var maxDist = 170;
+
+            if (dist < maxDist) {
+              var t = 1 - dist / maxDist;
+              t = t * t;
+              var alpha = t * 0.16 * (0.5 + (particles[i].depth + particles[j].depth) * 0.25);
+              ctx.strokeStyle = 'rgba(200,117,30,' + alpha + ')';
+              ctx.lineWidth = 0.4 + (particles[i].depth + particles[j].depth) * 0.2;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+
+        // Update & draw particles
+        for (var k = 0; k < particles.length; k++) {
+          var p = particles[k];
+          var speed = 0.3 + p.depth * 0.7;
+
+          var tx = p.baseX + Math.sin(time * p.freq * 1.2 + p.phase) * p.amp;
+          var ty = p.baseY + Math.cos(time * p.freq * 0.9 + p.phase) * p.amp * 0.65;
+
+          // Mouse vortex
+          var mdx = mouse.x - p.x, mdy = mouse.y - p.y;
+          var mdist = Math.sqrt(mdx * mdx + mdy * mdy);
+          var inf = 250 * (0.6 + p.depth * 0.4);
+
+          if (mdist < inf && mouse.active) {
+            var force = (1 - mdist / inf);
+            force = force * force * speed;
+            // Tangential24 orbit + radial pull
+            var angle = Math.atan2(mdy, mdx);
+            tx = p.x + Math.cos(angle) * force * 55;
+            ty = p.y + Math.sin(angle) * force * 55;
+          }
+
+          var spring = 0.022 * speed;
+          p.vx += (tx - p.x) * spring;
+          p.vy += (ty - p.y) * spring;
+          p.vx *= 0.92; p.vy *= 0.92;
+          p.x += p.vx; p.y += p.vy;
+
+          if (p.x < -60) p.x = W + 60; if (p.x > W + 60) p.x = -60;
+          if (p.y < -60) p.y = H + 60; if (p.y > H + 60) p.y = -60;
+
+          var alpha = 0.25 + p.depth * 0.5;
+          ctx.fillStyle = 'rgba(200,117,30,' + alpha + ')';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Mouse glow — layered radial gradient
+        if (mouse.active) {
+          for (var g = 0; g < 3; g++) {
+            var gradR = 60 + g * 80;
+            var gradAlpha = 0.06 - g * 0.016;
+            var grad = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, gradR);
+            grad.addColorStop(0, 'rgba(200,117,30,' + gradAlpha + ')');
+            grad.addColorStop(1, 'rgba(200,117,30,0)');
+            ctx.fillStyle = grad;
+            ctx.fillRect(mouse.x - gradR, mouse.y - gradR, gradR * 2, gradR * 2);
+          }
+        }
+
+        // FPS
+        frames++;
+        var now = performance.now();
+        if (now - lastFps >= 1000) {
+          fpsEl.textContent = Math.round(frames / ((now - lastFps) / 1000)) + ' fps';
+          frames = 0; lastFps = now;
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      resize(); initParticles(); draw();
+
+      window.addEventListener('resize', function () { resize(); initParticles(); });
+
+      document.addEventListener('mousemove', function (e) {
+        mouse.tx = e.clientX; mouse.ty = e.clientY; mouse.active = true;
+      });
+      document.addEventListener('touchmove', function (e) {
+        mouse.tx = e.touches[0].clientX; mouse.ty = e.touches[0].clientY; mouse.active = true;
+      }, { passive: true });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Logo Animation</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0D0C0B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .logo-container {
+    width: 480px;
+    height: 128px;
+    position: relative;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .mark-stroke {
+    fill: none;
+    stroke: #E8E4E0;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .mark-left, .mark-right {
+    stroke-dasharray: 200;
+    stroke-dashoffset: 200;
+    animation: draw 1.6s 0.4s forwards var(--ease-signal);
+  }
+
+  .mark-right {
+    animation-delay: 0.4s;
+  }
+
+  .vertex {
+    fill: #E8962E;
+    animation: vertexAppear 0.3s 0.05s forwards var(--ease-signal),
+               pulse 0.3s 3.0s forwards var(--ease-signal);
+    opacity: 0;
+  }
+
+  .logotype-letter {
+    font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+    font-size: 42px;
+    font-weight: 700;
+    fill: #E8E4E0;
+    opacity: 0;
+    animation: letterIn 0.15s forwards var(--ease-signal);
+  }
+
+  .letter-1 { animation-delay: 2.0s; }
+  .letter-2 { animation-delay: 2.05s; }
+  .letter-3 { animation-delay: 2.10s; }
+  .letter-4 { animation-delay: 2.15s; }
+  .letter-5 { animation-delay: 2.20s; }
+  .letter-6 { animation-delay: 2.25s; }
+
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+
+  @keyframes vertexAppear {
+    to { opacity: 1; }
+  }
+
+  @keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+  }
+
+  @keyframes letterIn {
+    to { opacity: 1; }
+  }
+
+  .static-mark {
+    opacity: 0;
+    animation: fadeInStatic 0.01s 3.2s forwards;
+  }
+
+  @keyframes fadeInStatic {
+    to { opacity: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="logo-container">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 128">
+    <polyline class="mark-stroke" points="10,8 30,34 22,62 40,88 62,118"/>
+    <polyline class="mark-stroke" points="62,118 82,88 96,62 114,8"/>
+    <circle class="vertex" cx="62" cy="118" r="4.5"/>
+
+    <text class="logotype-letter letter-1" x="142" y="82">V</text>
+    <text class="logotype-letter letter-2" x="181" y="82">E</text>
+    <text class="logotype-letter letter-3" x="220" y="82">K</text>
+    <text class="logotype-letter letter-4" x="259" y="82">T</text>
+    <text class="logotype-letter letter-5" x="298" y="82">R</text>
+    <text class="logotype-letter letter-6" x="337" y="82">A</text>
+  </svg>
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Sound, motion, and logic. One graph.</title>
+<meta name="description" content="VEKTRA is a generative audio-visual environment where sound, motion, and code are treated as a single medium.">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* Prevent horizontal overflow on narrow viewports */
+  .hero h1 { word-break: break-word; overflow-wrap: break-word; hyphens: auto; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="nav" role="navigation" aria-label="Primary">
+  <div class="container nav-inner">
+    <a href="#" class="nav-logo" aria-label="VEKTRA home">
+      <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+          <line x1="32" y1="4" x2="60" y2="32"/>
+          <line x1="60" y1="32" x2="32" y2="60"/>
+          <line x1="32" y1="60" x2="4" y2="32"/>
+          <line x1="4" y1="32" x2="32" y2="4"/>
+          <line x1="14" y1="32" x2="50" y2="32"/>
+        </g>
+      </svg>
+      <span>VEKTRA</span>
+    </a>
+    <div class="nav-links">
+      <a href="#what">Product</a>
+      <a href="#how">Docs</a>
+      <a href="#who">Community</a>
+    </div>
+    <a href="#" class="nav-cta">Get access</a>
+    <button class="nav-ham" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <a href="#what">Product</a>
+    <a href="#how">Docs</a>
+    <a href="#who">Community</a>
+    <a href="#" style="color:var(--color-accent)">Get access</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="hero" role="banner">
+  <canvas class="hero-canvas" id="heroCanvas" aria-hidden="true"></canvas>
+  <div class="hero-content">
+    <h1 class="text-48 text-80 reveal">Sound, motion, and logic. One graph.</h1>
+    <p class="text-18 reveal" style="transition-delay:120ms">VEKTRA is a generative environment where a change in frequency can drive a visual parameter, a gesture can rewrite a patch, and time is explicit — not hidden behind a playhead.</p>
+    <div class="reveal" style="transition-delay:240ms">
+      <a href="#what" class="btn btn-primary">Explore the environment</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- What it is -->
+  <section class="section" id="what" aria-labelledby="what-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2 id="what-heading">What it is</h2>
+      </div>
+      <div class="what-body reveal">
+        <p>Most creative tools separate the visual from the sonic from the logical. VEKTRA treats them as one graph. A change in frequency can drive a visual parameter. A gesture can rewrite a patch. Time is explicit, not hidden. Everything is inspectable, forkable, and live.</p>
+      </div>
+      <div class="code-block reveal" style="transition-delay:120ms">
+        <div><span class="comment">// A VEKTRA patch is a living graph</span></div>
+        <div><span class="keyword">patch</span>.connect(osc.frequency, plane.rotationX)</div>
+        <div><span class="keyword">patch</span>.bind(lfo.output, filter.cutoff)</div>
+        <div><span class="keyword">patch</span>.run()</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section" id="how" aria-labelledby="how-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2 id="how-heading">How it works</h2>
+        <p class="text-16">Three core concepts that define the VEKTRA environment.</p>
+      </div>
+      <div class="cards">
+        <article class="card reveal">
+          <span class="card-num">01</span>
+          <h3>Graph-based patching</h3>
+          <p>Every parameter is a node. Every connection is a signal. Build instruments by connecting oscillators, filters, visual planes, and logic gates in a single unified graph.</p>
+        </article>
+        <article class="card reveal" style="transition-delay:80ms">
+          <span class="card-num">02</span>
+          <h3>Real-time generative engine</h3>
+          <p>No render queue. No export dialog. What you hear is what you see. The engine runs at 60fps and audio sample rate simultaneously, with sample-accurate parameter scheduling.</p>
+        </article>
+        <article class="card reveal" style="transition-delay:160ms">
+          <span class="card-num">03</span>
+          <h3>Code as material</h3>
+          <p>Write JavaScript or GLSL directly inside the patch. Code is not a plugin — it is a first-class node. Edit live, hot-reload, and fork any patch you find.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Who uses it -->
+  <section class="section" id="who" aria-labelledby="who-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2 id="who-heading">Who uses it</h2>
+        <p class="text-16">Built for people who make things that behave.</p>
+      </div>
+      <div class="user-list">
+        <article class="user-item reveal">
+          <h3>Electronic composer</h3>
+          <p>For artists who want their instruments to surprise them. Build generative systems that evolve over hours, then perform them live.</p>
+        </article>
+        <article class="user-item reveal" style="transition-delay:80ms">
+          <h3>Installation artist</h3>
+          <p>For works that run for weeks unattended. VEKTRA patches can self-modify, respond to sensors, and recover from failure.</p>
+        </article>
+        <article class="user-item reveal" style="transition-delay:160ms">
+          <h3>Systems developer</h3>
+          <p>For the developer with a Eurorack rack and a Haskell side project. Every parameter is inspectable. Every state is serializable. Everything is forkable.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Data visualization -->
+  <section class="section" id="viz" aria-labelledby="viz-heading">
+    <div class="container">
+      <div class="section-header reveal">
+        <h2 id="viz-heading">A patch in motion</h2>
+        <p class="text-16">This is how signal flows through a VEKTRA graph. Hover a node to inspect its parameters. Click to activate.</p>
+      </div>
+      <div class="viz-wrap reveal">
+        <svg id="vizSvg" class="viz-canvas" viewBox="0 0 800 400" preserveAspectRatio="xMidYMid meet"></svg>
+        <div class="viz-tooltip" id="vizTooltip"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- Footer -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="nav-logo" style="text-decoration:none">
+          <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true">
+            <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" stroke-linejoin="miter">
+              <line x1="32" y1="4" x2="60" y2="32"/>
+              <line x1="60" y1="32" x2="32" y2="60"/>
+              <line x1="32" y1="60" x2="4" y2="32"/>
+              <line x1="4" y1="32" x2="32" y2="4"/>
+              <line x1="14" y1="32" x2="50" y2="32"/>
+            </g>
+          </svg>
+          <span>VEKTRA</span>
+        </a>
+        <p>Berlin-based studio building generative audio-visual instruments since 2019.</p>
+      </div>
+      <div class="footer-links">
+        <h4>Product</h4>
+        <a href="#what">Environment</a>
+        <a href="#how">Documentation</a>
+        <a href="#">Changelog</a>
+      </div>
+      <div class="footer-links">
+        <h4>Community</h4>
+        <a href="#">GitHub</a>
+        <a href="#">Discord</a>
+        <a href="#">Newsletter</a>
+      </div>
+      <div class="footer-links">
+        <h4>Legal</h4>
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Contact</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 VEKTRA GmbH. All rights reserved.</p>
+      <p class="footer-voice">If it does not move, it is not finished.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

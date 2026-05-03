@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Laboratory</title>
+  <!-- D3 chosen for interactive network graph — natural fit for SVG node-link diagrams;
+       Three.js would be overkill for 2D force-directed visualization -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="brand/tokens.css">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { font-size: 16px; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      min-height: 100vh; padding: var(--space-8);
+    }
+    .viz-header {
+      max-width: 1200px; margin: 0 auto var(--space-8);
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: var(--space-4);
+    }
+    .viz-title {
+      font-family: var(--font-mono); font-size: var(--text-xl); font-weight: 700;
+    }
+    .viz-back {
+      font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-tertiary);
+      text-decoration: none; transition: color 0.15s;
+    }
+    .viz-back:hover { color: var(--color-accent); }
+
+    .viz-grid {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-6);
+    }
+    .panel {
+      background: var(--color-bg-deep); border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg); padding: var(--space-6); position: relative;
+    }
+    .panel.full { grid-column: 1 / -1; }
+    .panel-title {
+      font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-accent);
+      margin-bottom: var(--space-4);
+    }
+    .panel canvas, .panel svg { width: 100%; height: auto; display: block; border-radius: var(--radius-md); }
+
+    .toolbar {
+      display: flex; align-items: center; gap: var(--space-4); margin-bottom: var(--space-4); flex-wrap: wrap;
+    }
+    .toolbar label {
+      display: flex; align-items: center; gap: var(--space-2);
+      font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-text-tertiary);
+    }
+    input[type="range"] {
+      -webkit-appearance: none; appearance: none; width: 90px; height: 3px;
+      background: var(--color-border); border-radius: 2px; outline: none; cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 11px; height: 11px; border-radius: 50%;
+      background: var(--color-accent); cursor: pointer;
+    }
+
+    .tooltip {
+      position: absolute; background: var(--color-surface); border: 1px solid var(--color-accent);
+      border-radius: var(--radius-md); padding: var(--space-2) var(--space-3);
+      font-family: var(--font-mono); font-size: var(--text-2xs); color: var(--color-text-primary);
+      pointer-events: none; z-index: 10; white-space: nowrap; display: none;
+    }
+
+    /* D3 styles */
+    .link { stroke: var(--color-border); stroke-width: 1; stroke-opacity: 0.5; }
+    .link.highlight { stroke: var(--color-accent); stroke-width: 1.6; stroke-opacity: 0.8; }
+    .node circle {
+      cursor: crosshair; transition: r 0.2s cubic-bezier(0.32,0.72,0,1);
+    }
+    .node text {
+      font-family: var(--font-mono); font-size: 9px; fill: var(--color-text-tertiary);
+      pointer-events: none;
+    }
+
+    @media (max-width: 767px) { .viz-grid { grid-template-columns: 1fr; } }
+
+    a:focus-visible, button:focus-visible, input:focus-visible {
+      outline: 2px solid var(--color-accent); outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div class="viz-header">
+    <h1 class="viz-title">signal.lab</h1>
+    <a href="index.html" class="viz-back">&larr; Back</a>
+  </div>
+
+  <div class="viz-grid">
+    <!-- Frequency Spectrum -->
+    <div class="panel" id="specPanel">
+      <div class="panel-title">Frequency Spectrum</div>
+      <div class="toolbar">
+        <label><span>Range</span><input type="range" min="20" max="100" value="100" id="rangeSlider"></label>
+        <label><span>Resonance</span><input type="range" min="0" max="100" value="40" id="qSlider"></label>
+      </div>
+      <canvas id="specCanvas" width="560" height="300"></canvas>
+      <div class="tooltip" id="specTooltip"></div>
+    </div>
+
+    <!-- Waveform -->
+    <div class="panel" id="wavePanel">
+      <div class="panel-title">Time Domain — 4 Oscillators</div>
+      <div class="toolbar">
+        <label><span>Rate</span><input type="range" min="1" max="20" value="5" id="rateSlider"></label>
+        <label><span>Detune</span><input type="range" min="0" max="100" value="30" id="detuneSlider"></label>
+      </div>
+      <canvas id="waveCanvas" width="560" height="300"></canvas>
+    </div>
+
+    <!-- Signal Graph -->
+    <div class="panel full" id="graphPanel">
+      <div class="panel-title">Signal Graph — VEKTRA Patch</div>
+      <div class="toolbar">
+        <span style="font-family:var(--font-mono);font-size:var(--text-2xs);color:var(--color-text-tertiary);">
+          Drag nodes to rearrange. Click for details.
+        </span>
+      </div>
+      <svg id="graphSvg" width="1100" height="420"></svg>
+      <div class="tooltip" id="graphTooltip"></div>
+    </div>
+  </div>
+
+  <script src="viz.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+/*
+  VEKTRA Design Tokens
+  ===================
+  Palette: near-black / near-white with one electric accent.
+  Dark-first system. Light mode provided via media query.
+
+  Accent: #00F0C8 (Signal Cyan)
+    A tuned electric cyan-teal. Not blue, not green. The color of an
+    oscilloscope trace in a dark room. Legible on dark and light.
+    Used for: active states, CTAs, cursor, signal elements, live indicators.
+
+  Dark surfaces:
+    --color-bg-primary:   #0A0E0D — primary canvas. Very dark cool gray
+                          with a barely perceptible green tint. Not pure black.
+    --color-bg-secondary: #050807 — deepest shadow / modal backdrop.
+    --color-surface:      #111816 — elevated cards, panels, code blocks.
+
+  Light surfaces (prefers-color-scheme: light):
+    --color-bg-primary:   #F4F2EE — warm off-white, like technical documentation.
+    --color-bg-secondary: #E8E6E2 — secondary page backgrounds.
+    --color-surface:      #FFFFFF — cards and elevated panels.
+
+  Text (dark mode):
+    --color-text-primary:   #F4F2EE — headings, body.
+    --color-text-secondary: #A8B0AD — captions, meta, labels.
+    --color-text-muted:     #5A6461 — disabled, timestamps, borders of text.
+
+  Text (light mode):
+    --color-text-primary:   #0A0E0D
+    --color-text-secondary: #4A5451
+    --color-text-muted:     #8A9491
+
+  Accent variations:
+    --color-accent:         #00F0C8 — the signal.
+    --color-accent-dim:     #006B58 — for hover backgrounds, subtle fills.
+    --color-accent-glow:    rgba(0, 240, 200, 0.25) — box-shadows, blurs.
+
+  Borders:
+    --color-border:         #1F2624 (dark) / #D5D3CF (light) — structural lines.
+
+  Typography:
+    --font-mono:  "IBM Plex Mono", monospace — code, labels, display headlines.
+    --font-sans:  "Space Grotesk", sans-serif — body, UI, reading text.
+
+  Spacing scale (rem, base 16px):
+    --space-1: 0.25rem (4px)
+    --space-2: 0.5rem  (8px)
+    --space-3: 0.75rem (12px)
+    --space-4: 1rem    (16px)
+    --space-5: 1.5rem  (24px)
+    --space-6: 2rem    (32px)
+    --space-7: 3rem    (48px)
+    --space-8: 4rem    (64px)
+    --space-9: 6rem    (96px)
+    --space-10: 8rem   (128px)
+
+  Motion:
+    --ease-signal: cubic-bezier(0.16, 1, 0.3, 1) — primary entrance, snappy then settle.
+    --ease-drift:  cubic-bezier(0.4, 0, 0.2, 1)  — subtle ambient motion.
+    --duration-fast: 150ms
+    --duration-base: 300ms
+    --duration-slow: 500ms
+    --duration-entrance: 800ms
+*/
+
+:root {
+  /* Accent */
+  --color-accent: #00F0C8;
+  --color-accent-dim: #006B58;
+  --color-accent-glow: rgba(0, 240, 200, 0.25);
+
+  /* Dark (default) */
+  --color-bg-primary: #0A0E0D;
+  --color-bg-secondary: #050807;
+  --color-surface: #111816;
+  --color-text-primary: #F4F2EE;
+  --color-text-secondary: #A8B0AD;
+  --color-text-muted: #5A6461;
+  --color-border: #1F2624;
+
+  /* Typography */
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+  --font-sans: "Space Grotesk", "Inter", sans-serif;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+  --space-9: 6rem;
+  --space-10: 8rem;
+
+  /* Motion */
+  --ease-signal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-drift: cubic-bezier(0.4, 0, 0.2, 1);
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+  --duration-slow: 500ms;
+  --duration-entrance: 800ms;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-primary: #F4F2EE;
+    --color-bg-secondary: #E8E6E2;
+    --color-surface: #FFFFFF;
+    --color-text-primary: #0A0E0D;
+    --color-text-secondary: #4A5451;
+    --color-text-muted: #8A9491;
+    --color-border: #D5D3CF;
+  }
+}
+
+/* Utility: forced light class for manual toggle */
+.light-mode {
+  --color-bg-primary: #F4F2EE;
+  --color-bg-secondary: #E8E6E2;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #0A0E0D;
+  --color-text-secondary: #4A5451;
+  --color-text-muted: #8A9491;
+  --color-border: #D5D3CF;
+}

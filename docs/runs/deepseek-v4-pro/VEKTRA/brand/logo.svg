@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 128" width="480" height="128">
+  <defs>
+    <style>
+      .mark-stroke { fill: none; stroke: #E8E4E0; stroke-width: 2.8; stroke-linecap: round; stroke-linejoin: round; }
+      .vertex { fill: #E8962E; }
+      .logotype { fill: #E8E4E0; font-family: 'JetBrains Mono', 'SF Mono', 'Cascadia Code', 'Fira Code', monospace; font-size: 42px; font-weight: 700; letter-spacing: -0.02em; }
+    </style>
+  </defs>
+  <polyline class="mark-stroke" points="10,8 30,34 22,62 40,88 62,118"/>
+  <polyline class="mark-stroke" points="62,118 82,88 96,62 114,8"/>
+  <circle class="vertex" cx="62" cy="118" r="4.5"/>
+  <text class="logotype" x="142" y="82">VEKTRA</text>
+</svg>

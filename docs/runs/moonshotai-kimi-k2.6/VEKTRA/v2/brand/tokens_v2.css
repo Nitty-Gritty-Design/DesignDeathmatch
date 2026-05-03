@@ -1,0 +1,149 @@
+/*
+  VEKTRA Design Tokens — v2
+  ========================
+  A refined, premium dark-first system for a generative audio-visual studio.
+
+  Philosophy:
+  - The dark surfaces are deeper and more saturated than v1.
+  - The accent is tuned to feel like a phosphor trace on high-end lab equipment.
+  - Surfaces have subtle temperature: cool-green in the void, warm in the light.
+
+  Accent: #00E5BF (Phosphor Cyan)
+    Slightly deeper and more saturated than v1. It reads as a physical light
+    source rather than a digital color. The cyan of a Tektronix oscilloscope
+    photographed in a darkroom.
+
+  Dark surfaces:
+    --color-bg-primary:   #060A09 — the void. Deeper than v1. A cool near-black
+                          with a whisper of pine-green. Used for page canvas.
+    --color-bg-secondary: #020504 — absolute depth. Backdrops, modals, void behind void.
+    --color-surface:      #0E1412 — elevated planes. Cards, panels, code blocks.
+                          Slightly lighter than bg-primary with the same temperature.
+
+  Light surfaces (prefers-color-scheme: light):
+    --color-bg-primary:   #F2F0EC — warm technical paper. Not white.
+    --color-bg-secondary: #E6E4E0 — secondary planes, sidebars.
+    --color-surface:      #FFFFFF — cards on paper.
+
+  Text (dark mode):
+    --color-text-primary:   #F2F0EC — primary content. Slightly warmer than pure white.
+    --color-text-secondary: #9BA8A4 — captions, metadata. Muted sage.
+    --color-text-muted:     #4F5956 — disabled, structural text.
+
+  Text (light mode):
+    --color-text-primary:   #060A09
+    --color-text-secondary: #3A4643
+    --color-text-muted:     #7A8683
+
+  Accent variations:
+    --color-accent:         #00E5BF — the phosphor trace.
+    --color-accent-dim:     #005E4E — hover fills, subtle indicators.
+    --color-accent-glow:    rgba(0, 229, 191, 0.20) — soft halos.
+    --color-accent-bright:  #66FFE0 — for very small elements (cursor, 1px dots).
+
+  Borders:
+    --color-border:         #1A211E (dark) / #D8D6D2 (light) — hairline structure.
+    --color-border-subtle:  #111A17 (dark) / #E0DEDA (light) — nearly invisible dividers.
+
+  Typography:
+    --font-mono:  "IBM Plex Mono", monospace — code, labels, display headlines.
+    --font-sans:  "Space Grotesk", sans-serif — body, UI, reading text.
+
+  Spacing scale (rem, base 16px):
+    Derived from a 4px grid with a 1.5x multiplier for larger steps.
+    --space-1: 0.25rem   (4px)
+    --space-2: 0.5rem    (8px)
+    --space-3: 0.75rem   (12px)
+    --space-4: 1rem      (16px)
+    --space-5: 1.5rem    (24px)
+    --space-6: 2.25rem   (36px)
+    --space-7: 3rem      (48px)
+    --space-8: 4.5rem    (72px)
+    --space-9: 6rem      (96px)
+    --space-10: 9rem     (144px)
+    --space-11: 12rem    (192px)
+
+  Motion:
+    --ease-signal: cubic-bezier(0.22, 1, 0.36, 1) — primary entrance. Elegant deceleration.
+    --ease-snap:   cubic-bezier(0.68, -0.15, 0.265, 1.25) — playful, precise snap.
+    --ease-drift:  cubic-bezier(0.4, 0, 0.2, 1) — ambient, continuous.
+    --ease-linear: linear — for signal-related motion only.
+    --duration-instant: 100ms
+    --duration-fast:    200ms
+    --duration-base:    350ms
+    --duration-slow:    600ms
+    --duration-entrance: 900ms
+    --duration-dramatic: 1400ms
+*/
+
+:root {
+  /* Accent */
+  --color-accent: #00E5BF;
+  --color-accent-dim: #005E4E;
+  --color-accent-glow: rgba(0, 229, 191, 0.20);
+  --color-accent-bright: #66FFE0;
+
+  /* Dark (default) */
+  --color-bg-primary: #060A09;
+  --color-bg-secondary: #020504;
+  --color-surface: #0E1412;
+  --color-text-primary: #F2F0EC;
+  --color-text-secondary: #9BA8A4;
+  --color-text-muted: #4F5956;
+  --color-border: #1A211E;
+  --color-border-subtle: #111A17;
+
+  /* Typography */
+  --font-mono: "IBM Plex Mono", "Courier New", monospace;
+  --font-sans: "Space Grotesk", "Inter", sans-serif;
+
+  /* Spacing */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2.25rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+  --space-9: 6rem;
+  --space-10: 9rem;
+  --space-11: 12rem;
+
+  /* Motion */
+  --ease-signal: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.68, -0.15, 0.265, 1.25);
+  --ease-drift: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-linear: linear;
+  --duration-instant: 100ms;
+  --duration-fast: 200ms;
+  --duration-base: 350ms;
+  --duration-slow: 600ms;
+  --duration-entrance: 900ms;
+  --duration-dramatic: 1400ms;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-primary: #F2F0EC;
+    --color-bg-secondary: #E6E4E0;
+    --color-surface: #FFFFFF;
+    --color-text-primary: #060A09;
+    --color-text-secondary: #3A4643;
+    --color-text-muted: #7A8683;
+    --color-border: #D8D6D2;
+    --color-border-subtle: #E0DEDA;
+  }
+}
+
+/* Manual toggle class */
+.light-mode {
+  --color-bg-primary: #F2F0EC;
+  --color-bg-secondary: #E6E4E0;
+  --color-surface: #FFFFFF;
+  --color-text-primary: #060A09;
+  --color-text-secondary: #3A4643;
+  --color-text-muted: #7A8683;
+  --color-border: #D8D6D2;
+  --color-border-subtle: #E0DEDA;
+}

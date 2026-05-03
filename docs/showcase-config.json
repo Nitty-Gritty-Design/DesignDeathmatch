@@ -23,6 +23,28 @@
       "wildcard": "generative-background"
     },
     {
+      "id": "deepseek-v4-pro",
+      "model": "Deepseek V4 Pro",
+      "version": "2026-05-03",
+      "runDate": "2026-05-03",
+      "site": "runs/deepseek-v4-pro/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/deepseek-v4-pro/VEKTRA/site/index.html",
+      "score": {
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
+    },
+    {
       "id": "gemini-3-flash",
       "model": "Gemini 3 Flash",
       "version": "2026-05-02",
@@ -109,6 +131,28 @@
         "wildcard": 10
       },
       "wildcard": "custom"
+    },
+    {
+      "id": "moonshotai-kimi-k2.6",
+      "model": "Moonshotai Kimi K2.6",
+      "version": "2026-05-03",
+      "runDate": "2026-05-03",
+      "site": "runs/moonshotai-kimi-k2.6/VEKTRA/site/index.html",
+      "v1_site": "runs/moonshotai-kimi-k2.6/VEKTRA/site/index.html",
+      "score": {
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
     },
     {
       "id": "owl-alpha",

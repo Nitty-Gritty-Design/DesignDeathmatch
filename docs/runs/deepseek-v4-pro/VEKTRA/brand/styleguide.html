@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Brand Style Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    @import url('tokens.css');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      line-height: 1.6;
+    }
+
+    .sg-header {
+      padding: var(--space-8) var(--space-6);
+      border-bottom: 1px solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    .sg-logo {
+      height: 28px;
+      width: auto;
+    }
+
+    .sg-header-title {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+    }
+
+    .sg-main {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6) var(--space-32);
+    }
+
+    .sg-section {
+      margin-bottom: var(--space-24);
+      padding-bottom: var(--space-12);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .sg-section:last-child {
+      border-bottom: none;
+    }
+
+    .sg-section-title {
+      font-family: var(--font-mono);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: var(--space-8);
+      color: var(--color-text-primary);
+    }
+
+    .sg-section-num {
+      color: var(--color-accent);
+      margin-right: var(--space-2);
+    }
+
+    /* ─── 5.1 Color swatches ─── */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .swatch {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+    }
+
+    .swatch-preview {
+      height: 80px;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-2);
+    }
+
+    .swatch-preview-dual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      height: 80px;
+    }
+
+    .swatch-preview-dual-light {
+      background: #F8F6F2;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-2);
+    }
+
+    .swatch-preview-dual-dark {
+      background: #0D0C0B;
+      display: flex;
+      align-items: flex-end;
+      padding: var(--space-2);
+    }
+
+    .swatch-info {
+      padding: var(--space-3) var(--space-3);
+    }
+
+    .swatch-name {
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--color-text-primary);
+      display: block;
+    }
+
+    .swatch-var {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-accent);
+      display: block;
+      margin-bottom: var(--space-1);
+    }
+
+    .swatch-hex {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-text-muted);
+      display: block;
+    }
+
+    .swatch-note {
+      font-family: var(--font-sans);
+      font-size: 0.625rem;
+      color: var(--color-text-muted);
+      margin-top: var(--space-1);
+      line-height: 1.4;
+    }
+
+    /* ─── 5.2 Typography ─── */
+    .type-sample {
+      margin-bottom: var(--space-8);
+    }
+
+    .type-sample-label {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-2);
+      display: flex;
+      gap: var(--space-4);
+      align-items: baseline;
+    }
+
+    .type-sample-label span {
+      color: var(--color-accent);
+    }
+
+    .type-hero {
+      font-size: 5rem;
+      font-weight: 700;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-4);
+    }
+
+    .type-display {
+      font-family: var(--font-mono);
+      font-size: 4rem;
+      font-weight: 700;
+      line-height: 1.0;
+    }
+
+    .type-h1 { font-size: 3rem; font-weight: 700; line-height: 1.05; letter-spacing: -0.02em; }
+    .type-h2 { font-size: 2.25rem; font-weight: 700; line-height: 1.1; letter-spacing: -0.02em; }
+    .type-h3 { font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
+    .type-h4 { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+    .type-body { font-size: 1rem; font-weight: 400; line-height: 1.6; max-width: 560px; }
+    .type-body-lg { font-size: 1.125rem; font-weight: 400; line-height: 1.7; max-width: 560px; }
+    .type-body-sm { font-size: 0.8125rem; font-weight: 400; line-height: 1.5; max-width: 560px; }
+    .type-ui { font-size: 0.875rem; font-weight: 500; line-height: 1.4; }
+    .type-caption { font-size: 0.6875rem; font-weight: 400; line-height: 1.4; }
+    .type-mono-caption { font-family: var(--font-mono); font-size: 0.6875rem; font-weight: 400; line-height: 1.4; }
+
+    /* ─── 5.3 Logo showcase ─── */
+    .logo-showcase {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+    }
+
+    .logo-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-4);
+    }
+
+    .logo-card.dark { background: var(--color-bg-primary); }
+    .logo-card.light { background: #F8F6F2; }
+    .logo-card.surface { background: var(--color-surface); }
+
+    .logo-card-label {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .logo-card img {
+      max-width: 240px;
+      height: auto;
+    }
+
+    .logo-card-img-sm {
+      width: 80px;
+      height: auto;
+    }
+
+    .logo-card-img-xs {
+      width: 32px;
+      height: auto;
+    }
+
+    /* ─── 5.4 Components ─── */
+    .comp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .comp-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+    }
+
+    .comp-card-title {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .comp-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: var(--space-3);
+    }
+
+    .comp-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .btn-demo {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: var(--radius-md);
+      transition: all 0.15s;
+      cursor: pointer;
+    }
+
+    .btn-demo-accent {
+      background: var(--color-accent);
+      color: var(--color-bg-primary);
+      border: none;
+    }
+
+    .btn-demo-accent:hover {
+      background: var(--color-accent-dim);
+      color: var(--color-text-primary);
+    }
+
+    .btn-demo-ghost {
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      background: transparent;
+    }
+
+    .btn-demo-ghost:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .btn-demo:disabled {
+      opacity: 0.3;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .input-demo {
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      color: var(--color-text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+
+    .input-demo:focus {
+      border-color: var(--color-accent);
+    }
+
+    .code-block {
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: var(--color-text-primary);
+      overflow-x: auto;
+    }
+
+    .code-block .keyword { color: var(--color-accent); }
+    .code-block .comment { color: var(--color-text-muted); }
+    .code-block .string { color: var(--color-text-secondary); }
+
+    .card-demo {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+    }
+
+    .card-demo:hover {
+      border-color: var(--color-accent);
+      cursor: crosshair;
+      transition: border-color 0.15s;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-accent);
+      background: var(--color-accent-dim);
+      border-radius: var(--radius-sm);
+      padding: 2px var(--space-2);
+    }
+
+    .tag {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-text-muted);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: 2px var(--space-2);
+    }
+
+    /* ─── 5.5 Motion ─── */
+    .motion-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: var(--space-4);
+    }
+
+    .motion-card {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      text-align: center;
+    }
+
+    .motion-card-name {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-accent);
+      margin-bottom: var(--space-3);
+    }
+
+    .motion-card-easing {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+
+    .motion-box {
+      width: 40px;
+      height: 40px;
+      background: var(--color-accent);
+      border-radius: var(--radius-sm);
+      margin: 0 auto;
+      cursor: pointer;
+      transition: none;
+    }
+
+    .motion-box.animate-fast {
+      animation: motionDemoFast 1.5s infinite;
+    }
+
+    .motion-box.animate-base {
+      animation: motionDemoBase 1.5s infinite;
+    }
+
+    .motion-box.animate-slow {
+      animation: motionDemoSlow 1.5s infinite;
+    }
+
+    .motion-box.animate-signal {
+      animation: motionDemoSignal 1.5s infinite;
+    }
+
+    @keyframes motionDemoFast {
+      0%, 100% { transform: translateX(-40px); opacity: 0; }
+      50% { transform: translateX(40px); opacity: 1; }
+    }
+
+    @keyframes motionDemoBase {
+      0%, 100% { transform: translateX(-40px); opacity: 0; }
+      50% { transform: translateX(40px); opacity: 1; }
+    }
+
+    @keyframes motionDemoSlow {
+      0%, 100% { transform: translateX(-40px); opacity: 0; }
+      50% { transform: translateX(40px); opacity: 1; }
+    }
+
+    @keyframes motionDemoSignal {
+      0% { transform: translateX(-40px) scale(1); opacity: 0.3; }
+      40% { transform: translateX(20px) scale(1.4); opacity: 1; }
+      60% { transform: translateX(30px) scale(1.1); opacity: 1; }
+      100% { transform: translateX(40px) scale(1); opacity: 0.3; }
+    }
+
+    .motion-box-anim-fast { animation: motionDemoFast 1.5s var(--transition-fast) infinite; }
+    .motion-box-anim-base { animation: motionDemoBase 1.5s var(--transition-base) infinite; }
+    .motion-box-anim-slow { animation: motionDemoSlow 1.5s var(--transition-slow) infinite; }
+    .motion-box-anim-signal { animation: motionDemoSignal 1.5s var(--ease-signal) infinite; }
+
+    .motion-btn {
+      display: inline-block;
+      margin-top: var(--space-3);
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--color-accent);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: var(--space-1) var(--space-2);
+    }
+
+    .motion-btn:hover {
+      color: var(--color-text-primary);
+    }
+
+    /* ─── 5.6 Voice ─── */
+    .voice-block {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+    }
+
+    .voice-block p {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+      max-width: 640px;
+      margin-bottom: var(--space-4);
+    }
+
+    .voice-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-6);
+      margin-bottom: var(--space-6);
+    }
+
+    .voice-list-title {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--color-accent);
+      margin-bottom: var(--space-2);
+    }
+
+    .voice-list ul {
+      list-style: none;
+    }
+
+    .voice-list li {
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      padding: var(--space-1) 0;
+    }
+
+    .voice-list li::before {
+      content: '— ';
+      color: var(--color-accent);
+    }
+
+    .voice-example {
+      border-left: 2px solid var(--color-accent);
+      padding: var(--space-2) var(--space-4);
+      margin-bottom: var(--space-3);
+    }
+
+    .voice-example-label {
+      font-family: var(--font-mono);
+      font-size: 0.5625rem;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-bottom: var(--space-1);
+    }
+
+    .voice-example-text {
+      font-size: 0.9375rem;
+      color: var(--color-text-primary);
+      line-height: 1.5;
+    }
+
+    /* Responsive */
+    @media (max-width: 767px) {
+      .logo-showcase { grid-template-columns: 1fr; }
+      .voice-list { grid-template-columns: 1fr; }
+    }
+
+    a:focus-visible,
+    button:focus-visible,
+    input:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+  <header class="sg-header">
+    <img src="logo.svg" alt="VEKTRA" class="sg-logo">
+    <span class="sg-header-title">Brand Style Guide v1.0</span>
+  </header>
+
+  <main class="sg-main">
+
+    <!-- 5.1 Color -->
+    <section class="sg-section" id="colors">
+      <h2 class="sg-section-title"><span class="sg-section-num">01</span> Color</h2>
+      <div class="swatch-grid">
+        <div class="swatch" style="background:#0D0C0B">
+          <div class="swatch-preview">
+            <span class="swatch-var" style="color:var(--color-text-primary)">Sample text</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Primary Background</span>
+            <span class="swatch-var">--color-bg-primary</span>
+            <span class="swatch-hex">#0D0C0B</span>
+            <span class="swatch-note">Main page background. Very dark warm gray.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:#161412">
+          <div class="swatch-preview"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Secondary Background</span>
+            <span class="swatch-var">--color-bg-secondary</span>
+            <span class="swatch-hex">#161412</span>
+            <span class="swatch-note">Section backgrounds, subtle elevation.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:#1C1A17">
+          <div class="swatch-preview"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Surface</span>
+            <span class="swatch-var">--color-surface</span>
+            <span class="swatch-hex">#1C1A17</span>
+            <span class="swatch-note">Cards, elevated containers.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:var(--color-accent)">
+          <div class="swatch-preview">
+            <span class="swatch-var" style="color:var(--color-bg-primary)">Sample text</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Accent</span>
+            <span class="swatch-var">--color-accent</span>
+            <span class="swatch-hex">#E8962E</span>
+            <span class="swatch-note">Signal Amber. Primary accent — the one electric pulse.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:#5C3A10">
+          <div class="swatch-preview"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Accent Dimmed</span>
+            <span class="swatch-var">--color-accent-dim</span>
+            <span class="swatch-hex">#5C3A10</span>
+            <span class="swatch-note">Subtle accent backgrounds, pre-states.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:var(--color-bg-primary)">
+          <div class="swatch-preview">
+            <span style="color:var(--color-text-primary)">Primary text</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Text Primary</span>
+            <span class="swatch-var">--color-text-primary</span>
+            <span class="swatch-hex">#E8E4E0</span>
+            <span class="swatch-note">Headlines, body text. Off-white with warm undertone.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:var(--color-bg-primary)">
+          <div class="swatch-preview">
+            <span style="color:var(--color-text-secondary)">Secondary text</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Text Secondary</span>
+            <span class="swatch-var">--color-text-secondary</span>
+            <span class="swatch-hex">#9E9890</span>
+            <span class="swatch-note">Supporting copy, metadata.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:var(--color-bg-primary)">
+          <div class="swatch-preview">
+            <span style="color:var(--color-text-muted)">Muted text</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Text Muted</span>
+            <span class="swatch-var">--color-text-muted</span>
+            <span class="swatch-hex">#5C5650</span>
+            <span class="swatch-note">Captions, footnotes, edge of legibility.</span>
+          </div>
+        </div>
+
+        <div class="swatch" style="background:var(--color-bg-primary)">
+          <div class="swatch-preview">
+            <span style="color:var(--color-border)">━━━━━━</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Border</span>
+            <span class="swatch-var">--color-border</span>
+            <span class="swatch-hex">#2A2622</span>
+            <span class="swatch-note">Structure lines, input borders, separators.</span>
+          </div>
+        </div>
+      </div>
+
+      <h3 style="font-family:var(--font-mono);font-size:0.8125rem;margin:var(--space-6) 0 var(--space-3);color:var(--color-text-muted);">Light mode equivalents</h3>
+      <div class="swatch-grid">
+        <div class="swatch" style="background:#F8F6F2">
+          <div class="swatch-preview">
+            <span style="color:#0D0C0B;font-family:var(--font-mono);font-size:0.625rem;">Sample text</span>
+          </div>
+          <div class="swatch-info">
+            <span class="swatch-name">Light Background</span>
+            <span class="swatch-var">--color-bg-primary</span>
+            <span class="swatch-hex">#F8F6F2</span>
+            <span class="swatch-note">Off-white technical document feel.</span>
+          </div>
+        </div>
+        <div class="swatch" style="background:#EFECE7">
+          <div class="swatch-preview"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Light Secondary</span>
+            <span class="swatch-var">--color-bg-secondary</span>
+            <span class="swatch-hex">#EFECE7</span>
+          </div>
+        </div>
+        <div class="swatch" style="background:#D08020">
+          <div class="swatch-preview"></div>
+          <div class="swatch-info">
+            <span class="swatch-name">Light Accent</span>
+            <span class="swatch-var">--color-accent</span>
+            <span class="swatch-hex">#D08020</span>
+            <span class="swatch-note">Slightly warmer amber for light backgrounds.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.2 Typography -->
+    <section class="sg-section" id="typography">
+      <h2 class="sg-section-title"><span class="sg-section-num">02</span> Typography</h2>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>Hero / 80px</span> Space Grotesk 700</div>
+        <div class="type-hero">Time is signal</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>Display / 64px</span> JetBrains Mono 700</div>
+        <div class="type-display">fork(main)</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>H1 / 48px</span> Space Grotesk 700</div>
+        <div class="type-h1">Everything is inspectable</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>H2 / 36px</span> Space Grotesk 700</div>
+        <div class="type-h2" style="font-size:2.25rem">A frequency and a gesture</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>H3 / 24px</span> Space Grotesk 700</div>
+        <div class="type-h3" style="font-size:1.5rem">Built for practitioners</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>H4 / 16px</span> Space Grotesk 700</div>
+        <div class="type-h4" style="font-size:1rem">Signal Graph</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>H5 overline / 13px</span> JetBrains Mono 700</div>
+        <div style="font-family:var(--font-mono);font-size:0.8125rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--color-accent);margin-bottom:var(--space-2)">HOW IT WORKS</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>Body lg / 18px</span> Space Grotesk 400</div>
+        <div class="type-body-lg" style="font-size:1.125rem;color:var(--color-text-secondary)">VEKTRA is an environment where oscillators drive vertices, where audio input can rewrite a shader, and where time is a signal you can route, multiply, and invert.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>Body / 16px</span> Space Grotesk 400</div>
+        <div class="type-body" style="font-size:1rem;color:var(--color-text-secondary)">In VEKTRA, everything is a node in a shared signal graph. A frequency can drive a vertex position. A gesture can rewrite a patch parameter.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>Body sm / 13px</span> Space Grotesk 400</div>
+        <div class="type-body-sm" style="font-size:0.8125rem;color:var(--color-text-secondary)">This is not a DAW with a visualizer bolted on. This is a single environment built from first principles.</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>UI / 14px</span> Space Grotesk 500</div>
+        <div class="type-ui" style="font-size:0.875rem">Request Access</div>
+      </div>
+
+      <div class="type-sample">
+        <div class="type-sample-label"><span>Caption / 11px</span> Space Grotesk 400 &amp; JetBrains Mono 400</div>
+        <div class="type-caption" style="font-size:0.6875rem;color:var(--color-text-muted)">VEKTRA GmbH · Revaler Str. 99 · 10245 Berlin</div>
+        <div class="type-mono-caption" style="font-size:0.6875rem;color:var(--color-text-muted);margin-top:2px">electron.oscA.freq = 440 * sin(time * 2PI)</div>
+      </div>
+    </section>
+
+    <!-- 5.3 Logo -->
+    <section class="sg-section" id="logo">
+      <h2 class="sg-section-title"><span class="sg-section-num">03</span> Logo</h2>
+
+      <div class="logo-showcase">
+        <div class="logo-card dark">
+          <span class="logo-card-label">Primary — Dark (240px)</span>
+          <img src="logo.svg" alt="VEKTRA primary logo" style="width:240px">
+        </div>
+        <div class="logo-card light">
+          <span class="logo-card-label">Light background variant</span>
+          <img src="logo-light.svg" alt="VEKTRA light logo" style="width:240px">
+        </div>
+        <div class="logo-card dark">
+          <span class="logo-card-label">Mark only — 80px</span>
+          <img src="logo-mark.svg" alt="VEKTRA mark" class="logo-card-img-sm">
+        </div>
+        <div class="logo-card dark">
+          <span class="logo-card-label">Mark at favicon size — 32px</span>
+          <img src="logo-mark.svg" alt="VEKTRA mark small" class="logo-card-img-xs">
+        </div>
+      </div>
+
+      <div style="margin-top:var(--space-6)">
+        <h4 style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--color-text-muted);margin-bottom:var(--space-3)">Animated logo — plays once</h4>
+        <iframe src="logo-animated.html" width="480" height="128" style="border:1px solid var(--color-border);border-radius:var(--radius-md);background:var(--color-bg-primary)" title="VEKTRA animated logo"></iframe>
+      </div>
+    </section>
+
+    <!-- 5.4 Components -->
+    <section class="sg-section" id="components">
+      <h2 class="sg-section-title"><span class="sg-section-num">04</span> Components</h2>
+
+      <div class="comp-grid">
+        <!-- Buttons -->
+        <div class="comp-card">
+          <div class="comp-card-title">Button</div>
+          <div class="comp-row">
+            <button class="btn-demo btn-demo-accent">Default</button>
+            <button class="btn-demo btn-demo-accent" style="background:var(--color-accent-dim);color:var(--color-text-primary)">Hover</button>
+            <button class="btn-demo btn-demo-accent" disabled>Disabled</button>
+          </div>
+          <div class="comp-row">
+            <button class="btn-demo btn-demo-ghost">Ghost</button>
+            <button class="btn-demo btn-demo-ghost" style="border-color:var(--color-accent);color:var(--color-accent)">Hover</button>
+            <button class="btn-demo btn-demo-ghost" disabled>Disabled</button>
+          </div>
+        </div>
+
+        <!-- Text input -->
+        <div class="comp-card">
+          <div class="comp-card-title">Text Input</div>
+          <div class="comp-row">
+            <input type="text" class="input-demo" value="osc.freq = 440" style="width:100%">
+          </div>
+          <div class="comp-row">
+            <input type="text" class="input-demo" placeholder="parameter name" style="width:100%">
+          </div>
+        </div>
+
+        <!-- Code block -->
+        <div class="comp-card" style="grid-column: 1 / -1;">
+          <div class="comp-card-title">Code Block</div>
+          <pre class="code-block"><span class="comment">// VEKTRA signal graph example</span>
+<span class="keyword">const</span> patch = graph.create(<span class="string">'my-patch'</span>)
+
+<span class="keyword">const</span> osc = patch.node(<span class="string">'oscillator'</span>, {
+  freq: <span class="string">440</span>,
+  waveform: <span class="string">'sine'</span>
+})
+
+<span class="keyword">const</span> shader = patch.node(<span class="string">'shader'</span>, {
+  mode: <span class="string">'vertex'</span>,
+  source: <span class="string">'./distort.glsl'</span>
+})
+
+osc.connect(shader, <span class="string">'freq'</span>).to(<span class="string">'amplitude'</span>)</pre>
+        </div>
+
+        <!-- Card -->
+        <div class="comp-card">
+          <div class="comp-card-title">Card</div>
+          <div class="card-demo">
+            <div style="font-family:var(--font-mono);font-size:0.625rem;color:var(--color-accent);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px">Category</div>
+            <div style="font-weight:700;margin-bottom:4px">Card Title</div>
+            <div style="font-size:0.8125rem;color:var(--color-text-secondary)">Description text goes here. Concise and precise.</div>
+          </div>
+        </div>
+
+        <!-- Badges & tags -->
+        <div class="comp-card">
+          <div class="comp-card-title">Badge &amp; Tag</div>
+          <div class="comp-row">
+            <span class="badge">Active</span>
+            <span class="badge">Source</span>
+          </div>
+          <div class="comp-row">
+            <span class="tag">real-time</span>
+            <span class="tag">generative</span>
+            <span class="tag">audio</span>
+          </div>
+        </div>
+
+        <!-- Navigation bar -->
+        <div class="comp-card" style="grid-column:1/-1">
+          <div class="comp-card-title">Navigation Bar</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:var(--space-3) 0;border:1px solid var(--color-border);border-radius:var(--radius-md);padding:var(--space-3) var(--space-4)">
+            <img src="logo.svg" alt="VEKTRA" style="height:22px">
+            <div style="display:flex;gap:var(--space-6);align-items:center">
+              <span style="font-size:0.875rem;color:var(--color-text-secondary)">About</span>
+              <span style="font-size:0.875rem;color:var(--color-text-secondary)">Product</span>
+              <span style="font-size:0.875rem;color:var(--color-text-secondary)">Docs</span>
+              <span style="display:inline-flex;align-items:center;gap:4px;padding:6px 16px;background:var(--color-accent);color:var(--color-bg-primary);font-family:var(--font-sans);font-size:0.875rem;font-weight:500;border-radius:4px">Request Access</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.5 Motion -->
+    <section class="sg-section" id="motion">
+      <h2 class="sg-section-title"><span class="sg-section-num">05</span> Motion</h2>
+
+      <h4 style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--color-text-muted);margin-bottom:var(--space-4)">Timing Curves</h4>
+      <div class="motion-demo">
+        <div class="motion-card">
+          <div class="motion-card-name">Fast</div>
+          <div class="motion-card-easing">cubic-bezier(0.4, 0.0, 0.2, 1) · 150ms</div>
+          <div class="motion-box motion-box-anim-fast"></div>
+        </div>
+        <div class="motion-card">
+          <div class="motion-card-name">Base</div>
+          <div class="motion-card-easing">cubic-bezier(0.0, 0.0, 0.2, 1) · 300ms</div>
+          <div class="motion-box motion-box-anim-base"></div>
+        </div>
+        <div class="motion-card">
+          <div class="motion-card-name">Slow</div>
+          <div class="motion-card-easing">cubic-bezier(0.0, 0.0, 0.2, 1) · 500ms</div>
+          <div class="motion-box motion-box-anim-slow"></div>
+        </div>
+        <div class="motion-card">
+          <div class="motion-card-name">Signal</div>
+          <div class="motion-card-easing">cubic-bezier(0.16, 0.0, 0.12, 1.0) · 300ms</div>
+          <div class="motion-box motion-box-anim-signal"></div>
+        </div>
+      </div>
+
+      <h4 style="font-family:var(--font-mono);font-size:0.8125rem;color:var(--color-text-muted);margin:var(--space-8) 0 var(--space-4)">Interaction Patterns</h4>
+      <div class="comp-row" style="margin-bottom:var(--space-4)">
+        <button class="btn-demo btn-demo-accent" id="motionHoverBtn">Hover me</button>
+        <span style="font-family:var(--font-mono);font-size:0.625rem;color:var(--color-text-muted);margin-left:var(--space-3)">Hover triggers translateY(-1px) + color shift, 150ms</span>
+      </div>
+      <div class="comp-row">
+        <button class="btn-demo" id="motionClickBtn" style="background:var(--color-surface);border:1px solid var(--color-border);color:var(--color-text-primary);border-radius:4px;padding:8px 16px;font-size:0.875rem;cursor:pointer;transition:transform 0.15s var(--ease-signal)">Click me</button>
+        <span style="font-family:var(--font-mono);font-size:0.625rem;color:var(--color-text-muted);margin-left:var(--space-3)">Click triggers scale pulse, signal easing</span>
+      </div>
+    </section>
+
+    <!-- 5.6 Voice -->
+    <section class="sg-section" id="voice">
+      <h2 class="sg-section-title"><span class="sg-section-num">06</span> Voice</h2>
+      <div class="voice-block">
+        <p>
+          VEKTRA speaks like an instrument manual written by someone who genuinely loves the instrument. The voice is technical when it needs to be — precise about milliseconds, specific about parameters — but it never confuses jargon with depth. It treats the reader as a peer, not a customer.
+        </p>
+
+        <div class="voice-list">
+          <div>
+            <div class="voice-list-title">Is</div>
+            <ul>
+              <li>Precise</li>
+              <li>Curious</li>
+              <li>Low</li>
+              <li>Rhythmic</li>
+              <li>Honest</li>
+            </ul>
+          </div>
+          <div>
+            <div class="voice-list-title">Is Not</div>
+            <ul>
+              <li>Viral</li>
+              <li>Disruptive</li>
+              <li>Playful</li>
+              <li>Aspirational</li>
+              <li>Corporate</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="voice-example">
+          <div class="voice-example-label">Hero headline</div>
+          <div class="voice-example-text">The space between a frequency and a gesture is smaller than you think.</div>
+        </div>
+        <div class="voice-example">
+          <div class="voice-example-label">Product description</div>
+          <div class="voice-example-text">VEKTRA is an environment where oscillators drive vertices, where a microphone input can rewrite a shader, and where time is not a timeline but a signal you can route, multiply, and invert.</div>
+        </div>
+        <div class="voice-example">
+          <div class="voice-example-label">UI label</div>
+          <div class="voice-example-text" style="font-family:var(--font-mono);font-size:0.75rem">Fork patch</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.7 Style guide as map and territory -->
+    <section class="sg-section" style="border-bottom:none">
+      <h2 class="sg-section-title"><span class="sg-section-num">07</span> Map &amp; Territory</h2>
+      <p style="font-size:1rem;color:var(--color-text-secondary);line-height:1.7;max-width:640px">
+        This page is simultaneously documentation and demonstration. Every element on this page — from the color swatches to the type samples to the component examples — is rendered using the VEKTRA design system described on this page. The tokens you see in the code boxes are the tokens that render the boxes. The voice you read in the voice section is the voice that writes the voice section.
+      </p>
+      <p style="font-size:1rem;color:var(--color-text-secondary);line-height:1.7;max-width:640px;margin-top:var(--space-4)">
+        A designer implementing VEKTRA should be able to copy any CSS variable name from this guide, paste it into their stylesheet, and get exactly the behavior shown here.
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    // Motion demo: click-to-pulse
+    document.getElementById('motionClickBtn').addEventListener('click', function() {
+      this.style.transform = 'scale(0.93)';
+      setTimeout(function() {
+        document.getElementById('motionClickBtn').style.transform = 'scale(1)';
+      }, 150);
+    });
+  </script>
+</body>
+</html>
