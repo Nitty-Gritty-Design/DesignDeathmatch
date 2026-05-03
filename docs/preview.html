@@ -295,28 +295,17 @@
       
       // We render the UI immediately with loaders
       container.innerHTML = `
-        <div style="font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px;">
-          Community rating based on GitHub issue reactions.
+        <div style="background: var(--color-bg-primary); border: 1px solid var(--color-border); border-radius: 6px; padding: 20px; margin-bottom: 16px; text-align: center;">
+          <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Human Sentiment</div>
+          <div id="sentiment-stats" style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px;">
+             <div class="loading" style="font-size: 13px;">Syncing with GitHub...</div>
+          </div>
+          <a id="review-link" href="scoring.html?id=${entry.id}" class="card-button" style="display: block; width: 100%; margin: 0; box-sizing: border-box; text-align: center; background: var(--color-text-primary); color: var(--color-bg-primary);">Rate this Model</a>
         </div>
-        <div style="display: flex; gap: 12px; margin-bottom: 16px;">
-          <div style="flex: 1; text-align: center; padding: 12px; background: var(--color-bg-primary); border-radius: 6px; border: 1px solid var(--color-border);">
-            <div style="font-size: 24px; margin-bottom: 4px;">👍</div>
-            <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 600;" id="vote-up">...</div>
-          </div>
-          <div style="flex: 1; text-align: center; padding: 12px; background: var(--color-bg-primary); border-radius: 6px; border: 1px solid var(--color-border);">
-            <div style="font-size: 24px; margin-bottom: 4px;">❤️</div>
-            <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 600;" id="vote-heart">...</div>
-          </div>
-          <div style="flex: 1; text-align: center; padding: 12px; background: var(--color-bg-primary); border-radius: 6px; border: 1px solid var(--color-border);">
-            <div style="font-size: 24px; margin-bottom: 4px;">🚀</div>
-            <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 600;" id="vote-rocket">...</div>
-          </div>
+        <div style="font-size: 12px; color: var(--color-text-secondary); text-align: center; font-style: italic;">
+          Reviews are processed via GitHub Issues and integrated into the leaderboard.
         </div>
-        <a id="vote-link" href="#" target="_blank" class="card-button" style="display: block; width: 100%; margin-bottom: 8px;">Loading link...</a>
-        <a id="review-link" href="#" class="pill" style="display: block; width: 100%; text-align: center; margin: 0; box-sizing: border-box;">Submit Detailed Review</a>
       `;
-
-      document.getElementById('review-link').href = `scoring.html?id=${entry.id}`;
 
       try {
         const query = encodeURIComponent(`repo:${repo} in:title "${issueTitle}" type:issue`);
@@ -324,30 +313,34 @@
         
         if (res.ok) {
           const data = await res.json();
+          const statsContainer = document.getElementById('sentiment-stats');
+          
           if (data.items && data.items.length > 0) {
-            // Issue found, use its reactions and URL
             const issue = data.items[0];
             const reactions = issue.reactions || {};
+            const total = (reactions['+1'] || 0) + (reactions['heart'] || 0) + (reactions['rocket'] || 0);
             
-            document.getElementById('vote-up').textContent = reactions['+1'] || 0;
-            document.getElementById('vote-heart').textContent = reactions['heart'] || 0;
-            document.getElementById('vote-rocket').textContent = reactions['rocket'] || 0;
-            
-            document.getElementById('vote-link').href = issue.html_url;
-            document.getElementById('vote-link').textContent = 'Vote on GitHub';
+            statsContainer.innerHTML = `
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-family: var(--font-mono); color: var(--color-text-primary); font-weight: 600;">${total}</div>
+                <div style="font-size: 10px; color: var(--color-text-secondary); text-transform: uppercase;">Community Votes</div>
+              </div>
+              <div style="width: 1px; height: 30px; background: var(--color-border);"></div>
+              <div style="text-align: center;">
+                <div style="font-size: 24px; font-family: var(--font-mono); color: var(--color-text-primary); font-weight: 600;">${entry.score.human.toFixed(1)}</div>
+                <div style="font-size: 10px; color: var(--color-text-secondary); text-transform: uppercase;">Review Avg</div>
+              </div>
+            `;
           } else {
-            // Issue not found, default to 0 and provide a creation link
-            document.getElementById('vote-up').textContent = 0;
-            document.getElementById('vote-heart').textContent = 0;
-            document.getElementById('vote-rocket').textContent = 0;
-            
-            const createUrl = `https://github.com/${repo}/issues/new?title=${encodeURIComponent(issueTitle)}&body=React+to+this+issue+to+vote+for+${encodeURIComponent(entry.model)}`;
-            document.getElementById('vote-link').href = createUrl;
-            document.getElementById('vote-link').textContent = 'Be the first to vote!';
+            statsContainer.innerHTML = `
+              <div style="text-align: center; width: 100%;">
+                <div style="font-size: 13px; color: var(--color-text-secondary);">No community data yet.</div>
+              </div>
+            `;
           }
         }
       } catch (e) {
-        document.getElementById('vote-link').textContent = 'Failed to load voting data';
+        document.getElementById('sentiment-stats').innerHTML = '<div style="font-size: 12px; color: #d32f2f;">Stats unavailable</div>';
       }
     }
   </script>
