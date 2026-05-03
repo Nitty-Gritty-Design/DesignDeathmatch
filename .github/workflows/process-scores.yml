@@ -2,11 +2,13 @@ name: Process Human Scores
 
 on:
   issues:
-    types: [opened, edited]
+    types: [opened, edited, labeled]
 
 jobs:
   process-score:
-    if: contains(github.event.issue.labels.*.name, 'human-score')
+    if: |
+      (github.event.action == 'labeled' && github.event.label.name == 'human-score') ||
+      contains(github.event.issue.labels.*.name, 'human-score')
     runs-on: ubuntu-latest
     permissions:
       contents: write
