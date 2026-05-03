@@ -10,6 +10,24 @@ async function loadChartData() {
     const config = await response.json();
     allEntries = config.entries || [];
     
+    // Fetch accent colors from each model's tokens.css
+    await Promise.all(allEntries.map(async (entry) => {
+      try {
+        const tokenPath = `runs/${entry.id}/VEKTRA/brand/tokens.css`;
+        const res = await fetch(tokenPath);
+        if (res.ok) {
+          const cssText = await res.text();
+          // Extract --color-accent value
+          const match = cssText.match(/--color-accent\s*:\s*([^;]+)/);
+          if (match) {
+            entry.brandColor = match[1].trim();
+          }
+        }
+      } catch (e) {
+        console.warn(`Could not load tokens for ${entry.id}`, e);
+      }
+    }));
+    
     initRadarSelects();
     renderCharts();
   } catch (error) {
@@ -56,20 +74,22 @@ const colors = {
   tooltipBg: 'rgba(20, 20, 20, 0.9)',
 };
 
-// Model-specific color palette (Muted/Sophisticated)
-const modelPalette = [
-  '#748cab', '#918d77', '#a18cd1', '#fbc2eb', '#84fab0', 
-  '#8fd3f4', '#e0c3fc', '#f6d365', '#fda085', '#cfd9df'
-];
-
 function getModelColor(index, alpha = 1) {
-  const color = modelPalette[index % modelPalette.length];
+  const entry = allEntries[index];
+  let color = entry && entry.brandColor ? entry.brandColor : '#748cab';
+  
+  // If color is rgba or hex, handle it
   if (alpha === 1) return color;
-  // Simple hex to rgba conversion for alpha
-  const r = parseInt(color.slice(1, 3), 16);
-  const g = parseInt(color.slice(3, 5), 16);
-  const b = parseInt(color.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  
+  // Simple check for hex
+  if (color.startsWith('#')) {
+    const r = parseInt(color.slice(1, 3), 16);
+    const g = parseInt(color.slice(3, 5), 16);
+    const b = parseInt(color.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+  }
+  
+  return color;
 }
 
 // Detect light mode to adjust grid/text
