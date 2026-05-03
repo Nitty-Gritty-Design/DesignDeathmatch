@@ -107,8 +107,8 @@
         "v1": 95,
         "v2": 87.5,
         "automated": 95,
-        "human": 0,
-        "total": 95
+        "human": 16,
+        "total": 111
       },
       "phases": {
         "foundation": 10,

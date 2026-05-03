@@ -1,0 +1,13 @@
+{
+  "modelId": "gemini-3.1-pro",
+  "humanScore": 16,
+  "breakdown": {
+    "taste": 6,
+    "coherence": 5,
+    "ambition": 5
+  },
+  "comments": "",
+  "user": "Nitty-Gritty-Design",
+  "submittedAt": "2026-05-03T19:40:19.741Z",
+  "issueUrl": "https://github.com/Nitty-Gritty-Design/DesignDeathmatch/issues/5"
+}
