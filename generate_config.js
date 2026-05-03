@@ -44,17 +44,21 @@ if (fs.existsSync(runsDir)) {
     }
 
     // Read validation score
-    let automatedScore = 0;
-    const v2ReportPath = path.join(__dirname, 'docs', `runs/${modelId}/VEKTRA/v2/validation-report.json`);
+    let v1Automated = 0;
+    let v2Automated = 0;
     const v1ReportPath = path.join(__dirname, 'docs', `runs/${modelId}/VEKTRA/validation-report.json`);
+    const v2ReportPath = path.join(__dirname, 'docs', `runs/${modelId}/VEKTRA/v2/validation-report.json`);
     
-    if (fs.existsSync(v2ReportPath)) {
-      const report = JSON.parse(fs.readFileSync(v2ReportPath, 'utf8'));
-      automatedScore = report.score;
-    } else if (fs.existsSync(v1ReportPath)) {
-      const report = JSON.parse(fs.readFileSync(v1ReportPath, 'utf8'));
-      automatedScore = report.score;
+    if (fs.existsSync(v1ReportPath)) {
+      v1Automated = JSON.parse(fs.readFileSync(v1ReportPath, 'utf8')).score;
     }
+    if (fs.existsSync(v2ReportPath)) {
+      v2Automated = JSON.parse(fs.readFileSync(v2ReportPath, 'utf8')).score;
+    }
+
+    // We take the MAX of V1 and V2 as the automated base, as V2 might sometimes 
+    // be incomplete in terms of file structure but higher in refinement
+    const automatedScore = Math.max(v1Automated, v2Automated);
 
     // Read human score from individual review files
     const scoreDir = path.join(__dirname, 'docs', 'scores', modelId);
@@ -97,6 +101,8 @@ if (fs.existsSync(runsDir)) {
       site: site,
       v1_site: v1_site,
       score: {
+        v1: v1Automated,
+        v2: v2Automated,
         automated: automatedScore,
         human: humanScore,
         total: automatedScore + humanScore

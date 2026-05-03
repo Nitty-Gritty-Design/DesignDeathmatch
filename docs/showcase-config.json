@@ -8,9 +8,11 @@
       "site": "runs/claude-sonnet-4.6-thinking/VEKTRA/v2/index.html",
       "v1_site": "runs/claude-sonnet-4.6-thinking/VEKTRA/site/index.html",
       "score": {
-        "automated": 65,
+        "v1": 110,
+        "v2": 65,
+        "automated": 110,
         "human": 0,
-        "total": 65
+        "total": 110
       },
       "phases": {
         "foundation": 10,
@@ -30,9 +32,11 @@
       "site": "runs/deepseek-v4-pro/VEKTRA/v2/site/index.html",
       "v1_site": "runs/deepseek-v4-pro/VEKTRA/site/index.html",
       "score": {
-        "automated": 105,
+        "v1": 110,
+        "v2": 105,
+        "automated": 110,
         "human": 0,
-        "total": 105
+        "total": 110
       },
       "phases": {
         "foundation": 10,
@@ -52,9 +56,11 @@
       "site": "runs/gemini-3-flash/VEKTRA/v2/site/index_v2.html",
       "v1_site": "runs/gemini-3-flash/VEKTRA/site/index.html",
       "score": {
-        "automated": 67.5,
+        "v1": 105,
+        "v2": 67.5,
+        "automated": 105,
         "human": 20,
-        "total": 87.5
+        "total": 125
       },
       "phases": {
         "foundation": 9,
@@ -74,9 +80,11 @@
       "site": "runs/gemini-3.1-pro/VEKTRA/v2/site/index.html",
       "v1_site": "runs/gemini-3.1-pro/VEKTRA/site/index.html",
       "score": {
-        "automated": 87.5,
+        "v1": 95,
+        "v2": 87.5,
+        "automated": 95,
         "human": 28,
-        "total": 115.5
+        "total": 123
       },
       "phases": {
         "foundation": 10,
@@ -96,9 +104,11 @@
       "site": "runs/laguna-m.1/VEKTRA/v2/site/index.html",
       "v1_site": "runs/laguna-m.1/VEKTRA/site/index.html",
       "score": {
-        "automated": 95,
+        "v1": 105,
+        "v2": 95,
+        "automated": 105,
         "human": 18,
-        "total": 113
+        "total": 123
       },
       "phases": {
         "foundation": 9,
@@ -118,6 +128,8 @@
       "site": "runs/Ling-2.6-1T/VEKTRA/v2/site/index.html",
       "v1_site": "runs/Ling-2.6-1T/VEKTRA/site/index.html",
       "score": {
+        "v1": 105,
+        "v2": 105,
         "automated": 105,
         "human": 15,
         "total": 120
@@ -140,9 +152,11 @@
       "site": "runs/moonshotai-kimi-k2.6/VEKTRA/v2/site/index_v2.html",
       "v1_site": "runs/moonshotai-kimi-k2.6/VEKTRA/site/index.html",
       "score": {
-        "automated": 65,
+        "v1": 105,
+        "v2": 65,
+        "automated": 105,
         "human": 0,
-        "total": 65
+        "total": 105
       },
       "phases": {
         "foundation": 10,
@@ -162,9 +176,11 @@
       "site": "runs/owl-alpha/VEKTRA/v2/site/index.html",
       "v1_site": "runs/owl-alpha/VEKTRA/site/index.html",
       "score": {
-        "automated": 97.5,
+        "v1": 110,
+        "v2": 97.5,
+        "automated": 110,
         "human": 22,
-        "total": 119.5
+        "total": 132
       },
       "phases": {
         "foundation": 10,
@@ -184,6 +200,8 @@
       "site": "runs/tencent-hy3-preview/VEKTRA/v2/site/index.html",
       "v1_site": "runs/tencent-hy3-preview/VEKTRA/site/index.html",
       "score": {
+        "v1": 95,
+        "v2": 95,
         "automated": 95,
         "human": 19,
         "total": 114

@@ -246,31 +246,53 @@
           </div>
           
           <div class="preview-details">
-            <div class="detail-section">
-              <h2>Automated Validation</h2>
+            <div class="detail-section" style="background: var(--color-text-primary); color: var(--color-bg-primary); border: none;">
+              <h2 style="color: var(--color-bg-primary); border-color: rgba(0,0,0,0.1);">Benchmark Summary</h2>
+              <div class="score-total" style="color: var(--color-bg-primary); margin-bottom: 4px;">${entry.score.total.toFixed(1)} <span style="font-size: 16px; opacity: 0.7;">/ 162.5</span></div>
+              <div style="font-size: 12px; font-family: var(--font-mono); opacity: 0.8; margin-bottom: 20px;">Final Combined Score</div>
               
-              <h3 style="font-size: 14px; color: var(--color-text-primary); margin-top: 16px; margin-bottom: 4px;">V1 (Initial Run)</h3>
-              ${renderValidation(v1Report, "Automated Script Validation")}
-              
-              <hr style="border: 0; border-top: 1px solid var(--color-border); margin: 24px 0;">
-              
-              <h3 style="font-size: 14px; color: var(--color-text-primary); margin-bottom: 4px;">V2 (Iterated Refinement)</h3>
-              ${renderValidation(v2Report, "Automated Script Validation")}
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 4px;">
+                  <div style="font-size: 10px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px;">Technical</div>
+                  <div style="font-size: 18px; font-family: var(--font-mono); font-weight: 600;">${entry.score.automated}</div>
+                </div>
+                <div style="background: rgba(255,255,255,0.1); padding: 12px; border-radius: 4px;">
+                  <div style="font-size: 10px; text-transform: uppercase; opacity: 0.7; margin-bottom: 4px;">Human</div>
+                  <div style="font-size: 18px; font-family: var(--font-mono); font-weight: 600;">${entry.score.human.toFixed(1)}</div>
+                </div>
+              </div>
             </div>
 
             <div class="detail-section">
-              <h2>Framework Scores</h2>
-              <div class="score-total">${entry.score.total} / 157.5</div>
-              <div style="font-size: 12px; font-family: var(--font-mono); color: var(--color-text-secondary); margin-bottom: 12px;">Final Combined Score</div>
-              <div class="score-breakdown">
-                <div class="phase-score"><span>Phase 1 (Foundation):</span> <strong>${entry.phases.foundation}/10</strong></div>
-                <div class="phase-score"><span>Phase 2 (Logo):</span> <strong>${entry.phases.logo}/20</strong></div>
-                <div class="phase-score"><span>Phase 3 (Website):</span> <strong>${entry.phases.website}/25</strong></div>
-                <div class="phase-score"><span>Phase 4 (Data Viz):</span> <strong>${entry.phases.visualization}/20</strong></div>
-                <div class="phase-score"><span>Phase 5 (Style Guide):</span> <strong>${entry.phases.styleguide}/17.5</strong></div>
-                <div class="phase-score"><span>Phase 6 (Wildcard):</span> <strong>${entry.phases.wildcard}/25</strong></div>
+              <h2>Technical Validation</h2>
+              
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+                <div>
+                  <h3 style="font-size: 14px; color: var(--color-text-primary); margin: 0;">V1: Initial Run</h3>
+                  <div style="font-size: 11px; color: var(--color-text-secondary);">Zero-shot isolated execution</div>
+                </div>
+                <div style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">${entry.score.v1 || entry.score.automated} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ 100</span></div>
+              </div>
+              ${renderValidation(v1Report, "V1 Script Results")}
+              
+              <hr style="border: 0; border-top: 1px solid var(--color-border); margin: 24px 0;">
+              
+              <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 16px;">
+                <div>
+                  <h3 style="font-size: 14px; color: var(--color-text-primary); margin: 0;">V2: Refinement</h3>
+                  <div style="font-size: 11px; color: var(--color-text-secondary);">Iterated creative elevation</div>
+                </div>
+                <div style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">${entry.score.v2 || 0} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ 100</span></div>
+              </div>
+              ${renderValidation(v2Report, "V2 Script Results")}
+              
+              <div style="margin-top: 24px; padding: 12px; background: var(--color-bg-secondary); border-radius: 4px; font-size: 11px; color: var(--color-text-secondary); line-height: 1.4;">
+                <strong>Scoring Note:</strong> The technical score uses the highest value achieved across all runs.
               </div>
             </div>
+
+            <div class="detail-section">
+              <h2>Phase Breakdown</h2>
             
             <div class="detail-section">
               <h2>Voting / Community</h2>
