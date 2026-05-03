@@ -17,10 +17,20 @@ async function loadChartData() {
         const res = await fetch(tokenPath);
         if (res.ok) {
           const cssText = await res.text();
-          // Extract --color-accent value
-          const match = cssText.match(/--color-accent\s*:\s*([^;]+)/);
+          // Improved Regex: Find --color-accent inside :root but NOT in comments
+          // We look for the first occurrence inside :root
+          const rootContent = cssText.split(':root')[1]?.split('}')[0] || '';
+          const match = rootContent.match(/--color-accent\s*:\s*([^;]+)/);
+          
           if (match) {
-            entry.brandColor = match[1].trim();
+            let color = match[1].trim();
+            // Basic validation: must be a color-like string
+            if (isColorTooDark(color)) {
+              console.warn(`Color ${color} for ${entry.id} is too dark, using fallback.`);
+              entry.brandColor = null; // Use fallback
+            } else {
+              entry.brandColor = color;
+            }
           }
         }
       } catch (e) {
@@ -32,6 +42,35 @@ async function loadChartData() {
     renderCharts();
   } catch (error) {
     console.error('Error loading chart data:', error);
+  }
+}
+
+// Function to prevent black/near-black colors on the dashboard
+function isColorTooDark(color) {
+  try {
+    let r, g, b;
+    if (color.startsWith('#')) {
+      if (color.length === 4) {
+        r = parseInt(color[1] + color[1], 16);
+        g = parseInt(color[2] + color[2], 16);
+        b = parseInt(color[3] + color[3], 16);
+      } else {
+        r = parseInt(color.slice(1, 3), 16);
+        g = parseInt(color.slice(3, 5), 16);
+        b = parseInt(color.slice(5, 7), 16);
+      }
+    } else if (color.startsWith('rgb')) {
+      const match = color.match(/\d+/g);
+      if (match) [r, g, b] = match.map(Number);
+    } else {
+      return false; // Named colors or others - assume safe or fallback
+    }
+    
+    // YIQ formula for perceived brightness
+    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+    return brightness < 40; // Reject anything too close to black (0-255 scale)
+  } catch (e) {
+    return true; // Fallback on error
   }
 }
 
