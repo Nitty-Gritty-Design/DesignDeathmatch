@@ -24,11 +24,4 @@ build/
 .env.local
 
 # Showcase assets (synced separately)
-docs/assets/screenshots/*.png
-docs/assets/thumbnails/*.png
-docs/assets/screenshots/*.jpg
-docs/assets/thumbnails/*.jpg
-
-# Keep placeholder files
-!docs/assets/screenshots/.gitkeep
-!docs/assets/thumbnails/.gitkeep
+# (Obsolete screenshot files removed in V3)

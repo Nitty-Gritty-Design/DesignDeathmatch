@@ -80,10 +80,10 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 1440px; 
-  height: 900px; 
+  width: 400%; 
+  height: 400%; 
   border: none; 
-  transform: scale(calc(100cqw / 1440));
+  transform: scale(0.25);
   transform-origin: top left;
   pointer-events: none;
 }

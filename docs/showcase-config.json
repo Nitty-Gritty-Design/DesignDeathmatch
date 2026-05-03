@@ -5,12 +5,21 @@
       "model": "Claude 3.7 Sonnet (thinking)",
       "version": "2026-05-01",
       "runDate": "2026-05-01",
-      "thumbnail": "assets/thumbnails/claude-sonnet-4.6.jpg",
-      "screenshot": "assets/screenshots/claude-sonnet-4.6-full.jpg",
       "site": "runs/claude-sonnet-4.6-thinking/VEKTRA/v2/index.html",
       "v1_site": "runs/claude-sonnet-4.6-thinking/VEKTRA/site/index.html",
-      "score": { "automated": 92.5, "human": 25.0, "total": 117.5 },
-      "phases": { "foundation": 10, "logo": 18, "website": 23, "visualization": 19, "styleguide": 15, "wildcard": 17 },
+      "score": {
+        "automated": 65,
+        "human": 25,
+        "total": 90
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 18,
+        "website": 23,
+        "visualization": 19,
+        "styleguide": 15,
+        "wildcard": 17
+      },
       "wildcard": "generative-background"
     },
     {
@@ -18,12 +27,21 @@
       "model": "Gemini 3 Flash",
       "version": "2026-05-02",
       "runDate": "2026-05-02",
-      "thumbnail": "assets/thumbnails/gemini-3-flash.jpg",
-      "screenshot": "assets/screenshots/gemini-3-flash-full.jpg",
-      "site": "runs/gemini-3-flash/VEKTRA/v2/site/index_v2.html",
+      "site": "runs/gemini-3-flash/VEKTRA/site/index.html",
       "v1_site": "runs/gemini-3-flash/VEKTRA/site/index.html",
-      "score": { "automated": 88, "human": 20, "total": 108 },
-      "phases": { "foundation": 9, "logo": 16, "website": 21, "visualization": 16, "styleguide": 14, "wildcard": 12 },
+      "score": {
+        "automated": 67.5,
+        "human": 20,
+        "total": 87.5
+      },
+      "phases": {
+        "foundation": 9,
+        "logo": 16,
+        "website": 21,
+        "visualization": 16,
+        "styleguide": 14,
+        "wildcard": 12
+      },
       "wildcard": "configurator"
     },
     {
@@ -31,12 +49,21 @@
       "model": "Gemini 3.1 Pro",
       "version": "2026-05-01",
       "runDate": "2026-05-01",
-      "thumbnail": "assets/thumbnails/gemini-3.1-pro.jpg",
-      "screenshot": "assets/screenshots/gemini-3.1-pro-full.jpg",
       "site": "runs/gemini-3.1-pro/VEKTRA/v2/site/index.html",
       "v1_site": "runs/gemini-3.1-pro/VEKTRA/site/index.html",
-      "score": { "automated": 95, "human": 28, "total": 123 },
-      "phases": { "foundation": 10, "logo": 20, "website": 24, "visualization": 20, "styleguide": 16, "wildcard": 23 },
+      "score": {
+        "automated": 92.5,
+        "human": 28,
+        "total": 120.5
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 24,
+        "visualization": 20,
+        "styleguide": 16,
+        "wildcard": 23
+      },
       "wildcard": "generative-logo"
     },
     {
@@ -44,12 +71,21 @@
       "model": "Laguna M.1",
       "version": "2026-05-01",
       "runDate": "2026-05-01",
-      "thumbnail": "assets/thumbnails/laguna-m.1.jpg",
-      "screenshot": "assets/screenshots/laguna-m.1-full.jpg",
       "site": "runs/laguna-m.1/VEKTRA/v2/site/index.html",
       "v1_site": "runs/laguna-m.1/VEKTRA/site/index.html",
-      "score": { "automated": 85, "human": 18, "total": 103 },
-      "phases": { "foundation": 9, "logo": 15, "website": 20, "visualization": 15, "styleguide": 13, "wildcard": 11 },
+      "score": {
+        "automated": 95,
+        "human": 18,
+        "total": 113
+      },
+      "phases": {
+        "foundation": 9,
+        "logo": 15,
+        "website": 20,
+        "visualization": 15,
+        "styleguide": 13,
+        "wildcard": 11
+      },
       "wildcard": "intro"
     },
     {
@@ -57,12 +93,21 @@
       "model": "Ling 2.6 1T",
       "version": "2026-05-01",
       "runDate": "2026-05-01",
-      "thumbnail": "assets/thumbnails/ling-2.6-1t.jpg",
-      "screenshot": "assets/screenshots/ling-2.6-1t-full.jpg",
       "site": "runs/Ling-2.6-1T/VEKTRA/v2/site/index.html",
       "v1_site": "runs/Ling-2.6-1T/VEKTRA/site/index.html",
-      "score": { "automated": 78, "human": 15, "total": 93 },
-      "phases": { "foundation": 8, "logo": 14, "website": 18, "visualization": 12, "styleguide": 11, "wildcard": 10 },
+      "score": {
+        "automated": 105,
+        "human": 15,
+        "total": 120
+      },
+      "phases": {
+        "foundation": 8,
+        "logo": 14,
+        "website": 18,
+        "visualization": 12,
+        "styleguide": 11,
+        "wildcard": 10
+      },
       "wildcard": "custom"
     },
     {
@@ -70,12 +115,21 @@
       "model": "OWL Alpha",
       "version": "2026-05-02",
       "runDate": "2026-05-02",
-      "thumbnail": "assets/thumbnails/owl-alpha.jpg",
-      "screenshot": "assets/screenshots/owl-alpha-full.jpg",
       "site": "runs/owl-alpha/VEKTRA/v2/site/index.html",
       "v1_site": "runs/owl-alpha/VEKTRA/site/index.html",
-      "score": { "automated": 91, "human": 22, "total": 113 },
-      "phases": { "foundation": 10, "logo": 19, "website": 22, "visualization": 18, "styleguide": 14, "wildcard": 18 },
+      "score": {
+        "automated": 97.5,
+        "human": 22,
+        "total": 119.5
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 19,
+        "website": 22,
+        "visualization": 18,
+        "styleguide": 14,
+        "wildcard": 18
+      },
       "wildcard": "generative-background"
     },
     {
@@ -83,12 +137,21 @@
       "model": "Tencent HY3 Preview",
       "version": "2026-05-02",
       "runDate": "2026-05-02",
-      "thumbnail": "assets/thumbnails/tencent-hy3.jpg",
-      "screenshot": "assets/screenshots/tencent-hy3-full.jpg",
       "site": "runs/tencent-hy3-preview/VEKTRA/v2/site/index.html",
       "v1_site": "runs/tencent-hy3-preview/VEKTRA/site/index.html",
-      "score": { "automated": 87, "human": 19, "total": 106 },
-      "phases": { "foundation": 9, "logo": 17, "website": 21, "visualization": 17, "styleguide": 13, "wildcard": 16 },
+      "score": {
+        "automated": 100,
+        "human": 19,
+        "total": 119
+      },
+      "phases": {
+        "foundation": 9,
+        "logo": 17,
+        "website": 21,
+        "visualization": 17,
+        "styleguide": 13,
+        "wildcard": 16
+      },
       "wildcard": "background"
     }
   ]

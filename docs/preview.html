@@ -316,8 +316,8 @@
       `;
 
       try {
-        const query = encodeURIComponent(\`repo:\${repo} in:title "\${issueTitle}" type:issue\`);
-        const res = await fetch(\`https://api.github.com/search/issues?q=\${query}\`);
+        const query = encodeURIComponent(`repo:${repo} in:title "${issueTitle}" type:issue`);
+        const res = await fetch(`https://api.github.com/search/issues?q=${query}`);
         
         if (res.ok) {
           const data = await res.json();
@@ -338,7 +338,7 @@
             document.getElementById('vote-heart').textContent = 0;
             document.getElementById('vote-rocket').textContent = 0;
             
-            const createUrl = \`https://github.com/\${repo}/issues/new?title=\${encodeURIComponent(issueTitle)}&body=React+to+this+issue+to+vote+for+\${encodeURIComponent(entry.model)}\`;
+            const createUrl = `https://github.com/${repo}/issues/new?title=${encodeURIComponent(issueTitle)}&body=React+to+this+issue+to+vote+for+${encodeURIComponent(entry.model)}`;
             document.getElementById('vote-link').href = createUrl;
             document.getElementById('vote-link').textContent = 'Be the first to vote!';
           }
