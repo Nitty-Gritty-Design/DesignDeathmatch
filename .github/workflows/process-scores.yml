@@ -36,9 +36,11 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add docs/scores/ docs/showcase-config.json
           git commit -m "docs: integrate human score for ${{ github.event.issue.title }}" || echo "No changes to commit"
+          git pull --rebase origin main || git pull --rebase origin master || echo "Rebase failed or not needed"
           git push
 
       - name: Close Issue
+        if: success()
         uses: actions/github-script@v7
         with:
           script: |
@@ -53,4 +55,16 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'closed'
+            });
+
+      - name: Handle Failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "❌ There was an error processing your score. This usually happens if the JSON block is malformed, the modelId is incorrect, or there was a technical conflict. A maintainer will look into it shortly."
             });

@@ -24,23 +24,29 @@ if (!match) {
 let scoreData;
 try {
   scoreData = JSON.parse(match[1]);
+  console.log('Parsed score data for model:', scoreData.modelId);
 } catch (e) {
-  console.error('Failed to parse JSON:', e.message);
+  console.error('Failed to parse JSON block from issue body:', e.message);
+  console.log('JSON block content was:', match[1]);
   process.exit(1);
 }
 
 if (!scoreData.modelId) {
-  console.error('modelId is missing in score data');
+  console.error('modelId is missing in score data JSON');
   process.exit(1);
 }
 
-// Sanitize modelId for filename
-const modelId = scoreData.modelId.replace(/[^a-z0-9-]/gi, '_').toLowerCase();
+// Sanitize modelId for filename - allowing dots to match directory names
+const modelId = scoreData.modelId.replace(/[^a-z0-9.-]/gi, '_').toLowerCase();
+console.log('Sanitized modelId:', modelId);
 const scoreFile = path.join(__dirname, '..', 'docs', 'scores', `${modelId}.json`);
 
-// Read existing scores for this model to potentially average them or just store this one
-// For now, let's store it as individual file per user to avoid overwriting others?
-// Actually, if we want to aggregate, we should probably have docs/scores/<modelId>/<user>.json
+// Check if model exists in runs
+const runsDir = path.join(__dirname, '..', 'docs', 'runs');
+if (!fs.existsSync(path.join(runsDir, modelId))) {
+  console.warn(`WARNING: modelId "${modelId}" not found in docs/runs/. This score might not be displayed in the showcase.`);
+}
+
 const userDir = path.join(__dirname, '..', 'docs', 'scores', modelId);
 if (!fs.existsSync(userDir)) {
   fs.mkdirSync(userDir, { recursive: true });
