@@ -50,11 +50,34 @@ if (fs.existsSync(runsDir)) {
       automatedScore = report.score;
     }
 
-    // Find existing entry
+    // Read human score from individual review files
+    const scoreDir = path.join(__dirname, 'docs', 'scores', modelId);
+    let humanScore = 0;
+    let humanReviewCount = 0;
+
+    if (fs.existsSync(scoreDir)) {
+      const reviewFiles = fs.readdirSync(scoreDir).filter(f => f.endsWith('.json'));
+      let totalHumanSum = 0;
+      reviewFiles.forEach(file => {
+        const reviewData = JSON.parse(fs.readFileSync(path.join(scoreDir, file), 'utf8'));
+        if (typeof reviewData.humanScore === 'number') {
+          totalHumanSum += reviewData.humanScore;
+          humanReviewCount++;
+        }
+      });
+      if (humanReviewCount > 0) {
+        humanScore = totalHumanSum / humanReviewCount;
+      }
+    } else {
+      // Fallback to existing config human score if no individual files exist
+      const existingEntry = existingConfig.entries.find(e => e.id === modelId);
+      humanScore = existingEntry ? existingEntry.score.human : 0;
+    }
+    
+    // Find existing entry for other metadata
     const existingEntry = existingConfig.entries.find(e => e.id === modelId);
     
     const modelName = existingEntry ? existingEntry.model : modelId.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-    const humanScore = existingEntry ? existingEntry.score.human : 0;
     
     const phases = existingEntry ? existingEntry.phases : {
       foundation: 10, logo: 20, website: 25, visualization: 20, styleguide: 17.5, wildcard: 25

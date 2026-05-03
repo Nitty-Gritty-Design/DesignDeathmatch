@@ -125,6 +125,30 @@ if (fs.existsSync(resolvePath('brand/logo-animated.html'))) {
   }
 }
 
+// 5. Check SVG validity
+const svgFiles = [
+  'brand/logo.svg',
+  'brand/logo-mark.svg',
+  'brand/logo-light.svg'
+];
+
+svgFiles.forEach(file => {
+  if (fs.existsSync(resolvePath(file))) {
+    const content = fs.readFileSync(resolvePath(file), 'utf8');
+    if (!content.includes('<svg') || !content.includes('</svg>')) {
+      report.score -= 2.5;
+      report.deductions.push(`${file} is an invalid SVG (missing <svg> or </svg> tags) (-2.5 pts)`);
+      report.checks[`${file}_valid`] = false;
+    } else if (content.includes('@import url') || content.includes('@import ')) {
+      report.score -= 2.5;
+      report.deductions.push(`${file} contains external @import which breaks rendering in <img> tags (-2.5 pts)`);
+      report.checks[`${file}_valid`] = false;
+    } else {
+      report.checks[`${file}_valid`] = true;
+    }
+  }
+});
+
 // Check Phase 6 (Wildcards)
 const wildcards = [
   'brand/background.html',

@@ -18,11 +18,11 @@ echo Step 2/4: Running automated validation on all runs
 echo ---------------------------------------------------
 for /d %%D in (docs\runs\*) do (
     if exist "%%D\VEKTRA\v2" (
-        echo Validating %%~nxD (V2)...
+        echo Validating %%~nxD [V2]...
         node validate_run.js "%%D\VEKTRA\v2"
     )
     if exist "%%D\VEKTRA" (
-        echo Validating %%~nxD (V1)...
+        echo Validating %%~nxD [V1]...
         node validate_run.js "%%D\VEKTRA"
     )
 )
@@ -43,4 +43,3 @@ echo.
 echo ===================================================
 echo   Pipeline Complete!
 echo ===================================================
-pause

@@ -9,8 +9,8 @@
       "v1_site": "runs/claude-sonnet-4.6-thinking/VEKTRA/site/index.html",
       "score": {
         "automated": 65,
-        "human": 25,
-        "total": 90
+        "human": 30,
+        "total": 95
       },
       "phases": {
         "foundation": 10,

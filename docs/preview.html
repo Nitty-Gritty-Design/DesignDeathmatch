@@ -312,8 +312,11 @@
             <div style="font-size: 14px; font-family: var(--font-mono); font-weight: 600;" id="vote-rocket">...</div>
           </div>
         </div>
-        <a id="vote-link" href="#" target="_blank" class="card-button" style="display: block; width: 100%;">Loading link...</a>
+        <a id="vote-link" href="#" target="_blank" class="card-button" style="display: block; width: 100%; margin-bottom: 8px;">Loading link...</a>
+        <a id="review-link" href="#" class="pill" style="display: block; width: 100%; text-align: center; margin: 0; box-sizing: border-box;">Submit Detailed Review</a>
       `;
+
+      document.getElementById('review-link').href = `scoring.html?id=${entry.id}`;
 
       try {
         const query = encodeURIComponent(`repo:${repo} in:title "${issueTitle}" type:issue`);

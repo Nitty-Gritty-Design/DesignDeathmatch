@@ -19,7 +19,7 @@ node generate_config.js
 if %errorlevel% neq 0 (
     echo.
     echo ERROR: Failed to generate config.
-    pause
+    
     exit /b %errorlevel%
 )
 
@@ -35,5 +35,3 @@ echo.
 echo Next steps:
 echo   1. Commit and push to GitHub using upload_benchmark.bat
 echo.
-
-pause

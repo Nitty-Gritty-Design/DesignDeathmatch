@@ -1,0 +1,56 @@
+name: Process Human Scores
+
+on:
+  issues:
+    types: [opened, edited]
+
+jobs:
+  process-score:
+    if: contains(github.event.issue.labels.*.name, 'human-score')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Process Score
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          ISSUE_URL: ${{ github.event.issue.html_url }}
+        run: node scripts/process_score.js
+
+      - name: Regenerate Config
+        run: node generate_config.js
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add docs/scores/ docs/showcase-config.json
+          git commit -m "docs: integrate human score for ${{ github.event.issue.title }}" || echo "No changes to commit"
+          git push
+
+      - name: Close Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: "✅ Your human score has been processed and integrated into the showcase! The gallery will be updated shortly."
+            });
+            github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            });

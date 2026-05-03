@@ -124,8 +124,8 @@
             <textarea rows="4" placeholder="What stood out? What failed?"></textarea>
           </div>
 
-          <button type="submit" class="submit-btn">Copy JSON Score Data</button>
-          <p style="margin-top: 16px; font-size: 12px; color: var(--color-text-secondary); text-align: center;">Note: This tool generates the data to be added to showcase-config.json. It does not submit automatically.</p>
+          <button type="submit" class="submit-btn" id="submit-btn">Submit Score via GitHub</button>
+          <p style="margin-top: 16px; font-size: 12px; color: var(--color-text-secondary); text-align: center;">Note: This will open a new GitHub Issue with your score data. Once submitted, it will be automatically processed.</p>
         </form>
       </div>
     </div>
@@ -133,13 +133,17 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', async () => {
-      const response = await fetch('docs/showcase-config.json');
+      const urlParams = new URLSearchParams(window.location.search);
+      const preselectedModelId = urlParams.get('id');
+      
+      const response = await fetch('showcase-config.json');
       const config = await response.json();
       const select = document.getElementById('model-select');
       config.entries.forEach(e => {
         const opt = document.createElement('option');
         opt.value = e.id;
         opt.textContent = e.model;
+        if (e.id === preselectedModelId) opt.selected = true;
         select.appendChild(opt);
       });
 
@@ -155,21 +159,45 @@
       document.getElementById('human-scoring-form').addEventListener('submit', e => {
         e.preventDefault();
         const scores = {};
+        let missing = false;
         document.querySelectorAll('.rating-options').forEach(group => {
           const active = group.querySelector('.active');
-          scores[group.dataset.key] = active ? parseInt(active.textContent) : 0;
+          if (!active) {
+            missing = true;
+            group.style.borderColor = 'red';
+          } else {
+            scores[group.dataset.key] = parseInt(active.textContent);
+          }
         });
+
+        if (missing) {
+          alert('Please provide a rating for all dimensions.');
+          return;
+        }
         
-        const totalHuman = Object.values(scores).reduce((a,b) => a+b, 0) * 0.75; // Normalized to 30 max
+        const totalHuman = Object.values(scores).reduce((a,b) => a+b, 0) * 1.0; // Normalized if needed, but rubric says 30 pts max
+        // Rubric: Dimension A (10) + B (10) + C (10) = 30
         
         const output = {
           modelId: select.value,
           humanScore: totalHuman,
-          breakdown: scores
+          breakdown: scores,
+          comments: document.querySelector('textarea').value
         };
         
+        const repo = 'Nitty-Gritty-Design/DesignDeathmatch';
+        const title = `[HUMAN-SCORE] ${select.options[select.selectedIndex].text}`;
+        const body = `Hi! I'm submitting a human review for ${select.options[select.selectedIndex].text}.\n\n` +
+                     `\`\`\`json\n${JSON.stringify(output, null, 2)}\n\`\`\`\n\n` +
+                     `_Submitted via DesignDeathmatch Scoring Tool_`;
+        
+        const issueUrl = `https://github.com/${repo}/issues/new?title=${encodeURIComponent(title)}&body=${encodeURIComponent(body)}&labels=human-score`;
+        
+        window.open(issueUrl, '_blank');
+        
+        // Also copy to clipboard as fallback
         navigator.clipboard.writeText(JSON.stringify(output, null, 2));
-        alert('Score data copied to clipboard! Update generate_config.js or showcase-config.json manually.');
+        alert('Score data prepared! A GitHub window has been opened. Please click "Submit new issue" there. (JSON data also copied to clipboard as backup)');
       });
     });
   </script>
