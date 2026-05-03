@@ -74,9 +74,9 @@
       "site": "runs/gemini-3.1-pro/VEKTRA/v2/site/index.html",
       "v1_site": "runs/gemini-3.1-pro/VEKTRA/site/index.html",
       "score": {
-        "automated": 92.5,
+        "automated": 87.5,
         "human": 28,
-        "total": 120.5
+        "total": 115.5
       },
       "phases": {
         "foundation": 10,
@@ -184,9 +184,9 @@
       "site": "runs/tencent-hy3-preview/VEKTRA/v2/site/index.html",
       "v1_site": "runs/tencent-hy3-preview/VEKTRA/site/index.html",
       "score": {
-        "automated": 100,
+        "automated": 95,
         "human": 19,
-        "total": 119
+        "total": 114
       },
       "phases": {
         "foundation": 9,

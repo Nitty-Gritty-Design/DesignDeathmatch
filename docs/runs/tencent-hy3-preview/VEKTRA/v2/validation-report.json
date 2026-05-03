@@ -1,8 +1,10 @@
 {
-  "score": 100,
+  "score": 95,
   "maxScore": 100,
   "deductions": [
-    "Found hardcoded hex colors in site/style.css (9 instances) (-5 pts)"
+    "Found hardcoded hex colors in site/style.css (9 instances) (-5 pts)",
+    "brand/logo.svg contains external @import which breaks rendering in <img> tags (-2.5 pts)",
+    "brand/logo-light.svg contains external @import which breaks rendering in <img> tags (-2.5 pts)"
   ],
   "checks": {
     "brand/tokens.css": true,
@@ -21,9 +23,9 @@
     "no_hardcoded_hex": false,
     "no_broken_links": true,
     "logo_animated_valid": true,
-    "brand/logo.svg_valid": true,
+    "brand/logo.svg_valid": false,
     "brand/logo-mark.svg_valid": true,
-    "brand/logo-light.svg_valid": true,
+    "brand/logo-light.svg_valid": false,
     "wildcard_completed": true
   }
 }
