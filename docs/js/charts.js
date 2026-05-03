@@ -12,10 +12,6 @@ async function loadChartData() {
     
     initRadarSelects();
     renderCharts();
-    
-    window.addEventListener('resize', () => {
-      Object.values(charts).forEach(chart => chart.resize());
-    });
   } catch (error) {
     console.error('Error loading chart data:', error);
   }

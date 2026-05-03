@@ -21,13 +21,21 @@
       padding: 32px;
       border-radius: 8px;
       border: 1px solid var(--color-border);
-      min-height: 400px;
+      height: 500px;
+      display: flex;
+      flex-direction: column;
+    }
+    .chart-wrapper {
+      flex: 1;
+      position: relative;
+      min-height: 0;
     }
     .chart-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 24px;
+      flex-shrink: 0;
     }
     .chart-title {
       font-size: 16px;
@@ -50,7 +58,7 @@
     }
     @media (max-width: 600px) {
       .charts-grid { grid-template-columns: 1fr; }
-      .chart-container { min-height: 300px; padding: 16px; }
+      .chart-container { height: 400px; padding: 16px; }
     }
   </style>
 </head>
@@ -88,7 +96,9 @@
               <select id="radar-model-2"></select>
             </div>
           </div>
-          <canvas id="radarChart"></canvas>
+          <div class="chart-wrapper">
+            <canvas id="radarChart"></canvas>
+          </div>
         </div>
 
         <!-- Bar Chart: V1 vs V2 -->
@@ -96,7 +106,9 @@
           <div class="chart-header">
             <div class="chart-title">Iteration Improvement (V1 vs V2)</div>
           </div>
-          <canvas id="v1v2Chart"></canvas>
+          <div class="chart-wrapper">
+            <canvas id="v1v2Chart"></canvas>
+          </div>
         </div>
 
         <!-- Ranking Chart: Total Score -->
@@ -104,7 +116,9 @@
           <div class="chart-header">
             <div class="chart-title">Global Leaderboard (Weighted Score)</div>
           </div>
-          <canvas id="rankingChart"></canvas>
+          <div class="chart-wrapper">
+            <canvas id="rankingChart"></canvas>
+          </div>
         </div>
 
         <!-- Scatter Chart: Automated vs Human -->
@@ -112,7 +126,9 @@
           <div class="chart-header">
             <div class="chart-title">Validation Consistency (Automated vs Human)</div>
           </div>
-          <canvas id="scatterChart"></canvas>
+          <div class="chart-wrapper">
+            <canvas id="scatterChart"></canvas>
+          </div>
         </div>
 
         <!-- Distribution Chart: Phase Averages -->
@@ -120,7 +136,9 @@
           <div class="chart-header">
             <div class="chart-title">Benchmark Difficulty by Phase</div>
           </div>
-          <canvas id="phaseAvgChart"></canvas>
+          <div class="chart-wrapper">
+            <canvas id="phaseAvgChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
