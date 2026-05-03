@@ -47,7 +47,7 @@ body {
   letter-spacing: -0.02em;
   display: block;
 }
-.logo-img { height: 48px; object-fit: contain; filter: grayscale(100%); }
+.logo-img { height: 48px; object-fit: contain; }
 .tagline { font-size: 14px; color: var(--color-text-secondary); margin-top: 4px; }
 .intro { font-size: 16px; color: var(--color-text-secondary); margin: 32px 0; max-width: 680px; }
 .gallery-grid {
@@ -64,6 +64,7 @@ body {
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   display: flex;
   flex-direction: column;
+  container-type: inline-size;
 }
 .result-card:hover {
   transform: translateY(-2px);
@@ -76,10 +77,13 @@ body {
   position: relative; 
 }
 .card-thumbnail iframe { 
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 1440px; 
   height: 900px; 
   border: none; 
-  transform: scale(0.222); /* 320 / 1440 = 0.222 */
+  transform: scale(calc(100cqw / 1440));
   transform-origin: top left;
   pointer-events: none;
 }
