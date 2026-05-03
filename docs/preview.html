@@ -246,37 +246,35 @@
           </div>
           
           <div class="preview-details">
-            <!-- Technical Summary -->
-            <div class="detail-section" style="background: var(--color-text-primary); color: var(--color-bg-primary); border: none;">
-              <h2 style="color: var(--color-bg-primary); border-color: rgba(0,0,0,0.1); font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Technical Performance</h2>
+            <!-- Overall Score Summary -->
+            <div class="detail-section" style="border-top: 4px solid var(--color-text-primary);">
+              <h2 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; border: none; padding: 0;">Overall Score</h2>
               <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;">
-                <span style="font-size: 32px; font-family: var(--font-mono); font-weight: 600;">${Math.min(entry.score.automated, 100)}</span>
-                <span style="font-size: 16px; opacity: 0.6; font-family: var(--font-mono);">/ 100</span>
+                <span style="font-size: 42px; font-family: var(--font-mono); font-weight: 600; color: var(--color-text-primary);">${entry.score.total.toFixed(1)}</span>
+                <span style="font-size: 18px; color: var(--color-text-secondary); font-family: var(--font-mono);">/ 157.5</span>
               </div>
-              <div style="font-size: 12px; font-family: var(--font-mono); opacity: 0.8; margin-bottom: 16px;">Base Benchmark Score</div>
+              <div style="font-size: 12px; font-family: var(--font-mono); color: var(--color-text-secondary); margin-bottom: 16px;">Consolidated Benchmark Result</div>
               
-              ${entry.score.automated > 100 ? `
-                <div style="background: rgba(255,255,255,0.15); padding: 12px; border-radius: 4px; border: 1px dashed rgba(255,255,255,0.3);">
-                  <div style="font-size: 10px; text-transform: uppercase; opacity: 0.8; margin-bottom: 2px;">Wildcard Bonus</div>
-                  <div style="font-size: 16px; font-family: var(--font-mono); font-weight: 600;">+${entry.score.automated - 100} Points</div>
+              <div style="background: var(--color-bg-primary); padding: 12px; border-radius: 4px; border: 1px solid var(--color-border);">
+                <div style="display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 4px;">
+                  <span style="color: var(--color-text-secondary);">Automated Validation</span>
+                  <span style="font-weight: 600;">${entry.score.automated} / 127.5</span>
                 </div>
-              ` : ''}
+                <div style="display: flex; justify-content: space-between; font-size: 11px;">
+                  <span style="color: var(--color-text-secondary);">Human Review</span>
+                  <span style="font-weight: 600;">${entry.score.human.toFixed(1)} / 30.0</span>
+                </div>
+              </div>
             </div>
 
-            <!-- Community Summary -->
-            <div class="detail-section" style="border-top: 4px solid var(--color-text-primary);">
-              <h2 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Community Consensus</h2>
-              <div id="human-summary-stats">
-                 <div style="display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px;">
-                  <span style="font-size: 32px; font-family: var(--font-mono); font-weight: 600;">${entry.score.human.toFixed(1)}</span>
-                  <span style="font-size: 16px; color: var(--color-text-secondary); font-family: var(--font-mono);">/ 40.0</span>
-                </div>
-                <div style="font-size: 12px; font-family: var(--font-mono); color: var(--color-text-secondary); margin-bottom: 16px;">Average Human Rating</div>
+            <!-- Community Feedback -->
+            <div class="detail-section">
+              <h2 style="font-size: 14px; text-transform: uppercase; letter-spacing: 0.05em;">Community Feedback</h2>
+              <div id="voting-container">
+                <div class="loading" style="padding: 16px; font-size: 13px;">Syncing with GitHub...</div>
               </div>
               
-              <div id="voting-container">
-                <div class="loading" style="padding: 0; font-size: 13px;">Syncing reviews...</div>
-              </div>
+              <a href="scoring.html?id=${entry.id}" class="card-button" style="display: block; width: 100%; margin: 16px 0 0; box-sizing: border-box; text-align: center; background: var(--color-text-primary); color: var(--color-bg-primary);">Rate this Model</a>
             </div>
 
             <div class="detail-section">
@@ -286,7 +284,7 @@
                 <div>
                   <h3 style="font-size: 14px; color: var(--color-text-primary); margin: 0;">V1: Initial Run</h3>
                 </div>
-                <div style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">${entry.score.v1} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ 100</span></div>
+                <div style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">${entry.score.v1} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ 127.5</span></div>
               </div>
               ${renderValidation(v1Report, "V1 Results")}
               
@@ -296,18 +294,38 @@
                 <div>
                   <h3 style="font-size: 14px; color: var(--color-text-primary); margin: 0;">V2: Refinement</h3>
                 </div>
-                <div style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">${entry.score.v2} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ 100</span></div>
+                <div style="font-family: var(--font-mono); font-weight: 600; font-size: 18px;">${entry.score.v2} <span style="font-size: 12px; font-weight: 400; color: var(--color-text-secondary);">/ 127.5</span></div>
               </div>
               ${renderValidation(v2Report, "V2 Results")}
             </div>
 
             <div class="detail-section">
               <h2>Phase Breakdown (Max Effort)</h2>
-            
-            <div class="detail-section">
-              <h2>Voting / Community</h2>
-              <div id="voting-container">
-                <div class="loading" style="padding: 16px; font-size: 13px;">Loading GitHub reactions...</div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                <div style="font-size: 12px;">
+                  <div style="color: var(--color-text-secondary);">Foundation</div>
+                  <div style="font-weight: 600; font-family: var(--font-mono);">${entry.phases.foundation} / 10</div>
+                </div>
+                <div style="font-size: 12px;">
+                  <div style="color: var(--color-text-secondary);">Logo</div>
+                  <div style="font-weight: 600; font-family: var(--font-mono);">${entry.phases.logo} / 20</div>
+                </div>
+                <div style="font-size: 12px;">
+                  <div style="color: var(--color-text-secondary);">Website</div>
+                  <div style="font-weight: 600; font-family: var(--font-mono);">${entry.phases.website} / 25</div>
+                </div>
+                <div style="font-size: 12px;">
+                  <div style="color: var(--color-text-secondary);">Data Viz</div>
+                  <div style="font-weight: 600; font-family: var(--font-mono);">${entry.phases.visualization} / 20</div>
+                </div>
+                <div style="font-size: 12px;">
+                  <div style="color: var(--color-text-secondary);">Style Guide</div>
+                  <div style="font-weight: 600; font-family: var(--font-mono);">${entry.phases.styleguide} / 17.5</div>
+                </div>
+                <div style="font-size: 12px;">
+                  <div style="color: var(--color-text-secondary);">Wildcard</div>
+                  <div style="font-weight: 600; font-family: var(--font-mono);">${entry.phases.wildcard} / 25</div>
+                </div>
               </div>
             </div>
           </div>
@@ -325,54 +343,41 @@
       const repo = 'Nitty-Gritty-Design/DesignDeathmatch';
       const issueTitle = `Voting: ${entry.model}`;
       
-      // We render the UI immediately with loaders
-      container.innerHTML = `
-        <div style="background: var(--color-bg-primary); border: 1px solid var(--color-border); border-radius: 6px; padding: 20px; margin-bottom: 16px; text-align: center;">
-          <div style="font-size: 11px; font-family: var(--font-mono); color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 12px;">Human Sentiment</div>
-          <div id="sentiment-stats" style="display: flex; justify-content: space-around; align-items: center; margin-bottom: 20px;">
-             <div class="loading" style="font-size: 13px;">Syncing with GitHub...</div>
-          </div>
-          <a id="review-link" href="scoring.html?id=${entry.id}" class="card-button" style="display: block; width: 100%; margin: 0; box-sizing: border-box; text-align: center; background: var(--color-text-primary); color: var(--color-bg-primary);">Rate this Model</a>
-        </div>
-        <div style="font-size: 12px; color: var(--color-text-secondary); text-align: center; font-style: italic;">
-          Reviews are processed via GitHub Issues and integrated into the leaderboard.
-        </div>
-      `;
-
       try {
         const query = encodeURIComponent(`repo:${repo} in:title "${issueTitle}" type:issue`);
         const res = await fetch(`https://api.github.com/search/issues?q=${query}`);
         
         if (res.ok) {
           const data = await res.json();
-          const statsContainer = document.getElementById('sentiment-stats');
           
           if (data.items && data.items.length > 0) {
             const issue = data.items[0];
             const reactions = issue.reactions || {};
             const total = (reactions['+1'] || 0) + (reactions['heart'] || 0) + (reactions['rocket'] || 0);
             
-            statsContainer.innerHTML = `
-              <div style="text-align: center;">
-                <div style="font-size: 24px; font-family: var(--font-mono); color: var(--color-text-primary); font-weight: 600;">${total}</div>
-                <div style="font-size: 10px; color: var(--color-text-secondary); text-transform: uppercase;">Community Votes</div>
-              </div>
-              <div style="width: 1px; height: 30px; background: var(--color-border);"></div>
-              <div style="text-align: center;">
-                <div style="font-size: 24px; font-family: var(--font-mono); color: var(--color-text-primary); font-weight: 600;">${entry.score.human.toFixed(1)}</div>
-                <div style="font-size: 10px; color: var(--color-text-secondary); text-transform: uppercase;">Review Avg</div>
+            container.innerHTML = `
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px;">
+                <div style="text-align: center; flex: 1;">
+                  <div style="font-size: 20px; font-family: var(--font-mono); color: var(--color-text-primary); font-weight: 600;">${total}</div>
+                  <div style="font-size: 9px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">GitHub Reactions</div>
+                </div>
+                <div style="width: 1px; height: 24px; background: var(--color-border);"></div>
+                <div style="text-align: center; flex: 1;">
+                  <div style="font-size: 20px; font-family: var(--font-mono); color: var(--color-text-primary); font-weight: 600;">${entry.score.human.toFixed(1)}</div>
+                  <div style="font-size: 9px; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Human Review Avg</div>
+                </div>
               </div>
             `;
           } else {
-            statsContainer.innerHTML = `
-              <div style="text-align: center; width: 100%;">
-                <div style="font-size: 13px; color: var(--color-text-secondary);">No community data yet.</div>
+            container.innerHTML = `
+              <div style="text-align: center; padding: 8px 0;">
+                <div style="font-size: 13px; color: var(--color-text-secondary);">No community activity yet.</div>
               </div>
             `;
           }
         }
       } catch (e) {
-        document.getElementById('sentiment-stats').innerHTML = '<div style="font-size: 12px; color: #d32f2f;">Stats unavailable</div>';
+        container.innerHTML = '<div style="font-size: 12px; color: #d32f2f; text-align: center;">Sync unavailable</div>';
       }
     }
   </script>

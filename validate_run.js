@@ -11,13 +11,13 @@ if (!runFolder) {
 const resolvePath = (p) => path.join(runFolder, p);
 
 const report = {
-  score: 100,
-  maxScore: 100,
+  score: 102.5,
+  maxScore: 127.5,
   deductions: [],
   checks: {},
 };
 
-function checkFileExists(relPath, points = 5) {
+function checkFileExists(relPath, points = 2.5) {
   const exists = fs.existsSync(resolvePath(relPath));
   report.checks[relPath] = exists;
   if (!exists) {
@@ -27,23 +27,26 @@ function checkFileExists(relPath, points = 5) {
   return exists;
 }
 
-// 1. Check required files
-const requiredFiles = [
-  'brand/tokens.css',
-  'brand/typography.md',
-  'brand/voice.md',
-  'brand/logo-concept.md',
-  'brand/logo.svg',
-  'brand/logo-mark.svg',
-  'brand/logo-animated.html',
-  'brand/logo-light.svg',
-  'site/index.html',
-  'site/style.css',
-  'site/main.js',
-  'brand/styleguide.html'
-];
+// 1. Check required files (Phase 1-5 core deliverables)
+const deliverables = {
+  'brand/tokens.css': 2.5,
+  'brand/typography.md': 2.5,
+  'brand/voice.md': 2.5,
+  'brand/logo-concept.md': 2.5,
+  'brand/logo.svg': 4.0,
+  'brand/logo-mark.svg': 4.0,
+  'brand/logo-animated.html': 4.0,
+  'brand/logo-light.svg': 4.0,
+  'site/index.html': 5.0,
+  'site/style.css': 5.0,
+  'site/main.js': 5.0,
+  'brand/styleguide.html': 2.5,
+};
 
-requiredFiles.forEach(file => checkFileExists(file, 2.5));
+for (const [file, pts] of Object.entries(deliverables)) {
+  checkFileExists(file, pts);
+}
+
 
 // Check visualization file (either viz.html or inside index.html)
 const vizExists = fs.existsSync(resolvePath('site/viz.html'));
