@@ -18,7 +18,7 @@ for /f "delims=" %%A in (temp_status.txt) do set STATUS_OUT=%%A
 if "!STATUS_OUT!"=="" (
     echo No new or modified runs found.
     del temp_status.txt
-    pause
+    
     exit /b 0
 )
 
@@ -30,7 +30,7 @@ echo Committing...
 git commit -m "docs: update benchmark runs and showcase"
 
 echo Pushing to repository...
-git push
+git push origin main
 
 echo.
 echo ===================================================
@@ -39,4 +39,4 @@ echo ===================================================
 echo.
 
 del temp_status.txt
-pause
+
