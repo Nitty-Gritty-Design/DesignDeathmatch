@@ -68,7 +68,7 @@ function renderGallery(entries) {
   gallery.innerHTML = entries.map((entry, index) => `
     <div class="result-card" style="animation-delay: ${index * 0.1}s">
       <div class="card-thumbnail">
-        <iframe src="${entry.v1_site || entry.site}" scrolling="no" tabindex="-1"></iframe>
+        <iframe src="${entry.v1_site}" scrolling="no" tabindex="-1"></iframe>
       </div>
       <div class="card-content">
         <div class="card-model">${entry.model}</div>
