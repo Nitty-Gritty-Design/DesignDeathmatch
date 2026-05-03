@@ -60,7 +60,8 @@ if (fs.existsSync(runsDir)) {
     // be incomplete in terms of file structure but higher in refinement
     const automatedScore = Math.max(v1Automated, v2Automated);
 
-    // Read human score from individual review files
+    // Read human score from individual review files ONLY
+    // No fallback to old hardcoded config to avoid "ghost" scores
     const scoreDir = path.join(__dirname, 'docs', 'scores', modelId);
     let humanScore = 0;
     let humanReviewCount = 0;
@@ -78,10 +79,6 @@ if (fs.existsSync(runsDir)) {
       if (humanReviewCount > 0) {
         humanScore = totalHumanSum / humanReviewCount;
       }
-    } else {
-      // Fallback to existing config human score if no individual files exist
-      const existingEntry = existingConfig.entries.find(e => e.id === modelId);
-      humanScore = existingEntry ? existingEntry.score.human : 0;
     }
     
     // Find existing entry for other metadata

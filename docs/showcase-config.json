@@ -59,8 +59,8 @@
         "v1": 105,
         "v2": 67.5,
         "automated": 105,
-        "human": 20,
-        "total": 125
+        "human": 0,
+        "total": 105
       },
       "phases": {
         "foundation": 9,
@@ -83,8 +83,8 @@
         "v1": 95,
         "v2": 87.5,
         "automated": 95,
-        "human": 28,
-        "total": 123
+        "human": 0,
+        "total": 95
       },
       "phases": {
         "foundation": 10,
@@ -107,8 +107,8 @@
         "v1": 105,
         "v2": 95,
         "automated": 105,
-        "human": 18,
-        "total": 123
+        "human": 0,
+        "total": 105
       },
       "phases": {
         "foundation": 9,
@@ -131,8 +131,8 @@
         "v1": 105,
         "v2": 105,
         "automated": 105,
-        "human": 15,
-        "total": 120
+        "human": 0,
+        "total": 105
       },
       "phases": {
         "foundation": 8,
@@ -179,8 +179,8 @@
         "v1": 110,
         "v2": 97.5,
         "automated": 110,
-        "human": 22,
-        "total": 132
+        "human": 0,
+        "total": 110
       },
       "phases": {
         "foundation": 10,
@@ -203,8 +203,8 @@
         "v1": 95,
         "v2": 95,
         "automated": 95,
-        "human": 19,
-        "total": 114
+        "human": 0,
+        "total": 95
       },
       "phases": {
         "foundation": 9,
