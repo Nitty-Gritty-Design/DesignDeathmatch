@@ -1,7 +1,9 @@
 {
-  "score": 110,
+  "score": 105,
   "maxScore": 100,
-  "deductions": [],
+  "deductions": [
+    "Found broken links/images in site/index.html (7 instances) (-5 pts)"
+  ],
   "checks": {
     "brand/tokens.css": true,
     "brand/typography.md": true,
@@ -17,7 +19,7 @@
     "brand/styleguide.html": true,
     "site/viz.html": true,
     "no_hardcoded_hex": true,
-    "no_broken_links": true,
+    "no_broken_links": false,
     "logo_animated_valid": true,
     "brand/logo.svg_valid": true,
     "brand/logo-mark.svg_valid": true,

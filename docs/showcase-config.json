@@ -30,9 +30,9 @@
       "site": "runs/deepseek-v4-pro/VEKTRA/v2/site/index.html",
       "v1_site": "runs/deepseek-v4-pro/VEKTRA/site/index.html",
       "score": {
-        "automated": 0,
+        "automated": 105,
         "human": 0,
-        "total": 0
+        "total": 105
       },
       "phases": {
         "foundation": 10,
@@ -140,9 +140,9 @@
       "site": "runs/moonshotai-kimi-k2.6/VEKTRA/site/index.html",
       "v1_site": "runs/moonshotai-kimi-k2.6/VEKTRA/site/index.html",
       "score": {
-        "automated": 0,
+        "automated": 65,
         "human": 0,
-        "total": 0
+        "total": 65
       },
       "phases": {
         "foundation": 10,

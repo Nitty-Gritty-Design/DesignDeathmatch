@@ -21,6 +21,9 @@
     "no_hardcoded_hex": false,
     "no_broken_links": true,
     "logo_animated_valid": true,
+    "brand/logo.svg_valid": true,
+    "brand/logo-mark.svg_valid": true,
+    "brand/logo-light.svg_valid": true,
     "wildcard_completed": true
   }
 }
