@@ -1,19 +1,25 @@
-# Design AI Benchmark — VEKTRA / Framework v2.0
+# Design AI Benchmark - VEKTRA / Framework v2.0
 
 ![DesignDeathmatch Logo](assets/DesignDeathmatch_Logo.png)
 
-A benchmark for evaluating large language models on creative design tasks. Models autonomously build a complete brand identity for **VEKTRA**, a fictitious Berlin-based generative audio-visual instrument studio — from design tokens to animated logo to working website.
+A benchmark for evaluating large language models on creative design tasks. Models autonomously build a complete brand identity for **VEKTRA**, a fictitious Berlin-based generative audio-visual instrument studio - from design tokens to animated logo to working website.
+
+---
+
+## Showcase
+
+View benchmark results: https://nitty-gritty-design.github.io/DesignDeathmatch/
 
 ---
 
 ## What this measures
 
-- **Design taste** — does the output demonstrate genuine aesthetic judgment, or just technical execution?
-- **Brand coherence** — does every file feel like it belongs to the same system?
-- **Creative ambition** — does the model interpret the brief or just execute it?
-- **Technical expressiveness** — can the model produce live, interactive, animated output?
-- **Autonomous execution** — can the model run to completion without intervention?
-- **Efficiency** — how much does the model accomplish per tool call?
+- **Design taste** - does the output demonstrate genuine aesthetic judgment, or just technical execution?
+- **Brand coherence** - does every file feel like it belongs to the same system?
+- **Creative ambition** - does the model interpret the brief or just execute it?
+- **Technical expressiveness** - can the model produce live, interactive, animated output?
+- **Autonomous execution** - can the model run to completion without intervention?
+- **Efficiency** - how much does the model accomplish per tool call?
 
 ---
 
@@ -21,7 +27,7 @@ A benchmark for evaluating large language models on creative design tasks. Model
 
 | File | Purpose | Given to model? |
 |---|---|---|
-| `BRIEF.md` | Creative prompt — the VEKTRA brand | ✅ Yes |
+| `BRIEF.md` | Creative prompt - the VEKTRA brand | ✅ Yes |
 | `DESIGN.md` | Style references + design token guidance | ✅ Yes |
 | `TASKS.md` | Deliverable checklist + scoring breakdown | ✅ Yes |
 | `RULES.md` | Execution constraints + stop condition | ✅ Yes |
@@ -39,11 +45,11 @@ A benchmark for evaluating large language models on creative design tasks. Model
 3. The script will create a new isolated workspace folder at `..\DesignDeathmatch_Runs\[Model_Name]\VEKTRA` and copy only the allowed files into it.
 4. Open this newly created isolated folder in VS Code (with your AI coding assistant installed).
 5. Record start time.
-6. Send this exact prompt — do not add to it or explain it:
+6. Send this exact prompt - do not add to it or explain it:
 
 ```text
 Read BRIEF.md, DESIGN.md, TASKS.md, and RULES.md in that order.
-Then begin executing the tasks. Do not ask for clarification —
+Then begin executing the tasks. Do not ask for clarification -
 invent what is not specified and proceed. Update TASKS.md checkboxes
 as you complete each item. Create RUNLOG.md as your final act.
 ```
@@ -71,12 +77,12 @@ Do not ask for permission. Update TASKS.md if relevant, and comprehensively log 
 
 ### After the run
 
-1. Run the automated validation script: `node validate_run.js docs/runs/<model-name>/VEKTRA` (for V1) or `node validate_run.js docs/runs/<model-name>/VEKTRA/v2` (for V2). This will generate a `validation-report.json`.
-2. Open each HTML file in a browser (Chrome or Firefox). Check for visual correctness.
-3. Complete the human review rubric from `SCORING.md` — ideally with 2 reviewers, averaging scores.
-4. Add the entry to `docs/showcase-config.json`.
-5. Sync the runs and generate the showcase using `sync_showcase.bat`.
-6. Run `upload_benchmark.bat` to commit and push the new run data.
+1. Copy the benchmark run from your isolated workspace into the repository using `copy_runs.bat`.
+2. Generate the automated validation report by running: `node validate_run.js docs/runs/<model-name>/VEKTRA` (for V1) or `node validate_run.js docs/runs/<model-name>/VEKTRA/v2` (for V2).
+3. Open each HTML file in a browser (Chrome or Firefox). Check for visual correctness.
+4. Complete the human review rubric from `SCORING.md` - ideally with 2 reviewers, averaging scores.
+5. Generate the updated showcase data by running `sync_showcase.bat`. This automatically updates `docs/showcase-config.json` with the new runs and validation scores.
+6. Commit and push your updates to GitHub automatically by running `upload_benchmark.bat`.
 
 ---
 
@@ -91,35 +97,29 @@ Do not ask for permission. Update TASKS.md if relevant, and comprehensively log 
 
 ---
 
-## Repository Structure
+## Repository Structure & Scripts
 
-```
+```text
 /
 ├── docs/                # GitHub Pages showcase website
-│   ├── runs/            # Benchmark run results
-│   ├── index.html       # Gallery grid
-│   ├── preview.html     # Detail view
+│   ├── runs/            # Benchmark run results (V1 and V2 deliverables)
+│   ├── index.html       # Showcase gallery grid
+│   ├── preview.html     # Detail view with side-by-side V1/V2 and Validation Reports
 │   ├── css/style.css    # Neutral grayscale theme
-│   ├── js/main.js       # Interactive scripts
-│   └── showcase-config.json # Benchmark entries for the showcase
-├── framework/           # Old reference folder (Core files now live in root)
-├── validate_run.js      # Automated validation script for benchmark results
-├── setup_run.bat        # Creates isolated benchmark workspaces
-├── sync_showcase.bat    # Generates showcase assets
-├── copy_runs.bat        # Copies runs from external directory to docs/runs
-└── upload_benchmark.bat # Commits and pushes new benchmark runs
+│   ├── js/main.js       # Interactive scripts (filtering, sorting)
+│   └── showcase-config.json # Auto-generated benchmark configuration
+├── generate_config.js   # Node script that scans docs/runs/ and auto-generates showcase-config.json
+├── validate_run.js      # Node script that scans a run directory and outputs validation-report.json
+├── setup_run.bat        # Creates an isolated benchmark workspace for a new LLM run
+├── copy_runs.bat        # Copies completed runs from the isolated workspace into docs/runs/
+├── sync_showcase.bat    # Calls generate_config.js to update the showcase JSON data
+└── upload_benchmark.bat # Automatically stages, commits, and pushes new benchmark runs
 ```
 
-The actual benchmark runs are stored separately in `..\DesignDeathmatch_Runs\` to keep the repository lightweight.
-
----
-
-## Showcase
-
-View benchmark results: https://nitty-gritty-design.github.io/DesignDeathmatch/
+The actual benchmark runs are initially executed outside the repository in `..\DesignDeathmatch_Runs\` to prevent the LLM from accidentally reading the repository's `SCORING.md` rubric.
 
 ---
 
 ## License
 
-MIT License — Use freely for research and benchmarking.
+MIT License - Use freely for research and benchmarking.
