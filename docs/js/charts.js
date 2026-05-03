@@ -48,16 +48,29 @@ function renderCharts() {
 }
 
 const colors = {
-  primary: '#00f2ff', // Cyan
-  secondary: '#7000ff', // Purple
-  accent: '#ff007a', // Pink
-  v1: 'rgba(0, 242, 255, 0.7)',
-  v2: 'rgba(112, 0, 255, 0.7)',
+  primary: '#5ea2ef', // Muted Blue
+  secondary: '#a18cd1', // Muted Purple
+  accent: '#fbc2eb', // Muted Pink
   grid: 'rgba(255, 255, 255, 0.05)',
   text: '#888888',
-  tooltipBg: 'rgba(0, 0, 0, 0.8)',
-  glow: 'rgba(0, 242, 255, 0.2)'
+  tooltipBg: 'rgba(20, 20, 20, 0.9)',
 };
+
+// Model-specific color palette (Muted/Sophisticated)
+const modelPalette = [
+  '#748cab', '#918d77', '#a18cd1', '#fbc2eb', '#84fab0', 
+  '#8fd3f4', '#e0c3fc', '#f6d365', '#fda085', '#cfd9df'
+];
+
+function getModelColor(index, alpha = 1) {
+  const color = modelPalette[index % modelPalette.length];
+  if (alpha === 1) return color;
+  // Simple hex to rgba conversion for alpha
+  const r = parseInt(color.slice(1, 3), 16);
+  const g = parseInt(color.slice(3, 5), 16);
+  const b = parseInt(color.slice(5, 7), 16);
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
 
 // Detect light mode to adjust grid/text
 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
@@ -67,8 +80,14 @@ if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matc
 
 function renderRadarChart() {
   const ctx = document.getElementById('radarChart').getContext('2d');
-  const m1 = allEntries.find(e => e.id === document.getElementById('radar-model-1').value);
-  const m2 = allEntries.find(e => e.id === document.getElementById('radar-model-2').value);
+  const m1Id = document.getElementById('radar-model-1').value;
+  const m2Id = document.getElementById('radar-model-2').value;
+  
+  const m1Index = allEntries.findIndex(e => e.id === m1Id);
+  const m2Index = allEntries.findIndex(e => e.id === m2Id);
+  
+  const m1 = allEntries[m1Index];
+  const m2 = allEntries[m2Index];
   
   const labels = ['Foundation', 'Logo', 'Website', 'Data Viz', 'Style Guide', 'Wildcard'];
   
@@ -89,17 +108,17 @@ function renderRadarChart() {
         {
           label: m1.model,
           data: getData(m1),
-          backgroundColor: 'rgba(0, 242, 255, 0.1)',
-          borderColor: colors.primary,
-          pointBackgroundColor: colors.primary,
+          backgroundColor: getModelColor(m1Index, 0.1),
+          borderColor: getModelColor(m1Index, 0.8),
+          pointBackgroundColor: getModelColor(m1Index, 1),
           borderWidth: 2
         },
         {
           label: m2.model,
           data: getData(m2),
-          backgroundColor: 'rgba(112, 0, 255, 0.1)',
-          borderColor: colors.secondary,
-          pointBackgroundColor: colors.secondary,
+          backgroundColor: getModelColor(m2Index, 0.1),
+          borderColor: getModelColor(m2Index, 0.8),
+          pointBackgroundColor: getModelColor(m2Index, 1),
           borderWidth: 2
         }
       ]
@@ -118,7 +137,7 @@ function renderRadarChart() {
         }
       },
       plugins: {
-        legend: { position: 'bottom', labels: { color: colors.text, boxWidth: 12, font: { family: 'Inter', size: 10 } } }
+        legend: { position: 'bottom', labels: { color: colors.text, boxWidth: 10, font: { family: 'Inter', size: 10 } } }
       }
     }
   });
@@ -126,8 +145,14 @@ function renderRadarChart() {
 
 function updateRadarChart() {
   if (charts.radar) {
-    const m1 = allEntries.find(e => e.id === document.getElementById('radar-model-1').value);
-    const m2 = allEntries.find(e => e.id === document.getElementById('radar-model-2').value);
+    const m1Id = document.getElementById('radar-model-1').value;
+    const m2Id = document.getElementById('radar-model-2').value;
+    
+    const m1Index = allEntries.findIndex(e => e.id === m1Id);
+    const m2Index = allEntries.findIndex(e => e.id === m2Id);
+    
+    const m1 = allEntries[m1Index];
+    const m2 = allEntries[m2Index];
     
     const getData = (m) => [
       (m.phases.foundation / 10) * 100,
@@ -140,8 +165,16 @@ function updateRadarChart() {
     
     charts.radar.data.datasets[0].label = m1.model;
     charts.radar.data.datasets[0].data = getData(m1);
+    charts.radar.data.datasets[0].backgroundColor = getModelColor(m1Index, 0.1);
+    charts.radar.data.datasets[0].borderColor = getModelColor(m1Index, 0.8);
+    charts.radar.data.datasets[0].pointBackgroundColor = getModelColor(m1Index, 1);
+    
     charts.radar.data.datasets[1].label = m2.model;
     charts.radar.data.datasets[1].data = getData(m2);
+    charts.radar.data.datasets[1].backgroundColor = getModelColor(m2Index, 0.1);
+    charts.radar.data.datasets[1].borderColor = getModelColor(m2Index, 0.8);
+    charts.radar.data.datasets[1].pointBackgroundColor = getModelColor(m2Index, 1);
+    
     charts.radar.update();
   }
 }
@@ -158,14 +191,19 @@ function renderV1V2Chart() {
         {
           label: 'V1 Base',
           data: sorted.map(e => e.score.v1),
-          backgroundColor: colors.secondary,
-          borderRadius: 4
+          backgroundColor: 'rgba(255, 255, 255, 0.1)',
+          borderColor: 'rgba(255, 255, 255, 0.2)',
+          borderWidth: 1,
+          borderRadius: 2
         },
         {
           label: 'V2 Peak',
           data: sorted.map(e => e.score.v2),
-          backgroundColor: colors.primary,
-          borderRadius: 4
+          backgroundColor: sorted.map((e, i) => {
+            const index = allEntries.findIndex(entry => entry.id === e.id);
+            return getModelColor(index, 0.6);
+          }),
+          borderRadius: 2
         }
       ]
     },
@@ -177,7 +215,7 @@ function renderV1V2Chart() {
         y: { grid: { color: colors.grid }, ticks: { color: colors.text } }
       },
       plugins: {
-        legend: { position: 'bottom', labels: { color: colors.text, boxWidth: 12, font: { size: 10 } } }
+        legend: { position: 'bottom', labels: { color: colors.text, boxWidth: 10, font: { size: 10 } } }
       }
     }
   });
@@ -187,10 +225,6 @@ function renderRankingChart() {
   const ctx = document.getElementById('rankingChart').getContext('2d');
   const sorted = [...allEntries].sort((a,b) => b.score.total - a.score.total);
   
-  const gradient = ctx.createLinearGradient(0, 0, ctx.canvas.width, 0);
-  gradient.addColorStop(0, colors.secondary);
-  gradient.addColorStop(1, colors.primary);
-
   charts.ranking = new Chart(ctx, {
     type: 'bar',
     data: {
@@ -198,8 +232,11 @@ function renderRankingChart() {
       datasets: [{
         label: 'Benchmark Score',
         data: sorted.map(e => e.score.total),
-        backgroundColor: gradient,
-        borderRadius: 6,
+        backgroundColor: sorted.map((e, i) => {
+          const index = allEntries.findIndex(entry => entry.id === e.id);
+          return getModelColor(index, 0.7);
+        }),
+        borderRadius: 4,
         borderSkipped: false
       }]
     },
@@ -215,7 +252,7 @@ function renderRankingChart() {
         },
         y: { 
           grid: { display: false }, 
-          ticks: { color: colors.text, font: { family: 'JetBrains Mono', weight: 'bold' } } 
+          ticks: { color: colors.text, font: { family: 'JetBrains Mono', size: 11 } } 
         }
       },
       plugins: {
@@ -232,13 +269,17 @@ function renderScatterChart() {
     type: 'scatter',
     data: {
       datasets: [{
-        label: 'Performance Cluster',
-        data: allEntries.map(e => ({ x: e.score.automated, y: e.score.human, model: e.model })),
-        backgroundColor: colors.accent,
-        pointRadius: 8,
-        pointHoverRadius: 12,
-        borderColor: 'rgba(255,255,255,0.2)',
-        borderWidth: 2
+        label: 'Models',
+        data: allEntries.map((e, i) => ({ 
+          x: e.score.automated, 
+          y: e.score.human, 
+          model: e.model,
+          color: getModelColor(i, 0.8)
+        })),
+        backgroundColor: (context) => context.raw ? context.raw.color : colors.accent,
+        pointRadius: 6,
+        pointHoverRadius: 10,
+        borderWidth: 0
       }]
     },
     options: {
@@ -253,7 +294,7 @@ function renderScatterChart() {
           max: 127.5
         },
         y: { 
-          title: { display: true, text: 'Human Aesthetic Taste', color: colors.text, font: { family: 'JetBrains Mono', size: 10 } },
+          title: { display: true, text: 'Human Taste', color: colors.text, font: { family: 'JetBrains Mono', size: 10 } },
           grid: { color: colors.grid }, 
           ticks: { color: colors.text },
           min: 0,
@@ -263,6 +304,9 @@ function renderScatterChart() {
       plugins: {
         tooltip: {
           backgroundColor: colors.tooltipBg,
+          padding: 10,
+          titleFont: { size: 12 },
+          bodyFont: { size: 11 },
           callbacks: {
             label: (ctx) => ` ${ctx.raw.model} | Auto: ${ctx.raw.x} | Human: ${ctx.raw.y}`
           }
@@ -291,12 +335,12 @@ function renderPhaseAvgChart() {
       datasets: [{
         label: 'Avg Skill Level %',
         data: avgs,
-        borderColor: colors.primary,
-        backgroundColor: 'rgba(0, 242, 255, 0.1)',
+        borderColor: 'rgba(255, 255, 255, 0.3)',
+        backgroundColor: 'rgba(255, 255, 255, 0.05)',
         fill: true,
-        tension: 0.5,
-        pointRadius: 4,
-        pointBackgroundColor: colors.primary
+        tension: 0.4,
+        pointRadius: 3,
+        pointBackgroundColor: '#ffffff'
       }]
     },
     options: {
