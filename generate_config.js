@@ -27,13 +27,19 @@ if (fs.existsSync(runsDir)) {
       }
     }
 
-    // Find v2 site
-    let site = `runs/${modelId}/VEKTRA/v2/site/index.html`;
-    if (!fs.existsSync(path.join(__dirname, 'docs', site))) {
-      if (fs.existsSync(path.join(__dirname, 'docs', `runs/${modelId}/VEKTRA/v2/index.html`))) {
-        site = `runs/${modelId}/VEKTRA/v2/index.html`;
-      } else {
-         site = v1_site;
+    // Find v2 site (Refinement)
+    // We check for index_v2.html or index.html in the v2 directory structures
+    const v2SearchPaths = [
+      `runs/${modelId}/VEKTRA/v2/site/index_v2.html`,
+      `runs/${modelId}/VEKTRA/v2/site/index.html`,
+      `runs/${modelId}/VEKTRA/v2/index.html`
+    ];
+    
+    let site = v1_site; // Default to v1 if no v2 is found
+    for (const p of v2SearchPaths) {
+      if (fs.existsSync(path.join(__dirname, 'docs', p))) {
+        site = p;
+        break;
       }
     }
 
