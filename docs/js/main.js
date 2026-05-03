@@ -10,18 +10,21 @@ async function loadShowcaseData() {
     allEntries = config.entries || [];
     
     setupFilters();
+    
+    // Default initial sort: Highest Score First
+    allEntries.sort((a, b) => (b.score.total) - (a.score.total));
+    
     renderGallery(allEntries);
     
     document.getElementById('sort-select').addEventListener('change', updateGallery);
     document.getElementById('filter-select').addEventListener('change', updateGallery);
   } catch (error) {
-    document.getElementById('gallery').innerHTML = '<div class="loading">No benchmark data available. Add entries to showcase-config.json</div>';
+    document.getElementById('gallery').innerHTML = '<div class="loading">No benchmark data available. Run process_all.bat to generate config.</div>';
   }
 }
 
 function setupFilters() {
   const filterSelect = document.getElementById('filter-select');
-  // Get distinct first word (family name)
   const families = new Set();
   allEntries.forEach(entry => {
     const family = entry.model.split(' ')[0];
@@ -40,7 +43,7 @@ function updateGallery() {
   const sortVal = document.getElementById('sort-select').value;
   const filterVal = document.getElementById('filter-select').value;
   
-  let filtered = allEntries;
+  let filtered = [...allEntries];
   if (filterVal !== 'all') {
     filtered = filtered.filter(entry => entry.model.startsWith(filterVal));
   }
@@ -69,12 +72,12 @@ function renderGallery(entries) {
       </div>
       <div class="card-content">
         <div class="card-model">${entry.model}</div>
-        <div class="card-version">Version: ${entry.version}</div>
+        <div class="card-version">Run Date: ${entry.runDate}</div>
         <div class="card-score">
           <div class="score-bar"><div class="score-fill" style="width: ${(entry.score.total / 157.5) * 100}%"></div></div>
-          <span class="score-text">${entry.score.total} / 157.5</span>
+          <span class="score-text">${entry.score.total.toFixed(1)} / 157.5</span>
         </div>
-        <a href="preview.html?id=${entry.id}" class="card-button">View Details →</a>
+        <a href="preview.html?id=${entry.id}" class="card-button">View Details & Previews →</a>
       </div>
     </div>
   `).join('');

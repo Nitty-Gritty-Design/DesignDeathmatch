@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Scoring - DesignDeathmatch</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <style>
+    .scoring-form {
+      max-width: 800px;
+      margin: 48px auto;
+      background: var(--color-surface);
+      padding: 48px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+    }
+    .form-group { margin-bottom: 32px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--color-text-primary); }
+    .form-group p { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 16px; }
+    .rating-options { display: flex; gap: 12px; }
+    .rating-btn {
+      flex: 1;
+      padding: 12px;
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      cursor: pointer;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      transition: all 0.2s;
+      text-align: center;
+    }
+    .rating-btn:hover { border-color: var(--color-text-primary); }
+    .rating-btn.active { background: var(--color-text-primary); color: var(--color-bg-primary); border-color: var(--color-text-primary); }
+    
+    select, input, textarea {
+      width: 100%;
+      padding: 12px;
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      border-radius: 4px;
+      font-family: var(--font-sans);
+    }
+    .submit-btn {
+      background: var(--color-text-primary);
+      color: var(--color-bg-primary);
+      padding: 16px 32px;
+      border: none;
+      border-radius: 4px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      font-size: 16px;
+    }
+    .submit-btn:hover { opacity: 0.9; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <a href="index.html" style="text-decoration: none;"><img src="assets/DesignDeathmatch_Logo.png" alt="DesignDeathmatch Logo" class="logo-img" style="max-width: 100%; height: auto;"></a>
+        <nav style="display: flex; gap: 24px;">
+          <a href="index.html" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-mono); font-size: 14px;">Gallery</a>
+          <a href="framework/index.html" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-mono); font-size: 14px;">Framework</a>
+          <a href="scoring.html" style="color: var(--color-text-primary); text-decoration: none; font-family: var(--font-mono); font-size: 14px; font-weight: 600;">Scoring</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="scoring-form">
+        <h1 style="margin-bottom: 32px; border-bottom: 1px solid var(--color-border); padding-bottom: 16px;">Human Review Rubric</h1>
+        
+        <form id="human-scoring-form">
+          <div class="form-group">
+            <label>Model to Review</label>
+            <select id="model-select" required>
+              <option value="">Select a model...</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Design Language & Taste (0-10)</label>
+            <p>Does the result demonstrate genuine aesthetic judgment, or just generic technical execution?</p>
+            <div class="rating-options" data-key="taste">
+              <!-- 0-10 buttons -->
+              <div class="rating-btn">0</div><div class="rating-btn">2</div><div class="rating-btn">4</div><div class="rating-btn">6</div><div class="rating-btn">8</div><div class="rating-btn">10</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Logo Concept & Execution (0-10)</label>
+            <p>Is the logo unique, professional, and conceptually aligned with "The Signal"?</p>
+            <div class="rating-options" data-key="logo">
+              <div class="rating-btn">0</div><div class="rating-btn">2</div><div class="rating-btn">4</div><div class="rating-btn">6</div><div class="rating-btn">8</div><div class="rating-btn">10</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Animations & Interactions (0-10)</label>
+            <p>Smoothness, performance, and sophistication of movement and animated backgrounds.</p>
+            <div class="rating-options" data-key="motion">
+              <div class="rating-btn">0</div><div class="rating-btn">2</div><div class="rating-btn">4</div><div class="rating-btn">6</div><div class="rating-btn">8</div><div class="rating-btn">10</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Brand Coherence (0-10)</label>
+            <p>Do tokens, logo, site, and style guide all feel like they belong to the same system?</p>
+            <div class="rating-options" data-key="coherence">
+              <div class="rating-btn">0</div><div class="rating-btn">2</div><div class="rating-btn">4</div><div class="rating-btn">6</div><div class="rating-btn">8</div><div class="rating-btn">10</div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Detailed Comments</label>
+            <textarea rows="4" placeholder="What stood out? What failed?"></textarea>
+          </div>
+
+          <button type="submit" class="submit-btn">Copy JSON Score Data</button>
+          <p style="margin-top: 16px; font-size: 12px; color: var(--color-text-secondary); text-align: center;">Note: This tool generates the data to be added to showcase-config.json. It does not submit automatically.</p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const response = await fetch('docs/showcase-config.json');
+      const config = await response.json();
+      const select = document.getElementById('model-select');
+      config.entries.forEach(e => {
+        const opt = document.createElement('option');
+        opt.value = e.id;
+        opt.textContent = e.model;
+        select.appendChild(opt);
+      });
+
+      document.querySelectorAll('.rating-options').forEach(group => {
+        group.addEventListener('click', e => {
+          if (e.target.classList.contains('rating-btn')) {
+            group.querySelectorAll('.rating-btn').forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+          }
+        });
+      });
+
+      document.getElementById('human-scoring-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const scores = {};
+        document.querySelectorAll('.rating-options').forEach(group => {
+          const active = group.querySelector('.active');
+          scores[group.dataset.key] = active ? parseInt(active.textContent) : 0;
+        });
+        
+        const totalHuman = Object.values(scores).reduce((a,b) => a+b, 0) * 0.75; // Normalized to 30 max
+        
+        const output = {
+          modelId: select.value,
+          humanScore: totalHuman,
+          breakdown: scores
+        };
+        
+        navigator.clipboard.writeText(JSON.stringify(output, null, 2));
+        alert('Score data copied to clipboard! Update generate_config.js or showcase-config.json manually.');
+      });
+    });
+  </script>
+</body>
+</html>

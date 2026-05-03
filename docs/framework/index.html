@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Framework - DesignDeathmatch</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    .framework-layout {
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 48px;
+      margin: 48px 0;
+    }
+    .framework-nav {
+      position: sticky;
+      top: 48px;
+      align-self: start;
+    }
+    .framework-nav ul {
+      list-style: none;
+    }
+    .framework-nav li {
+      margin-bottom: 12px;
+    }
+    .framework-nav a {
+      color: var(--color-text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-family: var(--font-mono);
+      transition: color 0.2s;
+    }
+    .framework-nav a:hover, .framework-nav a.active {
+      color: var(--color-text-primary);
+      font-weight: 600;
+    }
+    .markdown-body {
+      background: var(--color-surface);
+      padding: 48px;
+      border-radius: 8px;
+      border: 1px solid var(--color-border);
+      line-height: 1.7;
+    }
+    .markdown-body h1 { margin-bottom: 24px; border-bottom: 1px solid var(--color-border); padding-bottom: 12px; }
+    .markdown-body h2 { margin: 32px 0 16px; }
+    .markdown-body p { margin-bottom: 16px; }
+    .markdown-body code { font-family: var(--font-mono); background: var(--color-bg-secondary); padding: 2px 4px; border-radius: 4px; }
+    .markdown-body pre { background: var(--color-bg-secondary); padding: 16px; border-radius: 8px; overflow-x: auto; margin-bottom: 24px; }
+    .markdown-body table { width: 100%; border-collapse: collapse; margin-bottom: 24px; }
+    .markdown-body th, .markdown-body td { border: 1px solid var(--color-border); padding: 12px; text-align: left; }
+    .markdown-body th { background: var(--color-bg-secondary); }
+
+    @media (max-width: 768px) {
+      .framework-layout { grid-template-columns: 1fr; gap: 24px; }
+      .framework-nav { position: static; display: flex; flex-wrap: wrap; gap: 12px; border-bottom: 1px solid var(--color-border); padding-bottom: 24px; }
+      .framework-nav li { margin-bottom: 0; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 24px;">
+        <a href="../index.html" style="text-decoration: none;"><img src="../assets/DesignDeathmatch_Logo.png" alt="DesignDeathmatch Logo" class="logo-img" style="max-width: 100%; height: auto;"></a>
+        <nav style="display: flex; gap: 24px;">
+          <a href="../index.html" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-mono); font-size: 14px;">Gallery</a>
+          <a href="index.html" style="color: var(--color-text-primary); text-decoration: none; font-family: var(--font-mono); font-size: 14px; font-weight: 600;">Framework</a>
+          <a href="../scoring.html" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-mono); font-size: 14px;">Scoring</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="framework-layout">
+        <aside class="framework-nav">
+          <ul id="nav-list">
+            <li><a href="#README.md" class="active">Overview</a></li>
+            <li><a href="#BRIEF.md">The Brief</a></li>
+            <li><a href="#DESIGN.md">Design System</a></li>
+            <li><a href="#TASKS.md">Tasks & Phases</a></li>
+            <li><a href="#RULES.md">Rules</a></li>
+            <li><a href="#SCORING.md">Scoring Rubric</a></li>
+          </ul>
+        </aside>
+        <article class="markdown-body" id="content">
+          Loading documentation...
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const contentDiv = document.getElementById('content');
+    const navLinks = document.querySelectorAll('.framework-nav a');
+
+    async function loadMarkdown(filename) {
+      try {
+        const response = await fetch(filename);
+        const text = await response.text();
+        contentDiv.innerHTML = marked.parse(text);
+        
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + filename) {
+            link.classList.add('active');
+          }
+        });
+      } catch (error) {
+        contentDiv.innerHTML = '<p>Error loading document.</p>';
+      }
+    }
+
+    window.addEventListener('hashchange', () => {
+      const filename = window.location.hash.slice(1) || 'README.md';
+      loadMarkdown(filename);
+    });
+
+    // Initial load
+    const initialFile = window.location.hash.slice(1) || 'README.md';
+    loadMarkdown(initialFile);
+  </script>
+</body>
+</html>

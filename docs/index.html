@@ -12,18 +12,42 @@
 <body>
   <header class="header">
     <div class="container">
-      <img src="assets/DesignDeathmatch_Logo.png" alt="DesignDeathmatch Logo" class="logo">
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px;">
+        <div style="max-width: 400px; width: 100%;">
+          <img src="assets/DesignDeathmatch_Logo.png" alt="DesignDeathmatch Logo" class="logo-img" style="max-width: 100%; height: auto;">
+        </div>
+        <nav style="display: flex; gap: 24px;">
+          <a href="index.html" style="color: var(--color-text-primary); text-decoration: none; font-family: var(--font-mono); font-size: 14px; font-weight: 600;">Gallery</a>
+          <a href="framework/index.html" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-mono); font-size: 14px;">Framework</a>
+          <a href="scoring.html" style="color: var(--color-text-secondary); text-decoration: none; font-family: var(--font-mono); font-size: 14px;">Scoring</a>
+        </nav>
+      </div>
       <p class="tagline">LLM Creative Design Benchmark Results</p>
     </div>
   </header>
 
   <main class="main">
     <div class="container">
-      <p class="intro">
-        Models are benchmarked on their ability to autonomously build a complete brand identity
-        for VEKTRA, a Berlin-based generative audio-visual instrument studio. Each entry shows
-        the deliverables created, with Phase 2 (V2) representing refined iterations.
-      </p>
+      <div style="background: var(--color-surface); padding: 32px; border-radius: 8px; border: 1px solid var(--color-border); margin: 32px 0;">
+        <h2 style="margin-bottom: 16px; font-size: 20px;">The Benchmark Process</h2>
+        <p style="color: var(--color-text-secondary); font-size: 15px; margin-bottom: 16px; line-height: 1.6;">
+          Models are evaluated on their ability to autonomously architect a complete premium brand identity for <strong>VEKTRA</strong>—a fictitious high-end generative audio-visual studio. Unlike basic prompts, this benchmark provides a complex multi-phase plan requiring the model to invent what is not specified, maintain strict technical constraints, and demonstrate genuine aesthetic judgment.
+        </p>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;">
+          <div>
+            <h3 style="font-size: 14px; color: var(--color-text-primary); margin-bottom: 8px; font-family: var(--font-mono);">Phase 1: V1 Initial Run</h3>
+            <p style="font-size: 13px; color: var(--color-text-secondary);">The model receives a 2,000-word brief and detailed TASKS.md. It must generate design tokens, typography choices, a brand voice, a vector SVG logo, and a fully interactive data-driven website.</p>
+          </div>
+          <div>
+            <h3 style="font-size: 14px; color: var(--color-text-primary); margin-bottom: 8px; font-family: var(--font-mono);">Phase 2: V2 Refined Iteration</h3>
+            <p style="font-size: 13px; color: var(--color-text-secondary);">The model is challenged to elevate its baseline to an "award-winning level." It must rethink animations, upgrade interactions (animated logos/backgrounds), and polish spacing to achieve a "hacker precision" aesthetic.</p>
+          </div>
+          <div>
+            <h3 style="font-size: 14px; color: var(--color-text-primary); margin-bottom: 8px; font-family: var(--font-mono);">Scoring & Validation</h3>
+            <p style="font-size: 13px; color: var(--color-text-secondary);">Results are processed via an automated validator checking for SVG errors, broken links, and hardcoded values, combined with a 30-point human review of taste and coherence.</p>
+          </div>
+        </div>
+      </div>
 
       <div class="controls" style="display: flex; gap: 16px; margin-bottom: 24px; align-items: center; flex-wrap: wrap;">
         <select id="sort-select" style="padding: 8px; border-radius: 4px; border: 1px solid var(--color-border); background: var(--color-surface); color: var(--color-text-primary);">
