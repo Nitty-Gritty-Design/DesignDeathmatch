@@ -39,6 +39,14 @@ function initRadarSelects() {
   s2.addEventListener('change', updateRadarChart);
 }
 
+function renderCharts() {
+  renderRadarChart();
+  renderV1V2Chart();
+  renderRankingChart();
+  renderScatterChart();
+  renderPhaseAvgChart();
+}
+
 const colors = {
   primary: '#00f2ff', // Cyan
   secondary: '#7000ff', // Purple
