@@ -1,12 +1,12 @@
 {
   "entries": [
     {
-      "id": "claude-sonnet-4.6-thinking",
-      "model": "Claude 3.7 Sonnet (thinking)",
+      "id": "claude-sonnet-4.7-thinking",
+      "model": "Claude 4.7 Sonnet (thinking)",
       "version": "2026-05-01",
       "runDate": "2026-05-01",
-      "site": "runs/claude-sonnet-4.6-thinking/VEKTRA/v2/index.html",
-      "v1_site": "runs/claude-sonnet-4.6-thinking/VEKTRA/site/index.html",
+      "site": "runs/claude-sonnet-4.7-thinking/VEKTRA/v2/index.html",
+      "v1_site": "runs/claude-sonnet-4.7-thinking/VEKTRA/site/index.html",
       "score": {
         "v1": 110,
         "v2": 65,

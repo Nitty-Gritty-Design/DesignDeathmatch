@@ -1,7 +1,7 @@
 # RUNLOG.md — Benchmark Run Log
 
 ## Model
-Antigravity (Claude Sonnet 4.6 Thinking) — Gemini Advanced Agentic Coding Assistant
+Antigravity (Claude Sonnet 4.7 Thinking) — Gemini Advanced Agentic Coding Assistant
 
 ## Tool calls used
 ~38
