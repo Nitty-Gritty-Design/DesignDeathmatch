@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>VEKTRA v2 — Signal Field (WebGL)</title>
+<!--
+  Wildcard 6.1 v2 — WebGL generative background via Three.js
+  Rationale: Three.js enables GPU-accelerated shaders that are impossible
+  with Canvas 2D. The v2 signal field uses a custom GLSL fragment shader
+  that renders layered Lissajous-inspired interference patterns — the same
+  mathematical forms that appear in audio signal analysis, rendered at 60fps
+  on the GPU with no CPU particle updates. Mouse position warps the frequency
+  ratio, creating organic real-time morphing that feels alive.
+-->
+<!-- Three.js r160 via CDN -->
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0A0A0C}
+canvas{display:block}
+.hint{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:rgba(232,255,71,0.3);pointer-events:none;white-space:nowrap}
+</style>
+</head>
+<body>
+<div class="hint">move cursor · signal field active · gpu-rendered</div>
+<script>
+// VEKTRA v2 — WebGL Signal Field
+// GPU fragment shader renders interference patterns (Lissajous / standing wave)
+// Mouse position modulates frequency ratios for organic morphing
+
+const scene    = new THREE.Scene();
+const camera   = new THREE.OrthographicCamera(-1,1,1,-1,0,1);
+const renderer = new THREE.WebGLRenderer({ antialias: false });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+const uniforms = {
+  u_time:       { value: 0.0 },
+  u_resolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+  u_mouse:      { value: new THREE.Vector2(0.5, 0.5) },
+  u_accent:     { value: new THREE.Vector3(232/255, 255/255, 71/255) },
+};
+
+// Fragment shader: layered standing wave interference with glow falloff
+const fragShader = `
+  precision highp float;
+  uniform float u_time;
+  uniform vec2 u_resolution;
+  uniform vec2 u_mouse;
+  uniform vec3 u_accent;
+
+  #define PI 3.14159265358979
+  #define TWO_PI 6.28318530718
+
+  // Smooth line function — distance from a line with soft edge
+  float line(float v, float thickness) {
+    return smoothstep(thickness, 0.0, abs(v));
+  }
+
+  // Lissajous-inspired wave
+  float wave(vec2 uv, float t, float fx, float fy, float phase) {
+    float x = sin(uv.x * fx * PI + t + phase);
+    float y = sin(uv.y * fy * PI + t * 0.7 + phase * 1.3);
+    return line(x - y * 0.4, 0.012);
+  }
+
+  // Grid lines — very subtle
+  float grid(vec2 uv, float spacing) {
+    vec2 g = abs(fract(uv * spacing) - 0.5);
+    float gx = smoothstep(0.02, 0.0, g.x / fwidth(uv.x * spacing));
+    float gy = smoothstep(0.02, 0.0, g.y / fwidth(uv.y * spacing));
+    return max(gx, gy) * 0.06;
+  }
+
+  void main() {
+    vec2 uv = gl_FragCoord.xy / u_resolution.xy;
+    uv.y = 1.0 - uv.y; // flip Y
+    vec2 uv_c = uv - 0.5; // centered
+
+    float t = u_time * 0.18;
+    float mx = u_mouse.x;
+    float my = u_mouse.y;
+
+    // Background: near-black with barely visible warm tint
+    vec3 col = vec3(0.038, 0.038, 0.046);
+
+    // Grid
+    col += vec3(0.08) * grid(uv, 12.0);
+
+    // Wave layers — interference patterns driven by mouse
+    float freq_x = 2.0 + mx * 3.0;
+    float freq_y = 2.0 + my * 3.0;
+
+    float w1 = wave(uv, t,       freq_x,       freq_y,       0.0);
+    float w2 = wave(uv, t * 1.3, freq_x * 1.5, freq_y * 0.8, PI * 0.6);
+    float w3 = wave(uv, t * 0.7, freq_x * 0.6, freq_y * 1.6, PI * 1.2);
+
+    // Radial vignette — waves stronger at center
+    float vignette = 1.0 - smoothstep(0.2, 0.8, length(uv_c));
+
+    float total = (w1 * 0.6 + w2 * 0.35 + w3 * 0.25) * vignette;
+
+    // Apply accent color with glow falloff
+    col += u_accent * total * 0.85;
+
+    // Subtle secondary glow in complementary region
+    float glow = smoothstep(0.6, 0.0, length(uv_c)) * 0.04;
+    col += u_accent * glow;
+
+    // Tone mapping
+    col = col / (col + 0.3);
+    col = pow(col, vec3(0.92));
+
+    gl_FragColor = vec4(col, 1.0);
+  }
+`;
+
+const geo  = new THREE.PlaneGeometry(2, 2);
+const mat  = new THREE.ShaderMaterial({ uniforms, fragmentShader: fragShader, vertexShader: `void main(){gl_Position=vec4(position,1.0);}` });
+const mesh = new THREE.Mesh(geo, mat);
+scene.add(mesh);
+
+// Mouse tracking — smooth lerp
+const targetMouse = { x: 0.5, y: 0.5 };
+const currentMouse = { x: 0.5, y: 0.5 };
+document.addEventListener('mousemove', e => {
+  targetMouse.x = e.clientX / window.innerWidth;
+  targetMouse.y = 1.0 - e.clientY / window.innerHeight;
+});
+
+const clock = new THREE.Clock();
+function animate() {
+  requestAnimationFrame(animate);
+  // Smooth mouse lerp
+  currentMouse.x += (targetMouse.x - currentMouse.x) * 0.04;
+  currentMouse.y += (targetMouse.y - currentMouse.y) * 0.04;
+  uniforms.u_time.value  = clock.getElapsedTime();
+  uniforms.u_mouse.value.set(currentMouse.x, currentMouse.y);
+  renderer.render(scene, camera);
+}
+animate();
+
+window.addEventListener('resize', () => {
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  uniforms.u_resolution.value.set(window.innerWidth, window.innerHeight);
+}, { passive: true });
+</script>
+</body>
+</html>

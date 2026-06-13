@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEKTRA v2 — Signal Field</title>
+  <!--
+    WILDCARD 6.1 v2 — Generative Signal Field
+    Full-viewport, multi-layer, mouse-reactive. 4 layers:
+      1. Slow ambient drift (large Lissajous-like waves)
+      2. Spectrum bars (mouse-reactive, eased)
+      3. Additive-blended accent ring at mouse (breathing)
+      4. Particle system (additive blend, drift + attraction)
+    Plus: scan line overlay, vignette, grain.
+    Vanilla JS Canvas 2D. No libraries. requestAnimationFrame.
+  -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><g fill='none' stroke='%23F2EFE7' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'><path d='M10 60 L40 14 L70 60'/></g><circle cx='40' cy='14' r='3.5' fill='%23FF5C1F'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Space+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; background: var(--color-bg-primary); color: var(--color-text-primary); font-family: var(--font-sans); overflow: hidden; cursor: crosshair; }
+    canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+    .overlay { position: fixed; inset: 0; pointer-events: none; }
+    .topbar { position: fixed; top: 0; left: 0; right: 0; padding: 20px 32px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); letter-spacing: 0.12em; text-transform: uppercase; mix-blend-mode: difference; z-index: 2; }
+    .topbar a { color: var(--color-text-primary); pointer-events: auto; }
+    .topbar a:hover { color: var(--color-accent); }
+    .topbar .accent { color: var(--color-accent); }
+    .centerpiece { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; mix-blend-mode: difference; }
+    .centerpiece .mark { display: flex; align-items: center; gap: 32px; color: var(--color-text-primary); }
+    .centerpiece .mark svg { width: 240px; height: 240px; }
+    .centerpiece .word { font-family: var(--font-display); font-weight: 300; font-size: 144px; letter-spacing: 0.04em; color: var(--color-text-primary); }
+    .footnote { position: fixed; bottom: 24px; left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted); letter-spacing: 0.14em; text-transform: uppercase; mix-blend-mode: difference; }
+    .footnote .accent { color: var(--color-accent); }
+    .hud { position: fixed; font-family: var(--font-mono); font-size: 10px; color: var(--color-text-muted); letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 14px; border: 1px solid var(--color-border); background: color-mix(in srgb, var(--color-bg-primary) 60%, transparent); backdrop-filter: blur(8px); z-index: 2; }
+    .hud-tl { top: 80px; left: 32px; }
+    .hud-tr { top: 80px; right: 32px; text-align: right; }
+    .hud .v { color: var(--color-text-primary); }
+    .hud .v.accent { color: var(--color-accent); }
+    .hud .row { display: flex; gap: 8px; }
+    .hud .row + .row { margin-top: 4px; }
+    .grain { position: fixed; inset: 0; pointer-events: none; opacity: 0.04; background-image: radial-gradient(circle, var(--color-text-primary) 0, transparent 1px); background-size: 3px 3px; mix-blend-mode: overlay; z-index: 3; }
+  </style>
+</head>
+<body>
+  <canvas id="field"></canvas>
+  <div class="grain"></div>
+
+  <div class="hud hud-tl" aria-hidden="true">
+    <div class="row"><span>SOURCE</span><span class="v">CH·01</span></div>
+    <div class="row"><span>SR</span><span class="v">48.000kHz</span></div>
+    <div class="row"><span>BIT</span><span class="v">32fp</span></div>
+    <div class="row"><span>CPU</span><span class="v" id="hud-cpu">0%</span></div>
+  </div>
+  <div class="hud hud-tr" aria-hidden="true">
+    <div class="row"><span>MODE</span><span class="v accent">live</span></div>
+    <div class="row"><span>FPS</span><span class="v" id="hud-fps">--</span></div>
+    <div class="row"><span>NODES</span><span class="v" id="hud-n">0</span></div>
+    <div class="row"><span>UPTIME</span><span class="v" id="hud-up">00:00:00</span></div>
+  </div>
+
+  <div class="overlay">
+    <header class="topbar">
+      <span>VEKTRA / signal field</span>
+      <span><span class="accent">●</span>&nbsp;&nbsp;live · 60fps</span>
+      <span><a href="../site/index.html">↩ back</a></span>
+    </header>
+
+    <div class="centerpiece">
+      <div class="mark">
+        <svg viewBox="0 0 80 80" aria-hidden="true">
+          <path d="M10 60 L40 14 L70 60" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="40" cy="14" r="3" fill="#FF5C1F"/>
+        </svg>
+        <span class="word">VEKTRA</span>
+      </div>
+    </div>
+
+    <p class="footnote">move the cursor · the field follows</p>
+  </div>
+
+  <script>
+    /* Multi-layer signal field. Pure vanilla Canvas 2D. */
+    const cv = document.getElementById("field");
+    const c  = cv.getContext("2d", { alpha: true });
+    const tok = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    const A = () => tok("--color-accent")   || "#FF5C1F";
+    const I = () => tok("--color-text-primary") || "#F2EFE7";
+    const M = () => tok("--color-text-muted")    || "#5A5749";
+    const B = () => tok("--color-bg-primary")    || "#0D0D0B";
+
+    let W = 0, H = 0, dpr = 1;
+    const mouse = { x: 0.5, y: 0.5, tx: 0.5, ty: 0.5 };
+    let t = 0, last = performance.now(), start = last;
+    const particles = [];
+    let frames = 0, fpsT = last, paused = false;
+
+    const initParticles = (n) => {
+      particles.length = 0;
+      for (let i = 0; i < n; i++) {
+        particles.push({
+          x: Math.random(), y: Math.random(),
+          vx: (Math.random() - 0.5) * 0.00012,
+          vy: (Math.random() - 0.5) * 0.00012,
+          r: Math.random() * 1.6 + 0.4,
+          hue: Math.random() < 0.3 ? "accent" : "ink",
+        });
+      }
+    };
+
+    const resize = () => {
+      dpr = Math.min(2, devicePixelRatio || 1);
+      W = innerWidth; H = innerHeight;
+      cv.width = W * dpr; cv.height = H * dpr;
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      mouse.x = W / 2 / W; mouse.y = H / 2 / H;
+    };
+    resize();
+    initParticles(36);
+    addEventListener("resize", () => { resize(); initParticles(36); });
+    addEventListener("mousemove", (e) => {
+      mouse.tx = e.clientX / W;
+      mouse.ty = e.clientY / H;
+    });
+    addEventListener("touchmove", (e) => {
+      const t = e.touches[0]; if (t) { mouse.tx = t.clientX / W; mouse.ty = t.clientY / H; }
+    }, { passive: true });
+    addEventListener("visibilitychange", () => { paused = document.hidden; });
+
+    const draw = (now) => {
+      if (paused) { requestAnimationFrame(draw); return; }
+      const dt = Math.min(48, now - last); last = now;
+      t += dt;
+      frames++;
+      if (now - fpsT > 500) {
+        const fps = Math.round(frames * 1000 / (now - fpsT));
+        const cpu = Math.min(99, Math.round(fps / 0.6));
+        const fpsEl = document.getElementById("hud-fps");
+        const cpuEl = document.getElementById("hud-cpu");
+        const nEl   = document.getElementById("hud-n");
+        const upEl  = document.getElementById("hud-up");
+        if (fpsEl) fpsEl.textContent = fps;
+        if (cpuEl) cpuEl.textContent = `${cpu}%`;
+        if (nEl)   nEl.textContent = particles.length;
+        if (upEl) {
+          const s = Math.floor((Date.now() - start) / 1000);
+          upEl.textContent = `${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor(s/60)%60).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+        }
+        frames = 0; fpsT = now;
+      }
+
+      mouse.x += (mouse.tx - mouse.x) * 0.05;
+      mouse.y += (mouse.ty - mouse.y) * 0.05;
+
+      // persistent trail
+      c.fillStyle = B();
+      c.globalAlpha = 0.16;
+      c.fillRect(0, 0, W, H);
+      c.globalAlpha = 1;
+
+      // layer 1 — large slow waves
+      c.globalCompositeOperation = "lighter";
+      c.strokeStyle = I();
+      c.lineWidth = 1;
+      c.globalAlpha = 0.06;
+      for (let i = 0; i < 4; i++) {
+        c.beginPath();
+        const amp = 60 + i * 30;
+        for (let x = 0; x <= W; x += 4) {
+          const y = H / 2 + Math.sin(x * 0.003 + t * 0.0003 + i) * amp * 0.5
+                            + Math.cos(x * 0.0015 + t * 0.0002 + i * 2) * amp * 0.3;
+          x ? c.lineTo(x, y) : c.moveTo(x, y);
+        }
+        c.stroke();
+      }
+      c.globalAlpha = 1;
+
+      // layer 2 — spectrum bars
+      const bars = Math.min(160, Math.max(60, Math.floor(W / 10)));
+      const step = W / bars;
+      for (let i = 0; i < bars; i++) {
+        const x = i * step;
+        const dx = (x - mouse.x * W) / Math.max(140, W * 0.25);
+        const dy = (H / 2 - mouse.y * H) / Math.max(140, H * 0.25);
+        const dist = Math.hypot(dx, dy);
+        const wave =
+          Math.sin(i * 0.18 + t * 0.0012) * 28 +
+          Math.sin(i * 0.07 + t * 0.0007 + dist * 1.4) * 48 +
+          Math.cos(i * 0.33 + t * 0.0009) * 8;
+        const target = H * 0.32 + wave * 1.8 - dist * 26;
+        const h2 = Math.max(2, Math.min(H * 0.7, target));
+        c.fillStyle = (i % 13 === 6) ? A() : I();
+        c.globalAlpha = (i % 13 === 6) ? 0.95 : 0.18;
+        const bw = step * 0.42;
+        c.fillRect(x + (step - bw) / 2, H / 2 - h2 / 2, bw, h2);
+      }
+      c.globalAlpha = 1;
+
+      // layer 3 — accent ring (breathing)
+      const breath = 1 + 0.45 * Math.sin(t * 0.0006);
+      const rMax = 90 * breath;
+      const grad = c.createRadialGradient(mouse.x * W, mouse.y * H, 0, mouse.x * W, mouse.y * H, rMax);
+      grad.addColorStop(0, A());
+      grad.addColorStop(0.4, A());
+      grad.addColorStop(1, "transparent");
+      c.fillStyle = grad;
+      c.globalAlpha = 0.22;
+      c.beginPath();
+      c.arc(mouse.x * W, mouse.y * H, rMax, 0, Math.PI * 2);
+      c.fill();
+      c.globalAlpha = 0.6;
+      c.lineWidth = 1;
+      c.strokeStyle = A();
+      c.beginPath();
+      c.arc(mouse.x * W, mouse.y * H, rMax, 0, Math.PI * 2);
+      c.stroke();
+      c.globalAlpha = 1;
+
+      // midline
+      c.fillStyle = A();
+      c.globalAlpha = 0.08;
+      c.fillRect(0, H / 2 - 0.5, W, 1);
+      c.globalAlpha = 1;
+
+      // layer 4 — particles
+      for (const p of particles) {
+        p.x += p.vx + (mouse.x - p.x) * 0.00006;
+        p.y += p.vy + (mouse.y - p.y) * 0.00006;
+        if (p.x < 0) p.x = 1; if (p.x > 1) p.x = 0;
+        if (p.y < 0) p.y = 1; if (p.y > 1) p.y = 0;
+        c.fillStyle = p.hue === "accent" ? A() : I();
+        c.globalAlpha = p.hue === "accent" ? 0.85 : 0.28;
+        c.beginPath();
+        c.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+        c.fill();
+      }
+      c.globalAlpha = 1;
+      c.globalCompositeOperation = "source-over";
+
+      requestAnimationFrame(draw);
+    };
+    requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

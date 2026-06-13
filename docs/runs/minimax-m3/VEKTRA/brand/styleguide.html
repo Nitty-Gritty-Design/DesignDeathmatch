@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEKTRA — Style Guide</title>
+  <meta name="description" content="VEKTRA brand style guide. The map is the territory.">
+  <link rel="icon" type="image/svg+xml" href="logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="styleguide.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="cursor" aria-hidden="true"></div>
+
+  <header class="sg-nav">
+    <a class="sg-brand" href="../site/index.html">
+      <svg viewBox="0 0 160 80" class="mark" aria-hidden="true">
+        <g fill="currentColor">
+          <rect x="8"   y="38" width="4" height="4"  rx="1"/>
+          <rect x="20"  y="36" width="4" height="8"  rx="1"/>
+          <rect x="32"  y="33" width="4" height="14" rx="1"/>
+          <rect x="44"  y="29" width="4" height="22" rx="1"/>
+          <rect x="56"  y="25" width="4" height="30" rx="1"/>
+          <rect x="68"  y="20" width="4" height="40" rx="1"/>
+          <rect x="80"  y="15" width="4" height="50" rx="1" fill="#FF5C1F"/>
+          <rect x="92"  y="20" width="4" height="40" rx="1"/>
+          <rect x="104" y="25" width="4" height="30" rx="1"/>
+          <rect x="116" y="29" width="4" height="22" rx="1"/>
+          <rect x="128" y="33" width="4" height="14" rx="1"/>
+          <rect x="140" y="36" width="4" height="8"  rx="1"/>
+          <rect x="152" y="38" width="4" height="4"  rx="1"/>
+        </g>
+      </svg>
+      <span>VEKTRA / style</span>
+    </a>
+    <nav class="sg-toc" aria-label="On this page">
+      <a href="#color">color</a>
+      <a href="#type">type</a>
+      <a href="#logo">logo</a>
+      <a href="#components">components</a>
+      <a href="#motion">motion</a>
+      <a href="#voice">voice</a>
+    </nav>
+    <a class="btn btn-ghost" href="../site/index.html">← back</a>
+  </header>
+
+  <main class="sg" id="main">
+
+    <!-- ============ COVER ============ -->
+    <section class="sg-cover">
+      <div class="cover-grid">
+        <div>
+          <p class="eyebrow"><span class="dot"></span> v0.4 · brand specification</p>
+          <h1 class="cover-title">The map<br>is the<br><em>territory.</em></h1>
+          <p class="cover-lead">A living style guide for VEKTRA. The same tokens that style this page style the studio. Change a variable; the system follows. Open the file. Fork it. It's plain HTML.</p>
+        </div>
+        <aside class="cover-side">
+          <dl>
+            <dt>version</dt><dd>0.4.2</dd>
+            <dt>last updated</dt><dd>2026.06.06</dd>
+            <dt>license</dt><dd>CC&nbsp;BY-SA&nbsp;4.0</dd>
+            <dt>source</dt><dd>plain text</dd>
+            <dt>framework</dt><dd>none</dd>
+          </dl>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============ COLOR ============ -->
+    <section class="sg-section" id="color">
+      <header class="sg-section-head">
+        <span class="num">01</span><h2>Color</h2>
+        <p>All values are defined as CSS custom properties in <code>tokens.css</code>. Every other file uses <code>var(--*)</code>. No exceptions.</p>
+      </header>
+
+      <div class="swatch-grid">
+        <div class="swatch" data-name="bg-primary">
+          <div class="chip dark" style="background: var(--color-bg-primary)"></div>
+          <div class="meta">
+            <span class="t">--color-bg-primary</span>
+            <span class="v">#0E0E0C</span>
+            <span class="u">Page background. Never #000.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="bg-secondary">
+          <div class="chip dark" style="background: var(--color-bg-secondary)"></div>
+          <div class="meta">
+            <span class="t">--color-bg-secondary</span>
+            <span class="v">#161613</span>
+            <span class="u">Section / card surface.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="surface">
+          <div class="chip dark" style="background: var(--color-surface)"></div>
+          <div class="meta">
+            <span class="t">--color-surface</span>
+            <span class="v">#1D1D18</span>
+            <span class="u">Raised UI, input fields.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="accent">
+          <div class="chip" style="background: var(--color-accent)"></div>
+          <div class="meta">
+            <span class="t">--color-accent</span>
+            <span class="v">#FF5C1F</span>
+            <span class="u">Signal Amber. Use sparingly.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="accent-dim">
+          <div class="chip" style="background: var(--color-accent-dim)"></div>
+          <div class="meta">
+            <span class="t">--color-accent-dim</span>
+            <span class="v">#B83F12</span>
+            <span class="u">Hover / disabled on accent.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="text-primary">
+          <div class="chip dark" style="background: var(--color-text-primary); color: var(--color-text-inverse)">Aa</div>
+          <div class="meta">
+            <span class="t">--color-text-primary</span>
+            <span class="v">#F4F2EC</span>
+            <span class="u">Off-white. Body, headlines.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="text-secondary">
+          <div class="chip dark" style="background: var(--color-text-secondary)"></div>
+          <div class="meta">
+            <span class="t">--color-text-secondary</span>
+            <span class="v">#B5B2A8</span>
+            <span class="u">Captions, secondary.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="text-muted">
+          <div class="chip dark" style="background: var(--color-text-muted)"></div>
+          <div class="meta">
+            <span class="t">--color-text-muted</span>
+            <span class="v">#6B6960</span>
+            <span class="u">Labels, metadata, axis ticks.</span>
+          </div>
+        </div>
+        <div class="swatch" data-name="border">
+          <div class="chip dark" style="background: var(--color-border)"></div>
+          <div class="meta">
+            <span class="t">--color-border</span>
+            <span class="v">#2A2A24</span>
+            <span class="u">Default hairline.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="light-row">
+        <p class="caption">On light surface <code>(prefers-color-scheme: light)</code> — the same tokens re-bind:</p>
+        <div class="swatch-row">
+          <div class="sw-mini" style="background: var(--color-bg-primary-light)">bg-primary-light<br>#F4F2EC</div>
+          <div class="sw-mini" style="background: var(--color-bg-secondary-light)">bg-secondary-light<br>#ECEAE3</div>
+          <div class="sw-mini" style="background: var(--color-surface-light); color: var(--color-text-inverse)">surface-light<br>#FFFFFF</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TYPE ============ -->
+    <section class="sg-section" id="type">
+      <header class="sg-section-head">
+        <span class="num">02</span><h2>Typography</h2>
+        <p>Two typefaces. <strong>Space Grotesk</strong> for reading, <strong>JetBrains Mono</strong> for everything structural. Mono at display size is a VEKTRA signature.</p>
+      </header>
+
+      <div class="type-stack">
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-128</span><span>128px</span></div>
+          <div class="type-sample mono">VEKTRA</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-88</span><span>88px</span></div>
+          <div class="type-sample mono" style="font-size:88px">SOUND MOTION CODE</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-64</span><span>64px</span></div>
+          <div class="type-sample mono" style="font-size:64px">A live environment.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-48</span><span>48px</span></div>
+          <div class="type-sample" style="font-size:48px">A graph, not a stack.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-36</span><span>36px</span></div>
+          <div class="type-sample" style="font-size:36px">Time is explicit, not hidden.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-22</span><span>22px · mono</span></div>
+          <div class="type-sample mono" style="font-size:22px">// the source code is the instrument</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-18</span><span>18px</span></div>
+          <div class="type-sample" style="font-size:18px">VEKTRA treats audio, visual, and logical signals as a single graph. You build instruments by writing patches.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-14</span><span>14px</span></div>
+          <div class="type-sample" style="font-size:14px">The default UI size. Comfortable for long sessions at the desk.</div>
+        </div>
+        <div class="type-row">
+          <div class="type-meta"><span>--fs-11</span><span>11px · mono</span></div>
+          <div class="type-sample mono" style="font-size:11px; letter-spacing:0.12em">SAMPLE RATE 48KHZ · LATENCY 2.4MS · NODES UNLIMITED</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LOGO ============ -->
+    <section class="sg-section" id="logo">
+      <header class="sg-section-head">
+        <span class="num">03</span><h2>Logo</h2>
+        <p>13 vertical bars, peaking at the center. The center bar is the signal — the only element in accent. Geometry: <code>4×N</code> bars on a <code>12px</code> stride, heights form a symmetric spectrum.</p>
+      </header>
+
+      <div class="logo-grid">
+        <div class="logo-card">
+          <div class="logo-frame">
+            <img src="logo.svg" alt="VEKTRA logo on dark" style="color: var(--color-text-primary)">
+          </div>
+          <p class="caption">Primary, on dark</p>
+        </div>
+        <div class="logo-card">
+          <div class="logo-frame light">
+            <img src="logo-light.svg" alt="VEKTRA logo on light">
+          </div>
+          <p class="caption">Light variant, on paper</p>
+        </div>
+        <div class="logo-card">
+          <div class="logo-frame">
+            <img src="logo-mark.svg" alt="VEKTRA mark" style="color: var(--color-text-primary); width: 80px">
+          </div>
+          <p class="caption">Mark only · 80px (mobile nav)</p>
+        </div>
+        <div class="logo-card">
+          <div class="logo-frame">
+            <img src="logo-mark.svg" alt="VEKTRA mark" style="color: var(--color-text-primary); width: 32px">
+          </div>
+          <p class="caption">Mark only · 32px (favicon)</p>
+        </div>
+        <div class="logo-card span-2">
+          <div class="logo-frame anim">
+            <iframe src="logo-animated.html" title="VEKTRA logo animation" loading="lazy"></iframe>
+            <button class="replay" id="replay-logo" type="button">↻ replay animation</button>
+          </div>
+          <p class="caption">Animated entrance — system initializing, 2.0s, runs once.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ COMPONENTS ============ -->
+    <section class="sg-section" id="components">
+      <header class="sg-section-head">
+        <span class="num">04</span><h2>Components</h2>
+        <p>Primitive UI built entirely from tokens. Every state is observable.</p>
+      </header>
+
+      <div class="comp-grid">
+        <div class="comp">
+          <h4>Buttons</h4>
+          <div class="row">
+            <button class="btn btn-primary">Primary</button>
+            <button class="btn btn-primary" disabled>Disabled</button>
+            <button class="btn btn-ghost">Ghost</button>
+            <button class="btn btn-ghost" disabled>Ghost · off</button>
+          </div>
+          <p class="caption">Hover inverts. Focus rings in accent. Disabled uses <code>--color-text-muted</code>.</p>
+        </div>
+
+        <div class="comp">
+          <h4>Text input</h4>
+          <div class="row">
+            <input type="text" class="text-input" placeholder="patch.name" value="drone_01">
+          </div>
+          <p class="caption">Single-line, mono, underlined on focus.</p>
+        </div>
+
+        <div class="comp span-2">
+          <h4>Code block</h4>
+<pre class="codeblock"><code><span class="c">// a 1-bar loop with LFO on the filter cutoff</span>
+<span class="k">import</span> {<span class="v">patch</span>, <span class="v">lfo</span>, <span class="v">biquad</span>} <span class="k">from</span> <span class="s">"vektra"</span>;
+
+<span class="k">const</span> <span class="v">src</span>  = <span class="v">patch</span>.<span class="f">saw</span>(<span class="n">220</span>);
+<span class="k">const</span> <span class="v">mod</span>  = <span class="v">lfo</span>(<span class="n">0.7</span>).<span class="f">range</span>(<span class="n">400</span>, <span class="n">3200</span>);
+<span class="k">const</span> <span class="v">filt</span> = <span class="v">biquad</span>.<span class="f">lowpass</span>(<span class="v">mod</span>, <span class="n">3.0</span>);
+
+<span class="v">patch</span>.<span class="f">out</span>(<span class="v">filt</span>);</code></pre>
+        </div>
+
+        <div class="comp">
+          <h4>Card</h4>
+          <div class="card">
+            <div class="card-num">I.</div>
+            <h5>A graph, not a stack.</h5>
+            <p>Audio nodes, GPU shaders, OSC inputs and JS expressions live in the same graph.</p>
+          </div>
+        </div>
+
+        <div class="comp">
+          <h4>Badges &amp; tags</h4>
+          <div class="row">
+            <span class="badge">live</span>
+            <span class="badge outline">mono</span>
+            <span class="badge accent">signal</span>
+            <span class="tag">#patches</span>
+            <span class="tag">#lfo</span>
+            <span class="tag">#biquad</span>
+          </div>
+        </div>
+
+        <div class="comp span-2">
+          <h4>Navigation bar</h4>
+          <div class="navbar">
+            <span class="navbar-brand"><span class="mini-mark"></span> VEKTRA</span>
+            <nav class="navbar-links">
+              <a href="#">Instrument</a>
+              <a href="#">Patches</a>
+              <a href="#">Docs</a>
+              <a href="#">Studio</a>
+            </nav>
+            <a class="btn btn-primary" href="#">Open</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ MOTION ============ -->
+    <section class="sg-section" id="motion">
+      <header class="sg-section-head">
+        <span class="num">05</span><h2>Motion</h2>
+        <p>Timing is specified in milliseconds, by someone who thinks about time at the sample level. Five durations, four easings.</p>
+      </header>
+
+      <div class="motion-grid">
+        <div class="motion-row">
+          <div class="m-label"><span class="mono">--dur-1</span><span>120ms</span></div>
+          <button class="btn btn-ghost motion-demo" data-dur="var(--dur-1)" data-ease="var(--ease-out-snap)">trigger</button>
+        </div>
+        <div class="motion-row">
+          <div class="m-label"><span class="mono">--dur-2</span><span>220ms</span></div>
+          <button class="btn btn-ghost motion-demo" data-dur="var(--dur-2)" data-ease="var(--ease-out-snap)">trigger</button>
+        </div>
+        <div class="motion-row">
+          <div class="m-label"><span class="mono">--dur-3</span><span>360ms</span></div>
+          <button class="btn btn-ghost motion-demo" data-dur="var(--dur-3)" data-ease="var(--ease-out-snap)">trigger</button>
+        </div>
+        <div class="motion-row">
+          <div class="m-label"><span class="mono">--dur-4</span><span>600ms</span></div>
+          <button class="btn btn-ghost motion-demo" data-dur="var(--dur-4)" data-ease="var(--ease-out-snap)">trigger</button>
+        </div>
+        <div class="motion-row">
+          <div class="m-label"><span class="mono">--ease-out-back</span><span>tactile hover</span></div>
+          <button class="btn btn-primary" id="tactile-demo">hover me</button>
+        </div>
+        <div class="motion-row">
+          <div class="m-label"><span class="mono">signal pulse</span><span>1.8s · infinite</span></div>
+          <span class="pulse-bar"><span class="pulse-dot"></span> live indicator</span>
+        </div>
+      </div>
+
+      <p class="caption motion-note">All transitions use tokenized easings. <code>--ease-out-snap</code> for entrances, <code>--ease-in-out</code> for pulses, <code>--ease-out-back</code> for tactile feedback. The system is <code>prefers-reduced-motion</code>-aware.</p>
+    </section>
+
+    <!-- ============ VOICE ============ -->
+    <section class="sg-section" id="voice">
+      <header class="sg-section-head">
+        <span class="num">06</span><h2>Voice</h2>
+        <p>Precise. Tactile. Quietly confident. Technical. Aloof, in a good way. <em>Not</em> friendly, disruptive, revolutionary, empowering, or seamless.</p>
+      </header>
+
+      <div class="voice-grid">
+        <div class="voice-card">
+          <span class="vc-tag">// hero headline</span>
+          <p class="vc-sample mono">Sound, motion, and code as one graph.</p>
+        </div>
+        <div class="voice-card">
+          <span class="vc-tag">// product description</span>
+          <p class="vc-sample">VEKTRA is a live environment where audio, visual, and logical signals share a single timebase, so a change in frequency can drive a change in geometry, and a gesture can rewrite a patch.</p>
+        </div>
+        <div class="voice-card">
+          <span class="vc-tag">// 404</span>
+          <p class="vc-sample mono">The signal was lost. Check the cable. Check the time. Check the path.</p>
+        </div>
+        <div class="voice-card">
+          <span class="vc-tag">// UI label</span>
+          <p class="vc-sample mono">start a session →</p>
+        </div>
+        <div class="voice-card">
+          <span class="vc-tag">// tooltip</span>
+          <p class="vc-sample">This node evaluates on the audio thread. Latency budget: 2.4ms.</p>
+        </div>
+        <div class="voice-card">
+          <span class="vc-tag">// loading</span>
+          <p class="vc-sample mono">tuning the filter · please wait</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="sg-footer">
+      <p class="mono small">VEKTRA / style guide / v0.4.2 / plain text, plain HTML, plain CSS / <a href="../site/index.html">↩ back to site</a></p>
+    </footer>
+  </main>
+
+  <script src="styleguide.js"></script>
+</body>
+</html>

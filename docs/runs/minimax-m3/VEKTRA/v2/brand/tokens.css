@@ -1,0 +1,242 @@
+/* ============================================================
+   VEKTRA v2 — Brand Tokens
+   ------------------------------------------------------------
+   Refined for v2. Adds intermediate color stops, a warmer dark,
+   per-section accent overrides, and a more complete motion grammar.
+
+   Single source of truth. Every other file uses var(--*).
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+
+  /* -- Surfaces (dark) -----------------------------------------
+     Slightly warmer than v1. Carries a barely-perceptible
+     warm cast (#0D0D0B vs #0E0E0C). Pure black is reserved
+     for type and keylines, never surfaces. */
+  --color-bg-primary:        #0D0D0B;
+  --color-bg-secondary:      #14140F;
+  --color-bg-tertiary:       #1A1A14;   /* v2: deeper section */
+  --color-surface:           #1E1E17;
+  --color-surface-hover:     #26261E;
+  --color-surface-sunken:    #080806;   /* inset wells */
+  --color-overlay:           #00000099; /* scrim */
+  --color-grain:             #FFFFFF05; /* film-grain overlay */
+
+  /* -- Surfaces (light) --------------------------------------- */
+  --color-bg-primary-light:    #F2EFE7;
+  --color-bg-secondary-light:  #E8E5DC;
+  --color-bg-tertiary-light:   #DDD9CF;
+  --color-surface-light:       #FBFAF5;
+  --color-border-light:        #0D0D0B;
+
+  /* -- Accent — Signal Amber (refined) -------------------------
+     v2: same hex, but now we expose a richer ladder so the
+     accent can be used at many scales without losing identity. */
+  --color-accent:           #FF5C1F;
+  --color-accent-bright:    #FF7A45;   /* highlight on accent  */
+  --color-accent-deep:      #C73A09;   /* pressed / shadow     */
+  --color-accent-dim:       #99311A;
+  --color-accent-glow:      #FF5C1F66; /* 40% alpha halo        */
+  --color-accent-faint:     #FF5C1F14; /* 8% alpha — wash       */
+  --color-accent-fg:        #0D0D0B;   /* text ON accent        */
+
+  /* -- Secondary accent (v2 new) — used at very small scale
+     for "data" / "non-signal" markings, so the brand accent
+     remains a true signal. */
+  --color-secondary:        #6CCFE0;   /* cyan — "scope trace"  */
+  --color-secondary-dim:    #3A8A99;
+  --color-secondary-fg:     #0D0D0B;
+
+  /* -- Text --------------------------------------------------- */
+  --color-text-primary:     #F2EFE7;
+  --color-text-secondary:   #B5B1A3;
+  --color-text-tertiary:    #8A8678;
+  --color-text-muted:       #5A5749;
+  --color-text-inverse:     #0D0D0B;
+  --color-text-on-accent:   #0D0D0B;
+
+  /* -- Lines -------------------------------------------------- */
+  --color-border:           #262620;
+  --color-border-strong:    #3A3A30;
+  --color-border-accent:    #FF5C1F40;
+  --color-grid:             #1A1A14;
+  --color-grid-strong:      #2A2A22;
+
+  /* -- Status (sparingly) ------------------------------------ */
+  --color-signal:           var(--color-accent);
+  --color-silence:          var(--color-border);
+  --color-live:             #4ADE80;    /* ok/online             */
+  --color-warn:             #FBBF24;
+  --color-error:            #F87171;
+
+  /* ============================================================
+     Typography — refined for v2
+     ============================================================ */
+  --font-sans:        "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --font-mono:        "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display:     "JetBrains Mono", ui-monospace, monospace;
+  --font-numeric:     "JetBrains Mono", ui-monospace, monospace;
+
+  /* v2: extended scale with display + caption tiers. Tabular
+     nums for monospace data alignment. */
+  --fs-10: 10px;
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-15: 15px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-20: 20px;
+  --fs-24: 24px;
+  --fs-32: 32px;
+  --fs-40: 40px;
+  --fs-48: 48px;
+  --fs-64: 64px;
+  --fs-80: 80px;
+  --fs-96: 96px;
+  --fs-128: 128px;
+  --fs-160: 160px;
+  --fs-200: 200px;
+
+  --lh-tight:    0.92;
+  --lh-snug:     1.05;
+  --lh-display:  1.0;
+  --lh-normal:   1.5;
+  --lh-relaxed:  1.65;
+  --lh-loose:    1.8;
+
+  --tracking-tightest: -0.04em;
+  --tracking-tight:    -0.02em;
+  --tracking-normal:    0;
+  --tracking-wide:      0.04em;
+  --tracking-mono:      0.02em;
+  --tracking-mono-loose:0.08em;
+  --tracking-eyebrow:   0.14em;
+
+  --font-feature-settings: "ss01", "ss02", "cv11", "tnum";
+
+  /* ============================================================
+     Spacing — v2: added 13/14/15 for finer grain
+     ============================================================ */
+  --s-0:  0;
+  --s-1:  4px;
+  --s-2:  8px;
+  --s-3:  12px;
+  --s-4:  16px;
+  --s-5:  24px;
+  --s-6:  32px;
+  --s-7:  48px;
+  --s-8:  64px;
+  --s-9:  96px;
+  --s-10: 128px;
+  --s-11: 192px;
+  --s-12: 256px;
+  --s-13: 384px;
+  --s-14: 512px;
+  --s-15: 768px;
+
+  --gutter:  var(--s-5);
+  --container-max: 1440px;
+  --grid-cols: 12;
+  --reading-max: 62ch;
+
+  /* ============================================================
+     Geometry
+     ============================================================ */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 8px;
+  --radius-pill: 999px;
+  --radius-circle: 50%;
+
+  --nav-height: 68px;
+  --footer-min-height: 480px;
+
+  /* ============================================================
+     Motion — v2: full grammar of curves and durations
+     ============================================================ */
+  --ease-out-snap:    cubic-bezier(0.16, 1, 0.3, 1);     /* default reveal */
+  --ease-out-soft:    cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out:      cubic-bezier(0.65, 0, 0.35, 1);    /* signal pulse   */
+  --ease-in-out-alt:  cubic-bezier(0.83, 0, 0.17, 1);
+  --ease-out-back:    cubic-bezier(0.34, 1.4, 0.64, 1);  /* tactile hover  */
+  --ease-out-expo:    cubic-bezier(0.19, 1, 0.22, 1);    /* hero entrance  */
+  --ease-signal:      cubic-bezier(0.6, 0, 0.4, 1);      /* signal trace   */
+  --ease-linear:      linear;
+  --ease-elastic:     cubic-bezier(0.68, -0.55, 0.27, 1.55);
+
+  --dur-1: 120ms;
+  --dur-2: 200ms;
+  --dur-3: 320ms;
+  --dur-4: 480ms;
+  --dur-5: 720ms;
+  --dur-6: 1200ms;
+  --dur-7: 1800ms;
+  --dur-8: 2400ms;
+
+  --stagger-1: 40ms;
+  --stagger-2: 60ms;
+  --stagger-3: 90ms;
+  --stagger-4: 140ms;
+
+  /* ============================================================
+     Effects
+     ============================================================ */
+  --shadow-1: 0 1px 0 0 #FFFFFF06;
+  --shadow-2: 0 8px 24px -8px #00000080;
+  --shadow-3: 0 24px 64px -16px #000000A6;
+  --halo-accent: 0 0 0 1px var(--color-accent), 0 0 24px var(--color-accent-glow);
+  --halo-accent-strong: 0 0 0 1px var(--color-accent), 0 0 48px var(--color-accent), 0 0 96px var(--color-accent-faint);
+
+  --blur-glass: 16px;
+  --grain-opacity: 0.035;
+
+  /* ============================================================
+     Per-section accent overrides
+     Each section can declare --section-accent and the
+     .accent class inside that scope will use it.
+     ============================================================ */
+  --section-accent:        var(--color-accent);
+  --section-accent-fg:     var(--color-accent-fg);
+  --section-accent-glow:   var(--color-accent-glow);
+}
+
+/* Light theme — re-binds everything */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg-primary:    var(--color-bg-primary-light);
+    --color-bg-secondary:  var(--color-bg-secondary-light);
+    --color-bg-tertiary:   var(--color-bg-tertiary-light);
+    --color-surface:       var(--color-surface-light);
+    --color-surface-hover: #F0EDE3;
+    --color-text-primary:    var(--color-text-inverse);
+    --color-text-secondary:  #4A4A40;
+    --color-text-tertiary:   #6B6960;
+    --color-text-muted:      #8A8678;
+    --color-border:          var(--color-border-light);
+    --color-border-strong:   #0D0D0B;
+    --color-grid:            #D9D5C9;
+    --color-grid-strong:     #BDB8A8;
+    --color-silence:         #D9D5C9;
+  }
+}
+
+[data-theme="light"] {
+  --color-bg-primary:    var(--color-bg-primary-light);
+  --color-bg-secondary:  var(--color-bg-secondary-light);
+  --color-bg-tertiary:   var(--color-bg-tertiary-light);
+  --color-surface:       var(--color-surface-light);
+  --color-surface-hover: #F0EDE3;
+  --color-text-primary:    var(--color-text-inverse);
+  --color-text-secondary:  #4A4A40;
+  --color-text-tertiary:   #6B6960;
+  --color-text-muted:      #8A8678;
+  --color-border:          var(--color-border-light);
+  --color-border-strong:   #0D0D0B;
+  --color-grid:            #D9D5C9;
+  --color-grid-strong:     #BDB8A8;
+  --color-silence:         #D9D5C9;
+}

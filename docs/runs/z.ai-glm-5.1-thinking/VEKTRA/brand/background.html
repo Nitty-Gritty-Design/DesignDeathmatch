@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Signal Field Background</title>
+<!--
+  Wildcard 6.1 — Generative animated background
+  A full-viewport signal field that oscillates, breathes, and responds to cursor.
+  Chosen because VEKTRA's identity is rooted in signal — the background should
+  demonstrate that the brand is alive, not just styled. Vanilla Canvas API for
+  zero-dependency performance at 60fps.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0A0A0B;
+    overflow: hidden;
+    font-family: 'Space Mono', monospace;
+  }
+  canvas {
+    display: block;
+    width: 100vw;
+    height: 100vh;
+  }
+  .overlay {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    color: #E8E6E1;
+  }
+  .overlay h1 {
+    font-size: 80px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+  .overlay p {
+    font-size: 14px;
+    color: #9B978F;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .overlay .accent { color: #FF6B2B; }
+  .info {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 2;
+    font-size: 11px;
+    color: #5C5952;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .info span { color: #FF6B2B; }
+</style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="overlay">
+    <h1>Signal <span class="accent">field</span></h1>
+    <p>Move cursor to interact</p>
+  </div>
+  <div class="info">VEKTRA / background.html / <span>60fps</span></div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      var canvas = document.getElementById('canvas');
+      var ctx = canvas.getContext('2d');
+      var dpr = window.devicePixelRatio || 1;
+      var mouseX = -1000;
+      var mouseY = -1000;
+      var targetMouseX = -1000;
+      var targetMouseY = -1000;
+      var time = 0;
+
+      // Brand colors
+      var ACCENT_R = 255, ACCENT_G = 107, ACCENT_B = 43;
+      var TEXT_R = 232, TEXT_G = 230, TEXT_B = 225;
+      var BG = '#0A0A0B';
+
+      function resize() {
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+        canvas.style.width = window.innerWidth + 'px';
+        canvas.style.height = window.innerHeight + 'px';
+        ctx.scale(dpr, dpr);
+      }
+      resize();
+      window.addEventListener('resize', resize);
+
+      document.addEventListener('mousemove', function (e) {
+        targetMouseX = e.clientX;
+        targetMouseY = e.clientY;
+      });
+
+      document.addEventListener('mouseleave', function () {
+        targetMouseX = -1000;
+        targetMouseY = -1000;
+      });
+
+      // Signal field parameters
+      var LINE_COUNT = 36;
+      var SPACING = 14;
+      var BASE_AMPLITUDE = 18;
+      var FREQUENCY = 0.0028;
+      var SPEED = 0.006;
+      var MOUSE_RADIUS = 250;
+      var MOUSE_AMP = 40;
+
+      function draw() {
+        var w = window.innerWidth;
+        var h = window.innerHeight;
+        var midY = h * 0.5;
+
+        // Smooth mouse tracking
+        mouseX += (targetMouseX - mouseX) * 0.08;
+        mouseY += (targetMouseY - mouseY) * 0.08;
+
+        time += SPEED;
+
+        ctx.clearRect(0, 0, w, h);
+
+        // Subtle radial gradient behind mouse
+        if (mouseX > 0) {
+          var grad = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 350);
+          grad.addColorStop(0, 'rgba(' + ACCENT_R + ',' + ACCENT_G + ',' + ACCENT_B + ',0.03)');
+          grad.addColorStop(1, 'rgba(' + ACCENT_R + ',' + ACCENT_G + ',' + ACCENT_B + ',0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(0, 0, w, h);
+        }
+
+        for (var i = 0; i < LINE_COUNT; i++) {
+          var baseY = midY + (i - LINE_COUNT / 2) * SPACING;
+          var amplitude = BASE_AMPLITUDE + i * 1.0;
+          var freq = FREQUENCY + i * 0.00015;
+          var phase = time * (0.6 + i * 0.04);
+          var secondFreq = freq * 2.17;
+          var secondAmp = amplitude * 0.25;
+          var thirdFreq = freq * 3.41;
+          var thirdAmp = amplitude * 0.1;
+
+          // Distance from mouse to this line's center
+          var distFromMouse = Math.abs(baseY - mouseY);
+          var mouseInfluence = Math.max(0, 1 - distFromMouse / MOUSE_RADIUS);
+
+          var alpha = 0.03 + (i / LINE_COUNT) * 0.05 + mouseInfluence * 0.2;
+
+          ctx.beginPath();
+
+          for (var x = 0; x <= w; x += 2) {
+            var dx = x - mouseX;
+            var distX = Math.abs(dx);
+            var proximity = Math.exp(-distX / 300) * mouseInfluence;
+            var mouseAmp = proximity * MOUSE_AMP;
+
+            var y = baseY
+              + Math.sin(x * freq + phase) * amplitude
+              + Math.sin(x * secondFreq + phase * 1.37) * secondAmp
+              + Math.sin(x * thirdFreq + phase * 0.73) * thirdAmp
+              + mouseAmp * Math.sin(x * 0.006 + time * 2.5);
+
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+
+          // Blend between text color and accent based on mouse proximity
+          if (mouseInfluence > 0.05) {
+            var blend = mouseInfluence;
+            var r = Math.round(TEXT_R + (ACCENT_R - TEXT_R) * blend);
+            var g = Math.round(TEXT_G + (ACCENT_G - TEXT_G) * blend);
+            var b = Math.round(TEXT_B + (ACCENT_B - TEXT_B) * blend);
+            ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
+          } else {
+            ctx.strokeStyle = 'rgba(' + TEXT_R + ',' + TEXT_G + ',' + TEXT_B + ',' + alpha + ')';
+          }
+
+          ctx.lineWidth = 0.7 + mouseInfluence * 0.5;
+          ctx.stroke();
+        }
+
+        // Add a few "peak" dots where signal intensity is highest near cursor
+        if (mouseX > 0 && mouseY > 0) {
+          for (var j = 0; j < 5; j++) {
+            var dotPhase = time * (1.2 + j * 0.3);
+            var dotX = mouseX + Math.sin(dotPhase) * 80 - 40;
+            var lineIdx = Math.floor(LINE_COUNT / 2 + (mouseY - h / 2) / SPACING);
+            if (lineIdx >= 0 && lineIdx < LINE_COUNT) {
+              var dotBaseY = midY + (lineIdx - LINE_COUNT / 2) * SPACING;
+              var dotFreq = FREQUENCY + lineIdx * 0.00015;
+              var dotY = dotBaseY + Math.sin(dotX * dotFreq + dotPhase) * (BASE_AMPLITUDE + lineIdx);
+              var dotAlpha = 0.3 + Math.sin(dotPhase * 2) * 0.2;
+
+              ctx.beginPath();
+              ctx.arc(dotX, dotY, 1.5, 0, Math.PI * 2);
+              ctx.fillStyle = 'rgba(' + ACCENT_R + ',' + ACCENT_G + ',' + ACCENT_B + ',' + dotAlpha + ')';
+              ctx.fill();
+            }
+          }
+        }
+
+        requestAnimationFrame(draw);
+      }
+
+      draw();
+    })();
+  </script>
+</body>
+</html>

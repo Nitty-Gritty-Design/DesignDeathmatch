@@ -1,0 +1,166 @@
+/*
+VEKTRA Brand Tokens
+===================
+
+Color Palette Hex Values & Intended Use:
+
+DARK MODE (Default)
+------------------
+--color-bg-primary:    #0f0f10 (hsl(240, 10%, 6%))   - Primary page backdrop (near-black charcoal, warm/neutral tint)
+--color-bg-secondary:  #18181b (hsl(240, 6%, 10%))   - Secondary sections, cards, and list backdrops
+--color-surface:       #202024 (hsl(240, 6%, 14%))   - Component containers, buttons, floating menus
+--color-accent:        #caff00 (hsl(76, 100%, 50%))  - Electric acid lime; high frequency, active signals, selection highlights
+--color-accent-dim:    #5a7300 (hsl(76, 100%, 22.5%)) - Dimmer accent for borders, outlines, hover accents
+--color-text-primary:  #eff0f2 (hsl(220, 10%, 94%))  - Headlines, high-emphasis copy, labels
+--color-text-secondary:#afb0b3 (hsl(220, 4%, 70%))   - Body copy, descriptions
+--color-text-muted:    #6b6d72 (hsl(220, 3%, 43%))   - Captions, disabled labels, comments, metadata
+--color-border:        #2d2e33 (hsl(225, 6%, 19%))   - Technical divider lines, grid borders
+
+LIGHT MODE (prefers-color-scheme: light)
+---------------------------------------
+--color-bg-primary:    #f4f4f0 (hsl(60, 15%, 95%))   - Warm gallery-wall off-white
+--color-bg-secondary:  #e9e9e2 (hsl(60, 10%, 91%))   - Structural grids, code panels
+--color-surface:       #deded6 (hsl(60, 8%, 86%))    - Component backdrops, buttons
+--color-accent:        #85a600 (hsl(75, 100%, 32.5%)) - Tuned acid lime (darkened for contrast and legibility)
+--color-accent-dim:    #4a5c00 (hsl(75, 100%, 18%))  - Deep olive/lime border shade
+--color-text-primary:  #151619 (hsl(220, 10%, 9%))   - High contrast body text, headlines
+--color-text-secondary:#4a4b50 (hsl(225, 4%, 30%))   - Descriptive copy
+--color-text-muted:    #7b7c82 (hsl(225, 3%, 50%))   - Captions, metadata
+--color-border:        #d1d1c7 (hsl(60, 6%, 80%))    - Dividers, grids
+*/
+
+:root {
+  /* Colors (Dark Theme Default) */
+  --color-bg-primary: hsl(240, 10%, 6%);
+  --color-bg-secondary: hsl(240, 6%, 10%);
+  --color-surface: hsl(240, 6%, 14%);
+  --color-accent: hsl(76, 100%, 50%);
+  --color-accent-dim: hsl(76, 100%, 22.5%);
+  --color-text-primary: hsl(220, 10%, 94%);
+  --color-text-secondary: hsl(220, 4%, 70%);
+  --color-text-muted: hsl(220, 3%, 43%);
+  --color-border: hsl(225, 6%, 19%);
+
+  /* Typography */
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', Courier, monospace;
+
+  /* Font Weights */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Type Scale */
+  --size-3xs: 0.625rem; /* 10px */
+  --size-2xs: 0.75rem;  /* 12px */
+  --size-xs: 0.875rem;  /* 14px */
+  --size-sm: 0.9375rem; /* 15px */
+  --size-base: 1rem;    /* 16px */
+  --size-md: 1.125rem;  /* 18px */
+  --size-lg: 1.25rem;   /* 20px */
+  --size-xl: 1.5rem;    /* 24px */
+  --size-2xl: 2rem;     /* 32px */
+  --size-3xl: 2.5rem;    /* 40px */
+  --size-4xl: 3.5rem;    /* 56px */
+  --size-5xl: 4.5rem;    /* 72px */
+  --size-6xl: 5rem;      /* 80px */
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.15;
+  --leading-snug: 1.3;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.6;
+
+  /* Spacing */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+  --spacing-24: 6rem;    /* 96px */
+  --spacing-32: 8rem;    /* 128px */
+
+  /* Borders & Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+
+  /* Motion & Easing */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+  --duration-fast: 150ms;
+  --duration-normal: 300ms;
+  --duration-slow: 600ms;
+  --duration-cinematic: 2000ms;
+
+  /* Grid Layout */
+  --grid-gap: var(--spacing-6);
+  --grid-columns: 12;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.8);
+  
+  /* Filter Effects */
+  --backdrop-blur: blur(12px);
+}
+
+/* Light Theme overrides */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg-primary: hsl(60, 15%, 95%);
+    --color-bg-secondary: hsl(60, 10%, 91%);
+    --color-surface: hsl(60, 8%, 86%);
+    --color-accent: hsl(75, 100%, 32.5%);
+    --color-accent-dim: hsl(75, 100%, 18%);
+    --color-text-primary: hsl(220, 10%, 9%);
+    --color-text-secondary: hsl(225, 4%, 30%);
+    --color-text-muted: hsl(225, 3%, 50%);
+    --color-border: hsl(60, 6%, 80%);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+  }
+}
+
+/* Explicit theme toggling (by class/attribute) */
+:root[data-theme="light"] {
+  --color-bg-primary: hsl(60, 15%, 95%);
+  --color-bg-secondary: hsl(60, 10%, 91%);
+  --color-surface: hsl(60, 8%, 86%);
+  --color-accent: hsl(75, 100%, 32.5%);
+  --color-accent-dim: hsl(75, 100%, 18%);
+  --color-text-primary: hsl(220, 10%, 9%);
+  --color-text-secondary: hsl(225, 4%, 30%);
+  --color-text-muted: hsl(225, 3%, 50%);
+  --color-border: hsl(60, 6%, 80%);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
+}
+
+:root[data-theme="dark"] {
+  --color-bg-primary: hsl(240, 10%, 6%);
+  --color-bg-secondary: hsl(240, 6%, 10%);
+  --color-surface: hsl(240, 6%, 14%);
+  --color-accent: hsl(76, 100%, 50%);
+  --color-accent-dim: hsl(76, 100%, 22.5%);
+  --color-text-primary: hsl(220, 10%, 94%);
+  --color-text-secondary: hsl(220, 4%, 70%);
+  --color-text-muted: hsl(220, 3%, 43%);
+  --color-border: hsl(225, 6%, 19%);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.8);
+}

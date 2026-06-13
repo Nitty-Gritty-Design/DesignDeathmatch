@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <defs>
+    <style>
+      .mark { fill: none; stroke: #FF4D2A; stroke-width: 2.5; stroke-linecap: round; }
+    </style>
+  </defs>
+  <g transform="translate(8, 8)">
+    <path class="mark" d="M0 8 C3 4.5, 5 1.5, 8 1.5 C11 1.5, 13 4.5, 16 8"></path>
+    <path class="mark" d="M0 12 C3 4, 5 0, 8 0 C11 0, 13 4, 16 12"></path>
+    <path class="mark" d="M0 16 C3 19.5, 5 22.5, 8 22.5 C11 22.5, 13 19.5, 16 16"></path>
+  </g>
+</svg>

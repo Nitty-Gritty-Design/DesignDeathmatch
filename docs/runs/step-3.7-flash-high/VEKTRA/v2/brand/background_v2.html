@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>VEKTRA v2 — Signal Field</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #08090B; overflow: hidden; }
+    canvas { display: block; position: fixed; inset: 0; width: 100%; height: 100%; }
+    .overlay {
+      position: fixed; top: 28px; left: 32px; z-index: 2; pointer-events: none;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #55534F;
+    }
+    .overlay strong { color: #FF5C36; font-weight: 600; }
+    .stats {
+      position: fixed; bottom: 24px; right: 28px; z-index: 2; pointer-events: none;
+      font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: 0.12em;
+      color: #55534F; text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div>VEKTRA <strong>signal field</strong> <span style="color:#55534F;">v2</span></div>
+    <div style="margin-top:8px; color:#9A9790;">flow-field · 180 particles · cursor-modulated</div>
+    <div style="margin-top:4px;">move cursor to disturb the field</div>
+  </div>
+  <div class="stats" id="stats">
+    <div>particles: 180</div>
+    <div>fps: —</div>
+  </div>
+  <canvas id="sig" aria-hidden="true"></canvas>
+  <script src="../site/utils.js"></script>
+  <script>
+    (function () {
+      const canvas = document.getElementById('sig');
+      const ctx = canvas.getContext('2d');
+      const stats = document.getElementById('stats');
+      let W, H, mx = 0.5, my = 0.5, tmx = 0.5, tmy = 0.5;
+      let frame = 0, lastT = 0, fpsArr = [];
+
+      class Particle {
+        constructor(init) { this.reset(init); }
+        reset(init) {
+          this.x = Math.random() * (W || 1400);
+          this.y = Math.random() * (H || 900);
+          this.vx = 0; this.vy = 0;
+          this.life = 0;
+          this.maxLife = 160 + Math.random() * 240;
+          this.isAccent = Math.random() < 0.07;
+        }
+        update(t) {
+          const scale = 0.0007;
+          const n = VEKTRA.noise(this.x * scale, this.y * scale + t * 0.00012);
+          const angle = n * Math.PI * 4;
+          const dx = this.x - mx * W, dy = this.y - my * H;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          const force = Math.max(0, 1 - dist / 300);
+          this.vx += Math.cos(angle) * 0.38 + (-dx / dist) * force * 0.9;
+          this.vy += Math.sin(angle) * 0.38 + (-dy / dist) * force * 0.9;
+          this.vx *= 0.935; this.vy *= 0.935;
+          this.x += this.vx; this.y += this.vy;
+          this.life++;
+          if (this.x < -30 || this.x > W + 30 || this.y < -30 || this.y > H + 30 || this.life > this.maxLife) {
+            this.reset(false);
+          }
+        }
+        draw(ctx) {
+          const ratio = this.life / this.maxLife;
+          const alpha = Math.sin(ratio * Math.PI);
+          ctx.strokeStyle = this.isAccent
+            ? `rgba(255, 92, 54, ${alpha * 0.9})`
+            : `rgba(160, 157, 150, ${alpha * 0.4})`;
+          ctx.lineWidth = this.isAccent ? 1.3 : 0.6;
+          ctx.beginPath();
+          ctx.moveTo(this.x - this.vx * 3, this.y - this.vy * 3);
+          ctx.lineTo(this.x, this.y);
+          ctx.stroke();
+        }
+      }
+
+      function resize () {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+
+      window.addEventListener('mousemove', e => {
+        tmx = e.clientX / W; tmy = e.clientY / H;
+      }, { passive: true });
+
+      const particles = Array.from({ length: 180 }, () => new Particle(true));
+
+      function draw(t) {
+        const dt = t - lastT; lastT = t;
+        fpsArr.push(1000 / (dt || 16));
+        if (fpsArr.length > 30) fpsArr.shift();
+        const avgFps = Math.round(fpsArr.reduce((a, b) => a + b, 0) / fpsArr.length);
+        if (frame % 10 === 0 && stats) {
+          stats.children[0].textContent = `particles: ${particles.length}`;
+          stats.children[1].textContent = `fps: ${avgFps}`;
+        }
+
+        mx = VEKTRA.lerp(mx, tmx, 0.05);
+        my = VEKTRA.lerp(my, tmy, 0.05);
+
+        ctx.fillStyle = 'rgba(8, 9, 11, 0.13)';
+        ctx.fillRect(0, 0, W, H);
+
+        particles.forEach(p => { p.update(t); p.draw(ctx); });
+
+        // Central signal node
+        const cx = mx * W, cy = my * H;
+        ctx.strokeStyle = 'rgba(255, 92, 54, 0.28)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(cx, cy, 32 + Math.sin(t * 0.0007) * 5, 0, Math.PI * 2); ctx.stroke();
+        ctx.strokeStyle = 'rgba(255, 179, 71, 0.5)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath(); ctx.arc(cx, cy, 8 + Math.sin(t * 0.002) * 2, 0, Math.PI * 2); ctx.stroke();
+        ctx.fillStyle = 'rgba(255, 92, 54, 0.95)';
+        ctx.beginPath(); ctx.arc(cx, cy, 2.5, 0, Math.PI * 2); ctx.fill();
+
+        // Bloom
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 200);
+        g.addColorStop(0, 'rgba(255, 92, 54, 0.06)');
+        g.addColorStop(1, 'rgba(8, 9, 11, 0)');
+        ctx.fillStyle = g;
+        ctx.fillRect(cx - 200, cy - 200, 400, 400);
+
+        frame++;
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>

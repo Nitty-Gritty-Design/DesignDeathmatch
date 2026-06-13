@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA — Parameter Connection Visualization</title>
+    <!-- Import brand tokens -->
+    <link rel="stylesheet" href="../brand/tokens.css">
+    <!-- Import typefaces -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../site/style.css">
+    <style>
+        /* Specific styles for this visualization */
+        .viz-container {
+            padding: 4rem 0;
+            background-color: var(--color-bg-secondary);
+        }
+        
+        .viz-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .viz-header h1 {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .viz-header p {
+            font-family: 'Inter', sans-serif;
+            font-size: 1.1rem;
+            color: var(--color-text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        #viz-canvas {
+            background-color: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            display: block;
+            margin: 0 auto;
+            cursor: crosshair;
+        }
+        
+        .viz-controls {
+            background-color: var(--color-bg-secondary);
+            border: 1px solid var(--color-border);
+            padding: 2rem;
+            margin-top: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .viz-controls h2 {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            color: var(--color-text-primary);
+        }
+        
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .control-group label {
+            font-family: 'Space Mono', monospace;
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--color-text-primary);
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .control-group input,
+        .control-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: var(--color-bg-primary);
+            border: 1px solid var(--color-border);
+            color: var(--color-text-primary);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.9rem;
+            border-radius: 0;
+        }
+        
+        .control-group input:focus,
+        .control-group select:focus {
+            outline: none;
+            border-color: var(--color-accent);
+        }
+        
+        .parameter-node {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background-color: var(--color-surface);
+            border: 2px solid var(--color-border);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        
+        .parameter-node:hover {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            transform: scale(1.2);
+        }
+        
+        .parameter-node.active {
+            background-color: var(--color-accent);
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.3);
+        }
+        
+        .parameter-label {
+            position: absolute;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            color: var(--color-text-secondary);
+            pointer-events: none;
+        }
+        
+        .connection-line {
+            position: absolute;
+            pointer-events: none;
+        }
+        
+        .connection-line svg {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .connection-line path {
+            fill: none;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            font-family: 'Space Mono', monospace;
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            border-bottom: 1px solid var(--color-border);
+            padding-bottom: 2px;
+        }
+        
+        .back-link:hover {
+            color: var(--color-text-primary);
+            border-color: var(--color-accent);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .viz-header h1 {
+                font-size: 2rem;
+            }
+            
+            .viz-controls {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="../brand/logo.svg" alt="VEKTRA" width="100" height="25">
+            </a>
+        </div>
+    </nav>
+
+    <!-- Back link -->
+    <a href="../index.html" class="back-link">← Back to VEKTRA</a>
+
+    <!-- Header -->
+    <section class="viz-header">
+        <div class="container">
+            <h1>Parameter Connection Visualization</h1>
+            <p>See how audio and modulation parameters connect in a typical VEKTRA patch. Click nodes to activate connections.</p>
+        </div>
+    </section>
+
+    <!-- Visualization container -->
+    <section class="viz-container">
+        <div class="container">
+            <canvas id="viz-canvas" width="1000" height="600"></canvas>
+        </div>
+    </section>
+
+    <!-- Controls -->
+    <section class="viz-controls">
+        <div class="container">
+            <h2>Patch Parameters</h2>
+            
+            <div class="control-group">
+                <label for="osc1-freq">Oscillator 1 Frequency</label>
+                <input type="range" id="osc1-freq" min="20" max="2000" value="440">
+            </div>
+            
+            <div class="control-group">
+                <label for="osc1-wave">Oscillator 1 Waveform</label>
+                <select id="osc1-wave">
+                    <option value="sine">Sine</option>
+                    <option value="saw">Sawtooth</option>
+                    <option value="square">Square</option>
+                    <option value="triangle">Triangle</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="lfo-rate">LFO Rate</label>
+                <input type="range" id="lfo-rate" min="0.1" max="20" step="0.1" value="1.5">
+            </div>
+            
+            <div class="control-group">
+                <label for="filter-cutoff">Filter Cutoff</label>
+                <input type="range" id="filter-cutoff" min="20" max="5000" value="1200">
+            </div>
+            
+            <div class="control-group">
+                <label for="filter-res">Filter Resonance</label>
+                <input type="range" id="filter-res" min="0" max="10" step="0.1" value="2.5">
+            </div>
+            
+            <div class="control-group">
+                <label for="env-attack">Envelope Attack</label>
+                <input type="range" id="env-attack" min="1" max="1000" step="1" value="50">
+            </div>
+            
+            <div class="control-group">
+                <label for="env-release">Envelope Release</label>
+                <input type="range" id="env-release" min="10" max="2000" value="300">
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // VEKTRA Parameter Connection Visualization
+        // Shows how parameters connect in a generative patch
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('viz-canvas');
+            const ctx = canvas.getContext('2d');
+            
+            // Resize canvas to fit container
+            function resizeCanvas() {
+                canvas.width = canvas.parentElement.clientWidth;
+                canvas.height = Math.min(600, canvas.parentElement.clientWidth * 0.6);
+            }
+            
+            // Initial resize
+            resizeCanvas();
+            
+            // Listen for resize
+            window.addEventListener('resize', resizeCanvas);
+            
+            // Parameter nodes with realistic names and positions
+            const nodes = [
+                { id: 'osc1-freq', name: 'Osc 1 Freq', x: 100, y: 100, type: 'input' },
+                { id: 'osc1-wave', name: 'Osc 1 Wave', x: 100, y: 180, type: 'input' },
+                { id: 'lfo-rate', name: 'LFO Rate', x: 100, y: 260, type: 'input' },
+                { id: 'filter-cutoff', name: 'Filter Cutoff', x: 400, y: 100, type: 'input' },
+                { id: 'filter-res', name: 'Filter Res', x: 400, y: 180, type: 'input' },
+                { id: 'env-attack', name: 'Env Attack', x: 400, y: 260, type: 'input' },
+                { id: 'env-release', name: 'Env Release', x: 400, y: 340, type: 'input' },
+                { id: 'osc1-output', name: 'Osc 1 Out', x: 700, y: 140, type: 'output' },
+                { id: 'filter-output', name: 'Filter Out', x: 700, y: 300, type: 'output' }
+            ];
+            
+            // Connections that represent typical patch routing
+            const connections = [
+                { from: 'osc1-freq', to: 'osc1-output', type: 'audio' },
+                { from: 'osc1-wave', to: 'osc1-output', type: 'audio' },
+                { from: 'lfo-rate', to: 'filter-cutoff', type: 'modulation' },
+                { from: 'filter-cutoff', to: 'filter-output', type: 'audio' },
+                { from: 'filter-res', to: 'filter-output', type: 'audio' },
+                { from: 'env-attack', to: 'filter-output', type: 'envelope' },
+                { from: 'env-release', to: 'filter-output', type: 'envelope' },
+                { from: 'osc1-output', to: 'filter-cutoff', type: 'audio' }
+            ];
+            
+            // Active node tracking
+            let activeNode = null;
+            
+            // Get parameter values from controls
+            function getParameterValues() {
+                return {
+                    'osc1-freq': parseFloat(document.getElementById('osc1-freq').value),
+                    'osc1-wave': document.getElementById('osc1-wave').value,
+                    'lfo-rate': parseFloat(document.getElementById('lfo-rate').value),
+                    'filter-cutoff': parseFloat(document.getElementById('filter-cutoff').value),
+                    'filter-res': parseFloat(document.getElementById('filter-res').value),
+                    'env-attack': parseFloat(document.getElementById('env-attack').value),
+                    'env-release': parseFloat(document.getElementById('env-release').value)
+                };
+            }
+            
+            // Draw a single node
+            function drawNode(node) {
+                const isActive = activeNode === node.id;
+                
+                // Draw node circle
+                ctx.beginPath();
+                ctx.arc(node.x, node.y, 8, 0, Math.PI * 2);
+                ctx.fillStyle = isActive ? 
+                    'var(--color-accent)' : 
+                    'var(--color-surface)';
+                ctx.strokeStyle = 'var(--color-border)';
+                ctx.lineWidth = isActive ? 3 : 2;
+                ctx.fill();
+                ctx.stroke();
+                
+                // Draw label
+                ctx.font = '12px "Space Mono", monospace';
+                ctx.fillStyle = 'var(--color-text-secondary)';
+                ctx.textAlign = 'center';
+                ctx.fillText(node.name, node.x, node.y - 20);
+            }
+            
+            // Draw a connection line
+            function drawConnection(conn) {
+                const fromNode = nodes.find(n => n.id === conn.from);
+                const toNode = nodes.find(n => n.id === conn.to);
+                
+                if (!fromNode || !toNode) return;
+                
+                // Set stroke style based on connection type
+                switch(conn.type) {
+                    case 'audio':
+                        ctx.strokeStyle = 'var(--color-accent)';
+                        ctx.lineWidth = 2.5;
+                        break;
+                    case 'modulation':
+                        ctx.strokeStyle = 'var(--color-accent-dim)';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([5, 3]);
+                        break;
+                    case 'envelope':
+                        ctx.strokeStyle = 'rgba(0, 245, 255, 0.7)';
+                        ctx.lineWidth = 2;
+                        ctx.setLineDash([2, 2]);
+                        break;
+                }
+                
+                // Draw curved line
+                ctx.beginPath();
+                ctx.moveTo(fromNode.x + 8, fromNode.y);
+                
+                // Control points for curve
+                const cp1x = fromNode.x + 80;
+                const cp1y = fromNode.y;
+                const cp2x = toNode.x - 80;
+                const cp2y = toNode.y;
+                
+                ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, toNode.x - 8, toNode.y);
+                ctx.stroke();
+                
+                // Reset line dash
+                ctx.setLineDash([]);
+                
+                // Draw arrowhead
+                const angle = Math.atan2(toNode.y - fromNode.y, toNode.x - fromNode.x);
+                const headLen = 8;
+                ctx.save();
+                ctx.translate(toNode.x - 8, toNode.y);
+                ctx.rotate(angle);
+                ctx.beginPath();
+                ctx.moveTo(-headLen, -headLen/2);
+                ctx.lineTo(0, 0);
+                ctx.lineTo(-headLen, headLen/2);
+                ctx.lineTo(-headLen, -headLen/2);
+                ctx.fillStyle = ctx.strokeStyle;
+                ctx.fill();
+                ctx.restore();
+            }
+            
+            // Draw everything
+            function draw() {
+                // Clear canvas
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = 'var(--color-bg-primary)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Draw connections first (behind nodes)
+                connections.forEach(conn => {
+                    drawConnection(conn);
+                });
+                
+                // Draw nodes
+                nodes.forEach(node => {
+                    drawNode(node);
+                });
+            }
+            
+            // Handle node clicks
+            function handleNodeClick(event) {
+                const rect = canvas.getBoundingClientRect();
+                const x = event.clientX - rect.left;
+                const y = event.clientY - rect.top;
+                
+                // Check if click is near any node
+                const clickedNode = nodes.find(node => {
+                    const dx = x - node.x;
+                    const dy = y - node.y;
+                    const distance = Math.sqrt(dx*dx + dy*dy);
+                    return distance < 15; // 15px hit radius
+                });
+                
+                if (clickedNode) {
+                    activeNode = clickedNode.id;
+                    draw();
+                    
+                    // Highlight connected parameters
+                    setTimeout(() => {
+                        activeNode = null;
+                        draw();
+                    }, 1500);
+                }
+            }
+            
+            // Update visualization when parameters change
+            function updateFromControls() {
+                // This would normally update audio parameters
+                // For visualization, we just redraw to show activity
+                draw();
+            }
+            
+            // Event listeners
+            canvas.addEventListener('click', handleNodeClick);
+            
+            // Listen for control changes
+            const controls = document.querySelectorAll('.control-group input, .control-group select');
+            controls.forEach(control => {
+                control.addEventListener('input', updateFromControls);
+                control.addEventListener('change', updateFromControls);
+            });
+            
+            // Initial draw
+            draw();
+            
+            // Add subtle animation to show system is alive
+            let animationFrame = 0;
+            function animate() {
+                animationFrame++;
+                
+                // Pulse active node slightly
+                if (activeNode) {
+                    draw();
+                }
+                
+                requestAnimationFrame(animate);
+            }
+            
+            requestAnimationFrame(animate);
+        });
+    </script>
+</body>
+</html>

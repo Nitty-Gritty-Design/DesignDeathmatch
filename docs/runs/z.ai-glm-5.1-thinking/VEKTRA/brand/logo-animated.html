@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Logo Animation</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0A0A0B;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+  }
+  .logo-container {
+    width: 400px;
+    height: 80px;
+    position: relative;
+  }
+  /* Mark strokes - draw in animation */
+  .mark-stroke {
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: draw-stroke 1.2s var(--ease-out-expo) forwards;
+  }
+  .mark-left { animation-delay: 0.2s; }
+  .mark-right { animation-delay: 0.8s; }
+
+  @keyframes draw-stroke {
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* Apex gap pulse */
+  .apex-pulse {
+    opacity: 0;
+    animation: pulse 0.3s ease-out 2s forwards;
+  }
+  @keyframes pulse {
+    0%   { opacity: 0; }
+    30%  { opacity: 1; }
+    100% { opacity: 0; }
+  }
+
+  /* Logotype character reveal */
+  .logo-char {
+    opacity: 0;
+    animation: char-in 0.15s ease-out forwards;
+  }
+  .logo-char:nth-child(1) { animation-delay: 2.4s; }
+  .logo-char:nth-child(2) { animation-delay: 2.45s; }
+  .logo-char:nth-child(3) { animation-delay: 2.50s; }
+  .logo-char:nth-child(4) { animation-delay: 2.55s; }
+  .logo-char:nth-child(5) { animation-delay: 2.60s; }
+  .logo-char:nth-child(6) { animation-delay: 2.65s; }
+
+  @keyframes char-in {
+    0%   { opacity: 0; transform: translateY(2px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  :root {
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  }
+</style>
+</head>
+<body>
+  <svg class="logo-container" viewBox="0 0 400 80" xmlns="http://www.w3.org/2000/svg">
+    <!-- Left stroke of the mark -->
+    <line class="mark-stroke mark-left"
+      x1="20" y1="72" x2="48" y2="10"
+      fill="none" stroke="#E8E6E1" stroke-width="4" stroke-linecap="square"/>
+
+    <!-- Right stroke of the mark -->
+    <line class="mark-stroke mark-right"
+      x1="53" y1="10" x2="82" y2="72"
+      fill="none" stroke="#E8E6E1" stroke-width="4" stroke-linecap="square"/>
+
+    <!-- Apex pulse (accent color flash at the gap) -->
+    <circle class="apex-pulse"
+      cx="50.5" cy="8" r="3"
+      fill="#FF6B2B"/>
+
+    <!-- Logotype: individual characters for sequential reveal -->
+    <text font-family="'Space Mono', monospace" font-size="32" font-weight="700" fill="#E8E6E1" letter-spacing="5">
+      <tspan class="logo-char" x="105">V</tspan><tspan class="logo-char">E</tspan><tspan class="logo-char">K</tspan><tspan class="logo-char">T</tspan><tspan class="logo-char">R</tspan><tspan class="logo-char">A</tspan>
+    </text>
+  </svg>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal, Form, and Time</title>
+  <link rel="icon" type="image/svg+xml" href="../brand/logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <header class="site-header" id="site-header">
+    <div class="nav-inner">
+      <a href="../brand/logo.svg" class="logo-link" aria-label="VEKTRA home">
+        <img src="../brand/logo-mark.svg" alt="" width="32" height="32" class="logo-mark-img" aria-hidden="true">
+        <span class="logo-wordmark">VEKTRA</span>
+      </a>
+
+      <button class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="primary-nav" aria-label="Open menu">
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+        <span class="toggle-bar"></span>
+      </button>
+
+      <nav class="primary-nav" id="primary-nav" aria-label="Primary">
+        <a href="#about" class="nav-link">About</a>
+        <a href="#how" class="nav-link">How it works</a>
+        <a href="#viz" class="nav-link">Signals</a>
+        <a href="viz.html" class="nav-link">Visualization</a>
+        <a href="#contact" class="nav-cta">Request access</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero" aria-labelledby="hero-headline">
+      <canvas id="hero-canvas" aria-hidden="true"></canvas>
+
+      <div class="hero-content reveal">
+        <p class="hero-kicker">Generative audio-visual instruments</p>
+        <h1 id="hero-headline" class="hero-headline">Signal, form,<br>and time<span class="accent-dot">.</span></h1>
+        <p class="hero-sub">VEKTRA treats sound, motion, and code as a single signal chain. One graph. One medium. Live.</p>
+        <div class="hero-actions">
+          <a href="#about" class="btn btn-primary">Explore the system</a>
+          <a href="viz.html" class="btn btn-ghost">View signals →</a>
+        </div>
+      </div>
+
+      <div class="hero-meta">
+        <span class="mono-label">v 0.9.2 — Berlin</span>
+        <span class="mono-label">60 fps target</span>
+      </div>
+    </section>
+
+    <section class="section section-about" id="about">
+      <div class="section-inner">
+        <div class="section-label reveal">001 — About</div>
+        <h2 class="section-heading reveal">What it is</h2>
+        <div class="about-grid">
+          <div class="about-copy reveal">
+            <p>VEKTRA is not a DAW. It is not a plugin. It is closer to a language — a way of thinking about time, signal, and form simultaneously.</p>
+            <p>Electronic composers, installation artists, interaction designers, and researchers use VEKTRA to build things that behave, not just things that look. Every parameter is inspectable. Every patch is forkable. Everything is live.</p>
+          </div>
+          <div class="about-pull reveal">
+            <blockquote>
+              <p>"The inside of a Teenage Engineering OP-1 if it were designed by a brutalist architect."</p>
+              <cite>— Designer comment, Leipzig 2019</cite>
+            </blockquote>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-how" id="how">
+      <div class="section-inner">
+        <div class="section-label reveal">002 — How it works</div>
+        <h2 class="section-heading reveal">Three core concepts</h2>
+        <div class="concept-grid">
+          <article class="concept-card reveal">
+            <div class="concept-number">01</div>
+            <h3 class="concept-title">Unified graph</h3>
+            <p>Audio nodes, visual parameters, and logic branches share one graph. A frequency change can drive a shape. A gesture can rewrite a patch. There is no import / export barrier between signal and form.</p>
+          </article>
+          <article class="concept-card reveal">
+            <div class="concept-number">02</div>
+            <h3 class="concept-title">Explicit time</h3>
+            <p>Time is not hidden inside a transport bar. It is a first-class parameter — sample-accurate, inspectable, and reversible. Loop, scrub, or branch based on live data.</p>
+          </article>
+          <article class="concept-card reveal">
+            <div class="concept-number">03</div>
+            <h3 class="concept-title">Live inspect</h3>
+            <p>Every value can be read, modified, and animated in real time. No renders. No bounces. Change the system while it runs and watch the result resolve on the next sample.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-whom" id="whom">
+      <div class="section-inner">
+        <div class="section-label reveal">003 — Who uses it</div>
+        <h2 class="section-heading reveal">Three practitioners</h2>
+        <div class="user-grid">
+          <article class="user-card reveal">
+            <div class="user-role">Composer</div>
+            <h3 class="user-name">Elara Voss</h3>
+            <p class="user-desc">Writes patch-based systems for electroacoustic performance. Uses VEKTRA to generate score materials from live sensor input.</p>
+          </article>
+          <article class="user-card reveal">
+            <div class="user-role">Installation artist</div>
+            <h3 class="user-name">Studio Nullrichtung</h3>
+            <p class="user-desc">Creates permanent museum works where sound and projection respond to viewer proximity. VEKTRA bridges the sensing and rendering.</p>
+          </article>
+          <article class="user-card reveal">
+            <div class="user-role">Developer</div>
+            <h3 class="user-name">Miro K.</h3>
+            <p class="user-desc">Maintains a Eurorack case and a Haskell compiler. Uses VEKTRA to prototype control surfaces before soldering.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-viz" id="viz">
+      <div class="section-inner">
+        <div class="section-label reveal">004 — Signals</div>
+        <h2 class="section-heading reveal">Data in motion</h2>
+        <p class="section-lead reveal">A live waveform and spectrum view of a generative patch. Hover to inspect. <a href="viz.html" class="text-link">Open full visualization →</a></p>
+        <div class="viz-preview reveal">
+          <canvas id="viz-preview" aria-label="Waveform preview of a generative audio signal" width="800" height="200"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-contact" id="contact">
+      <div class="section-inner section-inner--tight">
+        <div class="contact-block reveal">
+          <h2 class="section-heading">Request access</h2>
+          <p>VEKTRA is in private beta. We invite composers, artists, and researchers to join the first cohort.</p>
+          <a href="mailto:hello@vektra.studio" class="btn btn-primary">hello@vektra.studio</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <span class="mono-label">VEKTRA GmbH</span>
+        <span class="mono-label">Torstraße 127<br>10119 Berlin</span>
+      </div>
+      <div class="footer-right">
+        <a href="viz.html">Signals</a>
+        <a href="../brand/styleguide.html">Style guide</a>
+        <span class="mono-label footer-note">Everything is inspectable, forkable, and alive.</span>
+      </div>
+      <div class="footer-bottom">
+        <span class="mono-label">© 2026 VEKTRA. No rights reserved. Fork it.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

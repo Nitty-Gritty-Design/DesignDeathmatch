@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA v2 — Logo Animation</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#08080A;display:flex;justify-content:center;align-items:center;min-height:100vh;overflow:hidden}
+
+.logo-stage{position:relative;display:flex;align-items:center;gap:40px}
+
+/* Scan line effect behind everything */
+.scanlines{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;
+  background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(240,160,0,0.008) 2px,rgba(240,160,0,0.008) 4px);
+  opacity:0;animation:scanIn 800ms 200ms ease-out forwards}
+@keyframes scanIn{to{opacity:1}}
+
+/* Mark container */
+.mark{position:relative;width:88px;height:88px}
+
+/* Ghost envelope — fades in first */
+.mark .envelope{stroke-dasharray:300;stroke-dashoffset:300;
+  animation:traceEnv 1400ms 400ms cubic-bezier(0.22,1,0.36,1) forwards}
+@keyframes traceEnv{to{stroke-dashoffset:0}}
+
+/* Primary signal path */
+.mark .signal{stroke-dasharray:240;stroke-dashoffset:240;
+  animation:traceSignal 900ms 600ms cubic-bezier(0.22,1,0.36,1) forwards}
+@keyframes traceSignal{to{stroke-dashoffset:0}}
+
+/* Signal nodes pulse in after trace */
+.mark .node{opacity:0;transform-origin:center;transform:scale(0);
+  animation:nodeIn 400ms cubic-bezier(0.34,1.56,0.64,1) forwards}
+.mark .node:nth-child(3){animation-delay:1200ms}
+.mark .node:nth-child(4){animation-delay:1350ms}
+.mark .node:nth-child(5){animation-delay:1500ms}
+.mark .node:nth-child(6){animation-delay:1650ms}
+@keyframes nodeIn{to{opacity:1;transform:scale(1)}}
+
+/* Accent flash on trace completion */
+.mark .signal{animation:traceSignal 900ms 600ms cubic-bezier(0.22,1,0.36,1) forwards,
+  accentFlash 600ms 1500ms ease-out forwards}
+@keyframes accentFlash{0%{stroke:#EDEBE6}30%{stroke:#F0A000;filter:drop-shadow(0 0 8px rgba(240,160,0,0.6))}100%{stroke:#EDEBE6;filter:none}}
+
+/* Logotype characters */
+.logotype{display:flex;gap:2px;font-family:'JetBrains Mono',monospace;font-size:44px;font-weight:500;letter-spacing:0.2em}
+.logotype span{color:#EDEBE6;opacity:0;transform:translateY(8px);
+  animation:charIn 280ms cubic-bezier(0.22,1,0.36,1) forwards}
+.logotype span:nth-child(1){animation-delay:1700ms}
+.logotype span:nth-child(2){animation-delay:1780ms}
+.logotype span:nth-child(3){animation-delay:1860ms}
+.logotype span:nth-child(4){animation-delay:1940ms}
+.logotype span:nth-child(5){animation-delay:2020ms}
+.logotype span:nth-child(6){animation-delay:2100ms}
+@keyframes charIn{to{opacity:1;transform:translateY(0)}}
+
+/* Sub-descriptor */
+.descriptor{position:absolute;bottom:-28px;left:0;font-family:'JetBrains Mono',monospace;
+  font-size:9px;letter-spacing:0.3em;color:#4E4C46;opacity:0;
+  animation:descIn 500ms 2400ms cubic-bezier(0.22,1,0.36,1) forwards}
+@keyframes descIn{to{opacity:1}}
+
+/* Terminal cursor */
+.cursor{width:2px;height:44px;background:#F0A000;align-self:center;opacity:0;
+  animation:cursorOn 80ms 2200ms forwards,cursorBlink 700ms 2200ms steps(1) 3}
+@keyframes cursorOn{to{opacity:1}}
+@keyframes cursorBlink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+/* Bottom status line */
+.status{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;color:#4E4C46;
+  opacity:0;animation:descIn 500ms 2800ms cubic-bezier(0.22,1,0.36,1) forwards}
+.status .dot{display:inline-block;width:5px;height:5px;border-radius:50%;background:#34C06A;
+  margin-right:6px;vertical-align:middle}
+
+/* Replay */
+.replay{position:fixed;bottom:24px;right:24px;background:none;border:1px solid #1E1E24;
+  color:#8E8C84;font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.1em;
+  padding:6px 14px;cursor:pointer;transition:all 320ms cubic-bezier(0.22,1,0.36,1);
+  opacity:0;animation:descIn 400ms 3200ms ease forwards}
+.replay:hover{border-color:#F0A000;color:#F0A000}
+</style>
+</head>
+<body>
+<div class="scanlines"></div>
+
+<div class="logo-stage" id="stage">
+  <svg class="mark" viewBox="0 0 80 80" width="88" height="88">
+    <path class="envelope" d="M4,64 C10,22 18,6 28,14 C38,22 32,50 40,58 C48,66 52,32 58,18 C64,4 70,42 64,64"
+          fill="none" stroke="#EDEBE6" stroke-width="1.5" stroke-linecap="round" opacity="0.15"/>
+    <path class="signal" d="M6,62 L20,10 L34,54 L46,16 L58,48 L70,6"
+          fill="none" stroke="#EDEBE6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle class="node" cx="6" cy="62" r="2.5" fill="#F0A000"/>
+    <circle class="node" cx="34" cy="54" r="2" fill="#F0A000" opacity="0.6"/>
+    <circle class="node" cx="58" cy="48" r="2" fill="#F0A000" opacity="0.4"/>
+    <circle class="node" cx="70" cy="6" r="2.5" fill="#F0A000"/>
+  </svg>
+
+  <div style="position:relative">
+    <div class="logotype">
+      <span>V</span><span>E</span><span>K</span><span>T</span><span>R</span><span>A</span>
+    </div>
+    <div class="descriptor">GENERATIVE INSTRUMENTS</div>
+  </div>
+
+  <div class="cursor"></div>
+</div>
+
+<div class="status"><span class="dot"></span>SIGNAL LOCKED — ALL SYSTEMS NOMINAL</div>
+<button class="replay" onclick="location.reload()">REPLAY ↻</button>
+</body>
+</html>

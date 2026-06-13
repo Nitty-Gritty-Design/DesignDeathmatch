@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Field</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    html, body { margin: 0; padding: 0; width: 100%; height: 100%; background: #0D0C0B; overflow: hidden; }
+    canvas { display: block; position: fixed; inset: 0; width: 100%; height: 100%; }
+    .overlay {
+      position: fixed; top: 24px; left: 28px; z-index: 2;
+      font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: 0.18em; text-transform: uppercase; color: #A09D96; pointer-events: none;
+    }
+    .overlay strong { color: #FF4D2A; font-weight: 600; }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div>VEKTRA <strong>signal field</strong></div>
+    <div style="margin-top:6px;">move cursor to modulate · 60 fps target</div>
+  </div>
+  <canvas id="sig" aria-hidden="true"></canvas>
+  <script>
+    (function () {
+      const canvas = document.getElementById('sig');
+      const ctx = canvas.getContext('2d');
+      let W, H, mx = 0.5, my = 0.5, frame = 0;
+
+      function resize () {
+        W = canvas.width = window.innerWidth;
+        H = canvas.height = window.innerHeight;
+      }
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+
+      window.addEventListener('mousemove', e => {
+        mx = e.clientX / W;
+        my = e.clientY / H;
+      }, { passive: true });
+
+      function draw (t) {
+        ctx.fillStyle = '#0D0C0B';
+        ctx.fillRect(0, 0, W, H);
+
+        const lines = 40;
+        const baseAlpha = 0.12 + my * 0.18;
+
+        ctx.lineWidth = 1;
+        for (let i = 0; i < lines; i++) {
+          const p = i / lines;
+          const yBase = H * 0.04 + H * 0.92 * p;
+          const amp = 5 + Math.sin(p * Math.PI) * 28;
+          const freq = 0.003 + p * 0.007;
+          const spd = 0.00035 + p * 0.00025;
+          const hueShift = (mx - 0.5) * 0.15;
+
+          const alpha = baseAlpha * (0.4 + Math.sin(p * Math.PI) * 0.6);
+          ctx.strokeStyle = i === Math.floor(lines / 2)
+            ? 'rgba(255, 77, 42,' + Math.min(1, alpha + 0.25) + ')'
+            : 'rgba(160, 157, 150,' + alpha + ')';
+
+          ctx.beginPath();
+          for (let x = 0; x <= W; x += 3) {
+            const wave = Math.sin((x * freq) + (t * spd) + (p * 3.2) + hueShift) * amp;
+            const mouseInf = Math.sin((x / W) * Math.PI) * mx * 14;
+            const y = yBase + wave + mouseInf;
+            if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+
+        // Central node tracker
+        const tx = mx * W;
+        const ty = H * 0.5 + Math.sin((frame * 0.015) + (mx * 3)) * (20 + my * 30);
+        ctx.fillStyle = 'rgba(255, 77, 42, 0.9)';
+        ctx.beginPath(); ctx.arc(tx, ty, 2.8, 0, Math.PI * 2); ctx.fill();
+        ctx.strokeStyle = 'rgba(255, 77, 42, 0.22)';
+        ctx.lineWidth = 1;
+        ctx.beginPath(); ctx.arc(tx, ty, 20 + Math.sin(t * 0.0008) * 5, 0, Math.PI * 2); ctx.stroke();
+
+        frame++;
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  VEKTRA v2 — Mark only
+  A precise Λ with a signal dot at the apex. Square viewBox.
+  Optimized for 24–32px usage (favicon, mobile nav, loading).
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" role="img" aria-label="VEKTRA mark">
+  <title>VEKTRA mark</title>
+  <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 60 L40 14 L70 60"/>
+  </g>
+  <circle cx="40" cy="14" r="3.5" fill="#FF5C1F"/>
+</svg>

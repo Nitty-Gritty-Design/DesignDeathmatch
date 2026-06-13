@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA v2 Style Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: var(--v2-font-sans);
+      font-size: var(--v2-text-base);
+      line-height: var(--v2-leading-normal);
+      background: var(--v2-color-bg-primary);
+      color: var(--v2-color-text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    :focus-visible { outline: 2px solid var(--v2-color-accent); outline-offset: 3px; }
+
+    .sg-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--v2-space-4) var(--v2-space-7);
+      background: rgba(var(--v2-color-bg-primary-rgb), 0.9);
+      backdrop-filter: var(--v2-blur-md);
+      border-bottom: 1px solid var(--v2-color-border-subtle);
+    }
+
+    .sg-header__brand {
+      display: flex;
+      align-items: center;
+      gap: var(--v2-space-3);
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+    .sg-header__brand svg { color: var(--v2-color-text-primary); }
+
+    .sg-nav {
+      display: flex;
+      gap: var(--v2-space-5);
+      font-size: var(--v2-text-sm);
+      color: var(--v2-color-text-secondary);
+    }
+    .sg-nav a { transition: color var(--v2-transition-fast); }
+    .sg-nav a:hover { color: var(--v2-color-accent); }
+
+    .sg-section {
+      padding: var(--v2-space-11) var(--v2-space-7);
+      border-bottom: 1px solid var(--v2-color-border-subtle);
+    }
+
+    .sg-section__title {
+      margin: 0 0 var(--v2-space-6);
+      font-size: var(--v2-text-3xl);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+
+    .sg-section__intro {
+      max-width: 640px;
+      color: var(--v2-color-text-secondary);
+      margin-bottom: var(--v2-space-8);
+      line-height: var(--v2-leading-relaxed);
+    }
+
+    .sg-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: var(--v2-space-5);
+    }
+
+    .sg-swatch {
+      border: 1px solid var(--v2-color-border);
+      overflow: hidden;
+      background: var(--v2-color-surface);
+      transition: transform var(--v2-transition-base), border-color var(--v2-transition-base);
+    }
+    .sg-swatch:hover {
+      transform: translateY(-4px);
+      border-color: var(--v2-color-accent-soft);
+    }
+
+    .sg-swatch__block {
+      height: 130px;
+      display: grid;
+      place-items: center;
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+    }
+
+    .sg-swatch__info {
+      padding: var(--v2-space-4);
+      border-top: 1px solid var(--v2-color-border);
+    }
+
+    .sg-swatch__name {
+      display: block;
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+      color: var(--v2-color-accent);
+      margin-bottom: var(--v2-space-1);
+    }
+
+    .sg-swatch__hex {
+      display: block;
+      font-size: var(--v2-text-sm);
+      color: var(--v2-color-text-primary);
+    }
+
+    .sg-swatch__use {
+      display: block;
+      font-size: var(--v2-text-xs);
+      color: var(--v2-color-text-muted);
+      margin-top: var(--v2-space-1);
+      line-height: var(--v2-leading-snug);
+    }
+
+    .sg-type-stack { display: grid; gap: var(--v2-space-7); }
+
+    .sg-type-sample {
+      padding: var(--v2-space-6) 0;
+      border-bottom: 1px solid var(--v2-color-border);
+    }
+
+    .sg-type-sample__label {
+      display: block;
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+      color: var(--v2-color-text-muted);
+      margin-bottom: var(--v2-space-3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .sg-type-hero {
+      font-size: var(--v2-text-hero);
+      line-height: var(--v2-leading-tight);
+      font-weight: 700;
+      letter-spacing: -0.045em;
+    }
+
+    .sg-type-display-mono {
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-3xl);
+      font-weight: 600;
+      line-height: var(--v2-leading-tight);
+      color: var(--v2-color-accent);
+    }
+
+    .sg-logo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--v2-space-5);
+    }
+
+    .sg-logo-card {
+      border: 1px solid var(--v2-color-border);
+      padding: var(--v2-space-7);
+      display: grid;
+      place-items: center;
+      min-height: 220px;
+      transition: border-color var(--v2-transition-base);
+    }
+    .sg-logo-card:hover { border-color: var(--v2-color-accent-soft); }
+    .sg-logo-card--dark { background: var(--v2-color-bg-primary); }
+    .sg-logo-card--light { background: var(--v2-color-bg-secondary); }
+    .sg-logo-card--accent { background: var(--v2-color-bg-secondary); }
+
+    .sg-logo-card img,
+    .sg-logo-card svg {
+      max-width: 200px;
+      height: auto;
+    }
+
+    .sg-logo-card__caption {
+      margin-top: var(--v2-space-5);
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+      color: var(--v2-color-text-muted);
+      text-align: center;
+    }
+
+    .sg-anim-stage {
+      border: 1px solid var(--v2-color-border);
+      padding: var(--v2-space-9) var(--v2-space-7);
+      display: grid;
+      place-items: center;
+      gap: var(--v2-space-5);
+      background: var(--v2-color-bg-secondary);
+    }
+
+    .sg-anim-stage iframe {
+      width: 100%;
+      max-width: 460px;
+      height: 280px;
+      border: 1px solid var(--v2-color-border);
+      background: var(--v2-color-bg-primary);
+    }
+
+    .sg-component-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: var(--v2-space-5);
+    }
+
+    .sg-component-card {
+      border: 1px solid var(--v2-color-border);
+      padding: var(--v2-space-6);
+      background: var(--v2-color-surface);
+    }
+
+    .sg-component-card__title {
+      margin: 0 0 var(--v2-space-5);
+      font-size: var(--v2-text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--v2-color-text-muted);
+    }
+
+    .btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--v2-space-2);
+      padding: var(--v2-space-3) var(--v2-space-5);
+      font-family: var(--v2-font-sans);
+      font-size: var(--v2-text-sm);
+      font-weight: 500;
+      border: 1px solid var(--v2-color-border);
+      border-radius: var(--v2-radius);
+      background: var(--v2-color-surface);
+      color: var(--v2-color-text-primary);
+      cursor: crosshair;
+      overflow: hidden;
+      transition: border-color var(--v2-transition-base), transform var(--v2-transition-fast), box-shadow var(--v2-transition-base);
+    }
+    .btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent 30%, var(--v2-color-accent-dim) 50%, transparent 70%);
+      transform: translateX(-100%);
+      transition: transform var(--v2-transition-slow);
+    }
+    .btn:hover {
+      border-color: var(--v2-color-accent);
+      transform: translateY(-2px);
+      box-shadow: var(--v2-glow-accent-sm);
+    }
+    .btn:hover::before { transform: translateX(100%); }
+    .btn span { position: relative; z-index: 1; }
+    .btn--primary { background: var(--v2-color-accent); color: var(--v2-color-black); border-color: var(--v2-color-accent); }
+    .btn--primary:hover { background: var(--v2-color-white); border-color: var(--v2-color-white); box-shadow: var(--v2-glow-accent); }
+    .btn--ghost { background: transparent; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; border-color: var(--v2-color-border); }
+
+    .input {
+      width: 100%;
+      padding: var(--v2-space-3);
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-sm);
+      background: var(--v2-color-bg-primary);
+      color: var(--v2-color-text-primary);
+      border: 1px solid var(--v2-color-border);
+      outline: none;
+      transition: border-color var(--v2-transition-base), box-shadow var(--v2-transition-base);
+    }
+    .input:focus { border-color: var(--v2-color-accent); box-shadow: 0 0 0 3px var(--v2-color-accent-dim); }
+
+    .code-block {
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-sm);
+      line-height: var(--v2-leading-snug);
+      background: var(--v2-color-bg-primary);
+      border: 1px solid var(--v2-color-border);
+      padding: var(--v2-space-4);
+      color: var(--v2-color-text-secondary);
+      overflow-x: auto;
+    }
+    .code-block .kw { color: var(--v2-color-accent); }
+    .code-block .fn { color: var(--v2-color-text-primary); }
+    .code-block .st { color: var(--v2-color-text-muted); }
+
+    .card {
+      padding: var(--v2-space-5);
+      background: var(--v2-color-surface);
+      border: 1px solid var(--v2-color-border);
+      transition: border-color var(--v2-transition-base), transform var(--v2-transition-base);
+    }
+    .card:hover { border-color: var(--v2-color-accent-soft); transform: translateY(-3px); }
+
+    .badge {
+      display: inline-block;
+      padding: var(--v2-space-1) var(--v2-space-2);
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+      border: 1px solid var(--v2-color-border);
+      color: var(--v2-color-text-secondary);
+      background: var(--v2-color-bg-secondary);
+    }
+    .badge--accent { border-color: var(--v2-color-accent); color: var(--v2-color-accent); background: var(--v2-color-accent-dim); }
+
+    .sg-navbar-demo {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--v2-space-3) var(--v2-space-4);
+      background: rgba(var(--v2-color-bg-primary-rgb), 0.8);
+      border: 1px solid var(--v2-color-border);
+      backdrop-filter: var(--v2-blur-sm);
+    }
+
+    .sg-motion-row {
+      display: grid;
+      gap: var(--v2-space-5);
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      margin-top: var(--v2-space-7);
+    }
+
+    .sg-motion-card {
+      border: 1px solid var(--v2-color-border);
+      padding: var(--v2-space-5);
+      background: var(--v2-color-surface);
+    }
+
+    .sg-motion-card__label {
+      display: block;
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+      color: var(--v2-color-text-muted);
+      margin-bottom: var(--v2-space-3);
+    }
+
+    .sg-demo-box {
+      width: 72px;
+      height: 72px;
+      background: var(--v2-color-accent);
+      cursor: crosshair;
+      transition: transform var(--v2-transition-spring);
+    }
+    .sg-demo-box:hover { transform: scale(1.12) rotate(6deg); }
+
+    .sg-entrance-target {
+      width: 100%;
+      padding: var(--v2-space-5);
+      background: var(--v2-color-bg-primary);
+      border: 1px solid var(--v2-color-border);
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-sm);
+      color: var(--v2-color-text-secondary);
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 800ms cubic-bezier(0.22, 1, 0.36, 1), transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .sg-entrance-target.is-visible { opacity: 1; transform: translateY(0); }
+
+    .sg-voice-block {
+      max-width: 760px;
+      padding: var(--v2-space-7);
+      background: var(--v2-color-surface);
+      border: 1px solid var(--v2-color-border);
+    }
+
+    .sg-voice-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--v2-space-6);
+      margin: var(--v2-space-6) 0;
+    }
+
+    .sg-voice-list h4 {
+      margin: 0 0 var(--v2-space-2);
+      font-size: var(--v2-text-xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--v2-color-text-muted);
+    }
+
+    .sg-voice-list ul {
+      margin: 0;
+      padding-left: var(--v2-space-4);
+      color: var(--v2-color-text-secondary);
+    }
+
+    .sg-copy-example {
+      margin-top: var(--v2-space-6);
+      padding-top: var(--v2-space-6);
+      border-top: 1px solid var(--v2-color-border);
+    }
+
+    .sg-copy-example__label {
+      display: block;
+      font-family: var(--v2-font-mono);
+      font-size: var(--v2-text-xs);
+      color: var(--v2-color-accent);
+      margin-bottom: var(--v2-space-2);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .sg-copy-example__text {
+      margin: 0;
+      font-size: var(--v2-text-md);
+      color: var(--v2-color-text-primary);
+    }
+
+    @media (min-width: 768px) {
+      .sg-header { padding: var(--v2-space-4) var(--v2-space-9); }
+      .sg-section { padding: var(--v2-space-11) var(--v2-space-9); }
+    }
+  </style>
+</head>
+<body>
+  <header class="sg-header">
+    <a href="../site/index.html" class="sg-header__brand">
+      <svg viewBox="0 0 48 48" width="32" height="32" aria-hidden="true">
+        <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square">
+          <line x1="8" y1="20" x2="18" y2="20" />
+          <line x1="30" y1="20" x2="40" y2="20" />
+          <line x1="8" y1="8" x2="24" y2="40" />
+          <line x1="40" y1="8" x2="24" y2="40" />
+        </g>
+        <circle cx="24" cy="20" r="5" fill="none" stroke="currentColor" stroke-width="3" />
+        <circle cx="24" cy="20" r="2.2" fill="var(--v2-color-bg-primary)" stroke="none" />
+      </svg>
+      <span>VEKTRA v2</span>
+    </a>
+    <nav class="sg-nav" aria-label="Style guide">
+      <a href="#color">Color</a>
+      <a href="#type">Typography</a>
+      <a href="#logo">Logo</a>
+      <a href="#components">Components</a>
+      <a href="#motion">Motion</a>
+      <a href="#voice">Voice</a>
+    </nav>
+  </header>
+
+  <section class="sg-section" id="color">
+    <h2 class="sg-section__title">Color</h2>
+    <p class="sg-section__intro">A deeper, more cinematic palette than v1. The dark surfaces are richer, the accent is more electric, and every token has a role.</p>
+    <div class="sg-swatch-grid">
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-bg-primary);">bg-primary</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-bg-primary</span>
+          <span class="sg-swatch__hex">#080808</span>
+          <span class="sg-swatch__use">Cinematic page background. Near-black with no color cast.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-bg-secondary);">bg-secondary</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-bg-secondary</span>
+          <span class="sg-swatch__hex">#0C0C0C</span>
+          <span class="sg-swatch__use">Section alternation and code surfaces.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-surface);">surface</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-surface</span>
+          <span class="sg-swatch__hex">#141414</span>
+          <span class="sg-swatch__use">Cards, panels, elevated components.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-accent); color: var(--v2-color-black);">accent</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-accent</span>
+          <span class="sg-swatch__hex">#00F5D4</span>
+          <span class="sg-swatch__use">Primary signal. CTAs, active states, data highlights, glows.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-text-primary);">text-primary</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-text-primary</span>
+          <span class="sg-swatch__hex">#F7F7F5</span>
+          <span class="sg-swatch__use">Headlines and body text on dark.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-text-secondary);">text-secondary</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-text-secondary</span>
+          <span class="sg-swatch__hex">#A8A8A0</span>
+          <span class="sg-swatch__use">Supporting copy, captions, inactive labels.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-text-muted);">text-muted</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-text-muted</span>
+          <span class="sg-swatch__hex">#5E5E58</span>
+          <span class="sg-swatch__use">Metadata, axis labels, grid lines.</span>
+        </div>
+      </div>
+      <div class="sg-swatch">
+        <div class="sg-swatch__block" style="background: var(--v2-color-border);">border</div>
+        <div class="sg-swatch__info">
+          <span class="sg-swatch__name">--v2-color-border</span>
+          <span class="sg-swatch__hex">#242422</span>
+          <span class="sg-swatch__use">Dividers, card borders, input outlines.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-section" id="type">
+    <h2 class="sg-section__title">Typography</h2>
+    <p class="sg-section__intro">Two typefaces, pushed further. Space Grotesk carries structure; JetBrains Mono carries precision. The scale is more dramatic, the tracking tighter, the hierarchy sharper.</p>
+    <div class="sg-type-stack">
+      <div class="sg-type-sample">
+        <span class="sg-type-sample__label">Space Grotesk · hero · 700</span>
+        <div class="sg-type-hero">Build systems that see sound.</div>
+      </div>
+      <div class="sg-type-sample">
+        <span class="sg-type-sample__label">JetBrains Mono · display · 600</span>
+        <div class="sg-type-display-mono">and hear motion.</div>
+      </div>
+      <div class="sg-type-sample">
+        <span class="sg-type-sample__label">Space Grotesk · 22px · 600</span>
+        <div style="font-size: var(--v2-text-lg); font-weight: 600;">What it is</div>
+      </div>
+      <div class="sg-type-sample">
+        <span class="sg-type-sample__label">Space Grotesk · 15px · 400 · body</span>
+        <div style="max-width: 65ch; color: var(--v2-color-text-secondary);">Most tools divide the world into picture, sound, and code. VEKTRA treats them as one continuous signal graph. You describe a system: oscillators, cameras, functions, and renderers.</div>
+      </div>
+      <div class="sg-type-sample">
+        <span class="sg-type-sample__label">JetBrains Mono · 11px · 500 · label</span>
+        <div style="font-family: var(--v2-font-mono); font-size: var(--v2-text-xs); color: var(--v2-color-accent); text-transform: uppercase; letter-spacing: 0.12em;">Running · 44.1 kHz</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-section" id="logo">
+    <h2 class="sg-section__title">Logo</h2>
+    <p class="sg-section__intro">The v2 mark is more architectural: a V formed by converging vectors, a waveform axis, and a ring node that reads as aperture or signal source. Built on a 48×48 grid.</p>
+    <div class="sg-logo-grid">
+      <div class="sg-logo-card sg-logo-card--dark">
+        <img src="logo.svg" alt="VEKTRA v2 primary logo on dark">
+        <span class="sg-logo-card__caption">Primary (dark bg)</span>
+      </div>
+      <div class="sg-logo-card sg-logo-card--light">
+        <img src="logo-light.svg" alt="VEKTRA v2 logo on light">
+        <span class="sg-logo-card__caption">Light background</span>
+      </div>
+      <div class="sg-logo-card sg-logo-card--accent">
+        <svg viewBox="0 0 48 48" width="140" height="140" style="color: var(--v2-color-accent);" aria-hidden="true">
+          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square">
+            <line x1="8" y1="20" x2="18" y2="20" />
+            <line x1="30" y1="20" x2="40" y2="20" />
+            <line x1="8" y1="8" x2="24" y2="40" />
+            <line x1="40" y1="8" x2="24" y2="40" />
+          </g>
+          <circle cx="24" cy="20" r="5" fill="none" stroke="currentColor" stroke-width="3" />
+          <circle cx="24" cy="20" r="2.2" fill="var(--v2-color-bg-secondary)" stroke="none" />
+        </svg>
+        <span class="sg-logo-card__caption">Accent mark</span>
+      </div>
+      <div class="sg-logo-card sg-logo-card--dark">
+        <img src="logo-mark.svg" alt="VEKTRA v2 standalone mark" style="width: 72px;">
+        <span class="sg-logo-card__caption">Mark at 72px</span>
+      </div>
+    </div>
+
+    <h3 style="margin-top: var(--v2-space-8); margin-bottom: var(--v2-space-4); font-size: var(--v2-text-lg);">Animated logo</h3>
+    <div class="sg-anim-stage">
+      <iframe id="logo-anim-frame" src="logo-animated.html" title="VEKTRA v2 animated logo"></iframe>
+      <button class="btn" id="replay-logo"><span>Replay animation</span></button>
+    </div>
+  </section>
+
+  <section class="sg-section" id="components">
+    <h2 class="sg-section__title">Components</h2>
+    <div class="sg-component-grid">
+      <div class="sg-component-card">
+        <h4 class="sg-component-card__title">Buttons</h4>
+        <div style="display: flex; flex-wrap: wrap; gap: var(--v2-space-3);">
+          <button class="btn btn--primary"><span>Primary</span></button>
+          <button class="btn"><span>Default</span></button>
+          <button class="btn btn--ghost"><span>Ghost</span></button>
+          <button class="btn" disabled><span>Disabled</span></button>
+        </div>
+      </div>
+      <div class="sg-component-card">
+        <h4 class="sg-component-card__title">Text input</h4>
+        <input class="input" type="text" placeholder="node.frequency = 440" aria-label="Demo input">
+      </div>
+      <div class="sg-component-card">
+        <h4 class="sg-component-card__title">Code block</h4>
+        <pre class="code-block"><span class="kw">osc</span> <span class="fn">sine</span>(<span class="st">440</span>)
+  .modulate(<span class="kw">noise</span>(<span class="st">2</span>))
+  .out()</pre>
+      </div>
+      <div class="sg-component-card">
+        <h4 class="sg-component-card__title">Card</h4>
+        <div class="card" style="max-width: 300px;">
+          <span style="font-family: var(--v2-font-mono); font-size: var(--v2-text-xs); color: var(--v2-color-accent);">NODE</span>
+          <h3 style="margin: var(--v2-space-2) 0; font-size: var(--v2-text-md);">Signal graph</h3>
+          <p style="margin: 0; font-size: var(--v2-text-sm); color: var(--v2-color-text-secondary);">Connect outputs to inputs. The graph is the score.</p>
+        </div>
+      </div>
+      <div class="sg-component-card">
+        <h4 class="sg-component-card__title">Badge / tag</h4>
+        <div style="display: flex; gap: var(--v2-space-2);">
+          <span class="badge">beta</span>
+          <span class="badge badge--accent">signal</span>
+          <span class="badge">v0.8.0</span>
+        </div>
+      </div>
+      <div class="sg-component-card">
+        <h4 class="sg-component-card__title">Navigation bar</h4>
+        <div class="sg-navbar-demo">
+          <span style="font-weight: 500; letter-spacing: -0.02em;">VEKTRA</span>
+          <nav style="display: flex; gap: var(--v2-space-4); font-size: var(--v2-text-sm); color: var(--v2-color-text-secondary);">
+            <a href="#" style="color: var(--v2-color-accent);">Docs</a>
+            <a href="#">Reference</a>
+            <a href="#">Access</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-section" id="motion">
+    <h2 class="sg-section__title">Motion</h2>
+    <p class="sg-section__intro">Every transition is specified with a custom curve. Nothing uses the default ease-in-out. The motion language is springy for UI, smooth for entrances, linear for drifting systems.</p>
+
+    <h3 style="margin-bottom: var(--v2-space-4); font-size: var(--v2-text-lg);">Timing tokens</h3>
+    <div class="code-block" style="max-width: 680px;">
+--v2-transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);<br>
+--v2-transition-base: 300ms cubic-bezier(0.16, 1, 0.3, 1);<br>
+--v2-transition-slow: 600ms cubic-bezier(0.22, 1, 0.36, 1);<br>
+--v2-transition-entrance: 800ms cubic-bezier(0.22, 1, 0.36, 1);<br>
+--v2-transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    </div>
+
+    <div class="sg-motion-row">
+      <div class="sg-motion-card">
+        <span class="sg-motion-card__label">Hover state (spring)</span>
+        <div class="sg-demo-box"></div>
+        <p style="margin-top: var(--v2-space-3); font-size: var(--v2-text-sm); color: var(--v2-color-text-secondary);">Hover the square. Scale and rotation use a spring curve.</p>
+      </div>
+      <div class="sg-motion-card">
+        <span class="sg-motion-card__label">Entrance (scroll-triggered)</span>
+        <button class="btn" id="trigger-entrance"><span>Trigger entrance</span></button>
+        <div class="sg-entrance-target" id="entrance-target" style="margin-top: var(--v2-space-4);">
+          System initialized. Signal locked.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sg-section" id="voice">
+    <h2 class="sg-section__title">Voice</h2>
+    <div class="sg-voice-block">
+      <p style="font-size: var(--v2-text-md); line-height: var(--v2-leading-relaxed); margin: 0;">
+        VEKTRA v2 speaks with the confidence of a finished instrument. We are precise without being cold, technical without being inaccessible, and poetic only when the specificity of the system demands it.
+      </p>
+      <div class="sg-voice-list">
+        <div>
+          <h4>It is</h4>
+          <ul>
+            <li>Precise</li>
+            <li>Resonant</li>
+            <li>Systemic</li>
+            <li>Restrained</li>
+            <li>Alive</li>
+          </ul>
+        </div>
+        <div>
+          <h4>It is not</h4>
+          <ul>
+            <li>Hype-driven</li>
+            <li>Corporate</li>
+            <li>Cutesy</li>
+            <li>Vague</li>
+            <li>Aggressive</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sg-copy-example">
+        <span class="sg-copy-example__label">Hero headline</span>
+        <p class="sg-copy-example__text">Build systems that see sound and hear motion.</p>
+      </div>
+      <div class="sg-copy-example">
+        <span class="sg-copy-example__label">Product description</span>
+        <p class="sg-copy-example__text">VEKTRA is a generative audio-visual instrument where a change in frequency can rewrite a form and a gesture can reroute a patch.</p>
+      </div>
+      <div class="sg-copy-example">
+        <span class="sg-copy-example__label">UI label</span>
+        <p class="sg-copy-example__text">Signal lost. The requested patch is no longer connected.</p>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const replayBtn = document.getElementById('replay-logo');
+    const animFrame = document.getElementById('logo-anim-frame');
+    replayBtn.addEventListener('click', () => {
+      animFrame.src = animFrame.src;
+    });
+
+    const trigger = document.getElementById('trigger-entrance');
+    const target = document.getElementById('entrance-target');
+    trigger.addEventListener('click', () => {
+      target.classList.remove('is-visible');
+      void target.offsetWidth;
+      target.classList.add('is-visible');
+    });
+  </script>
+</body>
+</html>

@@ -1,28 +1,52 @@
 {
   "entries": [
     {
-      "id": "Ling-2.6-1T",
-      "model": "Ling 2.6 1T",
-      "version": "2026-05-01",
-      "runDate": "2026-05-01",
-      "site": "runs/Ling-2.6-1T/VEKTRA/v2/site/index.html",
-      "v1_site": "runs/Ling-2.6-1T/VEKTRA/site/index.html",
+      "id": "claude-opus-4.7-thinking",
+      "model": "Claude Opus 4.7 Thinking",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/claude-opus-4.7-thinking/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/claude-opus-4.7-thinking/VEKTRA/site/index.html",
       "score": {
-        "v1": 105,
-        "v2": 105,
-        "automated": 105,
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
         "human": 0,
-        "total": 105
+        "total": 0
       },
       "phases": {
-        "foundation": 8,
-        "logo": 14,
-        "website": 18,
-        "visualization": 12,
-        "styleguide": 11,
-        "wildcard": 10
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
       },
-      "wildcard": "custom"
+      "wildcard": "unknown"
+    },
+    {
+      "id": "claude-sonnet-4.6-thinking",
+      "model": "Claude Sonnet 4.6 Thinking",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/claude-sonnet-4.6-thinking/VEKTRA/v2/index.html",
+      "v1_site": "runs/claude-sonnet-4.6-thinking/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
     },
     {
       "id": "claude-sonnet-4.7-thinking",
@@ -121,6 +145,30 @@
       "wildcard": "generative-logo"
     },
     {
+      "id": "gemini-3.5-flash-high",
+      "model": "Gemini 3.5 Flash High",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/gemini-3.5-flash-high/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/gemini-3.5-flash-high/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
+    },
+    {
       "id": "laguna-m.1",
       "model": "Laguna M.1",
       "version": "2026-05-01",
@@ -145,6 +193,54 @@
       "wildcard": "intro"
     },
     {
+      "id": "Ling-2.6-1T",
+      "model": "Ling 2.6 1T",
+      "version": "2026-05-01",
+      "runDate": "2026-05-01",
+      "site": "runs/Ling-2.6-1T/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/Ling-2.6-1T/VEKTRA/site/index.html",
+      "score": {
+        "v1": 105,
+        "v2": 105,
+        "automated": 105,
+        "human": 0,
+        "total": 105
+      },
+      "phases": {
+        "foundation": 8,
+        "logo": 14,
+        "website": 18,
+        "visualization": 12,
+        "styleguide": 11,
+        "wildcard": 10
+      },
+      "wildcard": "custom"
+    },
+    {
+      "id": "minimax-m3",
+      "model": "Minimax M3",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/minimax-m3/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/minimax-m3/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
+    },
+    {
       "id": "moonshotai-kimi-k2.6",
       "model": "Moonshotai Kimi K2.6",
       "version": "2026-05-03",
@@ -157,6 +253,54 @@
         "automated": 105,
         "human": 0,
         "total": 105
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
+    },
+    {
+      "id": "moonshotai-kimi-k2.7-code",
+      "model": "Moonshotai Kimi K2.7 Code",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/moonshotai-kimi-k2.7-code/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/moonshotai-kimi-k2.7-code/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
+    },
+    {
+      "id": "nvidia-nemoton-3-super",
+      "model": "Nvidia Nemoton 3 Super",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/nvidia-nemoton-3-super/VEKTRA/site/index.html",
+      "v1_site": "runs/nvidia-nemoton-3-super/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
       },
       "phases": {
         "foundation": 10,
@@ -193,6 +337,30 @@
       "wildcard": "generative-background"
     },
     {
+      "id": "step-3.7-flash-high",
+      "model": "Step 3.7 Flash High",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/step-3.7-flash-high/VEKTRA/v2/site/index_v2.html",
+      "v1_site": "runs/step-3.7-flash-high/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
+    },
+    {
       "id": "tencent-hy3-preview",
       "model": "Tencent HY3 Preview",
       "version": "2026-05-02",
@@ -215,6 +383,30 @@
         "wildcard": 16
       },
       "wildcard": "background"
+    },
+    {
+      "id": "z.ai-glm-5.1-thinking",
+      "model": "Z.ai Glm 5.1 Thinking",
+      "version": "2026-06-13",
+      "runDate": "2026-06-13",
+      "site": "runs/z.ai-glm-5.1-thinking/VEKTRA/v2/site/index.html",
+      "v1_site": "runs/z.ai-glm-5.1-thinking/VEKTRA/site/index.html",
+      "score": {
+        "v1": 0,
+        "v2": 0,
+        "automated": 0,
+        "human": 0,
+        "total": 0
+      },
+      "phases": {
+        "foundation": 10,
+        "logo": 20,
+        "website": 25,
+        "visualization": 20,
+        "styleguide": 17.5,
+        "wildcard": 25
+      },
+      "wildcard": "unknown"
     }
   ]
 }

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" width="56" height="56" role="img" aria-label="VEKTRA mark">
+  <title>VEKTRA mark</title>
+  <!--
+    VEKTRA standalone mark v2 — centered in 56×56 for icon use
+    The oscilloscope event mark holds at 32px:
+    - Apex dot is the dominant feature (visible at any size)
+    - Two arms create clear directional V shape
+    - Ground line anchors the form
+    At 32px: renders as a bright dot with two angled lines — unambiguous, ownable
+  -->
+  <line x1="4" y1="50" x2="60" y2="50" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+  <line x1="6" y1="50" x2="28" y2="8" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="28" y1="8" x2="50" y2="50" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+  <circle cx="28" cy="8" r="4" fill="#E8FF47"/>
+  <circle cx="6" cy="50" r="2" fill="#E8FF47" opacity="0.35"/>
+  <circle cx="50" cy="50" r="2" fill="#E8FF47" opacity="0.35"/>
+</svg>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  VEKTRA v2 — Mark + Logotype
+  ------------------------------------------------------------
+  The mark is a precise geometric peak: two stroke lines
+  meeting at an apex (a vector pointing up, a sample in
+  the time domain, a Λ / inverted V). A small filled
+  dot at the apex marks "the moment" — the transient, the
+  transient peak, the moment the signal arrives. The dot
+  is the only element in accent. Everything else is ink.
+
+  Geometry (viewBox 0 0 80 80, scale freely):
+    Left base:  (10, 60)
+    Right base: (70, 60)
+    Apex:       (40, 14)
+    Apex dot:   (40, 14)  r=3
+    Stroke:     4px, round caps, round joins
+  Aspect ratio is fixed (1:1). Wordmark is "VEKTRA" in
+  JetBrains Mono 500 with custom tracking. A faint
+  baseline rule under the wordmark ties the mark and
+  the type to the same horizontal grid.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 80" role="img" aria-label="VEKTRA">
+  <title>VEKTRA</title>
+  <defs>
+    <style>
+      .ink   { fill: currentColor; }
+      .ink-s { stroke: currentColor; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; fill: none; }
+      .signal{ fill: var(--accent-ref, #FF5C1F); }
+      .type  { fill: currentColor; font-family: "JetBrains Mono", ui-monospace, monospace; font-weight: 500; font-size: 36px; letter-spacing: 0.16em; }
+      .rule  { stroke: currentColor; stroke-width: 1; opacity: 0.3; }
+    </style>
+  </defs>
+
+  <!-- mark -->
+  <g aria-hidden="true">
+    <path class="ink-s" d="M10 60 L40 14 L70 60"/>
+    <circle class="signal" cx="40" cy="14" r="3.5"/>
+  </g>
+
+  <!-- divider rule -->
+  <line class="rule" x1="92" y1="20" x2="92" y2="60"/>
+
+  <!-- wordmark -->
+  <text class="type" x="108" y="50">VEKTRA</text>
+
+  <!-- baseline tick (the "ground") -->
+  <line class="rule" x1="108" y1="62" x2="320" y2="62"/>
+</svg>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Logo Animation</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #0A0A0C;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+    }
+
+    /* ── Mark: SVG trace animation ── */
+    .logo-mark polyline {
+      stroke: #E8E6E1;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      stroke-dasharray: 260;
+      stroke-dashoffset: 260;
+      animation: traceMark 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes traceMark {
+      0%   { stroke-dashoffset: 260; }
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* ── Accent pulse after trace ── */
+    .logo-mark polyline {
+      animation:
+        traceMark 1200ms cubic-bezier(0.16, 1, 0.3, 1) forwards,
+        accentPulse 600ms cubic-bezier(0.65, 0, 0.35, 1) 1200ms forwards;
+    }
+
+    @keyframes accentPulse {
+      0%   { stroke: #E8E6E1; }
+      40%  { stroke: #E8A012; }
+      100% { stroke: #E8E6E1; }
+    }
+
+    /* ── Logotype: characters appear sequentially ── */
+    .logotype {
+      display: flex;
+      gap: 4px;
+    }
+
+    .logotype span {
+      font-size: 42px;
+      font-weight: 500;
+      letter-spacing: 0.16em;
+      color: #E8E6E1;
+      opacity: 0;
+      transform: translateY(6px);
+      animation: charReveal 200ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes charReveal {
+      0%   { opacity: 0; transform: translateY(6px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Staggered delay: mark finishes at 1200ms, gap 200ms, then 100ms per char */
+    .logotype span:nth-child(1) { animation-delay: 1400ms; }
+    .logotype span:nth-child(2) { animation-delay: 1500ms; }
+    .logotype span:nth-child(3) { animation-delay: 1600ms; }
+    .logotype span:nth-child(4) { animation-delay: 1700ms; }
+    .logotype span:nth-child(5) { animation-delay: 1800ms; }
+    .logotype span:nth-child(6) { animation-delay: 1900ms; }
+
+    /* ── Cursor blink after reveal ── */
+    .cursor {
+      width: 2px;
+      height: 42px;
+      background: #E8A012;
+      opacity: 0;
+      animation: cursorAppear 100ms 2100ms forwards, cursorBlink 800ms 2100ms steps(1) 3;
+      align-self: center;
+      margin-left: 4px;
+    }
+
+    @keyframes cursorAppear {
+      to { opacity: 1; }
+    }
+
+    @keyframes cursorBlink {
+      0%, 50%  { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+
+    /* ── Replay button ── */
+    .replay-btn {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      background: transparent;
+      border: 1px solid #2A2A2F;
+      color: #9E9B93;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      padding: 8px 16px;
+      cursor: pointer;
+      transition: all 280ms cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0;
+      animation: fadeIn 280ms 3200ms forwards;
+    }
+
+    .replay-btn:hover {
+      border-color: #E8A012;
+      color: #E8A012;
+    }
+
+    @keyframes fadeIn {
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-container" id="logoContainer">
+    <!-- Mark -->
+    <svg class="logo-mark" viewBox="0 0 80 80" width="80" height="80">
+      <polyline points="10,62 22,16 38,54 50,24 62,50 74,12" />
+    </svg>
+
+    <!-- Logotype -->
+    <div class="logotype">
+      <span>V</span><span>E</span><span>K</span><span>T</span><span>R</span><span>A</span>
+    </div>
+
+    <!-- Terminal cursor -->
+    <div class="cursor"></div>
+  </div>
+
+  <button class="replay-btn" onclick="replay()">replay ↻</button>
+
+  <script>
+    // Replay resets all animations by cloning the container
+    function replay() {
+      const container = document.getElementById('logoContainer');
+      const clone = container.cloneNode(true);
+      clone.id = 'logoContainer';
+      container.parentNode.replaceChild(clone, container);
+    }
+  </script>
+</body>
+</html>

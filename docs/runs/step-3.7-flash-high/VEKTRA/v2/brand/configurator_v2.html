@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Configurator v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../site/style_v2.css">
+  <style>
+    .config-page {
+      max-width: var(--max-width);
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6) var(--space-24);
+    }
+    .config-grid {
+      display: grid;
+      grid-template-columns: 320px 1fr;
+      gap: var(--space-10);
+      align-items: start;
+    }
+    .config-panel {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      padding: var(--space-6);
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-6));
+    }
+    .config-panel h3 {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: var(--space-5);
+    }
+    .config-group {
+      margin-bottom: var(--space-5);
+    }
+    .config-group label {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-text-secondary);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-2);
+    }
+    .config-group label span {
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+    .config-group input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 3px;
+      background: var(--color-border);
+      outline: none;
+      border-radius: 1px;
+    }
+    .config-group input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 14px; height: 14px;
+      background: var(--color-accent);
+      border-radius: 50%;
+      cursor: crosshair;
+      transition: transform var(--duration-fast) var(--ease-spring);
+    }
+    .config-group input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.3);
+    }
+    .config-preview {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+    .preview-block {
+      background: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      padding: var(--space-6);
+    }
+    .preview-block h4 {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-4);
+    }
+    .preview-headline {
+      font-family: var(--font-mono);
+      font-size: 36px;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-4);
+    }
+    .preview-body {
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--color-text-secondary);
+      line-height: 1.55;
+      margin-bottom: var(--space-4);
+    }
+    .preview-btn-row {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .preview-logo {
+      font-family: var(--font-mono);
+      font-size: 20px;
+      font-weight: 600;
+      letter-spacing: 0.24em;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-3);
+    }
+    .preview-logo-mark {
+      width: 32px; height: 32px;
+      margin-bottom: var(--space-3);
+    }
+    .preview-code {
+      background: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      padding: var(--space-3) var(--space-4);
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+    }
+    @media (max-width: 900px) {
+      .config-grid { grid-template-columns: 1fr; }
+      .config-panel { position: static; }
+    }
+  </style>
+</head>
+<body>
+  <div class="config-page">
+    <header style="margin-bottom: var(--space-12);">
+      <p class="hero-kicker">Brand system v2</p>
+      <h1 class="hero-headline" style="font-size: clamp(36px, 5vw, 56px);">Configurator<span class="accent-dot">.</span></h1>
+      <p class="hero-sub">Live brand token editor. Adjust any value and watch the entire system respond. v2 adds accent-secondary and glow tokens.</p>
+    </header>
+
+    <div class="config-grid">
+      <div class="config-panel">
+        <h3>Tokens</h3>
+
+        <div class="config-group">
+          <label>Accent hue <span id="accent-hue-val">14°</span></label>
+          <input type="range" id="accent-hue" min="0" max="60" value="14">
+        </div>
+
+        <div class="config-group">
+          <label>Surface warmth <span id="surface-warm-val">0.00</span></label>
+          <input type="range" id="surface-warm" min="-0.05" max="0.05" step="0.005" value="0">
+        </div>
+
+        <div class="config-group">
+          <label>Text contrast <span id="text-contrast-val">0.94</span></label>
+          <input type="range" id="text-contrast" min="0.7" max="1" step="0.01" value="0.94">
+        </div>
+
+        <div class="config-group">
+          <label>Border opacity <span id="border-op-val">0.18</span></label>
+          <input type="range" id="border-op" min="0.05" max="0.4" step="0.01" value="0.18">
+        </div>
+
+        <div class="config-group">
+          <label>Glow intensity <span id="glow-int-val">0.35</span></label>
+          <input type="range" id="glow-int" min="0" max="1" step="0.05" value="0.35">
+        </div>
+
+        <div class="config-group">
+          <label>Accent saturation <span id="accent-sat-val">100%</span></label>
+          <input type="range" id="accent-sat" min="50" max="100" value="100">
+        </div>
+
+        <div class="config-group">
+          <label>Space scale <span id="space-scale-val">1.0</span></label>
+          <input type="range" id="space-scale" min="0.75" max="1.5" step="0.05" value="1">
+        </div>
+      </div>
+
+      <div class="config-preview">
+        <div class="preview-block">
+          <h4>Logo + wordmark</h4>
+          <div class="preview-logo-mark">
+            <img src="logo-mark.svg" alt="Logo mark" id="cfg-logo-mark" width="32" height="32">
+          </div>
+          <div class="preview-logo" id="cfg-logo-text">VEKTRA</div>
+          <div class="mono-label" style="color: var(--color-accent); margin-bottom: 6px;">generative instruments</div>
+        </div>
+
+        <div class="preview-block">
+          <h4>Headline</h4>
+          <div class="preview-headline" id="cfg-headline">Signal, form,<br>and time.</div>
+        </div>
+
+        <div class="preview-block">
+          <h4>Body + buttons</h4>
+          <div class="preview-body" id="cfg-body">VEKTRA treats sound, motion, and code as a single signal chain. Change a frequency; watch a shape respond.</div>
+          <div class="preview-btn-row">
+            <a href="#" class="btn btn-primary" id="cfg-btn-primary">Primary action</a>
+            <a href="#" class="btn btn-ghost" id="cfg-btn-ghost">Ghost</a>
+          </div>
+        </div>
+
+        <div class="preview-block">
+          <h4>Code block</h4>
+          <div class="preview-code" id="cfg-code">
+            <span style="color: var(--color-text-muted);">// Live token state</span><br>
+            --color-accent: <span id="code-accent">#FF5C36</span>;<br>
+            --color-bg-primary: <span id="code-bg">#08090B</span>;<br>
+            --color-accent-glow: <span id="code-glow">rgba(255,92,54,0.35)</span>;
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const root = document.documentElement;
+      const inputs = {
+        hue: document.getElementById('accent-hue'),
+        warm: document.getElementById('surface-warm'),
+        contrast: document.getElementById('text-contrast'),
+        borderOp: document.getElementById('border-op'),
+        glow: document.getElementById('glow-int'),
+        sat: document.getElementById('accent-sat'),
+        space: document.getElementById('space-scale'),
+      };
+      const displays = {
+        hue: document.getElementById('accent-hue-val'),
+        warm: document.getElementById('surface-warm-val'),
+        contrast: document.getElementById('text-contrast-val'),
+        borderOp: document.getElementById('border-op-val'),
+        glow: document.getElementById('glow-int-val'),
+        sat: document.getElementById('accent-sat-val'),
+        space: document.getElementById('space-scale-val'),
+      };
+
+      function hslToRgb(h, s, l) {
+        s /= 100; l /= 100;
+        const a = s * Math.min(l, 1 - l);
+        const f = n => { const k = (n + h / 30) % 12; return l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1); };
+        return [Math.round(f(0) * 255), Math.round(f(8) * 255), Math.round(f(4) * 255)];
+      }
+
+      function apply() {
+        const hue = +inputs.hue.value;
+        const warm = +inputs.warm.value;
+        const contrast = +inputs.contrast.value;
+        const borderOp = +inputs.borderOp.value;
+        const glow = +inputs.glow.value;
+        const sat = +inputs.sat.value;
+        const scale = +inputs.space.value;
+
+        displays.hue.textContent = hue + '°';
+        displays.warm.textContent = warm.toFixed(3);
+        displays.contrast.textContent = contrast.toFixed(2);
+        displays.borderOp.textContent = borderOp.toFixed(2);
+        displays.glow.textContent = glow.toFixed(2);
+        displays.sat.textContent = sat + '%';
+        displays.space.textContent = scale.toFixed(2);
+
+        const [ar, ag, ab] = hslToRgb(hue, sat, 55);
+        const [ar2, ag2, ab2] = hslToRgb(hue + 28, sat, 68);
+        const bgR = Math.round(8 + warm * 255);
+        const bgG = Math.round(9 + warm * 255);
+        const bgB = Math.round(11 + warm * 255);
+        const bgPrimary = `rgb(${bgR},${bgG},${bgB})`;
+        const textPrimary = `rgb(${Math.round(bgR * (1 - contrast) + 240 * contrast)},${Math.round(bgG * (1 - contrast) + 238 * contrast)},${Math.round(bgB * (1 - contrast) + 233 * contrast)})`;
+
+        root.style.setProperty('--color-accent', `#${[ar,ag,ab].map(x=>x.toString(16).padStart(2,'0')).join('')}`);
+        root.style.setProperty('--color-accent-secondary', `#${[ar2,ag2,ab2].map(x=>x.toString(16).padStart(2,'0')).join('')}`);
+        root.style.setProperty('--color-bg-primary', bgPrimary);
+        root.style.setProperty('--color-text-primary', textPrimary);
+        root.style.setProperty('--color-border', `rgba(255, 255, 255, ${borderOp})`);
+        root.style.setProperty('--color-accent-glow', `rgba(${ar}, ${ag}, ${ab}, ${glow})`);
+
+        const accentHex = document.getElementById('cfg-logo-mark').src.includes('data') ? '#FF5C36' : 'currentColor';
+        document.getElementById('code-accent').textContent = root.style.getPropertyValue('--color-accent') || '#FF5C36';
+        document.getElementById('code-bg').textContent = bgPrimary;
+        document.getElementById('code-glow').textContent = root.style.getPropertyValue('--color-accent-glow') || 'rgba(255,92,54,0.35)';
+      }
+
+      Object.values(inputs).forEach(input => {
+        input.addEventListener('input', apply);
+      });
+      apply();
+    })();
+  </script>
+</body>
+</html>

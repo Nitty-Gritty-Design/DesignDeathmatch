@@ -1,0 +1,231 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VEKTRA v2 — Style Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--color-bg-primary);color:var(--color-text-primary);font-family:var(--font-sans);-webkit-font-smoothing:antialiased;line-height:1.6}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 80px,var(--color-grid) 80px,var(--color-grid) 81px),repeating-linear-gradient(90deg,transparent,transparent 80px,var(--color-grid) 80px,var(--color-grid) 81px);pointer-events:none;z-index:0}
+.page{max-width:1100px;margin:0 auto;padding:80px 48px;position:relative;z-index:1}
+/* Header */
+.sg-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;padding-bottom:40px;border-bottom:1px solid var(--color-border)}
+.sg-header-left{display:flex;align-items:center;gap:16px}
+.sg-wordmark{font-family:var(--font-mono);font-size:32px;font-weight:700;letter-spacing:-0.03em}
+.sg-version{font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-muted);background:var(--color-bg-secondary);border:1px solid var(--color-border);padding:4px 10px}
+/* Sections */
+.sg-section{margin-top:80px;padding-top:64px;border-top:1px solid var(--color-border)}
+.sg-section-label{font-family:var(--font-mono);font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-accent);margin-bottom:40px}
+/* Colors */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:2px}
+.swatch{padding:20px 16px 14px;position:relative;overflow:hidden}
+.swatch::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:rgba(255,255,255,0.06)}
+.sw-hex{font-family:var(--font-mono);font-size:11px;font-weight:700;margin-bottom:3px}
+.sw-var{font-family:var(--font-mono);font-size:9px;opacity:0.45;margin-bottom:2px}
+.sw-use{font-size:10px;opacity:0.4}
+/* Type */
+.type-row{display:flex;align-items:baseline;gap:40px;padding:20px 0;border-bottom:1px solid var(--color-border)}
+.type-meta{font-family:var(--font-mono);font-size:9px;color:var(--color-text-muted);min-width:160px;flex-shrink:0;line-height:1.6}
+/* Components */
+.comp-group{padding:24px 0;border-bottom:1px solid var(--color-border)}
+.comp-label{font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:16px}
+.comp-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;font-family:var(--font-mono);font-size:10px;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;padding:12px 20px;border:none;cursor:pointer;transition:all 0.14s ease}
+.btn-p{background:var(--color-accent);color:var(--color-text-inverse)}
+.btn-p:hover{background:var(--color-accent-hover);box-shadow:var(--glow-accent);transform:translateY(-2px)}
+.btn-g{background:transparent;color:var(--color-text-secondary);border:1px solid var(--color-border-strong)}
+.btn-g:hover{color:var(--color-accent);border-color:var(--color-accent-border);background:var(--color-accent-dim)}
+.btn-d{background:var(--color-border);color:var(--color-text-muted);cursor:not-allowed;opacity:0.4}
+.inp{font-family:var(--font-mono);font-size:11px;padding:11px 14px;background:var(--color-bg-secondary);border:1px solid var(--color-border);color:var(--color-text-primary);width:280px;outline:none;transition:border-color 0.14s ease}
+.inp:focus{border-color:var(--color-accent)}
+.inp::placeholder{color:var(--color-text-muted)}
+.code-block{font-family:var(--font-mono);font-size:11px;background:var(--color-bg-secondary);border:1px solid var(--color-border);border-left:2px solid var(--color-accent);padding:20px 24px;line-height:1.9;color:var(--color-text-secondary);white-space:pre;overflow-x:auto}
+.kw{color:var(--color-accent)}.str{color:#5A5A66}
+.card{background:var(--color-bg-secondary);border:1px solid var(--color-border);padding:24px;position:relative;overflow:hidden;transition:border-color 0.2s,transform 0.2s}
+.card-bar{position:absolute;top:0;left:0;right:0;height:2px;background:var(--color-accent);transform:scaleX(0);transform-origin:left;transition:transform 0.3s var(--ease-signal,cubic-bezier(0.16,1,0.3,1))}
+.card:hover{border-color:var(--color-accent-border);transform:translateY(-3px)}
+.card:hover .card-bar{transform:scaleX(1)}
+.badge{font-family:var(--font-mono);font-size:9px;letter-spacing:0.08em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--color-border);color:var(--color-text-muted)}
+.badge-a{border-color:var(--color-accent-border);color:var(--color-accent)}
+/* Logo grid */
+.logo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.logo-cell{padding:48px;display:flex;align-items:center;justify-content:center}
+.logo-anim-wrap{background:var(--color-bg-secondary);border:1px solid var(--color-border);margin-top:8px}
+.logo-anim-wrap iframe{width:100%;height:240px;border:none;display:block}
+.replay-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-top:1px solid var(--color-border)}
+.replay-bar span{font-family:var(--font-mono);font-size:9px;color:var(--color-text-muted);letter-spacing:0.08em}
+.rb-btn{font-family:var(--font-mono);font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--color-accent);background:transparent;border:1px solid var(--color-accent-border);padding:6px 14px;cursor:pointer;transition:all 0.14s ease}
+.rb-btn:hover{background:var(--color-accent-dim)}
+/* Motion */
+.motion-table{width:100%;border-collapse:collapse;font-family:var(--font-mono);font-size:10px;margin-bottom:32px}
+.motion-table th{text-align:left;padding:8px 0;color:var(--color-text-muted);border-bottom:1px solid var(--color-border)}
+.motion-table td{padding:8px 0;border-bottom:1px solid var(--color-border)}
+.motion-table td:first-child{color:var(--color-accent)}
+.motion-table td:nth-child(2){color:var(--color-text-secondary)}
+.motion-hover{display:inline-flex;align-items:center;gap:10px;padding:12px 20px;background:var(--color-bg-secondary);border:1px solid var(--color-border);font-family:var(--font-mono);font-size:10px;color:var(--color-text-secondary);cursor:pointer;transition:all 0.24s cubic-bezier(0.16,1,0.3,1)}
+.motion-hover:hover{color:var(--color-text-primary);border-color:var(--color-accent-border);transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,0.4)}
+.entrance-box{display:inline-block;opacity:0;transform:translateY(20px);padding:12px 20px;background:var(--color-surface);border:1px solid var(--color-border);font-family:var(--font-mono);font-size:10px;color:var(--color-accent);transition:opacity 0.5s cubic-bezier(0.16,1,0.3,1),transform 0.5s cubic-bezier(0.16,1,0.3,1)}
+.entrance-box.in{opacity:1;transform:translateY(0)}
+/* Voice */
+.voice-ex{padding:20px;border-left:2px solid var(--color-accent);background:var(--color-bg-secondary);margin-bottom:2px}
+.voice-role{font-family:var(--font-mono);font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--color-text-muted);margin-bottom:8px}
+.voice-text{font-size:15px;line-height:1.65;color:var(--color-text-primary)}
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="sg-header">
+  <div class="sg-header-left">
+    <svg width="36" height="36" viewBox="0 0 56 56" aria-hidden="true">
+      <line x1="2" y1="50" x2="54" y2="50" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+      <line x1="6" y1="50" x2="28" y2="8" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round"/>
+      <line x1="28" y1="8" x2="50" y2="50" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+      <circle cx="28" cy="8" r="4" fill="#E8FF47"/>
+    </svg>
+    <span class="sg-wordmark">Style Guide</span>
+  </div>
+  <span class="sg-version">VEKTRA v2 · 2026</span>
+</div>
+
+<!-- COLORS -->
+<div class="sg-section">
+  <div class="sg-section-label">01 — Color system</div>
+  <div class="swatches">
+    <div class="swatch" style="background:#0A0A0C"><div class="sw-hex">#0A0A0C</div><div class="sw-var">--color-bg-primary</div><div class="sw-use">Primary bg</div></div>
+    <div class="swatch" style="background:#111115"><div class="sw-hex">#111115</div><div class="sw-var">--color-bg-secondary</div><div class="sw-use">Card / panel</div></div>
+    <div class="swatch" style="background:#18181E"><div class="sw-hex">#18181E</div><div class="sw-var">--color-surface</div><div class="sw-use">Elevated</div></div>
+    <div class="swatch" style="background:#E8FF47"><div class="sw-hex" style="color:#0A0A0C">#E8FF47</div><div class="sw-var" style="color:rgba(0,0,0,0.45)">--color-accent</div><div class="sw-use" style="color:rgba(0,0,0,0.35)">Electric chartreuse</div></div>
+    <div class="swatch" style="background:#EDEFF2"><div class="sw-hex" style="color:#0A0A0C">#EDEFF2</div><div class="sw-var" style="color:rgba(0,0,0,0.4)">--color-text-primary</div><div class="sw-use" style="color:rgba(0,0,0,0.3)">Body text</div></div>
+    <div class="swatch" style="background:#8A8A98"><div class="sw-hex" style="color:#0A0A0C">#8A8A98</div><div class="sw-var" style="color:rgba(0,0,0,0.4)">--color-text-secondary</div><div class="sw-use" style="color:rgba(0,0,0,0.3)">Secondary</div></div>
+    <div class="swatch" style="background:#44444E"><div class="sw-hex">#44444E</div><div class="sw-var">--color-text-muted</div><div class="sw-use">Labels</div></div>
+    <div class="swatch" style="background:#1E1E26"><div class="sw-hex">#1E1E26</div><div class="sw-var">--color-border</div><div class="sw-use">Borders</div></div>
+  </div>
+</div>
+
+<!-- TYPOGRAPHY -->
+<div class="sg-section">
+  <div class="sg-section-label">02 — Typography</div>
+  <div class="type-row"><div class="type-meta">JetBrains Mono<br>700 · 96px · hero</div><div style="font-family:'JetBrains Mono',monospace;font-size:clamp(2.5rem,6vw,6rem);font-weight:700;letter-spacing:-0.04em;line-height:1;color:var(--color-accent)">VEKTRA</div></div>
+  <div class="type-row"><div class="type-meta">JetBrains Mono<br>700 · 48px · display</div><div style="font-family:'JetBrains Mono',monospace;font-size:clamp(1.8rem,4vw,3rem);font-weight:700;letter-spacing:-0.03em;line-height:1.05">Sound, motion, code.</div></div>
+  <div class="type-row"><div class="type-meta">JetBrains Mono<br>500 · 28px · sub</div><div style="font-family:'JetBrains Mono',monospace;font-size:1.75rem;font-weight:500;color:var(--color-text-secondary)">patch.connect(osc → filt)</div></div>
+  <div class="type-row"><div class="type-meta">DM Sans<br>400 · 22px · intro</div><div style="font-family:'DM Sans',sans-serif;font-size:1.375rem;color:var(--color-text-secondary);line-height:1.7;max-width:560px">A software environment where time is explicit — not something that happens behind your back.</div></div>
+  <div class="type-row"><div class="type-meta">DM Sans<br>400 · 16px · body</div><div style="font-family:'DM Sans',sans-serif;font-size:1rem;color:var(--color-text-secondary);line-height:1.72;max-width:480px">Every parameter is a node. Every node connects to every other. The graph is the instrument.</div></div>
+  <div class="type-row"><div class="type-meta">JetBrains Mono<br>500 · 10px · label</div><div style="font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:0.18em;text-transform:uppercase;color:var(--color-text-muted)">Berlin · Est. 2019 · v0.9.1-beta</div></div>
+</div>
+
+<!-- LOGO -->
+<div class="sg-section">
+  <div class="sg-section-label">03 — Logo system</div>
+  <div class="logo-grid" style="margin-bottom:2px">
+    <div class="logo-cell" style="background:#0A0A0C"><img src="logo.svg" alt="VEKTRA dark" width="220"></div>
+    <div class="logo-cell" style="background:#18181E"><img src="logo.svg" alt="VEKTRA surface" width="220"></div>
+    <div class="logo-cell" style="background:#F2F2EE"><img src="logo-light.svg" alt="VEKTRA light" width="220"></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-bottom:16px">
+    <div class="logo-cell" style="background:#0A0A0C;padding:32px"><img src="logo-mark.svg" alt="mark 80px" width="80"></div>
+    <div class="logo-cell" style="background:#0A0A0C;padding:40px"><img src="logo-mark.svg" alt="mark 48px" width="48"></div>
+    <div class="logo-cell" style="background:#0A0A0C;padding:44px"><img src="logo-mark.svg" alt="mark 32px" width="32"></div>
+  </div>
+  <div class="logo-anim-wrap">
+    <iframe src="logo-animated.html" id="logo-iframe" title="Animated logo v2" loading="lazy"></iframe>
+    <div class="replay-bar">
+      <span>entrance animation · path-draw SVG · 2.6s · runs once</span>
+      <button class="rb-btn" onclick="document.getElementById('logo-iframe').src=document.getElementById('logo-iframe').src">↺ replay</button>
+    </div>
+  </div>
+</div>
+
+<!-- COMPONENTS -->
+<div class="sg-section">
+  <div class="sg-section-label">04 — Components</div>
+  <div class="comp-group">
+    <div class="comp-label">Buttons</div>
+    <div class="comp-row">
+      <button class="btn btn-p">Request access →</button>
+      <button class="btn btn-g">Explore the graph</button>
+      <button class="btn btn-d" disabled>Unavailable</button>
+    </div>
+  </div>
+  <div class="comp-group">
+    <div class="comp-label">Text input</div>
+    <div class="comp-row"><input class="inp" type="text" placeholder="studio@vektra.studio" aria-label="Email"></div>
+  </div>
+  <div class="comp-group" style="display:block">
+    <div class="comp-label">Code block</div>
+    <pre class="code-block"><span class="kw">patch</span> LivePerf {
+  osc1  = <span class="kw">osc.sine</span>(<span class="str">freq:</span> 220, <span class="str">amp:</span> 0.82)
+  env   = <span class="kw">env.adsr</span>(<span class="str">a:</span> 12ms, <span class="str">d:</span> 80ms, <span class="str">s:</span> 0.6, <span class="str">r:</span> 340ms)
+  filt  = <span class="kw">filt.lpf</span>(<span class="str">fc:</span> env × 8000)
+  filt → <span class="kw">out.audio</span>
+}</pre>
+  </div>
+  <div class="comp-group">
+    <div class="comp-label">Card</div>
+    <div class="card" style="max-width:300px">
+      <div class="card-bar"></div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:var(--color-accent);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px">01 / signal</div>
+      <div style="font-family:var(--font-mono);font-size:16px;font-weight:700;margin-bottom:8px;letter-spacing:-0.02em">Everything is a signal</div>
+      <div style="font-size:13px;color:var(--color-text-secondary);line-height:1.65">Audio, video, MIDI — one type. Any signal drives any other.</div>
+    </div>
+  </div>
+  <div class="comp-group">
+    <div class="comp-label">Badges / Tags</div>
+    <div class="comp-row">
+      <span class="badge">processor</span>
+      <span class="badge badge-a">● live</span>
+      <span class="badge">source-available</span>
+      <span class="badge">v0.9.1-beta</span>
+    </div>
+  </div>
+</div>
+
+<!-- MOTION -->
+<div class="sg-section">
+  <div class="sg-section-label">05 — Motion system</div>
+  <table class="motion-table">
+    <thead><tr><th>Token</th><th>Curve</th><th>Use</th><th>Duration</th></tr></thead>
+    <tbody>
+      <tr><td>--ease-signal</td><td>cubic-bezier(0.16,1,0.3,1)</td><td>Entrances, reveals</td><td>700ms</td></tr>
+      <tr><td>--ease-out-expo</td><td>cubic-bezier(0.19,1,0.22,1)</td><td>Camera, parallax</td><td>1100ms</td></tr>
+      <tr><td>--ease-snap</td><td>cubic-bezier(0.87,0,0.13,1)</td><td>Aggressive reveals</td><td>380ms</td></tr>
+      <tr><td>--ease-resolve</td><td>cubic-bezier(0.4,0,0.2,1)</td><td>State changes</td><td>240ms</td></tr>
+    </tbody>
+  </table>
+  <div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+    <div class="motion-hover">Hover · --ease-signal · 240ms <span style="color:var(--color-accent);margin-left:4px">→</span></div>
+    <div>
+      <div class="entrance-box" id="ebox">patch initialized · 847ms</div>
+      <button class="rb-btn" style="margin-top:8px;display:block" onclick="trigEnt()">trigger entrance</button>
+    </div>
+  </div>
+</div>
+
+<!-- VOICE -->
+<div class="sg-section">
+  <div class="sg-section-label">06 — Voice</div>
+  <p style="font-family:var(--font-mono);font-size:10px;color:var(--color-text-muted);margin-bottom:24px;line-height:1.8">
+    Precise · Direct · Curious · Dry · Earned.<br>
+    Not: Enthusiastic · Accessible · Empowering · Playful · Aspirational.
+  </p>
+  <div class="voice-ex"><div class="voice-role">Hero headline</div><div class="voice-text" style="font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700">Sound, motion, and code — one graph.</div></div>
+  <div class="voice-ex"><div class="voice-role">Product description</div><div class="voice-text">A software environment where a change in frequency can drive a visual parameter, a gesture can rewrite a patch, and time is explicit — not something that happens behind your back.</div></div>
+  <div class="voice-ex"><div class="voice-role">404 message</div><div class="voice-text" style="font-family:'JetBrains Mono',monospace">This signal path doesn't resolve.<br><span style="color:var(--color-accent)">GET /[path] → 404</span><br><span style="color:var(--color-text-muted)">[← return to root]</span></div></div>
+  <div class="voice-ex"><div class="voice-role">System status</div><div class="voice-text" style="font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--color-text-secondary)">patch saved. 847ms.</div></div>
+</div>
+
+</div>
+<script>
+function trigEnt(){
+  const e=document.getElementById('ebox');
+  e.classList.remove('in');
+  void e.offsetWidth;
+  setTimeout(()=>e.classList.add('in'),50);
+}
+</script>
+</body>
+</html>

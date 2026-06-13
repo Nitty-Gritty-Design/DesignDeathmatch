@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>VEKTRA v2 — system initializing</title>
+<!--
+  v2 entrance animation. Refined over v1:
+   - the apex dot strikes FIRST (the signal arrives)
+   - the two arms draw outward from the apex
+   - the wordmark types in with a per-letter ease
+   - a status line settles last
+   - the "transient" (apex dot) pulses 3x and then holds
+   Total: ~2.6s, plays once, no JS animation libs.
+-->
+<style>
+  :root { color-scheme: dark; }
+  html, body { margin: 0; height: 100%; background: #0D0D0B; color: #F2EFE7; overflow: hidden; }
+  body { display: grid; place-items: center; font-family: "JetBrains Mono", ui-monospace, monospace; }
+
+  .stage { display: flex; align-items: center; gap: 28px; }
+
+  .mark { width: 80px; height: 80px; color: #F2EFE7; }
+  .mark path  { stroke-dasharray: 240; stroke-dashoffset: 240; animation: draw 700ms cubic-bezier(0.65,0,0.35,1) 200ms forwards; }
+  .mark .dot  { transform-origin: 40px 14px; transform: scale(0); animation: strike 380ms cubic-bezier(0.34,1.4,0.64,1) 0ms forwards, trans 1800ms cubic-bezier(0.65,0,0.35,1) 1200ms 3; }
+
+  @keyframes draw   { to { stroke-dashoffset: 0; } }
+  @keyframes strike { 0% { transform: scale(0); } 60% { transform: scale(1.6); } 100% { transform: scale(1); } }
+  @keyframes trans  { 0%,100% { transform: scale(1); } 50% { transform: scale(1.45); } }
+
+  .word { font-size: 36px; font-weight: 500; letter-spacing: 0.16em; display: inline-flex; }
+  .word span { display: inline-block; opacity: 0; transform: translateY(40%); animation: drop 420ms cubic-bezier(0.22,1,0.36,1) forwards; }
+  .word span:nth-child(1) { animation-delay: 1100ms; }
+  .word span:nth-child(2) { animation-delay: 1170ms; }
+  .word span:nth-child(3) { animation-delay: 1240ms; }
+  .word span:nth-child(4) { animation-delay: 1310ms; }
+  .word span:nth-child(5) { animation-delay: 1380ms; }
+  .word span:nth-child(6) { animation-delay: 1450ms; }
+  @keyframes drop { to { opacity: 1; transform: translateY(0); } }
+
+  .caret { display: inline-block; width: 0.55ch; height: 0.85em; background: #FF5C1F; margin-left: 0.3ch; transform: translateY(0.12em); animation: blink 900ms 2200ms steps(2) infinite; }
+  @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+
+  .status {
+    position: fixed; left: 32px; bottom: 24px; display: flex; gap: 16px;
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5A5749;
+  }
+  .status .dot { width: 6px; height: 6px; background: #FF5C1F; border-radius: 50%; box-shadow: 0 0 12px #FF5C1F; animation: pulse 1.8s cubic-bezier(0.65,0,0.35,1) infinite 2400ms; }
+  .status .sep { opacity: 0.3; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+  .meta-r { position: fixed; right: 32px; bottom: 24px; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #5A5749; opacity: 0; animation: fade 600ms ease 1900ms forwards; }
+  @keyframes fade { to { opacity: 1; } }
+</style>
+</head>
+<body>
+  <div class="stage" aria-label="VEKTRA">
+    <svg class="mark" viewBox="0 0 80 80" aria-hidden="true">
+      <path d="M10 60 L40 14 L70 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle class="dot" cx="40" cy="14" r="3.5" fill="#FF5C1F"/>
+    </svg>
+    <div class="word" aria-label="VEKTRA">
+      <span>V</span><span>E</span><span>K</span><span>T</span><span>R</span><span>A</span><span class="caret" aria-hidden="true"></span>
+    </div>
+  </div>
+
+  <div class="status">
+    <span class="dot" aria-hidden="true"></span>
+    <span>signal · acquired</span>
+    <span class="sep">·</span>
+    <span>v0.4.2</span>
+    <span class="sep">·</span>
+    <span>berlin</span>
+  </div>
+  <div class="meta-r">26.06.06 · 15:32:17 utc+2</div>
+</body>
+</html>

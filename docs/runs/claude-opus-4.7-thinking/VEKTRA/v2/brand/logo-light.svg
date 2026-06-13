@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 96" width="480" height="96">
+  <!-- VEKTRA v2 — Light background variant -->
+  <defs><style>@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');</style></defs>
+  <g transform="translate(12,8)">
+    <path d="M4,72 C12,24 20,8 32,16 C44,24 36,56 44,64 C52,72 56,36 64,20 C72,4 80,48 72,72" 
+          fill="none" stroke="#141418" stroke-width="2.5" stroke-linecap="round" opacity="0.15"/>
+    <path d="M8,68 L22,12 L38,58 L50,18 L62,52 L76,8" 
+          fill="none" stroke="#141418" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="8" cy="68" r="2" fill="#C4860A"/>
+    <circle cx="38" cy="58" r="2" fill="#C4860A" opacity="0.7"/>
+    <circle cx="62" cy="52" r="2" fill="#C4860A" opacity="0.5"/>
+    <circle cx="76" cy="8" r="1.5" fill="#C4860A"/>
+  </g>
+  <text x="120" y="62" font-family="'JetBrains Mono',monospace" font-weight="500" font-size="40" letter-spacing="0.2em" fill="#141418">VEKTRA</text>
+  <text x="120" y="80" font-family="'JetBrains Mono',monospace" font-weight="400" font-size="9" letter-spacing="0.3em" fill="#9E9B93">GENERATIVE INSTRUMENTS</text>
+</svg>

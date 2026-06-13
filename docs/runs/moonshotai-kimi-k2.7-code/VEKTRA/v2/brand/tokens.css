@@ -1,0 +1,155 @@
+/*
+ * VEKTRA v2 Brand Tokens
+ * ======================
+ * A refined, premium palette for the second iteration.
+ *
+ * Accent: #00F5D4 — tuned electric cyan. Used as signal, not decoration.
+ * Surfaces are deeper and more cinematic than v1 (#080808 primary).
+ * Light mode is cooler and more clinical, like a high-end instrument manual.
+ *
+ * Naming convention:
+ *   --v2-color-*       : semantic color roles
+ *   --v2-font-*        : typeface stack
+ *   --v2-text-*        : type scale
+ *   --v2-leading-*     : line heights
+ *   --v2-space-*       : spatial rhythm (4px grid)
+ *   --v2-transition-*  : motion language
+ *   --v2-shadow-*      : elevation / glow
+ *   --v2-blur-*        : backdrop / glass effects
+ */
+
+:root {
+  /* Primary accent — tuned electric cyan */
+  --v2-color-accent: #00F5D4;
+  --v2-color-accent-dim: rgba(0, 245, 212, 0.12);
+  --v2-color-accent-soft: rgba(0, 245, 212, 0.22);
+  --v2-color-accent-glow: rgba(0, 245, 212, 0.55);
+  --v2-color-accent-deep: #00B8A0;
+
+  /* Dark mode (default) — cinematic near-black */
+  --v2-color-bg-primary: #080808;
+  --v2-color-bg-primary-rgb: 8, 8, 8;
+  --v2-color-bg-secondary: #0C0C0C;
+  --v2-color-bg-tertiary: #101010;
+  --v2-color-surface: #141414;
+  --v2-color-surface-elevated: #1A1A1A;
+  --v2-color-text-primary: #F7F7F5;
+  --v2-color-text-primary-rgb: 247, 247, 245;
+  --v2-color-text-secondary: #A8A8A0;
+  --v2-color-text-muted: #5E5E58;
+  --v2-color-border: #242422;
+  --v2-color-border-subtle: #181818;
+
+  /* Shared neutrals */
+  --v2-color-black: #030303;
+  --v2-color-white: #F7F7F5;
+
+  /* Typography */
+  --v2-font-mono: "JetBrains Mono", "Fira Code", "SF Mono", Consolas, monospace;
+  --v2-font-sans: "Space Grotesk", "Helvetica Neue", Arial, sans-serif;
+
+  /* Type scale */
+  --v2-text-2xs: 10px;
+  --v2-text-xs: 11px;
+  --v2-text-sm: 13px;
+  --v2-text-base: 15px;
+  --v2-text-md: 17px;
+  --v2-text-lg: 22px;
+  --v2-text-xl: 30px;
+  --v2-text-2xl: 40px;
+  --v2-text-3xl: 56px;
+  --v2-text-4xl: 72px;
+  --v2-text-hero: clamp(64px, 10vw, 120px);
+
+  /* Line heights */
+  --v2-leading-none: 0.88;
+  --v2-leading-tight: 1.0;
+  --v2-leading-snug: 1.15;
+  --v2-leading-normal: 1.5;
+  --v2-leading-relaxed: 1.65;
+
+  /* Spacing (4px base) */
+  --v2-space-0: 2px;
+  --v2-space-1: 4px;
+  --v2-space-2: 8px;
+  --v2-space-3: 12px;
+  --v2-space-4: 16px;
+  --v2-space-5: 24px;
+  --v2-space-6: 32px;
+  --v2-space-7: 48px;
+  --v2-space-8: 64px;
+  --v2-space-9: 96px;
+  --v2-space-10: 128px;
+  --v2-space-11: 160px;
+
+  /* Motion — designed curves */
+  --v2-transition-fast: 150ms cubic-bezier(0.16, 1, 0.3, 1);
+  --v2-transition-base: 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  --v2-transition-slow: 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  --v2-transition-entrance: 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  --v2-transition-spring: 500ms cubic-bezier(0.34, 1.56, 0.64, 1);
+  --v2-transition-drift: 12000ms linear;
+
+  /* Shadows / glows */
+  --v2-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.35);
+  --v2-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --v2-glow-accent: 0 0 24px var(--v2-color-accent-glow);
+  --v2-glow-accent-sm: 0 0 8px var(--v2-color-accent-glow);
+
+  /* Blur / glass */
+  --v2-blur-sm: blur(8px);
+  --v2-blur-md: blur(16px);
+  --v2-blur-lg: blur(28px);
+
+  /* Layout */
+  --v2-max-width: 1320px;
+  --v2-nav-height: 72px;
+  --v2-radius: 0px;
+}
+
+/* Light mode — clinical document */
+@media (prefers-color-scheme: light) {
+  :root {
+    --v2-color-bg-primary: #F4F4F0;
+    --v2-color-bg-primary-rgb: 244, 244, 240;
+    --v2-color-bg-secondary: #EBEBE6;
+    --v2-color-bg-tertiary: #E3E3DD;
+    --v2-color-surface: #FFFFFF;
+    --v2-color-surface-elevated: #FFFFFF;
+    --v2-color-text-primary: #080808;
+    --v2-color-text-primary-rgb: 8, 8, 8;
+    --v2-color-text-secondary: #4A4A44;
+    --v2-color-text-muted: #8A8A82;
+    --v2-color-border: #D9D9D2;
+    --v2-color-border-subtle: #EDECE6;
+    --v2-color-accent: #00BFA5;
+    --v2-color-accent-dim: rgba(0, 191, 165, 0.12);
+    --v2-color-accent-soft: rgba(0, 191, 165, 0.2);
+    --v2-color-accent-glow: rgba(0, 191, 165, 0.35);
+    --v2-color-accent-deep: #008F7A;
+    --v2-color-black: #080808;
+    --v2-color-white: #F4F4F0;
+  }
+}
+
+.light-mode {
+  --v2-color-bg-primary: #F4F4F0;
+  --v2-color-bg-primary-rgb: 244, 244, 240;
+  --v2-color-bg-secondary: #EBEBE6;
+  --v2-color-bg-tertiary: #E3E3DD;
+  --v2-color-surface: #FFFFFF;
+  --v2-color-surface-elevated: #FFFFFF;
+  --v2-color-text-primary: #080808;
+  --v2-color-text-primary-rgb: 8, 8, 8;
+  --v2-color-text-secondary: #4A4A44;
+  --v2-color-text-muted: #8A8A82;
+  --v2-color-border: #D9D9D2;
+  --v2-color-border-subtle: #EDECE6;
+  --v2-color-accent: #00BFA5;
+  --v2-color-accent-dim: rgba(0, 191, 165, 0.12);
+  --v2-color-accent-soft: rgba(0, 191, 165, 0.2);
+  --v2-color-accent-glow: rgba(0, 191, 165, 0.35);
+  --v2-color-accent-deep: #008F7A;
+  --v2-color-black: #080808;
+  --v2-color-white: #F4F4F0;
+}

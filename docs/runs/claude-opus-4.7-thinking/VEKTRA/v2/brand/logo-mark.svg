@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <!-- VEKTRA v2 — Standalone Mark: vectorscope glyph with signal nodes -->
+  <g transform="translate(4,4)">
+    <path d="M4,64 C10,22 18,6 28,14 C38,22 32,50 40,58 C48,66 52,32 58,18 C64,4 70,42 64,64" 
+          fill="none" stroke="#EDEBE6" stroke-width="1.5" stroke-linecap="round" opacity="0.2"/>
+    <path d="M6,62 L20,10 L34,54 L46,16 L58,48 L70,6" 
+          fill="none" stroke="#EDEBE6" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="6" cy="62" r="2.5" fill="#F0A000"/>
+    <circle cx="34" cy="54" r="2" fill="#F0A000" opacity="0.6"/>
+    <circle cx="58" cy="48" r="2" fill="#F0A000" opacity="0.4"/>
+    <circle cx="70" cy="6" r="2.5" fill="#F0A000"/>
+  </g>
+</svg>

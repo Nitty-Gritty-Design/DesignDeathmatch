@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>VEKTRA — Generative Audio-Visual Run-Time</title>
+  <meta name="description" content="VEKTRA is a Berlin-based generative audio-visual instrument and runtime. Sound, motion, and code synthesized as a single signal graph.">
+  <meta name="keywords" content="generative art, audio-visual, music synthesizer, MaxMSP, creative coding, modular synth, live coding">
+  <meta name="author" content="VEKTRA Studio">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Favicon Standalone Mark -->
+  <link rel="icon" type="image/svg+xml" href="../brand/logo-mark.svg">
+</head>
+<body>
+
+  <!-- Generative Background Canvas -->
+  <div id="bg-canvas-container" aria-hidden="true"></div>
+
+  <!-- Sticky Header Navigation -->
+  <header class="header" id="main-header">
+    <div class="container">
+      <a href="#overview" class="logo-link" id="nav-logo-anchor" aria-label="VEKTRA Home">
+        <!-- Renders dark logo by default, light logo in light mode -->
+        <img class="logo-img logo-img-dark" src="../brand/logo.svg" alt="VEKTRA Logo" id="header-logo-dark">
+        <img class="logo-img logo-img-light" src="../brand/logo-light.svg" alt="VEKTRA Logo" id="header-logo-light">
+      </a>
+      
+      <!-- Desktop Navigation Menu -->
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="nav-menu-list">
+          <li><a href="#overview" class="nav-link active">Overview</a></li>
+          <li><a href="#specs" class="nav-link">Specs</a></li>
+          <li><a href="#applications" class="nav-link">Applications</a></li>
+          <li><a href="#signal" class="nav-link">Signal</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
+              Theme: Dark
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- CTA Nav Link -->
+      <div style="display: flex; align-items: center; gap: var(--spacing-4);">
+        <a href="../brand/styleguide.html" class="btn btn-secondary" style="padding: var(--spacing-2) var(--spacing-4); font-size: var(--size-3xs);" id="nav-styleguide-link">Style Guide</a>
+        <button class="nav-toggle" id="nav-toggle-btn" aria-label="Toggle Menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Areas -->
+  <main id="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero" id="overview">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <span class="hero-meta">Initializing Version 2.4 // Germany</span>
+            <h1 class="hero-title">Sound, motion, and code. Synthesized in one signal graph.</h1>
+            <p class="hero-desc">VEKTRA unifies visual rendering paths and acoustic signal routing into a low-latency, sample-accurate software environment for composers, installation artists, and creative developers.</p>
+            <div class="hero-actions">
+              <a href="#signal" class="btn btn-primary" id="hero-primary-cta">
+                Initialize Signal
+                <span class="btn-icon" aria-hidden="true">→</span>
+              </a>
+              <a href="#specs" class="btn btn-secondary" id="hero-secondary-cta">Explore Architecture</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What It Is Section -->
+    <section class="section" id="poetic-definition">
+      <div class="container">
+        <div class="what-grid reveal">
+          <div class="what-left">
+            <span class="section-meta">// Concept</span>
+            <h2 class="section-title">The medium is the signal.</h2>
+          </div>
+          <div class="what-right">
+            <p class="poetic-para">VEKTRA is an environment where sound, motion, and code are treated as a single, indivisible medium. It is built by artists, for artists who want to construct things that behave, not just things that look.</p>
+            <p class="poetic-subpara">Most creative software tools separate logic from audio from pixels. In VEKTRA, they are mapped to the same node architecture. A shift in pressure modulates a frequency vector; a spatial gesture rewrites a rendering path. Everything is inspectable, everything runs live, and everything remains synchronized at the hardware clock level.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="section" id="specs">
+      <div class="container">
+        <span class="section-meta">// Technical Specifications</span>
+        <h2 class="section-title">Core Capabilities</h2>
+        
+        <div class="features-grid">
+          <!-- Card 1 -->
+          <div class="feature-card reveal" style="transition-delay: 100ms;">
+            <span class="feature-num">01 // Namespace</span>
+            <h3 class="feature-title">Unified Signal Graph</h3>
+            <p class="feature-desc">All signals route through a shared topology. Modulate 3D vertex positions using synthesizers, or generate voltage coordinates from camera tracking feeds. No protocols, no adapters, no latency overhead.</p>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="feature-card reveal" style="transition-delay: 200ms;">
+            <span class="feature-num">02 // Easing</span>
+            <h3 class="feature-title">Sample-Accurate Time</h3>
+            <p class="feature-desc">Sub-millisecond scheduling managed by a low-level rendering kernel. Your audio wave outputs and vector coordinates remain mathematically locked at the frame rate, producing razor-sharp interactive sync.</p>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="feature-card reveal" style="transition-delay: 300ms;">
+            <span class="feature-num">03 // Editor</span>
+            <h3 class="feature-title">Generative Compilation</h3>
+            <p class="feature-desc">A live compiler running directly in the thread loop. Edit shaders, rewrite logic matrices, or add synthesizer nodes. Compile on the fly without halting audio pipelines or dropping active displays.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Who Uses It Section -->
+    <section class="section" id="applications">
+      <div class="container">
+        <span class="section-meta">// Field Studies</span>
+        <h2 class="section-title">Applications & Deployments</h2>
+        
+        <div class="archetypes-grid">
+          <!-- Card 1 -->
+          <div class="archetype-card reveal">
+            <span class="archetype-role">Electronic Synthesis</span>
+            <p class="archetype-quote">"We routed four separate control voltages from the hardware Eurorack directly into VEKTRA to drive the coordinate vectors of a high-speed laser array. The result is total synesthetic cohesion."</p>
+            <span class="archetype-name">— Alva N., Berlin Residency</span>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="archetype-card reveal" style="transition-delay: 150ms;">
+            <span class="archetype-role">Kinetic Installation</span>
+            <p class="archetype-quote">"Using the sound pressure level and tracking feed inside the cathedral space, we mapped real-time parameters to the physical motors of 60 kinetic sculptures. The latency is literally unnoticeable."</p>
+            <span class="archetype-name">— Dr. Laura K., IRCAM Leipzig</span>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="archetype-card reveal" style="transition-delay: 300ms;">
+            <span class="archetype-role">Creative Shaders</span>
+            <p class="archetype-quote">"VEKTRA has completely replaced our old Max/MSP to TouchDesigner network bridging. Writing visual render matrices and custom audio DSP in one editor makes building interactive installations fluid."</p>
+            <span class="archetype-name">— Memo A., Creative Developer</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Visualization Section (Wave Oscilloscope) -->
+    <section class="section" id="signal">
+      <div class="container">
+        <span class="section-meta">// Live Modulator Simulation</span>
+        <h2 class="section-title">Interactive Wave Synthesis</h2>
+        
+        <div class="viz-layout reveal">
+          <!-- Controls -->
+          <div class="viz-control-panel" id="oscilloscope-controls">
+            <!-- Frequency Slider -->
+            <div class="control-group">
+              <label for="control-freq" class="control-label">
+                <span>Frequency</span>
+                <span id="read-freq">1.0 Hz</span>
+              </label>
+              <input type="range" class="slider" id="control-freq" min="0.5" max="10" step="0.1" value="2.5" aria-label="Frequency Slider">
+            </div>
+
+            <!-- Amplitude Slider -->
+            <div class="control-group">
+              <label for="control-amp" class="control-label">
+                <span>Amplitude</span>
+                <span id="read-amp">80%</span>
+              </label>
+              <input type="range" class="slider" id="control-amp" min="0.1" max="1" step="0.05" value="0.80" aria-label="Amplitude Slider">
+            </div>
+
+            <!-- Phase Modulator Slider -->
+            <div class="control-group">
+              <label for="control-phase" class="control-label">
+                <span>Phase Shift</span>
+                <span id="read-phase">0.25</span>
+              </label>
+              <input type="range" class="slider" id="control-phase" min="0" max="1" step="0.05" value="0.25" aria-label="Phase Modulator Slider">
+            </div>
+
+            <!-- Voltage Noise Slider -->
+            <div class="control-group">
+              <label for="control-noise" class="control-label">
+                <span>Signal Noise</span>
+                <span id="read-noise">0.0 V</span>
+              </label>
+              <input type="range" class="slider" id="control-noise" min="0" max="3.0" step="0.1" value="0" aria-label="Voltage Noise Slider">
+            </div>
+            
+            <p style="font-size: var(--size-3xs); line-height: 1.5; color: var(--color-text-muted);">
+              Adjust the slider coordinates to inject high-frequency noise and modulate vectors. Watch the waveform recalculate dynamically.
+            </p>
+          </div>
+
+          <!-- Oscilloscope Viewport -->
+          <div class="viz-display" id="oscilloscope-viewport">
+            <div class="viz-meta">
+              <span>Channel: OSC-1A // 60 FPS</span>
+              <span>Source: Internal DSP</span>
+            </div>
+            <div class="viz-canvas-wrapper">
+              <canvas class="viz-canvas" id="viz-canvas" aria-label="Interactive wave oscilloscope visualization"></canvas>
+            </div>
+            <div class="viz-meta">
+              <span>Vector Lock: ACTIVE</span>
+              <span>Coordinates: (x, y) = sin(t * f) + noise</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img class="logo-img logo-img-dark" src="../brand/logo.svg" alt="VEKTRA Logo" style="height: 24px;">
+          <img class="logo-img logo-img-light" src="../brand/logo-light.svg" alt="VEKTRA Logo" style="height: 24px;">
+          <p class="footer-quote">A terminal that someone fell in love with. A scientific instrument built by an artist.</p>
+        </div>
+        
+        <div class="footer-address">
+          <strong>VEKTRA STUDIO GMBH</strong><br>
+          Köpenicker Str. 122<br>
+          10179 Berlin, Germany<br>
+          contact@vektra.audio
+        </div>
+        
+        <ul class="footer-links" aria-label="Secondary links">
+          <li><a href="../brand/styleguide.html" class="footer-link">Brand Style Guide</a></li>
+          <li><a href="../brand/logo-animated.html" class="footer-link">Logo Sequence</a></li>
+          <li><a href="#overview" class="footer-link">Top of Page</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 VEKTRA. All rights reserved.</span>
+        <span>Berlin — Leipzig — IRCAM</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons CDN (Requirement F.9) -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- JavaScript -->
+  <script src="main.js"></script>
+  
+  <script>
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

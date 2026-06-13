@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — V2 Advanced Animated Logo</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    :root {
+      background-color: var(--color-bg-primary, #08080a);
+      color: var(--color-text-primary, #f8fafc);
+      font-family: var(--font-mono, monospace);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: var(--color-bg-primary);
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-8, 32px);
+    }
+
+    .crt-glow-wrapper {
+      position: relative;
+      padding: var(--spacing-6);
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* Screen line scan effect */
+    .crt-glow-wrapper::before {
+      content: " ";
+      display: block;
+      position: absolute;
+      top: 0; left: 0; bottom: 0; right: 0;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+      z-index: 2;
+      background-size: 100% 3px, 3px 100%;
+      pointer-events: none;
+      border-radius: var(--radius-sm);
+    }
+
+    .logo-container {
+      width: 300px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .animated-logo {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* ANIMATION STYLES */
+
+    /* 1. Axis Lines Reveal */
+    .anim-axis {
+      stroke: var(--color-border, #1d2433);
+      stroke-width: 0.75;
+      stroke-dasharray: 4;
+      stroke-dashoffset: 40;
+      animation: axis-draw 1.0s var(--ease-out-expo) forwards;
+      animation-delay: 0.2s;
+    }
+
+    @keyframes axis-draw {
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* 2. Beam Node Core & Ring Pulse */
+    .anim-node-core {
+      fill: var(--color-accent, #00e65c);
+      transform-origin: 35px 45px; /* Adjusting for coordinate translation (+2) */
+      opacity: 0;
+      animation: core-flash 1.2s var(--ease-dynamic) forwards;
+    }
+
+    @keyframes core-flash {
+      0% { opacity: 0; transform: scale(0); filter: blur(4px); }
+      15% { opacity: 1; transform: scale(3.5); filter: blur(1px); }
+      30% { transform: scale(1); filter: blur(0); }
+      45% { transform: scale(2.0); }
+      60% { transform: scale(1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .anim-node-ring {
+      fill: none;
+      stroke: var(--color-accent, #00e65c);
+      stroke-width: 0.75;
+      transform-origin: 35px 45px;
+      opacity: 0;
+      animation: ring-pulse 1.6s var(--ease-out-expo) forwards;
+      animation-delay: 0.2s;
+    }
+
+    @keyframes ring-pulse {
+      0% { opacity: 0; transform: scale(0.1); }
+      50% { opacity: 0.6; transform: scale(1.8); }
+      100% { opacity: 0.3; transform: scale(1.0); }
+    }
+
+    /* 3. Primary V Trace */
+    .anim-v {
+      fill: none;
+      stroke: var(--color-accent, #00e65c);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: v-trace 1.4s var(--ease-dynamic) forwards;
+      animation-delay: 0.6s;
+    }
+
+    @keyframes v-trace {
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* 4. Interference Waves Grid Flicker */
+    .anim-wave {
+      fill: none;
+      stroke: var(--color-accent-sec, #00d4ff);
+      stroke-linecap: round;
+      opacity: 0;
+    }
+
+    .anim-wave-1 {
+      stroke-width: 1.25;
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      animation: wave-reveal 1.2s var(--ease-out-expo) forwards;
+      animation-delay: 1.4s;
+    }
+
+    .anim-wave-2 {
+      stroke-width: 0.75;
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      animation: wave-reveal-dashed 1.4s var(--ease-out-expo) forwards;
+      animation-delay: 1.6s;
+    }
+
+    .anim-wave-3 {
+      stroke-width: 0.75;
+      stroke-dasharray: 50;
+      stroke-dashoffset: 50;
+      animation: wave-reveal 1.6s var(--ease-out-expo) forwards;
+      animation-delay: 1.8s;
+    }
+
+    @keyframes wave-reveal {
+      0% { opacity: 0; stroke-dashoffset: 40; }
+      10% { opacity: 0.8; }
+      15% { opacity: 0.2; }
+      20% { opacity: 0.9; }
+      100% { opacity: 0.7; stroke-dashoffset: 0; }
+    }
+
+    @keyframes wave-reveal-dashed {
+      0% { opacity: 0; stroke-dashoffset: 30; }
+      20% { opacity: 0.7; }
+      30% { opacity: 0.1; }
+      40% { opacity: 0.8; }
+      100% { opacity: 0.5; stroke-dashoffset: 0; }
+    }
+
+    /* 5. Technical Text Blink */
+    .anim-data {
+      font-family: var(--font-mono, monospace);
+      font-size: 5px;
+      fill: var(--color-text-muted, #475569);
+      opacity: 0;
+      animation: data-blink 0.8s steps(2, start) forwards;
+      animation-delay: 2.2s;
+    }
+
+    @keyframes data-blink {
+      0%, 40% { opacity: 0; }
+      20%, 60% { opacity: 1; }
+      100% { opacity: 1; }
+    }
+
+    /* 6. Divider Line Slide */
+    .anim-divider {
+      stroke: var(--color-border, #1d2433);
+      stroke-width: 1.25;
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      animation: divider-slide 0.6s var(--ease-out-expo) forwards;
+      animation-delay: 2.4s;
+    }
+
+    @keyframes divider-slide {
+      100% { stroke-dashoffset: 0; }
+    }
+
+    /* 7. Wordmark Letter Reveal */
+    .anim-text {
+      font-family: var(--font-sans, sans-serif);
+      font-weight: var(--weight-medium, 500);
+      font-size: 23px;
+      fill: var(--color-text-primary, #f8fafc);
+      opacity: 0;
+      animation: wordmark-reveal 1.5s var(--ease-dynamic) forwards;
+      animation-delay: 2.7s;
+    }
+
+    @keyframes wordmark-reveal {
+      0% {
+        opacity: 0;
+        letter-spacing: 0.5em;
+        transform: translateX(10px);
+      }
+      100% {
+        opacity: 1;
+        letter-spacing: 0.24em;
+        transform: translateX(0);
+      }
+    }
+
+    .btn-replay {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-text-secondary);
+      font-family: var(--font-mono);
+      font-size: var(--size-3xs);
+      padding: var(--spacing-2) var(--spacing-4);
+      border-radius: var(--radius-sm);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      transition: all var(--duration-fast) var(--ease-out-expo);
+      margin-top: var(--spacing-4);
+    }
+
+    .btn-replay:hover {
+      border-color: var(--color-accent);
+      color: var(--color-text-primary);
+      box-shadow: 0 0 12px var(--color-accent-dim);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="font-size: var(--size-3xs); letter-spacing: 0.2em; color: var(--color-accent); text-transform: uppercase;">
+      CRT SYSTEM INITIATED // PHASE.LOCK: V2
+    </div>
+    
+    <div class="crt-glow-wrapper">
+      <div class="logo-container" id="logo-holder">
+        <svg class="animated-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+          <!-- Guide Axes -->
+          <line class="anim-axis" x1="10" y1="30" x2="60" y2="30" />
+          <line class="anim-axis" x1="35" y1="8" x2="35" y2="52" />
+          
+          <!-- Grid curves (Cyan) -->
+          <path class="anim-wave anim-wave-1" d="M 35 45 C 43 40, 47 32, 50 22" />
+          <path class="anim-wave anim-wave-2" d="M 35 45 C 47 38, 53 28, 56 18" />
+          <path class="anim-wave anim-wave-3" d="M 35 45 C 51 36, 59 24, 62 14" />
+          
+          <!-- Core V Vector (Lime) -->
+          <path class="anim-v" d="M 20 22 L 35 45 L 50 22" />
+          
+          <!-- Gun node center beam -->
+          <circle class="anim-node-core" cx="35" cy="45" r="2" />
+          <circle class="anim-node-ring" cx="35" cy="45" r="4.5" />
+          
+          <!-- Coordinates labels -->
+          <text class="anim-data" x="12" y="14">X_01</text>
+          <text class="anim-data" x="50" y="52">440HZ</text>
+          
+          <!-- Main boundary line -->
+          <line class="anim-divider" x1="72" y1="12" x2="72" y2="48" />
+          
+          <!-- Spaced wordmark -->
+          <text class="anim-text" x="88" y="37">VEKTRA</text>
+        </svg>
+      </div>
+    </div>
+
+    <button class="btn-replay" id="replay-btn">Trigger reboot sequence</button>
+  </div>
+
+  <script>
+    const holder = document.getElementById('logo-holder');
+    const btn = document.getElementById('replay-btn');
+    
+    btn.addEventListener('click', () => {
+      const currentSvg = holder.innerHTML;
+      holder.innerHTML = '';
+      requestAnimationFrame(() => {
+        holder.innerHTML = currentSvg;
+      });
+    });
+  </script>
+</body>
+</html>

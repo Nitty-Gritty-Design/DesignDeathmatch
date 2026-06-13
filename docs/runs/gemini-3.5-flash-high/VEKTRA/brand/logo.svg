@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&amp;display=swap');
+      .logotext {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 700;
+        font-size: 24px;
+        letter-spacing: 0.18em;
+        fill: #eff0f2;
+      }
+      .logomark {
+        fill: none;
+        stroke: #caff00;
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .logodot {
+        fill: #caff00;
+      }
+      .divider {
+        stroke: #2d2e33;
+        stroke-width: 1.5;
+      }
+    </style>
+  </defs>
+  <!-- Background for rendering context, but SVG itself is transparent -->
+  <g id="logo-graphic">
+    <!-- Standalone Mark portion -->
+    <path class="logomark" d="M 15 18 L 30 42 L 41 24 L 44 32 L 47 16 L 50 28 L 53 20" />
+    <circle class="logodot" cx="57.5" cy="20" r="2.5" />
+    
+    <!-- Divider Line -->
+    <line class="divider" x1="72" y1="12" x2="72" y2="48" />
+    
+    <!-- Typographic Wordmark -->
+    <!-- y=38 aligns text baseline to center grid -->
+    <text class="logotext" x="88" y="37">VEKTRA</text>
+  </g>
+</svg>

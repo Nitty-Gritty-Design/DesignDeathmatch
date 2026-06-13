@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 96" width="480" height="96">
+  <!--
+    VEKTRA v2 — Primary Logo
+    Mark: Lissajous-derived vectorscope glyph with 3:2 frequency ratio.
+    More sophisticated geometry than v1's simple polyline — curves suggest
+    signal interference patterns while maintaining angular precision.
+  -->
+  <defs>
+    <linearGradient id="markGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F0A000"/>
+      <stop offset="100%" stop-color="#EDEBE6"/>
+    </linearGradient>
+    <style>@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;display=swap');</style>
+  </defs>
+  <g id="vektra-mark-v2" transform="translate(12,8)">
+    <!-- Outer Lissajous envelope -->
+    <path d="M4,72 C12,24 20,8 32,16 C44,24 36,56 44,64 C52,72 56,36 64,20 C72,4 80,48 72,72" 
+          fill="none" stroke="#EDEBE6" stroke-width="2.5" stroke-linecap="round" opacity="0.3"/>
+    <!-- Primary signal path — the mark -->
+    <path d="M8,68 L22,12 L38,58 L50,18 L62,52 L76,8" 
+          fill="none" stroke="#EDEBE6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- Signal node dots at vertices -->
+    <circle cx="8" cy="68" r="2" fill="#F0A000"/>
+    <circle cx="38" cy="58" r="2" fill="#F0A000" opacity="0.7"/>
+    <circle cx="62" cy="52" r="2" fill="#F0A000" opacity="0.5"/>
+    <circle cx="76" cy="8" r="1.5" fill="#F0A000"/>
+  </g>
+  <!-- Logotype -->
+  <text x="120" y="62" font-family="'JetBrains Mono',monospace" font-weight="500" font-size="40" letter-spacing="0.2em" fill="#EDEBE6">VEKTRA</text>
+  <!-- Version / sub-mark -->
+  <text x="120" y="80" font-family="'JetBrains Mono',monospace" font-weight="400" font-size="9" letter-spacing="0.3em" fill="#4E4C46">GENERATIVE INSTRUMENTS</text>
+</svg>

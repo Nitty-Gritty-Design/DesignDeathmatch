@@ -1,0 +1,169 @@
+/*
+VEKTRA V2 Design Tokens
+=======================
+
+Color Palette Hex Values & Intended Use:
+
+DARK MODE (Default - Ultra Premium Ink-first)
+---------------------------------------------
+--color-bg-primary:     #08080a (hsl(240, 11%, 3.5%)) - Deep slate ink backdrop
+--color-bg-secondary:   #0e0e11 (hsl(240, 10%, 6%))   - Frame margins, secondary code panels
+--color-surface:        #131318 (hsl(240, 10%, 8.5%)) - Interactive containers, inputs, cards
+--color-accent:         #00e65c (hsl(144, 100%, 45%)) - Vibrant CRT emerald-cyan; primary lock vectors
+--color-accent-dim:     #003314 (hsl(144, 100%, 10%)) - Low-intensity background aura
+--color-accent-sec:     #00d4ff (hsl(190, 100%, 50%)) - Electric cyan coordinate trace indicators
+--color-text-primary:   #f8fafc (hsl(210, 40%, 98%))  - Technical label titles and coordinates
+--color-text-secondary: #94a3b8 (hsl(215, 16%, 65%))  - Descriptive body text
+--color-text-muted:     #475569 (hsl(215, 16%, 35%))  - Disabled values, axis markers, source comments
+--color-border:         #1d2433 (hsl(221, 28%, 16%))  - Ultra-thin grid boundaries
+
+LIGHT MODE (prefers-color-scheme: light - High Contrast Technical Print)
+------------------------------------------------------------------------
+--color-bg-primary:     #fbfbfa (hsl(60, 10%, 98%))   - Warm gallery-wall off-white
+--color-bg-secondary:   #f2f2f0 (hsl(60, 6%, 95%))    - Code panels, outline frames
+--color-surface:        #e7e7e4 (hsl(60, 4%, 90%))    - Buttons, interactive tabs
+--color-accent:         #00993d (hsl(144, 100%, 30%)) - Muted forest emerald-cyan for light legibility
+--color-accent-dim:     #e0f2e5 (hsl(136, 45%, 91%))  - Soft green selection tint
+--color-accent-sec:     #007a99 (hsl(190, 100%, 30%)) - Ocean-cyan coordinate indicators
+--color-text-primary:   #0f172a (hsl(222, 47%, 11%))  - Dark slate text
+--color-text-secondary: #475569 (hsl(215, 16%, 35%))  - Description copy
+--color-text-muted:     #8ba2b5 (hsl(206, 24%, 63%))  - Grid sub-lines
+--color-border:         #d4d4d0 (hsl(60, 3%, 82%))    - Outline boundaries
+*/
+
+:root {
+  /* Colors (Dark Theme Default) */
+  --color-bg-primary: hsl(240, 11%, 3.5%);
+  --color-bg-secondary: hsl(240, 10%, 6%);
+  --color-surface: hsl(240, 10%, 8.5%);
+  --color-accent: hsl(144, 100%, 45%);
+  --color-accent-dim: hsl(144, 100%, 10%);
+  --color-accent-sec: hsl(190, 100%, 50%);
+  --color-text-primary: hsl(210, 40%, 98%);
+  --color-text-secondary: hsl(215, 16%, 65%);
+  --color-text-muted: hsl(215, 16%, 35%);
+  --color-border: hsl(221, 28%, 16%);
+
+  /* Typography */
+  --font-sans: 'Space Grotesk', -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-mono: 'IBM Plex Mono', Courier, monospace;
+
+  /* Font Weights */
+  --weight-light: 300;
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Type Scale */
+  --size-3xs: 0.625rem; /* 10px */
+  --size-2xs: 0.75rem;  /* 12px */
+  --size-xs: 0.875rem;  /* 14px */
+  --size-sm: 0.9375rem; /* 15px */
+  --size-base: 1rem;    /* 16px */
+  --size-md: 1.125rem;  /* 18px */
+  --size-lg: 1.25rem;   /* 20px */
+  --size-xl: 1.5rem;    /* 24px */
+  --size-2xl: 2rem;     /* 32px */
+  --size-3xl: 2.75rem;   /* 44px */
+  --size-4xl: 3.75rem;   /* 60px */
+  --size-5xl: 4.75rem;   /* 76px */
+  --size-6xl: 5.5rem;     /* 88px */
+
+  /* Line Heights */
+  --leading-none: 1;
+  --leading-tight: 1.1;
+  --leading-snug: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.65;
+
+  /* Spacing */
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+  --spacing-24: 6rem;    /* 96px */
+  --spacing-32: 8rem;    /* 128px */
+
+  /* Borders & Radius */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+
+  /* Motion & Easing (Hyper premium timing curves) */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+  --ease-dynamic: cubic-bezier(0.85, 0, 0.15, 1);
+  --duration-fast: 200ms;
+  --duration-normal: 400ms;
+  --duration-slow: 800ms;
+  --duration-cinematic: 2500ms;
+
+  /* Elevation */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.9);
+  
+  /* Filter Effects */
+  --backdrop-blur: blur(16px);
+}
+
+/* Light Theme overrides */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg-primary: hsl(60, 10%, 98%);
+    --color-bg-secondary: hsl(60, 6%, 95%);
+    --color-surface: hsl(60, 4%, 90%);
+    --color-accent: hsl(144, 100%, 30%);
+    --color-accent-dim: hsl(136, 45%, 91%);
+    --color-accent-sec: hsl(190, 100%, 30%);
+    --color-text-primary: hsl(222, 47%, 11%);
+    --color-text-secondary: hsl(215, 16%, 35%);
+    --color-text-muted: hsl(206, 24%, 63%);
+    --color-border: hsl(60, 3%, 82%);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
+  }
+}
+
+/* Explicit theme toggling (by class/attribute) */
+:root[data-theme="light"] {
+  --color-bg-primary: hsl(60, 10%, 98%);
+  --color-bg-secondary: hsl(60, 6%, 95%);
+  --color-surface: hsl(60, 4%, 90%);
+  --color-accent: hsl(144, 100%, 30%);
+  --color-accent-dim: hsl(136, 45%, 91%);
+  --color-accent-sec: hsl(190, 100%, 30%);
+  --color-text-primary: hsl(222, 47%, 11%);
+  --color-text-secondary: hsl(215, 16%, 35%);
+  --color-text-muted: hsl(206, 24%, 63%);
+  --color-border: hsl(60, 3%, 82%);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.08);
+}
+
+:root[data-theme="dark"] {
+  --color-bg-primary: hsl(240, 11%, 3.5%);
+  --color-bg-secondary: hsl(240, 10%, 6%);
+  --color-surface: hsl(240, 10%, 8.5%);
+  --color-accent: hsl(144, 100%, 45%);
+  --color-accent-dim: hsl(144, 100%, 10%);
+  --color-accent-sec: hsl(190, 100%, 50%);
+  --color-text-primary: hsl(210, 40%, 98%);
+  --color-text-secondary: hsl(215, 16%, 65%);
+  --color-text-muted: hsl(215, 16%, 35%);
+  --color-border: hsl(221, 28%, 16%);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.7);
+  --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.9);
+}

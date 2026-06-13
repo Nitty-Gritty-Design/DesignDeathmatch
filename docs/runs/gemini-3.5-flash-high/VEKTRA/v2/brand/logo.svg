@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&amp;family=IBM+Plex+Mono&amp;display=swap');
+      .logotext {
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 500;
+        font-size: 23px;
+        letter-spacing: 0.24em;
+        fill: #f8fafc;
+      }
+      .axis-lines {
+        stroke: #1d2433;
+        stroke-width: 0.75;
+        stroke-dasharray: 2 2;
+      }
+      .primary-v {
+        fill: none;
+        stroke: #00e65c;
+        stroke-width: 3;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .dispersion-wave-1 {
+        fill: none;
+        stroke: #00d4ff;
+        stroke-width: 1.25;
+        stroke-linecap: round;
+        opacity: 0.8;
+      }
+      .dispersion-wave-2 {
+        fill: none;
+        stroke: #00d4ff;
+        stroke-width: 0.75;
+        stroke-linecap: round;
+        stroke-dasharray: 1.5 2;
+        opacity: 0.6;
+      }
+      .dispersion-wave-3 {
+        fill: none;
+        stroke: #00d4ff;
+        stroke-width: 0.75;
+        stroke-linecap: round;
+        opacity: 0.4;
+      }
+      .node-core {
+        fill: #00e65c;
+      }
+      .node-ring {
+        fill: none;
+        stroke: #00e65c;
+        stroke-width: 0.75;
+        opacity: 0.5;
+      }
+      .divider {
+        stroke: #1d2433;
+        stroke-width: 1.25;
+      }
+      .data-text {
+        font-family: 'IBM Plex Mono', monospace;
+        font-size: 5px;
+        fill: #475569;
+        letter-spacing: 0;
+      }
+    </style>
+  </defs>
+
+  <!-- Vector Grid & Mark (x from 5 to 65) -->
+  <g id="v2-mark" transform="translate(2, 0)">
+    <!-- Axis lines -->
+    <line class="axis-lines" x1="8" y1="30" x2="58" y2="30" />
+    <line class="axis-lines" x1="33" y1="8" x2="33" y2="52" />
+    
+    <!-- Wave dispersions -->
+    <path class="dispersion-wave-1" d="M 33 45 C 41 40, 45 32, 48 22" />
+    <path class="dispersion-wave-2" d="M 33 45 C 45 38, 51 28, 54 18" />
+    <path class="dispersion-wave-3" d="M 33 45 C 49 36, 57 24, 60 14" />
+    
+    <!-- Primary bold V -->
+    <path class="primary-v" d="M 18 22 L 33 45 L 48 22" />
+    
+    <!-- Node details -->
+    <circle class="node-core" cx="33" cy="45" r="2" />
+    <circle class="node-ring" cx="33" cy="45" r="4.5" />
+    
+    <!-- Coordinate texts -->
+    <text class="data-text" x="10" y="14">X_01</text>
+    <text class="data-text" x="48" y="52">440HZ</text>
+  </g>
+
+  <!-- Divider Line -->
+  <line class="divider" x1="72" y1="12" x2="72" y2="48" />
+
+  <!-- Logotype Wordmark -->
+  <text class="logotext" x="88" y="37">VEKTRA</text>
+</svg>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <!-- SEO Meta Tags -->
+  <title>VEKTRA V2 — Generative Phase Run-Time</title>
+  <meta name="description" content="VEKTRA is a Berlin-based software environment for generative sound and motion. Time, space, and signal synthesized as a single graph.">
+  <meta name="keywords" content="creative coding, dsp, generative art, lissajous, modular synthesizer, webgl, interactive installation">
+  <meta name="author" content="VEKTRA Studio">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Favicon Standalone Mark -->
+  <link rel="icon" type="image/svg+xml" href="../brand/logo-mark.svg">
+</head>
+<body>
+
+  <!-- Generative Flow-Field Vector Canvas -->
+  <div id="bg-canvas-container" aria-hidden="true"></div>
+
+  <!-- Sticky Header Navigation -->
+  <header class="header" id="main-header">
+    <div class="container">
+      <a href="#overview" class="logo-link" id="nav-logo-anchor" aria-label="VEKTRA Home">
+        <img class="logo-img logo-img-dark" src="../brand/logo.svg" alt="VEKTRA Logo" id="header-logo-dark">
+        <img class="logo-img logo-img-light" src="../brand/logo-light.svg" alt="VEKTRA Logo" id="header-logo-light">
+      </a>
+      
+      <!-- Desktop Navigation Menu -->
+      <nav aria-label="Primary Navigation">
+        <ul class="nav-menu" id="nav-menu-list">
+          <li><a href="#overview" class="nav-link active">Overview</a></li>
+          <li><a href="#specs" class="nav-link">Capabilities</a></li>
+          <li><a href="#applications" class="nav-link">Deployments</a></li>
+          <li><a href="#signal" class="nav-link">Vector Scope</a></li>
+          <li>
+            <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Theme">
+              Theme: Dark
+            </button>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- CTA Nav Link -->
+      <div style="display: flex; align-items: center; gap: var(--spacing-4);">
+        <a href="../brand/styleguide.html" class="btn btn-secondary" style="padding: var(--spacing-2) var(--spacing-4); font-size: var(--size-3xs);" id="nav-styleguide-link">Style Guide</a>
+        <button class="nav-toggle" id="nav-toggle-btn" aria-label="Toggle Menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Areas -->
+  <main id="main-content">
+    
+    <!-- Hero Section -->
+    <section class="hero" id="overview">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-content">
+            <span class="hero-meta">Phase Lock Active // Leipzig residency</span>
+            <h1 class="hero-title">Sound, motion, and code. Synthesized in one signal graph.</h1>
+            <p class="hero-desc">VEKTRA unifies visual rendering paths and acoustic signal routing into a low-latency, sample-accurate software environment for electronic composers and digital artists.</p>
+            <div class="hero-actions">
+              <a href="#signal" class="btn btn-primary" id="hero-primary-cta">
+                Lock Phase Correlation
+                <span class="btn-icon" aria-hidden="true">→</span>
+              </a>
+              <a href="#specs" class="btn btn-secondary" id="hero-secondary-cta">Explore Architecture</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Concept Section -->
+    <section class="section" id="poetic-definition">
+      <div class="container">
+        <div class="concept-grid reveal">
+          <div class="concept-left">
+            <span class="section-meta">// Systems Theory</span>
+            <h2 class="section-title">A single unified medium.</h2>
+          </div>
+          <div class="concept-right">
+            <p class="poetic-header">VEKTRA operates at the edge of art and engineering, treating sound wave phase values and visual geometry vectors as the same signal structure.</p>
+            <p class="poetic-body">Typical creative configurations bridge separate tools for synthesis, layouts, and logic. This results in visual translation lag and latency issues. VEKTRA solves this by running a single unified C++ runtime engine where coordinate spaces are inter-patchable. The frequency of a low-frequency oscillator modulates rendering matrices directly, creating a synth module where visual assets behave and sound fields integrate instantly.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Capabilities Section -->
+    <section class="section" id="specs">
+      <div class="container">
+        <span class="section-meta">// Structural Capabilities</span>
+        <h2 class="section-title">Core Specifications</h2>
+        
+        <div class="capabilities-grid">
+          <!-- Card 1 -->
+          <div class="capability-card tech-frame reveal" style="transition-delay: 100ms;">
+            <span class="capability-num">01 // TOPOLOGY</span>
+            <h3 class="capability-title">Inter-Patchable Graph</h3>
+            <p class="capability-desc">No network adapters, sockets, or protocol overhead. route camera coordinates directly to VCO pitch, or map audio signals to vertex displacement maps inside the rendering thread.</p>
+          </div>
+          
+          <!-- Card 2 -->
+          <div class="capability-card tech-frame reveal" style="transition-delay: 200ms;">
+            <span class="capability-num">02 // LATENCY</span>
+            <h3 class="capability-title">Sample-Accurate Sync</h3>
+            <p class="capability-desc">Low-jitter, sub-millisecond scheduling locks visual frames directly to sound card output streams. Render lines align mathematically to speaker compression, producing perfect synesthetic locking.</p>
+          </div>
+          
+          <!-- Card 3 -->
+          <div class="capability-card tech-frame reveal" style="transition-delay: 300ms;">
+            <span class="capability-num">03 // COMPILER</span>
+            <h3 class="capability-title">Generative JIT Engine</h3>
+            <p class="capability-desc">Write logic nodes, modify DSP routing, or rebuild shader equations on the fly. The JIT compiler patches the running sound-visual loop without dropping frames or resetting signals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Deployments Section -->
+    <section class="section" id="applications">
+      <div class="container">
+        <span class="section-meta">// Field Implementations</span>
+        <h2 class="section-title">Deployments & Studies</h2>
+        
+        <div class="studies-grid">
+          <!-- Study 1 -->
+          <div class="study-card reveal">
+            <span class="study-role">Synthesized Light</span>
+            <p class="study-quote">"We connected modular VCO voltages to VEKTRA vectors to draw high-frequency laser frames. Sound pressure levels dictate beam rotation speed. Synthesizer clipping maps directly to screen flicker."</p>
+            <span class="study-source">— Alva N., Berlin residency</span>
+          </div>
+
+          <!-- Study 2 -->
+          <div class="study-card reveal" style="transition-delay: 150ms;">
+            <span class="study-role">Kinetic Arrays</span>
+            <p class="study-quote">"Modulating kinetic sculpture arrays inside museum halls. Using room resonance and crowd cameras, VEKTRA calculates mechanical torque outputs with zero detectable lag."</p>
+            <span class="study-source">— Dr. Laura K., Leipzig installation</span>
+          </div>
+
+          <!-- Study 3 -->
+          <div class="study-card reveal" style="transition-delay: 300ms;">
+            <span class="study-role">Real-Time WebGL</span>
+            <p class="study-quote">"Writing fragment calculations and synth nodes inside a single editor makes interactive design intuitive. Max/MSP to TouchDesigner bridges are completely gone."</p>
+            <span class="study-source">— Memo A., Creative Developer</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vector Scope Section (Data Visualization) -->
+    <section class="section" id="signal">
+      <div class="container">
+        <span class="section-meta">// Phase Scope Analyzer</span>
+        <h2 class="section-title">Dual-Trace Phase Correlation</h2>
+        
+        <div class="viz-layout reveal">
+          <!-- Controls -->
+          <div class="viz-panel tech-frame" id="oscilloscope-controls">
+            
+            <!-- Osc-1 Frequency -->
+            <div class="control-field">
+              <label for="control-freq-x" class="control-header">
+                <span>Osc-1 Frequency (X)</span>
+                <span id="read-freq-x">1.0 Hz</span>
+              </label>
+              <input type="range" class="slider-v2" id="control-freq-x" min="1" max="10" step="1" value="3" aria-label="Osc-1 Frequency Slider">
+            </div>
+
+            <!-- Osc-2 Frequency -->
+            <div class="control-field">
+              <label for="control-freq-y" class="control-header">
+                <span>Osc-2 Frequency (Y)</span>
+                <span id="read-freq-y">1.0 Hz</span>
+              </label>
+              <input type="range" class="slider-v2" id="control-freq-y" min="1" max="10" step="1" value="4" aria-label="Osc-2 Frequency Slider">
+            </div>
+
+            <!-- Phase Modulator -->
+            <div class="control-field">
+              <label for="control-phase-v2" class="control-header">
+                <span>Phase Offset (θ)</span>
+                <span id="read-phase-v2">90°</span>
+              </label>
+              <input type="range" class="slider-v2" id="control-phase-v2" min="0" max="1" step="0.05" value="0.25" aria-label="Phase Offset Slider">
+            </div>
+
+            <!-- Amplitude Gain -->
+            <div class="control-field">
+              <label for="control-amp-v2" class="control-header">
+                <span>Amplitude Gain</span>
+                <span id="read-amp-v2">80%</span>
+              </label>
+              <input type="range" class="slider-v2" id="control-amp-v2" min="0.1" max="1.0" step="0.05" value="0.80" aria-label="Amplitude Gain Slider">
+            </div>
+
+            <!-- Wave Shape Selector -->
+            <div class="control-field">
+              <label for="control-shape-v2" class="control-header">
+                <span>Signal Waveform</span>
+              </label>
+              <select class="slider-v2" id="control-shape-v2" style="background-color: var(--color-bg-primary); border: 1px solid var(--color-border); color: var(--color-text-primary); font-family: var(--font-mono); font-size: var(--size-3xs); padding: var(--spacing-1); cursor: pointer;" aria-label="Signal Waveform Selector">
+                <option value="sine">Sine Wave</option>
+                <option value="triangle">Triangle Wave</option>
+                <option value="square">Square Wave</option>
+              </select>
+            </div>
+
+            <!-- Readouts Table -->
+            <table class="readout-table">
+              <tbody>
+                <tr>
+                  <td>Scope Phase</td>
+                  <td id="read-status-v2">LOCK: Ellipse</td>
+                </tr>
+                <tr>
+                  <td>Channel Mode</td>
+                  <td>X-Y Plot</td>
+                </tr>
+                <tr>
+                  <td>Sample Rate</td>
+                  <td>48.0 kHz</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Scope screen -->
+          <div class="viz-screen tech-frame" id="oscilloscope-viewport">
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: var(--size-3xs); color: var(--color-text-muted); margin-bottom: var(--spacing-2);">
+              <span>VECTOR SCANNER v2.4</span>
+              <span>LOCK: PHASE COHERENT</span>
+            </div>
+            
+            <div class="viz-canvas-container">
+              <canvas class="viz-canvas" id="viz-canvas" aria-label="Dual-trace lissajous lissajous vector scope visualization"></canvas>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: var(--size-3xs); color: var(--color-text-muted); margin-top: var(--spacing-2);">
+              <span>COORDS: x=sin(At), y=sin(Bt+θ)</span>
+              <span>CRT MODE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer" id="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img class="logo-img logo-img-dark" src="../brand/logo.svg" alt="VEKTRA Logo" style="height: 26px;">
+          <img class="logo-img logo-img-light" src="../brand/logo-light.svg" alt="VEKTRA Logo" style="height: 26px;">
+          <p class="footer-text">A terminal that someone fell in love with. A scientific instrument built by an artist.</p>
+        </div>
+        
+        <div class="footer-col">
+          <strong>VEKTRA GMBH</strong><br>
+          Köpenicker Str. 122<br>
+          10179 Berlin, Germany<br>
+          contact@vektra.audio
+        </div>
+        
+        <div class="footer-col">
+          <ul class="footer-links" aria-label="Secondary links">
+            <li><a href="../brand/styleguide.html" class="footer-link">Brand Style Guide</a></li>
+            <li><a href="../brand/logo-animated.html" class="footer-link">Logo Sequence</a></li>
+            <li><a href="#overview" class="footer-link">Top of Page</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 VEKTRA. All rights reserved.</span>
+        <span>Berlin — Leipzig — IRCAM</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- JavaScript -->
+  <script src="main.js"></script>
+  
+  <script>
+    // Initialize Lucide
+    if (typeof lucide !== 'undefined') {
+      lucide.createIcons();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!-- 
+  Wildcard Choice: 6.2 Interactive Brand Configurator
+  Rationale: Allows developers and designers to interactively adjust and fork the VEKTRA style variables in real time, validating our design tokens and showing code aliveness.
+-->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Interactive Brand Configurator</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--color-bg-primary, #0f0f10);
+      color: var(--color-text-secondary, #afb0b3);
+      font-family: var(--font-sans, sans-serif);
+      font-size: var(--size-base, 16px);
+      line-height: var(--leading-normal, 1.5);
+      cursor: crosshair;
+      padding: var(--spacing-8, 32px) 0;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-6, 24px);
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: var(--spacing-8, 32px);
+    }
+
+    h1, h2, h3, h4 {
+      color: var(--color-text-primary, #eff0f2);
+      font-weight: var(--weight-bold, 700);
+    }
+
+    /* CONTROL SIDEBAR */
+    .config-panel {
+      background-color: var(--color-bg-secondary, #18181b);
+      border: 1px solid var(--color-border, #2d2e33);
+      border-radius: var(--radius-sm, 2px);
+      padding: var(--spacing-6, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-6, 24px);
+      height: fit-content;
+    }
+
+    .panel-header {
+      border-bottom: 1px solid var(--color-border, #2d2e33);
+      padding-bottom: var(--spacing-3, 12px);
+    }
+
+    .panel-title {
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-md, 18px);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2, 8px);
+    }
+
+    .control-label {
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-3xs, 10px);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-primary, #eff0f2);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .control-label span:last-child {
+      color: var(--color-accent, #caff00);
+    }
+
+    .color-picker-wrapper {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3, 12px);
+    }
+
+    .color-input {
+      -webkit-appearance: none;
+      border: none;
+      width: 40px;
+      height: 28px;
+      border-radius: var(--radius-sm, 2px);
+      cursor: pointer;
+      background: transparent;
+    }
+
+    .color-input::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    .color-input::-webkit-color-swatch {
+      border: 1px solid var(--color-border, #2d2e33);
+      border-radius: var(--radius-sm, 2px);
+    }
+
+    .text-input {
+      background-color: var(--color-bg-primary, #0f0f10);
+      border: 1px solid var(--color-border, #2d2e33);
+      color: var(--color-text-primary, #eff0f2);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-2xs, 12px);
+      padding: var(--spacing-2, 8px);
+      border-radius: var(--radius-sm, 2px);
+      outline: none;
+      width: 100%;
+    }
+
+    .text-input:focus {
+      border-color: var(--color-accent, #caff00);
+    }
+
+    .select-dropdown {
+      background-color: var(--color-bg-primary, #0f0f10);
+      border: 1px solid var(--color-border, #2d2e33);
+      color: var(--color-text-primary, #eff0f2);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-2xs, 12px);
+      padding: var(--spacing-2, 8px);
+      border-radius: var(--radius-sm, 2px);
+      outline: none;
+      cursor: pointer;
+      width: 100%;
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 2px;
+      background: var(--color-border, #2d2e33);
+      outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px;
+      height: 12px;
+      background: var(--color-accent, #caff00);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* PREVIEW CONTAINER */
+    .preview-window {
+      border: 1px solid var(--color-border, #2d2e33);
+      border-radius: var(--radius-sm, 2px);
+      padding: var(--spacing-8, 32px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-8, 32px);
+      background-color: var(--color-bg-primary, #0f0f10);
+      position: relative;
+    }
+
+    .preview-tag {
+      position: absolute;
+      top: var(--spacing-4, 16px);
+      right: var(--spacing-4, 16px);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-3xs, 10px);
+      color: var(--color-text-muted, #6b6d72);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--color-border, #2d2e33);
+      padding-bottom: var(--spacing-4, 16px);
+    }
+
+    .preview-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3, 12px);
+    }
+
+    .preview-logo-text {
+      font-family: var(--font-sans, sans-serif);
+      font-weight: var(--weight-bold, 700);
+      font-size: var(--size-xl, 24px);
+      letter-spacing: 0.18em;
+      color: var(--color-text-primary, #eff0f2);
+    }
+
+    .preview-logo-mark {
+      fill: none;
+      stroke: var(--color-accent, #caff00);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .preview-nav {
+      display: flex;
+      gap: var(--spacing-4, 16px);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-3xs, 10px);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    .preview-nav-item:hover, .preview-nav-item.active {
+      color: var(--color-accent, #caff00);
+    }
+
+    .preview-hero {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-4, 16px);
+    }
+
+    .preview-title {
+      font-size: var(--size-3xl, 40px);
+      line-height: var(--leading-tight, 1.15);
+    }
+
+    .preview-desc {
+      font-size: var(--size-base, 16px);
+      color: var(--color-text-secondary, #afb0b3);
+      max-width: 600px;
+    }
+
+    .preview-btn-row {
+      display: flex;
+      gap: var(--spacing-4, 16px);
+    }
+
+    .preview-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-2xs, 12px);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: var(--spacing-3, 12px) var(--spacing-6, 24px);
+      border-radius: var(--radius-sm, 2px);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all var(--duration-fast, 150ms) var(--ease-out-expo);
+    }
+
+    .preview-btn.primary {
+      background-color: var(--color-accent, #caff00);
+      color: var(--color-bg-primary, #0f0f10);
+      border-color: var(--color-accent, #caff00);
+    }
+
+    .preview-btn.primary:hover {
+      background-color: transparent;
+      color: var(--color-accent, #caff00);
+      box-shadow: 0 0 12px var(--color-accent-dim, #5a7300);
+    }
+
+    .preview-btn.secondary {
+      background-color: transparent;
+      color: var(--color-text-primary, #eff0f2);
+      border-color: var(--color-border, #2d2e33);
+    }
+
+    .preview-btn.secondary:hover {
+      border-color: var(--color-accent, #caff00);
+      color: var(--color-accent, #caff00);
+    }
+
+    /* CODE EXPORT PANEL */
+    .export-panel {
+      grid-column: 1 / -1;
+      background-color: var(--color-bg-secondary, #18181b);
+      border: 1px solid var(--color-border, #2d2e33);
+      border-radius: var(--radius-sm, 2px);
+      padding: var(--spacing-6, 24px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-3, 12px);
+    }
+
+    .export-code {
+      background-color: var(--color-bg-primary, #0f0f10);
+      border: 1px solid var(--color-border, #2d2e33);
+      padding: var(--spacing-4, 16px);
+      border-radius: var(--radius-sm, 2px);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-xs, 14px);
+      color: var(--color-text-secondary, #afb0b3);
+      white-space: pre-wrap;
+      overflow-x: auto;
+      user-select: all;
+    }
+
+    .keyword {
+      color: var(--color-accent, #caff00);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Configurator Panel -->
+    <aside class="config-panel" aria-label="Variables Editor">
+      <div class="panel-header">
+        <h2 class="panel-title">Variables Editor</h2>
+      </div>
+
+      <!-- Accent Color Picker -->
+      <div class="control-group">
+        <label for="picker-accent" class="control-label">
+          <span>Accent Color</span>
+          <span id="lbl-accent">#caff00</span>
+        </label>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-input" id="picker-accent" value="#caff00">
+          <input type="text" class="text-input" id="text-accent" value="#caff00" aria-label="Accent Hex Input">
+        </div>
+      </div>
+
+      <!-- Background Primary Color Picker -->
+      <div class="control-group">
+        <label for="picker-bg-primary" class="control-label">
+          <span>Bg Primary</span>
+          <span id="lbl-bg-primary">#0f0f10</span>
+        </label>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-input" id="picker-bg-primary" value="#0f0f10">
+          <input type="text" class="text-input" id="text-bg-primary" value="#0f0f10" aria-label="Bg Primary Hex Input">
+        </div>
+      </div>
+
+      <!-- Surface Container Color Picker -->
+      <div class="control-group">
+        <label for="picker-surface" class="control-label">
+          <span>Surface Container</span>
+          <span id="lbl-surface">#202024</span>
+        </label>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-input" id="picker-surface" value="#202024">
+          <input type="text" class="text-input" id="text-surface" value="#202024" aria-label="Surface Hex Input">
+        </div>
+      </div>
+
+      <!-- Technical Border Color Picker -->
+      <div class="control-group">
+        <label for="picker-border" class="control-label">
+          <span>Border Technical</span>
+          <span id="lbl-border">#2d2e33</span>
+        </label>
+        <div class="color-picker-wrapper">
+          <input type="color" class="color-input" id="picker-border" value="#2d2e33">
+          <input type="text" class="text-input" id="text-border" value="#2d2e33" aria-label="Border Hex Input">
+        </div>
+      </div>
+
+      <!-- Typography Choice -->
+      <div class="control-group">
+        <label for="select-font-sans" class="control-label">
+          <span>Sans Font (Headers)</span>
+        </label>
+        <select class="select-dropdown" id="select-font-sans" aria-label="Select Sans Font">
+          <option value="'Space Grotesk', sans-serif">Space Grotesk (Default)</option>
+          <option value="system-ui, -apple-system, sans-serif">System Sans</option>
+          <option value="'IBM Plex Mono', monospace">IBM Plex Mono (Monospace!)</option>
+        </select>
+      </div>
+
+      <!-- Spacing Scale Multiplier -->
+      <div class="control-group">
+        <label for="range-scale" class="control-label">
+          <span>Spacing Multiplier</span>
+          <span id="lbl-scale">1.0x</span>
+        </label>
+        <input type="range" class="slider" id="range-scale" min="0.5" max="2.0" step="0.1" value="1.0" aria-label="Spacing Multiplier Slider">
+      </div>
+
+      <!-- Reset button -->
+      <button class="hud-btn" id="btn-reset" style="background-color: var(--color-surface); margin-top: var(--spacing-4);">
+        Reset Defaults
+      </button>
+    </aside>
+
+    <!-- Preview Window -->
+    <main class="preview-window" aria-label="Live Preview Window">
+      <div class="preview-tag">Live Preview Viewport</div>
+
+      <!-- Header Specimen -->
+      <div class="preview-header">
+        <div class="preview-logo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="36" height="36" style="overflow: visible;">
+            <path class="preview-logo-mark" d="M 12 10 L 27 34 L 38 16 L 41 24 L 44 8 L 47 20 L 50 12" />
+            <circle cx="54.5" cy="12" r="2.5" fill="var(--color-accent)" />
+          </svg>
+          <span class="preview-logo-text">VEKTRA</span>
+        </div>
+        <div class="preview-nav">
+          <span class="preview-nav-item active">Overview</span>
+          <span class="preview-nav-item">Specs</span>
+          <span class="preview-nav-item">Signal</span>
+        </div>
+      </div>
+
+      <!-- Hero copy -->
+      <div class="preview-hero">
+        <h3 class="preview-title">Sound, motion, and code. Synthesized in one signal graph.</h3>
+        <p class="preview-desc">VEKTRA unifies visual rendering paths and acoustic signal routing into a low-latency, sample-accurate software environment.</p>
+      </div>
+
+      <!-- Buttons -->
+      <div class="preview-btn-row">
+        <button class="preview-btn primary">Initialize Signal</button>
+        <button class="preview-btn secondary">Explore Specs</button>
+      </div>
+
+      <!-- Code block -->
+      <div class="styleguide-code-block" style="background-color: var(--color-bg-secondary);">
+        <span class="keyword">const</span> dspNode = <span class="keyword">new</span> VektraSignal();
+        dspNode.connect(renderer.coordinates);
+      </div>
+    </main>
+
+    <!-- Code Export Section -->
+    <section class="export-panel">
+      <h3 style="font-family: var(--font-mono); font-size: var(--size-xs); text-transform: uppercase;">Export CSS Custom Properties</h3>
+      <p style="font-size: var(--size-3xs); color: var(--color-text-muted);">
+        Copy the code block below directly into your <code>tokens.css</code> file to save your changes.
+      </p>
+      <div class="export-code" id="export-css-block"></div>
+    </section>
+  </div>
+
+  <script>
+    // Configurator JS logic
+    const pickAccent = document.getElementById('picker-accent');
+    const textAccent = document.getElementById('text-accent');
+    const lblAccent = document.getElementById('lbl-accent');
+
+    const pickBgPrimary = document.getElementById('picker-bg-primary');
+    const textBgPrimary = document.getElementById('text-bg-primary');
+    const lblBgPrimary = document.getElementById('lbl-bg-primary');
+
+    const pickSurface = document.getElementById('picker-surface');
+    const textSurface = document.getElementById('text-surface');
+    const lblSurface = document.getElementById('lbl-surface');
+
+    const pickBorder = document.getElementById('picker-border');
+    const textBorder = document.getElementById('text-border');
+    const lblBorder = document.getElementById('lbl-border');
+
+    const selectFontSans = document.getElementById('select-font-sans');
+    const rangeScale = document.getElementById('range-scale');
+    const lblScale = document.getElementById('lbl-scale');
+
+    const btnReset = document.getElementById('btn-reset');
+    const exportBlock = document.getElementById('export-css-block');
+
+    // Default variable dictionary
+    const defaults = {
+      accent: '#caff00',
+      bgPrimary: '#0f0f10',
+      surface: '#202024',
+      border: '#2d2e33',
+      fontSans: "'Space Grotesk', sans-serif",
+      scale: 1.0
+    };
+
+    function updateVariable(varName, value) {
+      document.documentElement.style.setProperty(varName, value);
+      updateExportCSS();
+    }
+
+    // Helper: calculate dimmer accent on-the-fly
+    function hexToRgb(hex) {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+      } : null;
+    }
+
+    function calculateDimAccent(hex) {
+      const rgb = hexToRgb(hex);
+      if (!rgb) return hex;
+      // Multiply by 0.4 for a dim version
+      const r = Math.round(rgb.r * 0.45);
+      const g = Math.round(rgb.g * 0.45);
+      const b = Math.round(rgb.b * 0.45);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+
+    function bindColorControl(picker, text, label, varName) {
+      function setVal(val) {
+        picker.value = val;
+        text.value = val;
+        label.textContent = val;
+        updateVariable(varName, val);
+        
+        // If updating accent, also calculate and set accent-dim
+        if (varName === '--color-accent') {
+          const dimVal = calculateDimAccent(val);
+          updateVariable('--color-accent-dim', dimVal);
+        }
+      }
+
+      picker.addEventListener('input', (e) => setVal(e.target.value));
+      text.addEventListener('input', (e) => {
+        let val = e.target.value;
+        if (val.match(/^#[0-9A-Fa-f]{6}$/)) {
+          setVal(val);
+        }
+      });
+    }
+
+    bindColorControl(pickAccent, textAccent, lblAccent, '--color-accent');
+    bindColorControl(pickBgPrimary, textBgPrimary, lblBgPrimary, '--color-bg-primary');
+    bindColorControl(pickSurface, textSurface, lblSurface, '--color-surface');
+    bindColorControl(pickBorder, textBorder, lblBorder, '--color-border');
+
+    // Font select
+    selectFontSans.addEventListener('change', (e) => {
+      updateVariable('--font-sans', e.target.value);
+    });
+
+    // Spacing scale
+    rangeScale.addEventListener('input', (e) => {
+      const val = parseFloat(e.target.value);
+      lblScale.textContent = val.toFixed(1) + 'x';
+      
+      // Update variables spacing scale
+      updateVariable('--spacing-1', (0.25 * val) + 'rem');
+      updateVariable('--spacing-2', (0.5 * val) + 'rem');
+      updateVariable('--spacing-3', (0.75 * val) + 'rem');
+      updateVariable('--spacing-4', (1.0 * val) + 'rem');
+      updateVariable('--spacing-6', (1.5 * val) + 'rem');
+      updateVariable('--spacing-8', (2.0 * val) + 'rem');
+    });
+
+    // Reset controls
+    btnReset.addEventListener('click', () => {
+      pickAccent.value = defaults.accent;
+      textAccent.value = defaults.accent;
+      lblAccent.textContent = defaults.accent;
+      updateVariable('--color-accent', defaults.accent);
+      updateVariable('--color-accent-dim', calculateDimAccent(defaults.accent));
+
+      pickBgPrimary.value = defaults.bgPrimary;
+      textBgPrimary.value = defaults.bgPrimary;
+      lblBgPrimary.textContent = defaults.bgPrimary;
+      updateVariable('--color-bg-primary', defaults.bgPrimary);
+
+      pickSurface.value = defaults.surface;
+      textSurface.value = defaults.surface;
+      lblSurface.textContent = defaults.surface;
+      updateVariable('--color-surface', defaults.surface);
+
+      pickBorder.value = defaults.border;
+      textBorder.value = defaults.border;
+      lblBorder.textContent = defaults.border;
+      updateVariable('--color-border', defaults.border);
+
+      selectFontSans.value = defaults.fontSans;
+      updateVariable('--font-sans', defaults.fontSans);
+
+      rangeScale.value = defaults.scale;
+      lblScale.textContent = defaults.scale.toFixed(1) + 'x';
+      updateVariable('--spacing-1', '0.25rem');
+      updateVariable('--spacing-2', '0.5rem');
+      updateVariable('--spacing-3', '0.75rem');
+      updateVariable('--spacing-4', '1.0rem');
+      updateVariable('--spacing-6', '1.5rem');
+      updateVariable('--spacing-8', '2.0rem');
+
+      updateExportCSS();
+    });
+
+    // Build CSS Export Code
+    function updateExportCSS() {
+      const accent = pickAccent.value;
+      const accentDim = calculateDimAccent(accent);
+      const bg = pickBgPrimary.value;
+      const surf = pickSurface.value;
+      const border = pickBorder.value;
+      const font = selectFontSans.value;
+      const mult = parseFloat(rangeScale.value);
+
+      exportBlock.innerHTML = `<span class="keyword">:root</span> {
+  <span class="keyword">--color-accent</span>: ${accent};
+  <span class="keyword">--color-accent-dim</span>: ${accentDim};
+  <span class="keyword">--color-bg-primary</span>: ${bg};
+  <span class="keyword">--color-surface</span>: ${surf};
+  <span class="keyword">--color-border</span>: ${border};
+  <span class="keyword">--font-sans</span>: ${font};
+  <span class="keyword">--spacing-scale-multiplier</span>: ${mult.toFixed(1)};
+}`;
+    }
+
+    updateExportCSS();
+  </script>
+</body>
+</html>

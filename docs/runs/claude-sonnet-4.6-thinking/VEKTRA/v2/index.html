@@ -1,0 +1,280 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>VEKTRA — Generative Audio-Visual Instruments</title>
+<meta name="description" content="VEKTRA is a Berlin-based software environment where sound, motion, and code are treated as a single medium — one graph, fully inspectable, live.">
+<meta name="theme-color" content="#0A0A0C">
+<link rel="icon" href="logo-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav" aria-label="Primary navigation">
+  <div class="nav__inner">
+    <a href="#" class="nav__logo" aria-label="VEKTRA home">
+      <svg class="nav__logo-mark" viewBox="0 0 56 56" aria-hidden="true">
+        <line x1="2" y1="50" x2="54" y2="50" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+        <line x1="6" y1="50" x2="28" y2="8" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="28" y1="8" x2="50" y2="50" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+        <circle cx="28" cy="8" r="4" fill="#E8FF47"/>
+        <circle cx="6" cy="50" r="2" fill="#E8FF47" opacity="0.35"/>
+        <circle cx="50" cy="50" r="2" fill="#E8FF47" opacity="0.35"/>
+      </svg>
+      <span class="nav__logo-text">VEKTRA</span>
+    </a>
+    <ul class="nav__links" role="list">
+      <li><a href="#what" class="nav__link">What</a></li>
+      <li><a href="#how" class="nav__link">How</a></li>
+      <li><a href="#who" class="nav__link">Who</a></li>
+      <li><a href="#signal" class="nav__link">Signal</a></li>
+    </ul>
+    <a href="#access" class="btn nav__cta" id="nav-cta">Request access</a>
+    <button class="nav__hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobile-menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="nav__mobile" id="mobile-menu" role="navigation" aria-label="Mobile menu">
+  <a href="#what" class="nav__mobile-link">What</a>
+  <a href="#how" class="nav__mobile-link">How</a>
+  <a href="#who" class="nav__mobile-link">Who</a>
+  <a href="#signal" class="nav__mobile-link">Signal</a>
+  <a href="#access" class="btn btn--primary" style="margin-top:8px">Request access</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" aria-labelledby="hero-h1">
+  <div class="hero__webgl" aria-hidden="true">
+    <iframe src="background.html" title="Generative signal field background" tabindex="-1"></iframe>
+  </div>
+  <div class="hero__overlay"></div>
+
+  <div class="hero__content">
+    <div class="hero__eyebrow reveal" data-hero>
+      <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+      <span class="label">Berlin · Est. 2019 · Closed beta</span>
+    </div>
+
+    <h1 class="hero__headline reveal" data-hero id="hero-h1">
+      Sound, motion,<br>and code —<br><em>one graph.</em>
+    </h1>
+
+    <div class="hero__divider reveal" data-hero></div>
+
+    <p class="hero__sub reveal" data-hero>
+      A software environment where a change in frequency drives a visual parameter, a gesture rewrites a patch, and time is explicit — not something that happens behind your back.
+    </p>
+
+    <div class="hero__actions reveal" data-hero>
+      <a href="#access" class="btn btn--primary" id="hero-cta">Request access →</a>
+      <a href="#what" class="btn btn--ghost" id="hero-learn">Explore the graph</a>
+    </div>
+  </div>
+
+  <div class="hero__scroll-indicator" aria-hidden="true">
+    <div class="hero__scroll-line"></div>
+    <span class="label" style="margin-left:12px">scroll</span>
+  </div>
+</section>
+
+<!-- WHAT IT IS -->
+<section class="section" id="what" aria-labelledby="what-h2">
+  <div class="container">
+    <div class="section__meta reveal">
+      <span class="section__num label">01</span>
+      <h2 class="section__title" id="what-h2">What VEKTRA is</h2>
+    </div>
+
+    <div class="what__grid">
+      <div class="reveal reveal--left">
+        <blockquote class="what__pullquote">
+          "The graph is<br>the instrument."
+        </blockquote>
+        <div class="what__stat-row">
+          <div class="what__stat">
+            <span class="what__stat-value" data-count="1" data-suffix="">1</span>
+            <span class="what__stat-label">signal type</span>
+          </div>
+          <div class="what__stat">
+            <span class="what__stat-value" data-count="847" data-suffix="ms">847ms</span>
+            <span class="what__stat-label">typical latency</span>
+          </div>
+          <div class="what__stat">
+            <span class="what__stat-value" data-count="48" data-suffix="k">48k</span>
+            <span class="what__stat-label">sample resolution</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal reveal--d1">
+        <p class="what__body" style="margin-bottom:20px">
+          VEKTRA is not a DAW. It is not a creative suite. It is not a plugin.<br><br>
+          It is closer to a <strong>language</strong> — a way of thinking about time, signal, and form simultaneously. Most tools separate the visual from the sonic from the logical. VEKTRA treats them as <strong>one graph</strong>.
+        </p>
+        <p class="what__body">
+          Every parameter in the system is a node. Every node can be connected to every other. When you modulate a frequency, that modulation can drive a visual shader, rewrite a generative rule, or trigger a physical output. <strong>Everything is inspectable, forkable, and live.</strong>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section" id="how" aria-labelledby="how-h2">
+  <div class="container">
+    <div class="section__meta reveal">
+      <span class="section__num label">02</span>
+      <h2 class="section__title" id="how-h2">The three primitives</h2>
+    </div>
+
+    <div class="how__list">
+      <article class="how__item">
+        <div class="how__item-bar"></div>
+        <div class="how__item-num">01 / signal</div>
+        <h3 class="how__item-title">Everything is a signal</h3>
+        <p class="how__item-body">Audio, video, MIDI, mouse position, and sensor data share a single type: <code>Signal&lt;T&gt;</code>. Any signal drives any other. The system does not distinguish between the domain of sound and the domain of image — both are time-varying functions.</p>
+      </article>
+      <article class="how__item">
+        <div class="how__item-bar"></div>
+        <div class="how__item-num">02 / graph</div>
+        <h3 class="how__item-title">Patches are programs</h3>
+        <p class="how__item-body">A VEKTRA patch is a directed graph — nodes are signal processors, edges are signal paths. Write patches in the visual editor or in <code>vex</code>, VEKTRA's text language. Both representations are live-editable. A running patch can rewrite itself.</p>
+      </article>
+      <article class="how__item">
+        <div class="how__item-bar"></div>
+        <div class="how__item-num">03 / time</div>
+        <h3 class="how__item-title">Time is explicit</h3>
+        <p class="how__item-body">Every signal carries an explicit timestamp at sample resolution. Latency is a value you can inspect and route — not a hidden variable. Compose works precise to ±1 sample, synchronize across machines, or use time as a compositional parameter.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- WHO USES IT -->
+<section class="section" id="who" aria-labelledby="who-h2">
+  <div class="container">
+    <div class="section__meta reveal">
+      <span class="section__num label">03</span>
+      <h2 class="section__title" id="who-h2">Who uses it</h2>
+    </div>
+
+    <div class="who__grid">
+      <article class="who__card reveal">
+        <div class="who__card-num">01</div>
+        <div class="who__card-role">Composer</div>
+        <h3 class="who__card-name">Mara Voss</h3>
+        <p class="who__card-body">Electronic composer whose works rewrite their own scores in response to audience biometrics and room acoustics. Uses VEKTRA to collapse the boundary between composition and performance. Premiered at CTM Festival, Berlin 2025.</p>
+        <div class="who__card-tags">
+          <span class="tag">Max/MSP</span><span class="tag">Eurorack</span><span class="tag">SuperCollider</span>
+        </div>
+      </article>
+
+      <article class="who__card reveal reveal--d1">
+        <div class="who__card-num">02</div>
+        <div class="who__card-role">Installation artist</div>
+        <h3 class="who__card-name">Studio Formfeld</h3>
+        <p class="who__card-body">Generative art studio (Leipzig / Amsterdam) building permanent installations for galleries and public space. Uses VEKTRA's graph architecture to synchronize projection systems, spatial audio arrays, and sensor networks across multi-room environments.</p>
+        <div class="who__card-tags">
+          <span class="tag">TouchDesigner</span><span class="tag">OSC</span><span class="tag">VEKTRA</span>
+        </div>
+      </article>
+
+      <article class="who__card reveal reveal--d2">
+        <div class="who__card-num">03</div>
+        <div class="who__card-role">Developer</div>
+        <h3 class="who__card-name">Raj Mehta</h3>
+        <p class="who__card-body">Interaction designer at a generative media studio. Has a Eurorack rack and a Haskell side project. Writes VEKTRA patches the way others write shell scripts — quickly, precisely, and as a thinking tool. Core contributor to the vex standard library.</p>
+        <div class="who__card-tags">
+          <span class="tag">vex</span><span class="tag">p5.js</span><span class="tag">Cables.gl</span>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- DATA VISUALIZATION -->
+<section class="section" id="signal" aria-labelledby="signal-h2">
+  <div class="container">
+    <div class="section__meta reveal">
+      <span class="section__num label">04</span>
+      <h2 class="section__title" id="signal-h2">The signal graph</h2>
+    </div>
+
+    <p class="reveal" style="max-width:560px;color:var(--color-text-secondary);line-height:var(--leading-relaxed);margin-bottom:var(--space-8)">
+      A live simulation of a VEKTRA patch — audio parameters driving visual outputs through an inspectable, force-directed graph. Hover nodes to trace signal paths. Drag to rearrange.
+    </p>
+
+    <div class="viz-wrap reveal">
+      <iframe src="viz.html" title="VEKTRA signal graph visualization" loading="lazy"></iframe>
+      <div class="viz-footer">
+        <span class="label">live simulation · D3 force layout · hover to inspect</span>
+        <a href="viz.html" class="btn btn--ghost" target="_blank" id="viz-open" style="padding:8px 16px">Open full view →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUEST ACCESS -->
+<section class="access" id="access" aria-labelledby="access-h2">
+  <div class="container--text">
+    <div class="reveal">
+      <span class="label label--accent" style="display:inline-block;margin-bottom:var(--space-6)">Early access · limited seats</span>
+      <h2 class="access__title" id="access-h2">Built for people<br>who think in patches.</h2>
+      <p class="access__sub">VEKTRA is in closed beta. We work with a small number of artists, researchers, and studios. If your work involves time-based media and you've outgrown the tools you have, we want to hear from you.</p>
+      <a href="mailto:access@vektra.studio" class="btn btn--primary" id="access-cta">Request access →</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" role="contentinfo">
+  <div class="container">
+    <div class="footer__grid">
+      <div>
+        <a href="#" class="nav__logo" aria-label="VEKTRA">
+          <svg width="28" height="28" viewBox="0 0 56 56" aria-hidden="true">
+            <line x1="2" y1="50" x2="54" y2="50" stroke="#E8FF47" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
+            <line x1="6" y1="50" x2="28" y2="8" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round"/>
+            <line x1="28" y1="8" x2="50" y2="50" stroke="#E8FF47" stroke-width="2.5" stroke-linecap="round" opacity="0.75"/>
+            <circle cx="28" cy="8" r="4" fill="#E8FF47"/>
+          </svg>
+          <span class="nav__logo-text">VEKTRA</span>
+        </a>
+        <p class="footer__brand">Time is explicit.<br>Everything is inspectable.</p>
+      </div>
+      <div>
+        <p class="footer__col-label">Navigate</p>
+        <ul class="footer__links" role="list">
+          <li><a href="#what" class="footer__link">What it is</a></li>
+          <li><a href="#how" class="footer__link">How it works</a></li>
+          <li><a href="#who" class="footer__link">Who uses it</a></li>
+          <li><a href="styleguide.html" class="footer__link">Style guide</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer__col-label">Studio</p>
+        <address class="footer__address">
+          VEKTRA GmbH<br>
+          Schönhauser Allee 167b<br>
+          10435 Berlin, DE<br><br>
+          <a href="mailto:studio@vektra.studio" style="color:var(--color-accent)">studio@vektra.studio</a>
+        </address>
+      </div>
+    </div>
+    <div class="footer__bottom">
+      <p class="footer__copy">© 2026 VEKTRA GmbH — source-available · VSL-1.0</p>
+      <p class="footer__signal">signal is time · time is form</p>
+    </div>
+  </div>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

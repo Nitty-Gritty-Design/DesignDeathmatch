@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEKTRA — Signal Field</title>
+  <!--
+    WILDCARD 6.1 — Generative Animated Background
+    A full-viewport signal field. Mouse-reactive. 60fps.
+    Pure vanilla Canvas 2D + requestAnimationFrame. No libraries.
+    The same code that runs behind the hero, isolated as its own page.
+  -->
+  <link rel="icon" type="image/svg+xml" href="logo-mark.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; background: var(--color-bg-primary); color: var(--color-text-primary); font-family: var(--font-sans); overflow: hidden; }
+    canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; display: block; }
+    .overlay { position: fixed; inset: 0; pointer-events: none; }
+    .topbar { position: fixed; top: 0; left: 0; right: 0; padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-secondary); letter-spacing: 0.08em; text-transform: uppercase; mix-blend-mode: difference; }
+    .topbar a { color: var(--color-text-primary); }
+    .topbar a:hover { color: var(--color-accent); }
+    .centerpiece { position: fixed; inset: 0; display: grid; place-items: center; pointer-events: none; mix-blend-mode: difference; }
+    .centerpiece .mark { display: flex; align-items: center; gap: 24px; color: var(--color-text-primary); }
+    .centerpiece .mark svg { width: 240px; height: 120px; }
+    .centerpiece .word { font-family: var(--font-mono); font-weight: 500; font-size: 96px; letter-spacing: 0.04em; color: var(--color-text-primary); }
+    .footnote { position: fixed; bottom: 16px; left: 0; right: 0; text-align: center; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted); letter-spacing: 0.12em; text-transform: uppercase; mix-blend-mode: difference; }
+    .footnote .accent { color: var(--color-accent); }
+  </style>
+</head>
+<body>
+  <canvas id="field"></canvas>
+
+  <div class="overlay">
+    <header class="topbar">
+      <span>VEKTRA / signal field</span>
+      <span><span class="accent">●</span>&nbsp;&nbsp;live · 60fps</span>
+      <span><a href="../site/index.html">↩ back</a></span>
+    </header>
+
+    <div class="centerpiece">
+      <div class="mark">
+        <svg viewBox="0 0 160 80" aria-hidden="true">
+          <g fill="currentColor">
+            <rect x="8"   y="38" width="4" height="4"  rx="1"/>
+            <rect x="20"  y="36" width="4" height="8"  rx="1"/>
+            <rect x="32"  y="33" width="4" height="14" rx="1"/>
+            <rect x="44"  y="29" width="4" height="22" rx="1"/>
+            <rect x="56"  y="25" width="4" height="30" rx="1"/>
+            <rect x="68"  y="20" width="4" height="40" rx="1"/>
+            <rect x="80"  y="15" width="4" height="50" rx="1" fill="#FF5C1F"/>
+            <rect x="92"  y="20" width="4" height="40" rx="1"/>
+            <rect x="104" y="25" width="4" height="30" rx="1"/>
+            <rect x="116" y="29" width="4" height="22" rx="1"/>
+            <rect x="128" y="33" width="4" height="14" rx="1"/>
+            <rect x="140" y="36" width="4" height="8"  rx="1"/>
+            <rect x="152" y="38" width="4" height="4"  rx="1"/>
+          </g>
+        </svg>
+        <span class="word">VEKTRA</span>
+      </div>
+    </div>
+
+    <p class="footnote">move the cursor · the signal follows</p>
+  </div>
+
+  <script>
+    /* Vanilla Canvas 2D — no libraries. */
+    const cv = document.getElementById("field");
+    const c  = cv.getContext("2d");
+    const tok = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+    const accent = () => tok("--color-accent")   || "#FF5C1F";
+    const textP  = () => tok("--color-text-primary") || "#F4F2EC";
+    const bg     = () => tok("--color-bg-primary")    || "#0E0E0C";
+
+    let W = 0, H = 0, dpr = 1;
+    const mouse = { x: 0, y: 0 };
+    const resize = () => {
+      dpr = Math.min(2, window.devicePixelRatio || 1);
+      W = cv.clientWidth = innerWidth;
+      H = cv.clientHeight = innerHeight;
+      cv.width  = W * dpr;
+      cv.height = H * dpr;
+      c.setTransform(dpr, 0, 0, dpr, 0, 0);
+      mouse.x = W / 2; mouse.y = H / 2;
+    };
+    resize();
+    addEventListener("resize", resize);
+    addEventListener("mousemove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
+    addEventListener("touchmove", (e) => { const t = e.touches[0]; if (t) { mouse.x = t.clientX; mouse.y = t.clientY; } }, { passive: true });
+
+    const bars = Math.min(140, Math.max(60, Math.floor(W / 12)));
+    const draw = (t) => {
+      c.fillStyle = bg();
+      c.fillRect(0, 0, W, H);
+      const step = W / bars;
+      for (let i = 0; i < bars; i++) {
+        const x = i * step;
+        const dx = (x - mouse.x) / Math.max(120, W * 0.25);
+        const dy = (H / 2 - mouse.y) / Math.max(120, H * 0.25);
+        const dist = Math.hypot(dx, dy);
+        const wave =
+          Math.sin(i * 0.18 + t * 0.0012) * 24 +
+          Math.sin(i * 0.07 + t * 0.0007 + dist * 1.4) * 42 +
+          Math.cos(i * 0.33 + t * 0.0009) * 8;
+        const target = H * 0.32 + wave * 1.7 - dist * 22;
+        const h2 = Math.max(2, Math.min(H * 0.65, target));
+        c.fillStyle = (i % 13 === 6) ? accent() : textP();
+        c.globalAlpha = (i % 13 === 6) ? 0.95 : 0.18;
+        const bw = step * 0.42;
+        c.fillRect(x + (step - bw) / 2, H / 2 - h2 / 2, bw, h2);
+      }
+      c.globalAlpha = 0.06;
+      c.fillStyle = accent();
+      c.fillRect(0, H / 2 - 0.5, W, 1);
+      requestAnimationFrame(draw);
+    };
+    requestAnimationFrame(draw);
+  </script>
+</body>
+</html>

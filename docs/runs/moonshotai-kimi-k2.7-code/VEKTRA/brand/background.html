@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Field</title>
+  <!--
+    Wildcard 6.1 — Generative animated background
+    Rationale: VEKTRA makes things move. A living signal field is the
+    most direct way to demonstrate that the brand itself is a generative
+    system. It uses only the Canvas API and requestAnimationFrame to stay
+    lightweight and tunable.
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: var(--color-bg-primary);
+      color: var(--color-text-primary);
+      font-family: var(--font-sans);
+    }
+    canvas {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .overlay {
+      position: fixed;
+      left: var(--space-6);
+      bottom: var(--space-6);
+      z-index: 10;
+      pointer-events: none;
+    }
+    .overlay h1 {
+      margin: 0;
+      font-size: var(--text-2xl);
+      font-weight: 600;
+      letter-spacing: -0.03em;
+    }
+    .overlay p {
+      margin: var(--space-2) 0 0;
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+    .controls {
+      position: fixed;
+      right: var(--space-6);
+      bottom: var(--space-6);
+      z-index: 10;
+      display: flex;
+      gap: var(--space-3);
+    }
+    .controls button {
+      pointer-events: auto;
+      padding: var(--space-2) var(--space-3);
+      font-family: var(--font-mono);
+      font-size: var(--text-xs);
+      background: var(--color-surface);
+      color: var(--color-text-primary);
+      border: 1px solid var(--color-border);
+      cursor: crosshair;
+      transition: border-color var(--transition-base), color var(--transition-fast);
+    }
+    .controls button:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+    @media (max-width: 600px) {
+      .overlay { left: var(--space-4); bottom: var(--space-4); }
+      .controls { right: var(--space-4); bottom: var(--space-4); }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="signal-field" aria-hidden="true"></canvas>
+  <div class="overlay">
+    <h1>Signal field</h1>
+    <p>Move cursor to disturb the graph · 60 fps · Canvas API</p>
+  </div>
+  <div class="controls">
+    <button id="pause-btn" type="button">Pause</button>
+    <button id="reset-btn" type="button">Reset</button>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      const canvas = document.getElementById('signal-field');
+      const ctx = canvas.getContext('2d');
+      const styles = getComputedStyle(document.documentElement);
+      const css = (name) => styles.getPropertyValue(name).trim();
+
+      const accent = css('--color-accent');
+      const muted = css('--color-text-muted');
+      const border = css('--color-border');
+      const bg = css('--color-bg-primary');
+
+      let width, height, dpr;
+      let time = 0;
+      let running = true;
+      let rafId;
+
+      const mouse = { x: -1000, y: -1000, vx: 0, vy: 0 };
+      let prevMouse = { x: -1000, y: -1000 };
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        width = window.innerWidth;
+        height = window.innerHeight;
+        canvas.width = Math.floor(width * dpr);
+        canvas.height = Math.floor(height * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      }
+
+      function prefersReducedMotion() {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      }
+
+      function drawGrid() {
+        ctx.strokeStyle = border;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.35;
+        const step = 48;
+
+        ctx.beginPath();
+        for (let x = step; x < width; x += step) {
+          ctx.moveTo(x, 0);
+          ctx.lineTo(x, height);
+        }
+        for (let y = step; y < height; y += step) {
+          ctx.moveTo(0, y);
+          ctx.lineTo(width, y);
+        }
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+      }
+
+      function drawSignalLines() {
+        const count = 9;
+        const ampBase = height * 0.045;
+        const mouseSpeed = Math.hypot(mouse.vx, mouse.vy) * 0.05;
+
+        for (let i = 0; i < count; i++) {
+          const yCenter = (height / (count + 1)) * (i + 1);
+          const speed = 0.001 + i * 0.00025;
+          const freq = 0.003 + i * 0.001;
+          const phase = i * 1.4;
+          const isCarrier = i === 4;
+
+          ctx.beginPath();
+          ctx.strokeStyle = isCarrier ? accent : muted;
+          ctx.globalAlpha = isCarrier ? 0.95 : 0.25 + i * 0.04;
+          ctx.lineWidth = isCarrier ? 2.5 : 1;
+
+          for (let x = 0; x <= width; x += 2) {
+            const dist = Math.abs(x - mouse.x);
+            const mouseInfluence = Math.max(0, 1 - dist / 280);
+            const dynamicAmp = ampBase * (1 + mouseInfluence * (1.6 + mouseSpeed));
+            const wave1 = Math.sin(x * freq + time * speed + phase);
+            const wave2 = Math.sin(x * freq * 2.3 + time * speed * 1.7 + phase);
+            const y = yCenter + (wave1 * 0.7 + wave2 * 0.3) * dynamicAmp * (1 + mouseInfluence);
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function drawNodes() {
+        const count = 6;
+        for (let i = 0; i < count; i++) {
+          const x = (width / (count + 1)) * (i + 1) + Math.sin(time * 0.0005 + i) * 30;
+          const y = height * 0.5 + Math.cos(time * 0.0007 + i * 1.3) * height * 0.25;
+          const dist = Math.hypot(x - mouse.x, y - mouse.y);
+          const r = 2 + Math.max(0, 1 - dist / 180) * 6;
+
+          ctx.fillStyle = accent;
+          ctx.globalAlpha = 0.6 + Math.max(0, 1 - dist / 180) * 0.4;
+          ctx.beginPath();
+          ctx.arc(x, y, r, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function drawCursorProbe() {
+        if (mouse.x < 0) return;
+        ctx.strokeStyle = accent;
+        ctx.lineWidth = 1;
+        ctx.globalAlpha = 0.35;
+        ctx.beginPath();
+        ctx.moveTo(mouse.x, 0);
+        ctx.lineTo(mouse.x, height);
+        ctx.moveTo(0, mouse.y);
+        ctx.lineTo(width, mouse.y);
+        ctx.stroke();
+
+        ctx.fillStyle = accent;
+        ctx.globalAlpha = 0.9;
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 5, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+
+      function draw() {
+        ctx.fillStyle = bg;
+        ctx.fillRect(0, 0, width, height);
+        drawGrid();
+        drawSignalLines();
+        drawNodes();
+        drawCursorProbe();
+      }
+
+      function loop() {
+        if (!running) return;
+        time += 16;
+        draw();
+        rafId = requestAnimationFrame(loop);
+      }
+
+      window.addEventListener('resize', resize);
+      window.addEventListener('mousemove', (e) => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
+        if (prevMouse.x > -1) {
+          mouse.vx = e.clientX - prevMouse.x;
+          mouse.vy = e.clientY - prevMouse.y;
+        }
+        prevMouse.x = e.clientX;
+        prevMouse.y = e.clientY;
+      });
+      window.addEventListener('mouseleave', () => {
+        mouse.x = -1000;
+        mouse.y = -1000;
+        mouse.vx = 0;
+        mouse.vy = 0;
+      });
+
+      document.getElementById('pause-btn').addEventListener('click', () => {
+        running = !running;
+        document.getElementById('pause-btn').textContent = running ? 'Pause' : 'Resume';
+        if (running) loop();
+      });
+
+      document.getElementById('reset-btn').addEventListener('click', () => {
+        time = 0;
+        mouse.x = -1000;
+        mouse.y = -1000;
+        if (!running) {
+          running = true;
+          document.getElementById('pause-btn').textContent = 'Pause';
+          loop();
+        }
+      });
+
+      resize();
+      if (prefersReducedMotion()) {
+        draw();
+      } else {
+        loop();
+      }
+    })();
+  </script>
+</body>
+</html>

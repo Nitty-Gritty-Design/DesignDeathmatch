@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA V2 — Brand Style Guide</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    /* RESET */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    html {
+      scroll-behavior: smooth;
+    }
+    
+    body {
+      background-color: var(--color-bg-primary);
+      color: var(--color-text-secondary);
+      font-family: var(--font-sans);
+      font-size: var(--size-base);
+      line-height: var(--leading-normal);
+      cursor: crosshair;
+    }
+    
+    h1, h2, h3, h4 {
+      color: var(--color-text-primary);
+      font-weight: var(--weight-bold);
+      margin-bottom: var(--spacing-4);
+    }
+    
+    a {
+      color: inherit;
+      text-decoration: none;
+      transition: color var(--duration-fast) var(--ease-out-expo);
+    }
+    
+    /* TECH FRAMES */
+    .tech-frame {
+      position: relative;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      background-color: var(--color-bg-secondary);
+    }
+    
+    .tech-frame::before {
+      content: "+";
+      position: absolute;
+      top: -8px; left: -4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-accent);
+    }
+    
+    .tech-frame::after {
+      content: "+";
+      position: absolute;
+      bottom: -9px; right: -4px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--color-accent);
+    }
+    
+    /* STYLEGUIDE GRID LAYOUT */
+    .sg-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+    
+    /* SIDEBAR */
+    .sg-sidebar {
+      background-color: var(--color-bg-secondary);
+      border-right: 1px solid var(--color-border);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: var(--spacing-8) var(--spacing-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-12);
+    }
+    
+    .sidebar-title {
+      font-family: var(--font-mono);
+      font-size: var(--size-xs);
+      letter-spacing: 0.2em;
+      color: var(--color-accent);
+      text-transform: uppercase;
+    }
+    
+    .sidebar-nav {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-4);
+    }
+    
+    .sidebar-link {
+      font-family: var(--font-mono);
+      font-size: var(--size-2xs);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted);
+    }
+    
+    .sidebar-link:hover, .sidebar-link.active {
+      color: var(--color-text-primary);
+      border-left: 2px solid var(--color-accent);
+      padding-left: var(--spacing-3);
+    }
+    
+    /* MAIN CONTENT */
+    .sg-content {
+      padding: var(--spacing-16) var(--spacing-12);
+      max-width: 1000px;
+    }
+    
+    .sg-section {
+      margin-bottom: var(--spacing-24);
+      padding-bottom: var(--spacing-16);
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .sg-section-title {
+      font-family: var(--font-mono);
+      font-size: var(--size-xl);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-8);
+      border-left: 3px solid var(--color-accent);
+      padding-left: var(--spacing-4);
+    }
+    
+    /* SWATCHES */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: var(--spacing-6);
+      margin-top: var(--spacing-6);
+    }
+    
+    .swatch-card {
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .swatch-color {
+      height: 90px;
+      width: 100%;
+    }
+    
+    .swatch-info {
+      padding: var(--spacing-4);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+    }
+    
+    .swatch-name {
+      font-family: var(--font-mono);
+      font-size: var(--size-xs);
+      color: var(--color-text-primary);
+    }
+    
+    .swatch-var {
+      font-family: var(--font-mono);
+      font-size: var(--size-3xs);
+      color: var(--color-text-muted);
+      user-select: all;
+    }
+    
+    /* TYPOGRAPHY */
+    .type-specimen {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-6);
+    }
+    
+    .type-row {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: var(--spacing-6);
+      align-items: baseline;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: var(--spacing-3);
+    }
+    
+    .type-meta {
+      font-family: var(--font-mono);
+      font-size: var(--size-3xs);
+      color: var(--color-text-muted);
+    }
+    
+    /* LOGOS */
+    .logo-spec-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing-6);
+      margin-top: var(--spacing-6);
+    }
+    
+    .logo-cell {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: var(--spacing-4);
+    }
+    
+    .logo-cell.dark-bg {
+      background-color: hsl(240, 11%, 3.5%);
+    }
+    
+    .logo-cell.light-bg {
+      background-color: hsl(60, 10%, 98%);
+    }
+    
+    .logo-img {
+      max-width: 180px;
+      height: auto;
+    }
+    
+    .logo-iframe {
+      width: 100%;
+      height: 120px;
+      border: none;
+      overflow: hidden;
+    }
+    
+    /* COMPONENTS */
+    .comp-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-8);
+    }
+    
+    .comp-spec {
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: var(--spacing-6);
+      padding: var(--spacing-6);
+    }
+    
+    .comp-info {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-2);
+    }
+    
+    .comp-preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-4);
+      align-items: center;
+    }
+    
+    /* BUTTONS */
+    .sg-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--size-3xs);
+      font-weight: var(--weight-medium);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      padding: var(--spacing-3) var(--spacing-6);
+      border-radius: var(--radius-sm);
+      transition: all var(--duration-fast) var(--ease-out-expo);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--color-text-primary);
+      cursor: pointer;
+    }
+    
+    .sg-btn.primary {
+      background-color: var(--color-accent);
+      color: var(--color-bg-primary);
+      border-color: var(--color-accent);
+    }
+    .sg-btn.primary:hover {
+      background-color: transparent;
+      color: var(--color-accent);
+      box-shadow: 0 0 12px var(--color-accent-dim);
+    }
+    .sg-btn.secondary {
+      border-color: var(--color-border);
+    }
+    .sg-btn.secondary:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+    .sg-btn.disabled {
+      opacity: 0.35;
+      border-color: var(--color-border);
+      color: var(--color-text-muted);
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+    
+    .sg-input {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      color: var(--color-text-primary);
+      font-family: var(--font-mono);
+      font-size: var(--size-xs);
+      padding: var(--spacing-3) var(--spacing-4);
+      border-radius: var(--radius-sm);
+      outline: none;
+      width: 100%;
+      max-width: 280px;
+    }
+    .sg-input:focus {
+      border-color: var(--color-accent);
+    }
+    
+    .sg-code {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      padding: var(--spacing-4);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono);
+      font-size: var(--size-2xs);
+      line-height: var(--leading-relaxed);
+      width: 100%;
+      overflow-x: auto;
+      white-space: pre;
+      color: var(--color-text-secondary);
+    }
+    
+    .sg-code-kw {
+      color: var(--color-accent);
+    }
+    
+    .sg-card {
+      background-color: var(--color-bg-primary);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      padding: var(--spacing-6);
+      max-width: 300px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-3);
+    }
+    
+    .sg-badge {
+      display: inline-flex;
+      font-family: var(--font-mono);
+      font-size: var(--size-3xs);
+      color: var(--color-accent);
+      background-color: var(--color-accent-dim);
+      border: 1px solid var(--color-accent);
+      padding: var(--spacing-1) var(--spacing-2);
+      border-radius: var(--radius-sm);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      width: fit-content;
+    }
+    
+    /* VOICE */
+    .voice-quote {
+      font-size: var(--size-lg);
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-primary);
+      border-left: 2px solid var(--color-accent);
+      padding-left: var(--spacing-4);
+      margin-bottom: var(--spacing-6);
+      font-style: italic;
+    }
+    
+    .voice-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-6);
+    }
+    
+    .voice-card {
+      background-color: var(--color-bg-secondary);
+      border: 1px solid var(--color-border);
+      padding: var(--spacing-6);
+      border-radius: var(--radius-sm);
+    }
+    
+    /* MOTION */
+    .motion-box {
+      width: 100px;
+      height: 100px;
+      background-color: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-mono);
+      font-size: var(--size-3xs);
+      transition: all var(--duration-normal) var(--ease-dynamic);
+    }
+    .motion-box:hover {
+      border-color: var(--color-accent);
+      transform: scale(1.15) rotate(5deg);
+      box-shadow: 0 0 12px var(--color-accent-dim);
+    }
+    
+    @media (max-width: 768px) {
+      .sg-layout {
+        grid-template-columns: 1fr;
+      }
+      .sg-sidebar {
+        display: none;
+      }
+      .sg-content {
+        padding: var(--spacing-6);
+      }
+      .comp-spec {
+        grid-template-columns: 1fr;
+      }
+      .logo-spec-grid {
+        grid-template-columns: 1fr;
+      }
+      .voice-cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="sg-layout">
+    <!-- Sidebar Navigation -->
+    <aside class="sg-sidebar" aria-label="Style Guide Navigation">
+      <div>
+        <span class="sidebar-title">VEKTRA</span>
+        <p style="font-size: var(--size-3xs); color: var(--color-text-muted); margin-top: 4px;">Brand Style Guide // v2.0</p>
+      </div>
+      
+      <nav>
+        <ul class="sidebar-nav">
+          <li><a href="#section-colors" class="sidebar-link active">Colors</a></li>
+          <li><a href="#section-typography" class="sidebar-link">Typography</a></li>
+          <li><a href="#section-logo" class="sidebar-link">Logo Systems</a></li>
+          <li><a href="#section-components" class="sidebar-link">Components</a></li>
+          <li><a href="#section-motion" class="sidebar-link">Motion Spec</a></li>
+          <li><a href="#section-voice" class="sidebar-link">Voice Guidelines</a></li>
+        </ul>
+      </nav>
+      
+      <div style="margin-top: auto;">
+        <a href="../site/index.html" style="font-family: var(--font-mono); font-size: var(--size-3xs); color: var(--color-accent); text-transform: uppercase;">← Back to Site</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="sg-content">
+      
+      <!-- Section: Colors -->
+      <section class="sg-section" id="section-colors">
+        <h2 class="sg-section-title">Color Tokens</h2>
+        <p>VEKTRA's visual identity relies on near-black surfaces, structured borders, and a vibrant **CRT emerald-cyan** accent representing signal synchronization.</p>
+        
+        <div class="swatch-grid">
+          <!-- Swatch 1 -->
+          <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--color-bg-primary); border-bottom: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Background Primary</span>
+              <span class="swatch-var">--color-bg-primary</span>
+            </div>
+          </div>
+
+          <!-- Swatch 2 -->
+          <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--color-bg-secondary); border-bottom: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Background Secondary</span>
+              <span class="swatch-var">--color-bg-secondary</span>
+            </div>
+          </div>
+
+          <!-- Swatch 3 -->
+          <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--color-surface); border-bottom: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Surface Container</span>
+              <span class="swatch-var">--color-surface</span>
+            </div>
+          </div>
+
+          <!-- Swatch 4 -->
+          <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--color-accent); border-bottom: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">CRT Emerald Accent</span>
+              <span class="swatch-var">--color-accent</span>
+            </div>
+          </div>
+
+          <!-- Swatch 5 -->
+          <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--color-accent-sec); border-bottom: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Trace Blue Accent</span>
+              <span class="swatch-var">--color-accent-sec</span>
+            </div>
+          </div>
+
+          <!-- Swatch 6 -->
+          <div class="swatch-card">
+            <div class="swatch-color" style="background-color: var(--color-border); border-bottom: 1px solid var(--color-border);"></div>
+            <div class="swatch-info">
+              <span class="swatch-name">Border Technical</span>
+              <span class="swatch-var">--color-border</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Typography -->
+      <section class="sg-section" id="section-typography">
+        <h2 class="sg-section-title">Typography</h2>
+        <p>VEKTRA lives in the tension between technical monospace precision and expressive sans-serif layout hierarchies.</p>
+        
+        <div class="type-specimen">
+          <!-- Size 6xl -->
+          <div class="type-row">
+            <div class="type-meta">
+              <strong>Display Mono</strong><br>
+              5.5rem / 88px
+            </div>
+            <div style="font-family: var(--font-mono); font-size: var(--size-6xl); font-weight: var(--weight-bold); color: var(--color-text-primary); line-height: 1.0;">
+              20.48k
+            </div>
+          </div>
+
+          <!-- Size 5xl -->
+          <div class="type-row">
+            <div class="type-meta">
+              <strong>Headline Hero</strong><br>
+              4.75rem / 76px
+            </div>
+            <div style="font-family: var(--font-sans); font-size: var(--size-5xl); font-weight: var(--weight-bold); color: var(--color-text-primary); line-height: 1.0;">
+              Signal Synthesis.
+            </div>
+          </div>
+
+          <!-- Size base -->
+          <div class="type-row">
+            <div class="type-meta">
+              <strong>Body Copy</strong><br>
+              1.0rem / 16px
+            </div>
+            <div style="font-family: var(--font-sans); font-size: var(--size-base); color: var(--color-text-secondary); line-height: 1.6; max-width: 600px;">
+              VEKTRA treats time, signal, and geometry as a single, inter-patchable medium. Adjust the parameters on the wave editor and view updates compile in the grid kernel instantly.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Logo Systems -->
+      <section class="sg-section" id="section-logo">
+        <h2 class="sg-section-title">Logo Systems</h2>
+        
+        <div class="logo-spec-grid">
+          <!-- Dark -->
+          <div class="logo-cell dark-bg tech-frame">
+            <span class="type-meta">Logo Horizontal (Dark BG)</span>
+            <img src="logo.svg" alt="Horizontal Logo Dark" class="logo-img">
+            <span class="type-meta">Source: v2/brand/logo.svg</span>
+          </div>
+
+          <!-- Light -->
+          <div class="logo-cell light-bg tech-frame">
+            <span class="type-meta" style="color: #0f172a;">Logo Horizontal (Light BG)</span>
+            <img src="logo-light.svg" alt="Horizontal Logo Light" class="logo-img">
+            <span class="type-meta" style="color: #0f172a;">Source: v2/brand/logo-light.svg</span>
+          </div>
+
+          <!-- Standalone -->
+          <div class="logo-cell dark-bg tech-frame">
+            <span class="type-meta">Standalone Mark Icon</span>
+            <img src="logo-mark.svg" alt="Logo Mark" style="width: 38px; height: 38px;">
+            <span class="type-meta">Source: v2/brand/logo-mark.svg</span>
+          </div>
+
+          <!-- Animated -->
+          <div class="logo-cell dark-bg tech-frame">
+            <span class="type-meta">Animated CRT Boot Sequence</span>
+            <iframe id="styleguide-logo-iframe" class="logo-iframe" src="logo-animated.html" title="Logo Animation Sequence"></iframe>
+            <button class="sg-btn secondary" style="padding: var(--spacing-1) var(--spacing-3); font-size: var(--size-3xs);" id="styleguide-logo-replay">
+              Reboot Sequence
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Components Playroom -->
+      <section class="sg-section" id="section-components">
+        <h2 class="sg-section-title">Components Spec</h2>
+        
+        <div class="comp-list">
+          <!-- Buttons -->
+          <div class="comp-spec tech-frame">
+            <div class="comp-info">
+              <h3>Buttons</h3>
+              <p class="type-meta">Interactive triggers.</p>
+            </div>
+            <div class="comp-preview">
+              <button class="sg-btn primary">Primary Active</button>
+              <button class="sg-btn secondary">Secondary Active</button>
+              <button class="sg-btn disabled">Disabled State</button>
+            </div>
+          </div>
+
+          <!-- Inputs -->
+          <div class="comp-spec tech-frame">
+            <div class="comp-info">
+              <h3>Inputs</h3>
+              <p class="type-meta">Values settings inputs.</p>
+            </div>
+            <div class="comp-preview">
+              <input type="text" class="sg-input" placeholder="Enter DSP parameters..." aria-label="Input Specimen">
+            </div>
+          </div>
+
+          <!-- Card -->
+          <div class="comp-spec tech-frame">
+            <div class="comp-info">
+              <h3>Card Container</h3>
+              <p class="type-meta">Technical framing.</p>
+            </div>
+            <div class="comp-preview">
+              <div class="sg-card">
+                <span class="sg-badge">Active Node</span>
+                <h4 style="margin: 0;">DSP_MATRIX_01</h4>
+                <p style="font-size: var(--size-sm); margin: 0; line-height: 1.5;">Plots vector curves using overlapping dual oscillators.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Specimen -->
+          <div class="comp-spec tech-frame">
+            <div class="comp-info">
+              <h3>Code Specs</h3>
+              <p class="type-meta">Monospace parameters block.</p>
+            </div>
+            <div class="comp-preview" style="width: 100%;">
+              <div class="sg-code"><span class="sg-code-kw">const</span> dspNode = <span class="sg-code-kw">new</span> VektraOscillator();
+dspNode.frequency = <span class="sg-code-kw">440.0</span>;</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Motion Spec -->
+      <section class="sg-section" id="section-motion">
+        <h2 class="sg-section-title">Motion & Transitions</h2>
+        <p>VEKTRA's transitions use exponential damping curves to guarantee physical responsiveness.</p>
+        
+        <div class="comp-spec tech-frame" style="margin-top: var(--spacing-6);">
+          <div class="comp-info">
+            <h3>Easing Constants</h3>
+            <p class="type-meta">Declared variables.</p>
+            <ul style="font-size: var(--size-sm); margin-top: var(--spacing-2); line-height: 1.6;">
+              <li><strong>--ease-dynamic</strong>: <code>cubic-bezier(0.85, 0, 0.15, 1)</code></li>
+              <li><strong>--ease-out-expo</strong>: <code>cubic-bezier(0.16, 1, 0.3, 1)</code></li>
+              <li><strong>--duration-normal</strong>: <code>400ms</code></li>
+            </ul>
+          </div>
+          <div class="comp-preview" style="justify-content: center; gap: var(--spacing-8);">
+            <div class="motion-box">Hover Me</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section: Voice Guidelines -->
+      <section class="sg-section" id="section-voice">
+        <h2 class="sg-section-title">Voice & Copywriting</h2>
+        
+        <div class="type-specimen" style="margin-top: var(--spacing-6);">
+          <div class="voice-quote">
+            "VEKTRA is not a DAW. It is not a creative suite. It is not a plugin. It is closer to a language — a way of thinking about time, signal, and form simultaneously."
+          </div>
+          
+          <div class="voice-cards">
+            <div class="voice-card">
+              <span class="type-meta" style="color: var(--color-accent); display: block; margin-bottom: var(--spacing-2);">01 // Hero Copy</span>
+              <p style="font-size: var(--size-base); color: var(--color-text-primary); font-weight: var(--weight-bold); line-height: 1.2;">Sound, motion, and code. Synthesized in one signal graph.</p>
+            </div>
+            
+            <div class="voice-card">
+              <span class="type-meta" style="color: var(--color-accent); display: block; margin-bottom: var(--spacing-2);">02 // Product Info</span>
+              <p style="font-size: var(--size-sm); line-height: 1.5;">A spatial geometry renderer mapped directly to a sample-accurate digital signal processing runtime.</p>
+            </div>
+            
+            <div class="voice-card">
+              <span class="type-meta" style="color: var(--color-accent); display: block; margin-bottom: var(--spacing-2);">03 // Error States</span>
+              <p style="font-size: var(--size-sm); font-family: var(--font-mono);">Signal Interrupted: No node found at this coordinate. Check the routing path.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // Logo Sequence iframe reset
+    const replayBtn = document.getElementById('styleguide-logo-replay');
+    const iframe = document.getElementById('styleguide-logo-iframe');
+    
+    if (replayBtn && iframe) {
+      replayBtn.addEventListener('click', () => {
+        const src = iframe.src;
+        iframe.src = '';
+        setTimeout(() => {
+          iframe.src = src;
+        }, 50);
+      });
+    }
+
+    // Nav sidebar scrolling highlights
+    const links = document.querySelectorAll('.sidebar-link');
+    const sections = document.querySelectorAll('section');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop;
+        if (pageYOffset >= top - 200) {
+          current = sec.getAttribute('id');
+        }
+      });
+      links.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

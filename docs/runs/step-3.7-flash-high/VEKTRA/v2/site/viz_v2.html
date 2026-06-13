@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signals v2</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style_v2.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="nav-inner">
+      <a href="index_v2.html" class="logo-link" aria-label="VEKTRA home">
+        <img src="../v2/brand/logo-mark.svg" alt="" width="28" height="28" class="logo-mark-img" aria-hidden="true">
+        <span class="logo-wordmark">VEKTRA</span>
+      </a>
+      <nav class="primary-nav" aria-label="Primary">
+        <a href="index_v2.html" class="nav-link">← Back</a>
+        <span class="mono-label">live signal view</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="viz-main">
+    <section class="viz-hero">
+      <div class="section-inner">
+        <div class="section-label reveal">004 — Signals</div>
+        <h1 class="section-heading reveal">Patch signal analysis</h1>
+        <p class="section-lead reveal">
+          Real-time simulated output: <em>Granular.scatter(3) → Resonant.lp(1200) → Spectral.analyze</em>.
+          Hover the waveform or spectrum to inspect frequency. Use sliders to modify the patch parameters.
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-viz-canvas">
+      <div class="section-inner">
+        <div class="viz-grid">
+          <div class="viz-panel reveal">
+            <div class="viz-panel-header">
+              <span class="mono-label">Waveform</span>
+              <span class="mono-label" id="waveform-time">t = 0.000s</span>
+            </div>
+            <canvas id="waveform" aria-label="Waveform of the generative patch output" width="1200" height="240"></canvas>
+          </div>
+          <div class="viz-panel reveal">
+            <div class="viz-panel-header">
+              <span class="mono-label">Spectrum</span>
+              <span class="mono-label" id="spectrum-peak">peak: — Hz</span>
+            </div>
+            <canvas id="spectrum" aria-label="Frequency spectrum of the generative patch output" width="1200" height="240"></canvas>
+          </div>
+        </div>
+
+        <div class="viz-controls reveal">
+          <div class="control-group">
+            <label class="mono-label" for="sensitivity">Sensitivity</label>
+            <input id="sensitivity" type="range" min="0.2" max="3" step="0.1" value="1">
+          </div>
+          <div class="control-group">
+            <label class="mono-label" for="speed">Signal speed</label>
+            <input id="speed" type="range" min="0.2" max="3" step="0.1" value="1">
+          </div>
+          <div class="control-group">
+            <label class="mono-label" for="density">Grain density</label>
+            <input id="density" type="range" min="1" max="8" step="1" value="3">
+          </div>
+          <div class="control-value">
+            <span class="mono-label" id="param-readout">s:1.0 · v:1.0 · d:3</span>
+          </div>
+        </div>
+
+        <div class="tooltip" id="tooltip" aria-hidden="true"></div>
+      </div>
+    </section>
+  </main>
+
+  <script src="viz_v2.js"></script>
+</body>
+</html>

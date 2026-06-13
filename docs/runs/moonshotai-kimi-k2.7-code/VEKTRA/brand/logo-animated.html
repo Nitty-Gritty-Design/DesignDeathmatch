@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Animated Logo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0D0D0C;
+      --fg: #F5F4EF;
+      --accent: #00F5D4;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: grid;
+      place-items: center;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: "Space Grotesk", sans-serif;
+    }
+    .logo-stage {
+      width: 320px;
+    }
+    svg { display: block; width: 100%; height: auto; }
+
+    /* Animation: signal resolving */
+    .stroke {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: draw 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+    .crossbar { animation-delay: 0ms; }
+    .left-leg { animation-delay: 220ms; }
+    .right-leg { animation-delay: 340ms; }
+
+    .node {
+      opacity: 0;
+      transform-origin: center;
+      animation: node-in 240ms cubic-bezier(0.16, 1, 0.3, 1) 600ms forwards;
+    }
+
+    .word {
+      opacity: 0;
+      transform: translateX(-6px);
+      animation: word-in 400ms cubic-bezier(0.22, 1, 0.36, 1) 720ms forwards;
+    }
+
+    @keyframes draw {
+      to { stroke-dashoffset: 0; }
+    }
+    @keyframes node-in {
+      to { opacity: 1; }
+      0% { filter: drop-shadow(0 0 0 transparent); }
+      50% { filter: drop-shadow(0 0 8px var(--accent)); }
+      100% { filter: drop-shadow(0 0 0 transparent); }
+    }
+    @keyframes word-in {
+      to { opacity: 1; transform: translateX(0); }
+    }
+  </style>
+</head>
+<body>
+  <div class="logo-stage">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" aria-label="VEKTRA">
+      <g fill="none" stroke="#F5F4EF" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+        <line class="stroke crossbar" x1="8" y1="14" x2="32" y2="14" />
+        <line class="stroke left-leg" x1="8" y1="14" x2="20" y2="34" />
+        <line class="stroke right-leg" x1="32" y1="14" x2="20" y2="34" />
+      </g>
+      <circle class="node" cx="20" cy="14" r="3" fill="#F5F4EF" />
+      <text class="word" x="50" y="27" font-family="Space Grotesk, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.03em" fill="#F5F4EF">VEKTRA</text>
+    </svg>
+  </div>
+</body>
+</html>

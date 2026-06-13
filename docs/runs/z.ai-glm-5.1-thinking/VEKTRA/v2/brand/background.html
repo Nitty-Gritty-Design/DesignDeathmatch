@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Signal Field v2</title>
+<!--
+  Wildcard 6.1 v2 — Generative animated background (elevated)
+  A full-viewport multi-layered signal field with:
+  - Primary oscillation layer (42 lines, multi-harmonic)
+  - Particle layer (accent-colored signal peaks)
+  - Ambient glow layer (cursor-following radial)
+  - Secondary signal-teal frequency band
+  - Depth-of-field effect (varying opacity by line distance from cursor)
+  Vanilla Canvas API, 60fps, requestAnimationFrame, DPR-aware.
+-->
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #08080A; overflow: hidden; font-family: 'JetBrains Mono', monospace; }
+  canvas { display: block; width: 100vw; height: 100vh; }
+  .overlay {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    pointer-events: none;
+    color: #EDECEA;
+  }
+  .overlay h1 {
+    font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 700;
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .overlay h1 .dim { color: #4A4740; }
+  .overlay h1 .glow { color: #FF5E1A; text-shadow: 0 0 30px rgba(255,94,26,0.3); }
+  .overlay p {
+    font-size: 12px;
+    color: #4A4740;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .info {
+    position: fixed;
+    bottom: 24px; left: 24px;
+    z-index: 2;
+    font-size: 10px;
+    color: #4A4740;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .info span { color: #FF5E1A; }
+  .info .signal { color: #00D4AA; }
+  .fps {
+    position: fixed;
+    bottom: 24px; right: 24px;
+    z-index: 2;
+    font-size: 10px;
+    color: #4A4740;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <canvas id="canvas"></canvas>
+  <div class="overlay">
+    <h1><span class="dim">{</span> signal<span class="glow">.</span>field <span class="dim">}</span></h1>
+    <p>Move cursor to interact</p>
+  </div>
+  <div class="info">VEKTRA / background.html / <span>accent</span> + <span class="signal">signal</span></div>
+  <div class="fps" id="fps">60 fps</div>
+
+  <script>
+  (function () {
+    'use strict';
+
+    var canvas = document.getElementById('canvas');
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+    var mouseX = -9999, mouseY = -9999;
+    var tmx = -9999, tmy = -9999;
+    var time = 0;
+    var fpsEl = document.getElementById('fps');
+    var lastFrame = performance.now();
+    var fpsSmooth = 60;
+
+    function resize() {
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    document.addEventListener('mousemove', function (e) { tmx = e.clientX; tmy = e.clientY; });
+    document.addEventListener('mouseleave', function () { tmx = -9999; tmy = -9999; });
+    document.addEventListener('touchmove', function (e) {
+      if (e.touches.length) { tmx = e.touches[0].clientX; tmy = e.touches[0].clientY; }
+    });
+    document.addEventListener('touchend', function () { tmx = -9999; tmy = -9999; });
+
+    var AR = 255, AG = 94, AB = 26;
+    var SR = 0, SG = 212, SB = 170;
+    var TR = 237, TG = 236, TB = 234;
+    var MR = 74, MG = 71, MB = 64;
+
+    var LINES = 48;
+    var SPACE = 12;
+    var AMP = 14;
+    var MOUSE_R = 300;
+    var MOUSE_AMP = 38;
+
+    // Particle pool
+    var particles = [];
+    var MAX_PARTICLES = 60;
+
+    function spawnParticle(x, y) {
+      if (particles.length >= MAX_PARTICLES) return;
+      particles.push({
+        x: x, y: y,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.3,
+        life: 1,
+        decay: 0.005 + Math.random() * 0.01,
+        size: 1 + Math.random() * 1.5,
+        isAccent: Math.random() > 0.3
+      });
+    }
+
+    function updateParticles() {
+      for (var i = particles.length - 1; i >= 0; i--) {
+        var p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.life -= p.decay;
+        if (p.life <= 0) { particles.splice(i, 1); continue; }
+        var alpha = p.life * 0.5;
+        if (p.isAccent) {
+          ctx.fillStyle = 'rgba(' + AR + ',' + AG + ',' + AB + ',' + alpha + ')';
+        } else {
+          ctx.fillStyle = 'rgba(' + SR + ',' + SG + ',' + SB + ',' + alpha + ')';
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+
+    function draw() {
+      var now = performance.now();
+      var dt = now - lastFrame;
+      lastFrame = now;
+      fpsSmooth += (1000 / Math.max(dt, 1) - fpsSmooth) * 0.1;
+      if (Math.round(time * 100) % 20 === 0) {
+        fpsEl.textContent = Math.round(fpsSmooth) + ' fps';
+      }
+
+      time += 0.004;
+      mouseX += (tmx - mouseX) * 0.05;
+      mouseY += (tmy - mouseY) * 0.05;
+
+      ctx.clearRect(0, 0, W, H);
+
+      var midY = H * 0.5;
+      var hasMouse = mouseX > -999;
+
+      // Layer 1: Deep ambient glow
+      if (hasMouse) {
+        var g1 = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 500);
+        g1.addColorStop(0, 'rgba(' + AR + ',' + AG + ',' + AB + ',0.035)');
+        g1.addColorStop(0.3, 'rgba(' + AR + ',' + AG + ',' + AB + ',0.012)');
+        g1.addColorStop(1, 'rgba(' + AR + ',' + AG + ',' + AB + ',0)');
+        ctx.fillStyle = g1;
+        ctx.fillRect(0, 0, W, H);
+
+        // Secondary signal glow
+        var g2 = ctx.createRadialGradient(mouseX, mouseY + 100, 0, mouseX, mouseY + 100, 350);
+        g2.addColorStop(0, 'rgba(' + SR + ',' + SG + ',' + SB + ',0.02)');
+        g2.addColorStop(1, 'rgba(' + SR + ',' + SG + ',' + SB + ',0)');
+        ctx.fillStyle = g2;
+        ctx.fillRect(0, 0, W, H);
+      }
+
+      // Layer 2: Signal lines
+      for (var i = 0; i < LINES; i++) {
+        var baseY = midY + (i - LINES / 2) * SPACE;
+        var amp = AMP + i * 0.75;
+        var freq = 0.002 + i * 0.0001;
+        var phase = time * (0.45 + i * 0.03);
+        var distM = Math.abs(baseY - mouseY);
+        var mInf = hasMouse ? Math.max(0, 1 - distM / MOUSE_R) : 0;
+        var baseAlpha = 0.015 + (i / LINES) * 0.035 + mInf * 0.25;
+
+        ctx.beginPath();
+        for (var x = 0; x <= W; x += 2) {
+          var dx = Math.abs(x - mouseX);
+          var prox = hasMouse ? Math.exp(-dx / 260) * mInf : 0;
+          var mAmp = prox * MOUSE_AMP;
+          var y = baseY
+            + Math.sin(x * freq + phase) * amp
+            + Math.sin(x * freq * 2.17 + phase * 1.37) * (amp * 0.2)
+            + Math.sin(x * freq * 3.41 + phase * 0.71) * (amp * 0.07)
+            + Math.sin(x * freq * 5.03 + phase * 2.1) * (amp * 0.03)
+            + mAmp * Math.sin(x * 0.004 + time * 3);
+
+          if (x === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        }
+
+        var lw = 0.5 + mInf * 1;
+        if (mInf > 0.08) {
+          var b = mInf * 0.85;
+          var cr = Math.round(TR + (AR - TR) * b);
+          var cg = Math.round(TG + (AG - TG) * b);
+          var cb = Math.round(TB + (AB - TB) * b);
+          ctx.strokeStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + baseAlpha + ')';
+        } else if (i % 6 === 0 && i > LINES * 0.3) {
+          ctx.strokeStyle = 'rgba(' + SR + ',' + SG + ',' + SB + ',' + (baseAlpha * 0.4) + ')';
+          lw = 0.4;
+        } else {
+          ctx.strokeStyle = 'rgba(' + MR + ',' + MG + ',' + MB + ',' + baseAlpha + ')';
+        }
+        ctx.lineWidth = lw;
+        ctx.stroke();
+      }
+
+      // Layer 3: Peak particles
+      if (hasMouse && Math.random() > 0.7) {
+        var li = Math.round(LINES / 2 + (mouseY - midY) / SPACE);
+        li = Math.max(0, Math.min(LINES - 1, li));
+        var px = mouseX + (Math.random() - 0.5) * 160;
+        var pf = 0.002 + li * 0.0001;
+        var py = (midY + (li - LINES / 2) * SPACE)
+          + Math.sin(px * pf + time * 0.5) * (AMP + li * 0.75);
+        spawnParticle(px, py);
+      }
+      updateParticles();
+
+      // Layer 4: Cursor center glow
+      if (hasMouse) {
+        var cg = ctx.createRadialGradient(mouseX, mouseY, 0, mouseX, mouseY, 80);
+        cg.addColorStop(0, 'rgba(' + AR + ',' + AG + ',' + AB + ',0.07)');
+        cg.addColorStop(0.5, 'rgba(' + AR + ',' + AG + ',' + AB + ',0.02)');
+        cg.addColorStop(1, 'rgba(' + AR + ',' + AG + ',' + AB + ',0)');
+        ctx.fillStyle = cg;
+        ctx.fillRect(mouseX - 80, mouseY - 80, 160, 160);
+
+        // Center dot
+        ctx.beginPath();
+        ctx.arc(mouseX, mouseY, 2, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + AR + ',' + AG + ',' + AB + ',0.3)';
+        ctx.fill();
+      }
+
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+  </script>
+</body>
+</html>

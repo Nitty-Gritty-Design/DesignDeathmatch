@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Generative Background</title>
+  <!-- Wildcard 6.1: Generative animated background. Vanilla JS Canvas API.
+       A signal field of oscillating waveforms that respond to mouse position.
+       Performant at 60fps via requestAnimationFrame. Uses brand tokens. -->
+  <style>
+    * { margin: 0; padding: 0; }
+    body { background: #0A0A0C; overflow: hidden; }
+    canvas { display: block; width: 100vw; height: 100vh; }
+  </style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<script>
+(function() {
+  'use strict';
+  const canvas = document.getElementById('bg');
+  const ctx = canvas.getContext('2d');
+  let w, h, time = 0;
+  const ACCENT = { r: 232, g: 160, b: 18 };
+  const LINE_COUNT = 48;
+  const lines = [];
+  let mx = 0.5, my = 0.5;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    lines.length = 0;
+    for (let i = 0; i < LINE_COUNT; i++) {
+      lines.push({
+        yRatio: i / LINE_COUNT,
+        freq: 0.001 + Math.random() * 0.005,
+        amp: 15 + Math.random() * 35,
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.2 + Math.random() * 0.8,
+        alpha: 0.02 + Math.random() * 0.06
+      });
+    }
+  }
+
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', (e) => {
+    mx = e.clientX / w;
+    my = e.clientY / h;
+  });
+
+  resize();
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    time += 0.014;
+
+    for (const l of lines) {
+      ctx.beginPath();
+      const baseY = l.yRatio * h;
+      for (let x = 0; x <= w; x += 4) {
+        const xr = x / w;
+        const dx = xr - mx;
+        const dy = l.yRatio - my;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const influence = Math.max(0, 1 - dist / 0.4);
+        const y = baseY + Math.sin(x * l.freq + time * l.speed + l.phase) * (l.amp + influence * 40)
+                        + Math.sin(x * l.freq * 2.3 + time * l.speed * 0.7) * l.amp * 0.3;
+        if (x === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      }
+      const a = l.alpha + (Math.sin(time * 0.5 + l.phase) * 0.01);
+      ctx.strokeStyle = `rgba(${ACCENT.r},${ACCENT.g},${ACCENT.b},${a})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+
+    // Subtle grid dots
+    const gridSize = 80;
+    for (let gx = gridSize; gx < w; gx += gridSize) {
+      for (let gy = gridSize; gy < h; gy += gridSize) {
+        const dx = (gx / w) - mx;
+        const dy = (gy / h) - my;
+        const d = Math.sqrt(dx * dx + dy * dy);
+        const a = Math.max(0.02, 0.08 - d * 0.1);
+        ctx.fillStyle = `rgba(${ACCENT.r},${ACCENT.g},${ACCENT.b},${a})`;
+        ctx.fillRect(gx - 0.5, gy - 0.5, 1, 1);
+      }
+    }
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+</script>
+</body>
+</html>

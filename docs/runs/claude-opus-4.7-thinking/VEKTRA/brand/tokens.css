@@ -1,0 +1,183 @@
+/*
+ * ══════════════════════════════════════════════════════════════
+ * VEKTRA — Design Tokens
+ * ══════════════════════════════════════════════════════════════
+ *
+ * Color Palette
+ * ─────────────
+ * --color-bg-primary:      #0A0A0C    Near-black with a cool-warm tint. Primary canvas.
+ * --color-bg-secondary:    #111114    Slightly elevated surface for cards, panels.
+ * --color-surface:         #18181C    Tertiary surface — modals, dropdowns, raised elements.
+ * --color-accent:          #E8A012    Electric amber. The signal. Tuned to 43° hue —
+ *                                     sits between gold and orange. Warm enough to feel
+ *                                     alive, specific enough to be ownable. Reads as a
+ *                                     status LED on a precision instrument.
+ * --color-accent-dim:      #8B6010    Dimmed accent for inactive/secondary emphasis.
+ *                                     50% luminance of accent — still legible, receded.
+ * --color-accent-glow:     rgba(232, 160, 18, 0.15)   Ambient glow for hover halos.
+ * --color-text-primary:    #E8E6E1    Warm off-white. Not pure white — avoids clinical feel.
+ * --color-text-secondary:  #9E9B93    Mid-gray with warm undertone. Labels, captions.
+ * --color-text-muted:      #5C5A54    Low-emphasis text. Timestamps, meta.
+ * --color-border:          #2A2A2F    Subtle structural lines. Visible but not loud.
+ * --color-border-accent:   #3D3D44    Emphasized borders for focused/active states.
+ * --color-error:           #D94B4B    Signal red — errors, destructive actions.
+ * --color-success:         #3DB86A    Signal green — confirmations, connected states.
+ *
+ * Light Mode
+ * ──────────
+ * --color-bg-primary-light:    #F4F2ED  Warm off-white. Technical paper feel.
+ * --color-bg-secondary-light:  #ECEAE4  Slightly darker for differentiation.
+ * --color-surface-light:       #FFFFFF  True white for elevated cards.
+ * --color-text-primary-light:  #1A1A1E  Near-black text on light.
+ * --color-text-secondary-light:#5C5A54  Mid-gray for secondary content.
+ * --color-border-light:        #D4D1C9  Warm gray borders on light surfaces.
+ *
+ * Typography
+ * ──────────
+ * --font-mono:   'JetBrains Mono'  — The signal typeface. Code, display, identity.
+ * --font-sans:   'Inter'           — The body typeface. UI, reading, navigation.
+ *
+ * Spacing Scale (base 4px)
+ * ────────────────────────
+ * 4  8  12  16  24  32  48  64  96  128  192  256
+ *
+ * Motion
+ * ──────
+ * --ease-signal:   cubic-bezier(0.16, 1, 0.3, 1)     Fast attack, gentle settle.
+ * --ease-resolve:  cubic-bezier(0.65, 0, 0.35, 1)     Symmetric, precise.
+ * --ease-out:      cubic-bezier(0, 0, 0.2, 1)         Standard deceleration.
+ * --duration-fast:   120ms    Micro-interactions.
+ * --duration-normal: 280ms    State transitions.
+ * --duration-slow:   500ms    Entrance animations.
+ * --duration-reveal: 1800ms   Logo/hero reveals.
+ *
+ * ══════════════════════════════════════════════════════════════
+ */
+
+/* ── Google Fonts ── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+/* ══════════════════════════════════════════════════════════════
+   Dark Mode (Default)
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  /* ── Color: Surfaces ── */
+  --color-bg-primary:       #0A0A0C;
+  --color-bg-secondary:     #111114;
+  --color-surface:          #18181C;
+
+  /* ── Color: Accent ── */
+  --color-accent:           #E8A012;
+  --color-accent-dim:       #8B6010;
+  --color-accent-glow:      rgba(232, 160, 18, 0.15);
+  --color-accent-subtle:    rgba(232, 160, 18, 0.08);
+
+  /* ── Color: Text ── */
+  --color-text-primary:     #E8E6E1;
+  --color-text-secondary:   #9E9B93;
+  --color-text-muted:       #5C5A54;
+
+  /* ── Color: Structural ── */
+  --color-border:           #2A2A2F;
+  --color-border-accent:    #3D3D44;
+
+  /* ── Color: Semantic ── */
+  --color-error:            #D94B4B;
+  --color-success:          #3DB86A;
+
+  /* ── Typography ── */
+  --font-mono:              'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace;
+  --font-sans:              'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+
+  /* ── Type Scale ── */
+  --text-xs:    0.6875rem;   /* 11px — labels, captions */
+  --text-sm:    0.8125rem;   /* 13px — small body */
+  --text-base:  0.9375rem;   /* 15px — body */
+  --text-md:    1.125rem;    /* 18px — lead */
+  --text-lg:    1.5rem;      /* 24px — section head */
+  --text-xl:    2rem;        /* 32px — page head */
+  --text-2xl:   2.75rem;     /* 44px — display */
+  --text-3xl:   3.5rem;      /* 56px — large display */
+  --text-hero:  5rem;        /* 80px — hero */
+
+  /* ── Font Weights ── */
+  --weight-light:    300;
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ── Line Heights ── */
+  --leading-tight:   1.15;
+  --leading-snug:    1.3;
+  --leading-normal:  1.6;
+  --leading-relaxed: 1.8;
+
+  /* ── Letter Spacing ── */
+  --tracking-tight:   -0.02em;
+  --tracking-normal:   0em;
+  --tracking-wide:     0.04em;
+  --tracking-wider:    0.08em;
+  --tracking-widest:   0.16em;
+
+  /* ── Spacing Scale (4px base) ── */
+  --space-1:   0.25rem;   /* 4px */
+  --space-2:   0.5rem;    /* 8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-12:  3rem;      /* 48px */
+  --space-16:  4rem;      /* 64px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+  --space-48:  12rem;     /* 192px */
+  --space-64:  16rem;     /* 256px */
+
+  /* ── Border Radius ── */
+  --radius-sm:  2px;
+  --radius-md:  4px;
+  --radius-lg:  8px;
+
+  /* ── Motion ── */
+  --ease-signal:    cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-resolve:   cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-out:       cubic-bezier(0, 0, 0.2, 1);
+  --duration-fast:    120ms;
+  --duration-normal:  280ms;
+  --duration-slow:    500ms;
+  --duration-reveal:  1800ms;
+
+  /* ── Z-Index Scale ── */
+  --z-base:      1;
+  --z-raised:    10;
+  --z-nav:       100;
+  --z-modal:     1000;
+  --z-overlay:   9999;
+
+  /* ── Container ── */
+  --container-max:  1200px;
+  --container-narrow: 720px;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   Light Mode
+   ══════════════════════════════════════════════════════════════ */
+:root.light,
+[data-theme="light"] {
+  --color-bg-primary:       #F4F2ED;
+  --color-bg-secondary:     #ECEAE4;
+  --color-surface:          #FFFFFF;
+  --color-accent:           #C4860A;
+  --color-accent-dim:       #A07008;
+  --color-accent-glow:      rgba(196, 134, 10, 0.12);
+  --color-accent-subtle:    rgba(196, 134, 10, 0.06);
+  --color-text-primary:     #1A1A1E;
+  --color-text-secondary:   #5C5A54;
+  --color-text-muted:       #9E9B93;
+  --color-border:           #D4D1C9;
+  --color-border-accent:    #B8B5AD;
+}
+
+/* Light mode: activated only via explicit .light class or data-theme="light" attribute.
+   Dark mode is always the default, regardless of system preference. */

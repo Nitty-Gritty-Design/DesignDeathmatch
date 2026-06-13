@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 80" width="80" height="80">
+  <!--
+    VEKTRA — Standalone Mark
+    Vectorscope glyph for use at small sizes, favicon, loading states.
+    Centered in square bounding box.
+  -->
+  <g fill="none" stroke="#E8E6E1" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="10,62 22,16 38,54 50,24 62,50 74,12" />
+  </g>
+</svg>

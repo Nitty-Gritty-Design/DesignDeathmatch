@@ -1,0 +1,405 @@
+<!-- 
+  Wildcard Choice: 6.1 Generative Animated Background (V2)
+  Rationale: Upgrades the particle network to a full 3D vector coordinate flow-field grid with wave deformation ripples, simulating the phase fabric of generative sound matrices.
+-->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA V2 — Advanced Vector Flow-Field</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--color-bg-primary, #08080a);
+      color: var(--color-text-primary, #f8fafc);
+      font-family: var(--font-mono, monospace);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      cursor: crosshair;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: block;
+    }
+
+    /* Floating Technical HUD Control Panel */
+    .hud {
+      position: absolute;
+      top: var(--spacing-8, 32px);
+      left: var(--spacing-8, 32px);
+      z-index: 10;
+      background: rgba(8, 8, 10, 0.9);
+      border: 1px solid var(--color-border, #1d2433);
+      padding: var(--spacing-6, 24px);
+      border-radius: var(--radius-sm, 2px);
+      backdrop-filter: var(--backdrop-blur, blur(12px));
+      max-width: 350px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-4, 16px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    /* HUD style border decorations */
+    .hud::before {
+      content: "+";
+      position: absolute;
+      top: -8px; left: -4px;
+      font-size: 11px;
+      color: var(--color-accent, #00e65c);
+    }
+
+    .hud-title {
+      font-family: var(--font-sans, sans-serif);
+      font-size: var(--size-md, 18px);
+      font-weight: var(--weight-bold, 700);
+      letter-spacing: -0.01em;
+      border-bottom: 1px solid var(--color-border, #1d2433);
+      padding-bottom: var(--spacing-2, 8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hud-label {
+      font-size: var(--size-3xs, 10px);
+      color: var(--color-text-secondary, #94a3b8);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hud-value {
+      color: var(--color-accent, #00e65c);
+    }
+
+    .hud-btn {
+      background: transparent;
+      border: 1px solid var(--color-border, #1d2433);
+      color: var(--color-text-secondary, #94a3b8);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-3xs, 10px);
+      padding: var(--spacing-2, 8px);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: var(--radius-sm, 2px);
+      cursor: pointer;
+      transition: all var(--duration-fast, 200ms) var(--ease-out-expo);
+    }
+
+    .hud-btn:hover {
+      border-color: var(--color-accent, #00e65c);
+      color: var(--color-text-primary, #f8fafc);
+    }
+
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-1, 4px);
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 1.5px;
+      background: var(--color-border, #1d2433);
+      outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 8px;
+      height: 14px;
+      background: var(--color-accent, #00e65c);
+      border-radius: var(--radius-sm, 2px);
+      cursor: pointer;
+    }
+
+    /* Back Link */
+    .back-link {
+      position: absolute;
+      bottom: var(--spacing-8, 32px);
+      left: var(--spacing-8, 32px);
+      z-index: 10;
+      font-size: var(--size-3xs, 10px);
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--color-text-muted, #475569);
+      border: 1px solid var(--color-border, #1d2433);
+      padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
+      border-radius: var(--radius-sm, 2px);
+      background: rgba(8, 8, 10, 0.9);
+      backdrop-filter: var(--backdrop-blur, blur(12px));
+    }
+
+    .back-link:hover {
+      border-color: var(--color-accent, #00e65c);
+      color: var(--color-text-primary, #f8fafc);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HUD Control Panel -->
+  <div class="hud" role="dialog" aria-label="Signal controls">
+    <div class="hud-title">
+      <span>FLOW FIELD v2.0</span>
+      <span class="hud-value">●</span>
+    </div>
+    <p style="font-size: var(--size-3xs); line-height: 1.45; color: var(--color-text-muted);">
+      An advanced 3D vector-graph field plotting coordinate lattice wave displacements and user ripple matrices.
+    </p>
+
+    <!-- Lattice Spacing -->
+    <div class="control-row">
+      <div class="hud-label">
+        <span>Lattice Density</span>
+        <span class="hud-value" id="val-spacing">45px</span>
+      </div>
+      <input type="range" class="slider" id="ctrl-spacing" min="30" max="80" step="5" value="45" aria-label="Lattice Density Slider">
+    </div>
+
+    <!-- Velocity -->
+    <div class="control-row">
+      <div class="hud-label">
+        <span>Field Speed</span>
+        <span class="hud-value" id="val-speed">1.0x</span>
+      </div>
+      <input type="range" class="slider" id="ctrl-speed" min="0.1" max="3.0" step="0.1" value="1.0" aria-label="Field Speed Slider">
+    </div>
+
+    <!-- Ripple Range -->
+    <div class="control-row">
+      <div class="hud-label">
+        <span>Warp Radius</span>
+        <span class="hud-value" id="val-warp">250px</span>
+      </div>
+      <input type="range" class="slider" id="ctrl-warp" min="100" max="400" step="10" value="250" aria-label="Warp Radius Slider">
+    </div>
+
+    <button class="hud-btn" id="btn-theme">Toggle Palette</button>
+    <button class="hud-btn" id="btn-ripple-mode">Coordinate Nodes: ON</button>
+  </div>
+
+  <!-- Main Canvas -->
+  <canvas id="canvas" aria-label="Vector wave canvas backdrop"></canvas>
+
+  <!-- Navigation Link -->
+  <a href="../site/index.html" class="back-link">← Return to VEKTRA</a>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Control selectors
+    const ctrlSpacing = document.getElementById('ctrl-spacing');
+    const ctrlSpeed = document.getElementById('ctrl-speed');
+    const ctrlWarp = document.getElementById('ctrl-warp');
+    const btnTheme = document.getElementById('btn-theme');
+    const btnNodes = document.getElementById('btn-ripple-mode');
+
+    // Values selectors
+    const valSpacing = document.getElementById('val-spacing');
+    const valSpeed = document.getElementById('val-speed');
+    const valWarp = document.getElementById('val-warp');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    let gridPoints = [];
+    let mouse = { x: 0, y: 0, tx: 0, ty: 0, active: false };
+    let time = 0;
+    let showNodes = true;
+
+    // Read colors
+    let colorGrid = '';
+    let colorAccent = '';
+    let colorSecondary = '';
+
+    function readTheme() {
+      const styles = window.getComputedStyle(document.documentElement);
+      colorGrid = styles.getPropertyValue('--color-border').trim();
+      colorAccent = styles.getPropertyValue('--color-accent').trim();
+      colorSecondary = styles.getPropertyValue('--color-accent-sec').trim();
+    }
+    readTheme();
+
+    // Window Resize
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      buildGrid();
+    });
+
+    // Tracking
+    window.addEventListener('mousemove', (e) => {
+      mouse.tx = e.clientX;
+      mouse.ty = e.clientY;
+      mouse.active = true;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
+    function buildGrid() {
+      gridPoints = [];
+      const spaceVal = parseInt(ctrlSpacing.value);
+      valSpacing.textContent = spaceVal + 'px';
+
+      const cols = Math.ceil(width / spaceVal) + 1;
+      const rows = Math.ceil(height / spaceVal) + 1;
+
+      for (let r = 0; r < rows; r++) {
+        gridPoints[r] = [];
+        for (let c = 0; c < cols; c++) {
+          gridPoints[r][c] = {
+            baseX: c * spaceVal,
+            baseY: r * spaceVal,
+            x: c * spaceVal,
+            y: r * spaceVal
+          };
+        }
+      }
+    }
+
+    // Config binders
+    ctrlSpacing.addEventListener('input', buildGrid);
+    ctrlSpeed.addEventListener('input', () => {
+      valSpeed.textContent = parseFloat(ctrlSpeed.value).toFixed(1) + 'x';
+    });
+    ctrlWarp.addEventListener('input', () => {
+      valWarp.textContent = ctrlWarp.value + 'px';
+    });
+
+    btnTheme.addEventListener('click', () => {
+      const theme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', theme);
+      setTimeout(readTheme, 50);
+    });
+
+    btnNodes.addEventListener('click', () => {
+      showNodes = !showNodes;
+      btnNodes.textContent = 'Coordinate Nodes: ' + (showNodes ? 'ON' : 'OFF');
+      btnNodes.style.borderColor = showNodes ? colorAccent : 'var(--color-border)';
+    });
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      // Damp mouse coordinates
+      mouse.x += (mouse.tx - mouse.x) * 0.08;
+      mouse.y += (mouse.ty - mouse.y) * 0.08;
+
+      const speedVal = parseFloat(ctrlSpeed.value);
+      const warpRadius = parseInt(ctrlWarp.value);
+      const spaceVal = parseInt(ctrlSpacing.value);
+
+      time += 0.003 * speedVal;
+
+      const rows = gridPoints.length;
+      const cols = gridPoints[0] ? gridPoints[0].length : 0;
+
+      // Update calculations
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const pt = gridPoints[r][c];
+          
+          const angleX = (pt.baseX / width) * Math.PI * 4 + time * 3;
+          const angleY = (pt.baseY / height) * Math.PI * 3 + time * 2;
+
+          let dx = Math.sin(angleX) * Math.cos(angleY) * 10;
+          let dy = Math.cos(angleX) * Math.sin(angleY) * 10;
+
+          if (mouse.active) {
+            const mdx = mouse.x - pt.baseX;
+            const mdy = mouse.y - pt.baseY;
+            const dist = Math.sqrt(mdx * mdx + mdy * mdy);
+
+            if (dist < warpRadius) {
+              const factor = (warpRadius - dist) / warpRadius;
+              const push = Math.sin(dist * 0.04 - time * 15) * 15;
+              dx += (mdx / dist) * push * factor;
+              dy += (mdy / dist) * push * factor;
+            }
+          }
+
+          pt.x = pt.baseX + dx;
+          pt.y = pt.baseY + dy;
+        }
+      }
+
+      // Draw Grid lines
+      ctx.strokeStyle = colorGrid;
+      ctx.lineWidth = 0.5;
+      
+      // Horizontal
+      for (let r = 0; r < rows; r++) {
+        ctx.beginPath();
+        for (let c = 0; c < cols; c++) {
+          const pt = gridPoints[r][c];
+          if (c === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+      }
+
+      // Vertical
+      for (let c = 0; c < cols; c++) {
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          const pt = gridPoints[r][c];
+          if (r === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+      }
+
+      // Draw active node indices
+      if (showNodes) {
+        ctx.globalAlpha = 0.85;
+        for (let r = 0; r < rows; r++) {
+          for (let c = 0; c < cols; c++) {
+            const pt = gridPoints[r][c];
+            if (mouse.active) {
+              const mdx = mouse.x - pt.x;
+              const mdy = mouse.y - pt.y;
+              const dist = Math.sqrt(mdx * mdx + mdy * mdy);
+              
+              if (dist < 180) {
+                const ratio = (180 - dist) / 180;
+                ctx.beginPath();
+                ctx.arc(pt.x, pt.y, 1.2 + ratio * 1.8, 0, Math.PI * 2);
+                ctx.fillStyle = ratio > 0.5 ? colorAccent : colorSecondary;
+                ctx.globalAlpha = 0.15 + ratio * 0.55;
+                ctx.fill();
+              }
+            }
+          }
+        }
+      }
+
+      ctx.globalAlpha = 1.0;
+      requestAnimationFrame(animate);
+    }
+
+    buildGrid();
+    animate();
+  </script>
+</body>
+</html>

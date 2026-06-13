@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Animated Logo Concept</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    :root {
+      /* Fallbacks in case tokens.css is not in scope or path is wrong, but we'll import it */
+      background-color: var(--color-bg-primary, #0f0f10);
+      color: var(--color-text-primary, #eff0f2);
+      font-family: var(--font-mono, monospace);
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background-color: var(--color-bg-primary);
+      overflow: hidden;
+      cursor: crosshair;
+    }
+
+    .container {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-8, 32px);
+    }
+
+    .meta-tag {
+      font-size: var(--size-3xs, 10px);
+      letter-spacing: 0.25em;
+      color: var(--color-text-muted, #6b6d72);
+      text-transform: uppercase;
+      margin-bottom: var(--spacing-4, 16px);
+      animation: pulse-meta 2s infinite ease-in-out;
+    }
+
+    @keyframes pulse-meta {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .logo-container {
+      width: 320px;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* SVG Animation Styles */
+    .animated-logo {
+      width: 100%;
+      height: 100%;
+      overflow: visible;
+    }
+
+    /* 1. Coordinate Dot Pulse & Entrance */
+    .anim-dot {
+      fill: var(--color-accent, #caff00);
+      opacity: 0;
+      transform-origin: 57.5px 20px;
+      animation: dot-init 1.2s var(--ease-out-expo) forwards;
+    }
+
+    @keyframes dot-init {
+      0% {
+        opacity: 0;
+        transform: scale(0);
+      }
+      20% {
+        opacity: 1;
+        transform: scale(2.5);
+      }
+      40% {
+        transform: scale(1);
+      }
+      60% {
+        transform: scale(1.8);
+      }
+      80% {
+        transform: scale(1);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    /* 2. Wave Path Trace */
+    .anim-mark {
+      fill: none;
+      stroke: var(--color-accent, #caff00);
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      animation: mark-trace 1.8s var(--ease-out-expo) forwards;
+      animation-delay: 0.8s;
+    }
+
+    @keyframes mark-trace {
+      0% {
+        stroke-dashoffset: 120;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* 3. Divider Line Drop */
+    .anim-divider {
+      stroke: var(--color-border, #2d2e33);
+      stroke-width: 1.5;
+      stroke-dasharray: 36;
+      stroke-dashoffset: 36;
+      animation: divider-drop 0.6s var(--ease-out-expo) forwards;
+      animation-delay: 2.2s;
+    }
+
+    @keyframes divider-drop {
+      0% {
+        stroke-dashoffset: 36;
+      }
+      100% {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* 4. Text Fade & Track */
+    .anim-text {
+      font-family: var(--font-sans, sans-serif);
+      font-weight: var(--weight-bold, 700);
+      font-size: 24px;
+      letter-spacing: 0.35em;
+      fill: var(--color-text-primary, #eff0f2);
+      opacity: 0;
+      animation: text-reveal 1.2s var(--ease-out-expo) forwards;
+      animation-delay: 2.6s;
+    }
+
+    @keyframes text-reveal {
+      0% {
+        opacity: 0;
+        letter-spacing: 0.35em;
+        transform: translateX(5px);
+      }
+      100% {
+        opacity: 1;
+        letter-spacing: 0.18em;
+        transform: translateX(0);
+      }
+    }
+
+    /* Controls */
+    .btn-replay {
+      background: transparent;
+      border: 1px solid var(--color-border, #2d2e33);
+      color: var(--color-text-secondary, #afb0b3);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-3xs, 10px);
+      padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
+      border-radius: var(--radius-sm, 2px);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all var(--duration-fast, 150ms) var(--ease-out-expo);
+      margin-top: var(--spacing-4, 16px);
+      outline: none;
+    }
+
+    .btn-replay:hover {
+      border-color: var(--color-accent, #caff00);
+      color: var(--color-text-primary, #eff0f2);
+      box-shadow: 0 0 10px var(--color-accent-dim, rgba(202, 255, 0, 0.2));
+    }
+
+    .btn-replay:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="meta-tag">System Initializing // Channel 01</div>
+    
+    <div class="logo-container" id="logo-holder">
+      <!-- Animated SVG inline -->
+      <svg class="animated-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 60" width="240" height="60" id="vektra-svg">
+        <g id="logo-graphic">
+          <!-- Standalone Mark portion -->
+          <path class="anim-mark" d="M 15 18 L 30 42 L 41 24 L 44 32 L 47 16 L 50 28 L 53 20" />
+          <circle class="anim-dot" cx="57.5" cy="20" r="2.5" />
+          
+          <!-- Divider Line -->
+          <line class="anim-divider" x1="72" y1="12" x2="72" y2="48" />
+          
+          <!-- Typographic Wordmark -->
+          <text class="anim-text" x="88" y="37">VEKTRA</text>
+        </g>
+      </svg>
+    </div>
+
+    <button class="btn-replay" id="replay-btn">Replay sequence</button>
+  </div>
+
+  <script>
+    const holder = document.getElementById('logo-holder');
+    const btn = document.getElementById('replay-btn');
+    
+    btn.addEventListener('click', () => {
+      // Force repaint to restart CSS keyframe animations
+      const currentSvg = holder.innerHTML;
+      holder.innerHTML = '';
+      // Wait a frame
+      requestAnimationFrame(() => {
+        holder.innerHTML = currentSvg;
+      });
+    });
+  </script>
+</body>
+</html>

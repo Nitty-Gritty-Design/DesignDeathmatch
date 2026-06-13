@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VEKTRA v2 — Brand Configurator</title>
+  <!--
+    WILDCARD 6.2 v2 — Interactive Brand Configurator
+    Live CSS custom property editor. Every control writes to
+    :root tokens in real time. Logo + headline + button +
+    code block + nav + footer all update live. URL hash
+    persistence — share your tuning via link. No frameworks.
+  -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'><g fill='none' stroke='%23F2EFE7' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'><path d='M10 60 L40 14 L70 60'/></g><circle cx='40' cy='14' r='3.5' fill='%23FF5C1F'/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Manrope:wght@400;500;600;700&family=DM+Serif+Display&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    :root { --cfg-accent-live: var(--color-accent); --cfg-bg-live: var(--color-bg-primary); }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; min-height: 100%; }
+    body { background: var(--cfg-bg-live); color: var(--color-text-primary); font-family: var(--font-sans); line-height: var(--lh-normal); -webkit-font-smoothing: antialiased; cursor: crosshair; }
+    a { color: inherit; }
+
+    .topbar { position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; padding: 16px 28px; border-bottom: 1px solid var(--color-border); background: color-mix(in srgb, var(--cfg-bg-live) 90%, transparent); backdrop-filter: blur(10px); font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .topbar .left { display: flex; align-items: center; gap: 12px; }
+    .topbar .mini { width: 28px; height: 28px; color: var(--color-text-primary); }
+    .topbar a { color: var(--color-text-secondary); }
+    .topbar a:hover { color: var(--cfg-accent-live); }
+    .topbar .actions { display: flex; gap: 12px; }
+
+    .grid { display: grid; grid-template-columns: 360px 1fr; min-height: calc(100vh - 60px); }
+    @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+
+    .panel { border-right: 1px solid var(--color-border); padding: 28px; display: flex; flex-direction: column; gap: 28px; max-height: calc(100vh - 60px); overflow-y: auto; }
+    @media (max-width: 900px) { .panel { border-right: 0; border-bottom: 1px solid var(--color-border); max-height: none; } }
+    .panel h2 { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--color-text-muted); margin: 0; padding-bottom: 8px; border-bottom: 1px solid var(--color-border); }
+    .ctrl { display: flex; flex-direction: column; gap: 8px; }
+    .ctrl-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+    .ctrl label { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-primary); }
+    .ctrl .val { font-family: var(--font-mono); font-size: 11px; color: var(--cfg-accent-live); }
+    .ctrl input[type=color] { -webkit-appearance: none; appearance: none; width: 100%; height: 40px; border: 1px solid var(--color-border-strong); background: transparent; padding: 2px; cursor: crosshair; }
+    .ctrl input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+    .ctrl input[type=color]::-webkit-color-swatch { border: 0; }
+    .ctrl input[type=range] { -webkit-appearance: none; appearance: none; width: 100%; height: 2px; background: var(--color-border-strong); outline: none; }
+    .ctrl input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 14px; height: 14px; background: var(--cfg-accent-live); border: 2px solid var(--cfg-bg-live); cursor: crosshair; }
+    .ctrl select { background: var(--color-bg-secondary); color: var(--color-text-primary); border: 1px solid var(--color-border-strong); padding: 8px 10px; font-family: var(--font-mono); font-size: 12px; width: 100%; }
+    .preset-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .preset { padding: 6px 10px; border: 1px solid var(--color-border-strong); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; cursor: crosshair; transition: border-color var(--dur-2) var(--ease-out-snap), color var(--dur-2) var(--ease-out-snap); background: transparent; color: var(--color-text-primary); }
+    .preset:hover { border-color: var(--cfg-accent-live); color: var(--cfg-accent-live); }
+    .actions { display: flex; gap: 8px; }
+    .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; border: 1px solid var(--color-border-strong); background: transparent; color: var(--color-text-primary); cursor: crosshair; transition: all var(--dur-2) var(--ease-out-snap); flex: 1; justify-content: center; }
+    .btn:hover { border-color: var(--cfg-accent-live); color: var(--cfg-accent-live); }
+    .btn-primary { background: var(--cfg-accent-live); color: var(--color-accent-fg); border-color: var(--cfg-accent-live); }
+    .btn-primary:hover { background: transparent; color: var(--cfg-accent-live); }
+
+    .stage { padding: 40px 48px; display: flex; flex-direction: column; gap: 32px; }
+    @media (max-width: 720px) { .stage { padding: 24px; } }
+    .preview-card { border: 1px solid var(--color-border); background: var(--color-bg-secondary); padding: 48px; display: flex; flex-direction: column; gap: 32px; }
+    @media (max-width: 720px) { .preview-card { padding: 24px; } }
+
+    .preview-head { display: flex; align-items: center; gap: 24px; padding-bottom: 32px; border-bottom: 1px solid var(--color-border); }
+    .preview-head .mark { width: 56px; height: 56px; color: var(--color-text-primary); }
+    .preview-head .word { font-family: var(--font-mono); font-weight: 500; font-size: 32px; letter-spacing: 0.16em; }
+    .preview-head .meta { margin-left: auto; font-family: var(--font-mono); font-size: 11px; color: var(--color-text-muted); letter-spacing: 0.08em; text-transform: uppercase; }
+
+    .preview-title { font-family: var(--font-display); font-weight: 300; font-size: clamp(40px, 5.5vw, 80px); line-height: 1; letter-spacing: -0.04em; margin: 0; text-transform: uppercase; }
+    .preview-title em { color: var(--cfg-accent-live); font-style: italic; font-weight: 300; }
+    .preview-lead { font-size: 16px; color: var(--color-text-secondary); line-height: 1.6; max-width: 56ch; margin: 0; }
+
+    .preview-cta { display: flex; gap: 12px; }
+    .btn-lg { padding: 14px 22px; font-size: 12px; }
+
+    .preview-code { background: var(--color-bg-primary); border-left: 2px solid var(--cfg-accent-live); padding: 18px 22px; font-family: var(--font-mono); font-size: 13px; line-height: 1.6; overflow-x: auto; }
+    .preview-code .k { color: var(--cfg-accent-live); }
+    .preview-code .c { color: var(--color-text-muted); font-style: italic; }
+
+    .preview-tokens { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--color-border); border: 1px solid var(--color-border); }
+    .preview-tokens > div { background: var(--color-bg-secondary); padding: 14px 16px; }
+    .preview-tokens .k { font-family: var(--font-mono); font-size: 10px; color: var(--color-text-muted); letter-spacing: 0.1em; text-transform: uppercase; }
+    .preview-tokens .v { font-family: var(--font-mono); font-size: 12px; color: var(--color-text-primary); }
+    @media (max-width: 720px) { .preview-tokens { grid-template-columns: 1fr 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="left">
+      <svg class="mini" viewBox="0 0 80 80" aria-hidden="true">
+        <path d="M10 60 L40 14 L70 60" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="40" cy="14" r="3.5" fill="#FF5C1F"/>
+      </svg>
+      <span>VEKTRA / brand configurator · v2</span>
+    </div>
+    <div class="actions">
+      <a href="../site/index.html">↩ site</a>
+      <a href="styleguide.html">style</a>
+    </div>
+  </header>
+
+  <div class="grid">
+    <aside class="panel" aria-label="Configuration controls">
+      <h2>— color</h2>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="accent">Accent</label><span class="val" id="v-accent">#FF5C1F</span></div>
+        <input type="color" id="accent" value="#FF5C1F">
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="bg">Background</label><span class="val" id="v-bg">#0D0D0B</span></div>
+        <input type="color" id="bg" value="#0D0D0B">
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label>Presets</label></div>
+        <div class="preset-row">
+          <button class="preset" data-accent="#FF5C1F" data-bg="#0D0D0B">Signal Amber</button>
+          <button class="preset" data-accent="#D4FF3A" data-bg="#0A0A0A">Phosphor</button>
+          <button class="preset" data-accent="#00E5FF" data-bg="#0B0F1A">Cold Plasma</button>
+          <button class="preset" data-accent="#FF2D6F" data-bg="#120A12">Magenta</button>
+          <button class="preset" data-accent="#7C5CFF" data-bg="#0D0D0B">Deep Violet</button>
+          <button class="preset" data-accent="#FF6B1A" data-bg="#F2EFE7">Paper</button>
+          <button class="preset" data-accent="#4ADE80" data-bg="#08120B">Terminal</button>
+          <button class="preset" data-accent="#FBBF24" data-bg="#0E0C08">Sun</button>
+        </div>
+      </div>
+
+      <h2>— typography</h2>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="sans">Sans</label></div>
+        <select id="sans">
+          <option value='"Space Grotesk", system-ui, sans-serif' selected>Space Grotesk</option>
+          <option value='Inter, system-ui, sans-serif'>Inter</option>
+          <option value='Manrope, system-ui, sans-serif'>Manrope</option>
+        </select>
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="mono">Mono</label></div>
+        <select id="mono">
+          <option value='"JetBrains Mono", ui-monospace, monospace' selected>JetBrains Mono</option>
+          <option value='"IBM Plex Mono", ui-monospace, monospace'>IBM Plex Mono</option>
+          <option value='"Space Mono", ui-monospace, monospace'>Space Mono</option>
+          <option value='ui-monospace, "SF Mono", Menlo, monospace'>System Mono</option>
+        </select>
+      </div>
+
+      <h2>— geometry</h2>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="radius">Radius</label><span class="val" id="v-radius">2 px</span></div>
+        <input type="range" id="radius" min="0" max="20" value="2">
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="spacing">Spacing</label><span class="val" id="v-spacing">×1.00</span></div>
+        <input type="range" id="spacing" min="75" max="150" value="100">
+      </div>
+      <div class="ctrl">
+        <div class="ctrl-row"><label for="typeScale">Type scale</label><span class="val" id="v-typeScale">×1.00</span></div>
+        <input type="range" id="typeScale" min="85" max="120" value="100">
+      </div>
+
+      <h2>— share</h2>
+      <div class="actions">
+        <button class="btn btn-primary" id="copy-url">copy share link</button>
+        <button class="btn" id="reset">reset</button>
+      </div>
+    </aside>
+
+    <section class="stage" aria-label="Live preview">
+      <div class="preview-card">
+        <div class="preview-head">
+          <svg class="mark" viewBox="0 0 80 80" aria-hidden="true" id="preview-mark">
+            <g fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M10 60 L40 14 L70 60"/>
+            </g>
+            <circle class="accent-bar" cx="40" cy="14" r="3.5"/>
+          </svg>
+          <span class="word">VEKTRA</span>
+          <span class="meta">v0.4.2 · live preview</span>
+        </div>
+
+        <h1 class="preview-title">Sound, motion,<br>and code — as <em>one</em> graph.</h1>
+        <p class="preview-lead">VEKTRA is a live environment where audio, visual, and logical signals share a single timebase. A change in frequency drives a change in geometry. A gesture rewrites a patch.</p>
+
+        <div class="preview-cta">
+          <button class="btn btn-primary btn-lg">Start a session →</button>
+          <button class="btn btn-lg">Read the spec</button>
+        </div>
+
+        <div class="preview-tokens">
+          <div><div class="k">--color-accent</div><div class="v" id="d-accent">#FF5C1F</div></div>
+          <div><div class="k">--color-bg-primary</div><div class="v" id="d-bg">#0D0D0B</div></div>
+          <div><div class="k">--font-sans</div><div class="v" id="d-sans" style="font-family: var(--font-sans)">Space Grotesk</div></div>
+          <div><div class="k">--font-mono</div><div class="v" id="d-mono" style="font-family: var(--font-mono)">JetBrains Mono</div></div>
+        </div>
+
+        <pre class="preview-code"><code><span class="c">// a 1-bar loop with LFO on the filter cutoff</span>
+<span class="k">import</span> {patch, lfo, biquad} <span class="k">from</span> "vektra";
+
+<span class="k">const</span> src  = patch.saw(220);
+<span class="k">const</span> mod  = lfo(0.7).range(400, 3200);
+<span class="k">const</span> filt = biquad.lowpass(mod, 3.0);
+
+patch.out(filt);</code></pre>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    /* Configurator v2 — writes to :root tokens live.
+       URL-hash persistence: #accent=FF5C1F&bg=0D0D0B&sans=...&mono=...&radius=2&spacing=100&type=100 */
+    const $ = (s) => document.querySelector(s);
+    const root = document.documentElement;
+    const markAccent = $(".accent-bar", $("#preview-mark"));
+
+    const set = (name, value) => root.style.setProperty(name, value);
+
+    const state = {
+      accent: "#FF5C1F", bg: "#0D0D0B",
+      sans: '"Space Grotesk", system-ui, sans-serif', sansName: "Space Grotesk",
+      mono: '"JetBrains Mono", ui-monospace, monospace', monoName: "JetBrains Mono",
+      radius: 2, spacing: 100, typeScale: 100,
+    };
+
+    const hex2rgb = (h) => [parseInt(h.slice(1,3),16), parseInt(h.slice(3,5),16), parseInt(h.slice(5,7),16)];
+    const rgb2hex = (r,g,b) => "#" + [r,g,b].map(x => Math.max(0,Math.min(255,Math.round(x))).toString(16).padStart(2,"0")).join("").toUpperCase();
+    const mix = (a,b,t) => { const [ar,ag,ab]=hex2rgb(a); const [br,bg,bb]=hex2rgb(b); return rgb2hex(ar+(br-ar)*t, ag+(bg-ag)*t, ab+(bb-ab)*t); };
+    const isLight = (h) => { const [r,g,b]=hex2rgb(h); return (0.299*r+0.587*g+0.114*b) > 140; };
+
+    const applyAccent = (hex) => {
+      state.accent = hex;
+      set("--color-accent", hex);
+      set("--color-accent-fg", isLight(hex) ? "#0D0D0B" : "#0D0D0B");
+      set("--color-accent-bright", mix(hex, "#FFFFFF", 0.18));
+      set("--color-accent-deep", mix(hex, "#000000", 0.22));
+      set("--cfg-accent-live", hex);
+      markAccent.setAttribute("fill", hex);
+      $("#v-accent").textContent = hex.toUpperCase();
+      $("#d-accent").textContent = hex.toUpperCase();
+      persist();
+    };
+    const applyBg = (hex) => {
+      state.bg = hex;
+      set("--color-bg-primary", hex);
+      set("--color-bg-secondary", mix(hex, "#000000", 0.07));
+      set("--color-bg-tertiary", mix(hex, "#000000", 0.12));
+      set("--color-surface", mix(hex, "#000000", 0.18));
+      set("--cfg-bg-live", hex);
+      set("--color-text-primary", isLight(hex) ? "#0D0D0B" : "#F2EFE7");
+      $("#v-bg").textContent = hex.toUpperCase();
+      $("#d-bg").textContent = hex.toUpperCase();
+      persist();
+    };
+    const applyFont = (kind, stack, name) => {
+      state[kind === "sans" ? "sans" : "mono"] = stack;
+      state[kind === "sans" ? "sansName" : "monoName"] = name;
+      set(`--font-${kind}`, stack);
+      $(`#d-${kind}`).textContent = name;
+      $(`#d-${kind}`).style.fontFamily = stack;
+      persist();
+    };
+    const applyRadius = (r) => {
+      state.radius = r;
+      set("--radius-1", r + "px");
+      set("--radius-2", Math.min(20, r*2) + "px");
+      set("--radius-3", Math.min(20, r*4) + "px");
+      $("#v-radius").textContent = `${r} px`;
+      persist();
+    };
+    const applySpacing = (pct) => {
+      state.spacing = pct;
+      const k = pct / 100;
+      [4,8,12,16,24,32,48,64,96,128,192].forEach((v,i) => set(`--s-${i+1}`, Math.round(v*k) + "px"));
+      $("#v-spacing").textContent = `×${k.toFixed(2)}`;
+      persist();
+    };
+    const applyTypeScale = (pct) => {
+      state.typeScale = pct;
+      const k = pct / 100;
+      [10,11,12,13,14,15,16,18,20,24,32,40,48,64,80,96,128,160,200].forEach((v,i) => set(`--fs-${[10,11,12,13,14,15,16,18,20,24,32,40,48,64,80,96,128,160,200][i]}`, Math.round(v*k) + "px"));
+      $("#v-typeScale").textContent = `×${k.toFixed(2)}`;
+      persist();
+    };
+
+    /* URL hash persistence */
+    const persist = () => {
+      const params = new URLSearchParams();
+      params.set("a", state.accent.slice(1));
+      params.set("b", state.bg.slice(1));
+      params.set("s", encodeURIComponent(state.sans));
+      params.set("m", encodeURIComponent(state.mono));
+      params.set("r", state.radius);
+      params.set("p", state.spacing);
+      params.set("t", state.typeScale);
+      history.replaceState(null, "", "#" + params.toString());
+    };
+    const load = () => {
+      const h = location.hash.slice(1);
+      if (!h) return;
+      const p = new URLSearchParams(h);
+      if (p.get("a")) { const v = "#" + p.get("a").toUpperCase(); $("#accent").value = v; applyAccent(v); }
+      if (p.get("b")) { const v = "#" + p.get("b").toUpperCase(); $("#bg").value = v; applyBg(v); }
+      if (p.get("s")) { try { const s = decodeURIComponent(p.get("s")); const sel = $("#sans"); for (const o of sel.options) if (o.value === s) { sel.value = s; applyFont("sans", s, o.text); break; } } catch(e){} }
+      if (p.get("m")) { try { const s = decodeURIComponent(p.get("m")); const sel = $("#mono"); for (const o of sel.options) if (o.value === s) { sel.value = s; applyFont("mono", s, o.text); break; } } catch(e){} }
+      if (p.get("r")) { const v = parseInt(p.get("r"),10); $("#radius").value = v; applyRadius(v); }
+      if (p.get("p")) { const v = parseInt(p.get("p"),10); $("#spacing").value = v; applySpacing(v); }
+      if (p.get("t")) { const v = parseInt(p.get("t"),10); $("#typeScale").value = v; applyTypeScale(v); }
+    };
+
+    /* wire up */
+    $("#accent").addEventListener("input", (e) => applyAccent(e.target.value));
+    $("#bg").addEventListener("input", (e) => applyBg(e.target.value));
+    $("#sans").addEventListener("change", (e) => applyFont("sans", e.target.value, e.target.options[e.target.selectedIndex].text));
+    $("#mono").addEventListener("change", (e) => applyFont("mono", e.target.value, e.target.options[e.target.selectedIndex].text));
+    $("#radius").addEventListener("input", (e) => applyRadius(parseInt(e.target.value, 10)));
+    $("#spacing").addEventListener("input", (e) => applySpacing(parseInt(e.target.value, 10)));
+    $("#typeScale").addEventListener("input", (e) => applyTypeScale(parseInt(e.target.value, 10)));
+
+    document.querySelectorAll(".preset").forEach((b) => {
+      b.addEventListener("click", () => {
+        const a = b.dataset.accent, g = b.dataset.bg;
+        $("#accent").value = a; applyAccent(a);
+        $("#bg").value = g; applyBg(g);
+      });
+    });
+
+    $("#reset").addEventListener("click", () => {
+      $("#accent").value = "#FF5C1F"; applyAccent("#FF5C1F");
+      $("#bg").value = "#0D0D0B"; applyBg("#0D0D0B");
+      $("#sans").value = '"Space Grotesk", system-ui, sans-serif'; applyFont("sans", '"Space Grotesk", system-ui, sans-serif', "Space Grotesk");
+      $("#mono").value = '"JetBrains Mono", ui-monospace, monospace'; applyFont("mono", '"JetBrains Mono", ui-monospace, monospace', "JetBrains Mono");
+      $("#radius").value = 2; applyRadius(2);
+      $("#spacing").value = 100; applySpacing(100);
+      $("#typeScale").value = 100; applyTypeScale(100);
+    });
+
+    $("#copy-url").addEventListener("click", async () => {
+      const url = location.href;
+      try { await navigator.clipboard.writeText(url); $("#copy-url").textContent = "copied ✓"; setTimeout(() => $("#copy-url").textContent = "copy share link", 1400); }
+      catch (e) { alert(url); }
+    });
+
+    load();
+  </script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <!-- VEKTRA mark only: signal-peak V with apex gap -->
+  <!-- Used at small sizes, favicon, loading states -->
+  <g fill="none" stroke="#E8E6E1" stroke-width="3" stroke-linecap="square">
+    <line x1="3" y1="43" x2="22" y2="5"/>
+    <line x1="25" y1="5" x2="45" y2="43"/>
+  </g>
+</svg>

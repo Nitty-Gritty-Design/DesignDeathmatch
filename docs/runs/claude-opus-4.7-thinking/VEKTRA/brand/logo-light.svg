@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 80" width="400" height="80">
+  <!--
+    VEKTRA — Light Background Logo
+    Same geometry as primary, colors inverted for light surfaces.
+  -->
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500&amp;display=swap');
+    </style>
+  </defs>
+
+  <!-- Mark: vectorscope glyph -->
+  <g id="vektra-mark-light" fill="none" stroke="#1A1A1E" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="8,58 20,14 36,50 48,22 60,46 72,10" />
+  </g>
+
+  <!-- Logotype -->
+  <text x="108" y="54" font-family="'JetBrains Mono', monospace" font-weight="500" font-size="38" letter-spacing="0.16em" fill="#1A1A1E">VEKTRA</text>
+</svg>

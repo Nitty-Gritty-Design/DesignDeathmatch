@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA — Signal becomes form</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../brand/tokens.css">
+<link rel="stylesheet" href="style.css">
+<!-- GSAP v3 — premium animation choreography that CSS alone cannot achieve -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<!-- D3.js v7 — frequency spectrum visualization, DOM-driven for accessibility -->
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════ -->
+  <nav class="nav" id="nav">
+    <div class="nav__inner">
+      <a href="#" class="nav__logo" aria-label="VEKTRA home">
+        <svg viewBox="0 0 320 56" height="28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="navGrad" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0%" stop-color="var(--color-text-muted)"/>
+              <stop offset="100%" stop-color="var(--color-text-primary)"/>
+            </linearGradient>
+          </defs>
+          <path d="M 2 50 L 18 10 Q 22 2 26 10 L 32 26" fill="none" stroke="url(#navGrad)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 32 26 L 38 10 Q 42 2 46 10 L 62 50" fill="none" stroke="var(--color-text-primary)" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 12 38 Q 18 34 22 26 Q 26 18 30 14 Q 32 12 34 14 Q 38 18 42 26 Q 46 34 52 38" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+          <circle cx="32" cy="11" r="2.5" fill="var(--color-accent)"/>
+          <text x="78" y="38" font-family="'JetBrains Mono', monospace" font-size="22" font-weight="700" fill="var(--color-text-primary)" letter-spacing="4">VEKTRA</text>
+        </svg>
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="#what">What</a></li>
+        <li><a href="#how">How</a></li>
+        <li><a href="#who">Who</a></li>
+        <li><a href="#spectrum">Spectrum</a></li>
+      </ul>
+      <a href="#cta" class="nav__cta">Get access</a>
+      <button class="nav__hamburger" id="hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════
+       HERO
+       ═══════════════════════════════════ -->
+  <header class="hero" id="hero">
+    <canvas class="hero__canvas" id="heroCanvas" aria-hidden="true"></canvas>
+    <div class="hero__content">
+      <p class="hero__label" data-reveal>SIGNAL_INCOMING<span class="hero__cursor">_</span></p>
+      <h1 class="hero__headline" data-reveal data-split>Signal<br>becomes form.</h1>
+      <p class="hero__sub" data-reveal>Sound, motion, and code as a single medium. VEKTRA is a software environment where everything is inspectable, forkable, and alive.</p>
+      <div class="hero__actions" data-reveal>
+        <a href="#cta" class="btn btn--primary">Request access</a>
+        <a href="#how" class="btn btn--ghost">See how it works</a>
+      </div>
+    </div>
+    <div class="hero__scroll" data-reveal>
+      <span class="hero__scroll-line"></span>
+      <span class="hero__scroll-text">Scroll</span>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════
+       WHAT IT IS
+       ═══════════════════════════════════ -->
+  <section class="section" id="what">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <span class="section__label">01 — What it is</span>
+        <h2 class="section__headline">A way of thinking about time, signal, and form simultaneously.</h2>
+      </div>
+      <div class="grid grid--2col">
+        <div class="section__text" data-reveal>
+          <p>VEKTRA is not a DAW. It is not a creative suite. It is not a plugin. It is closer to a language — one where frequency drives visual parameters, where gesture rewrites a patch, where time is explicit and nothing is hidden.</p>
+          <p>Most creative tools separate the visual from the sonic from the logical. VEKTRA treats them as one graph. Every connection is visible. Every parameter is a node. Every moment is addressable.</p>
+        </div>
+        <div class="code-block" data-reveal role="figure" aria-label="Example VEKTRA patch code">
+          <div class="code-block__header">
+            <span class="code-block__dot"></span>
+            <span class="code-block__dot"></span>
+            <span class="code-block__dot"></span>
+            <span class="code-block__file">patch.vk</span>
+          </div>
+          <pre><code><span class="hl-kw">let</span> osc = Vek.osc(<span class="hl-str">"sine"</span>, <span class="hl-num">220</span>)
+<span class="hl-kw">let</span> shape = Vek.morph(osc, <span class="hl-str">"ring"</span>)
+<span class="hl-kw">let</span> field = Vek.field(shape, {
+  resolution: <span class="hl-num">64</span>,
+  decay: <span class="hl-num">0.92</span>,
+  color: <span class="hl-acc">accent</span>
+})
+Vek.render(field, <span class="hl-str">"viewport"</span>)</code></pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       HOW IT WORKS
+       ═══════════════════════════════════ -->
+  <section class="section section--alt" id="how">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <span class="section__label">02 — How it works</span>
+        <h2 class="section__headline">Three principles.</h2>
+      </div>
+      <div class="caps">
+        <article class="cap" data-reveal>
+          <div class="cap__number">01</div>
+          <div class="cap__line"></div>
+          <h3 class="cap__title">The unified graph</h3>
+          <p class="cap__desc">Audio signals, visual parameters, and logic branches share the same node space. A change at any point propagates through the entire system. No bridges. No export steps. One topology.</p>
+        </article>
+        <article class="cap" data-reveal>
+          <div class="cap__number">02</div>
+          <div class="cap__line"></div>
+          <h3 class="cap__title">Live state</h3>
+          <p class="cap__desc">Every value is inspectable at every moment. Pause time, fork a signal branch, reroute a connection while the system runs. The patch is not a file — it is a living process.</p>
+        </article>
+        <article class="cap" data-reveal>
+          <div class="cap__number">03</div>
+          <div class="cap__line"></div>
+          <h3 class="cap__title">Temporal precision</h3>
+          <p class="cap__desc">Time is not hidden behind a timeline scrubber. It is a first-class dimension — sample-addressable, schedulable, mutable. Micro-timing is not an advanced feature. It is the default.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       WHO USES IT
+       ═══════════════════════════════════ -->
+  <section class="section" id="who">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <span class="section__label">03 — Who uses it</span>
+        <h2 class="section__headline">Built for people who make things that behave.</h2>
+      </div>
+      <div class="archetypes">
+        <article class="arch" data-reveal>
+          <div class="arch__icon" aria-hidden="true">
+            <svg width="40" height="40" viewBox="0 0 40 40"><path d="M4 32 L14 6 L20 22 L26 6 L36 32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="arch__title">The composer</h3>
+          <p class="arch__name">Elena Voss, Berlin</p>
+          <p class="arch__desc">Elena writes granular synthesis patches that restructure themselves based on audience position. She uses VEKTRA because no other environment lets her route sensor data into spectral parameters without leaving the signal graph.</p>
+        </article>
+        <article class="arch" data-reveal>
+          <div class="arch__icon" aria-hidden="true">
+            <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="15" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="20" cy="20" r="2" fill="currentColor"/><line x1="20" y1="5" x2="20" y2="12" stroke="currentColor" stroke-width="1"/><line x1="20" y1="28" x2="20" y2="35" stroke="currentColor" stroke-width="1"/></svg>
+          </div>
+          <h3 class="arch__title">The installation artist</h3>
+          <p class="arch__name">Marcus Teo, London</p>
+          <p class="arch__desc">Marcus builds room-scale reactive environments where sound and light respond to movement. VEKTRA's unified graph means his Kinect data, audio engine, and projection mapping share one live topology — not three separate systems duct-taped together.</p>
+        </article>
+        <article class="arch" data-reveal>
+          <div class="arch__icon" aria-hidden="true">
+            <svg width="40" height="40" viewBox="0 0 40 40"><rect x="6" y="6" width="28" height="28" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 26 L16 16 L22 22 L28 12 L34 20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="arch__title">The developer-researcher</h3>
+          <p class="arch__name">Yuki Tanaka, Paris</p>
+          <p class="arch__desc">Yuki prototyped an audio-visual classifier at IRCAM that runs inside VEKTRA as a patch, not a script. She can fork the signal chain, compare outputs in real time, and share the patch as a URL — not a repository of notebooks.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       DATA VISUALIZATION
+       ═══════════════════════════════════ -->
+  <section class="section section--alt" id="spectrum">
+    <div class="section__inner">
+      <div class="section__header" data-reveal>
+        <span class="section__label">04 — Spectrum</span>
+        <h2 class="section__headline">A frequency spectrum, live.</h2>
+      </div>
+      <p class="section__intro" data-reveal>An interactive representation of how VEKTRA's signal graph distributes energy across the frequency domain. Hover to inspect. Click to isolate a band.</p>
+      <div class="viz" id="vizContainer" data-reveal role="figure" aria-label="Interactive frequency spectrum visualization">
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       CTA
+       ═══════════════════════════════════ -->
+  <section class="section cta" id="cta">
+    <div class="cta__inner" data-reveal>
+      <h2 class="cta__headline">The signal is open.</h2>
+      <p class="cta__text">VEKTRA is in early access. If you make things that behave — not just things that look — we should talk.</p>
+      <a href="#" class="btn btn--primary btn--lg">Request access</a>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <div class="footer__brand">
+        <svg viewBox="0 0 320 56" width="100" height="18" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M 2 50 L 18 10 Q 22 2 26 10 L 32 26" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 32 26 L 38 10 Q 42 2 46 10 L 62 50" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M 12 38 Q 18 34 22 26 Q 26 18 30 14 Q 32 12 34 14 Q 38 18 42 26 Q 46 34 52 38" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+          <circle cx="32" cy="11" r="2.5" fill="currentColor" opacity="0.5"/>
+          <text x="78" y="38" font-family="'JetBrains Mono', monospace" font-size="22" font-weight="700" fill="currentColor" letter-spacing="4">VEKTRA</text>
+        </svg>
+        <p class="footer__tagline">Everything inspectable. Everything alive.</p>
+      </div>
+      <div class="footer__links">
+        <div class="footer__col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#what">Overview</a></li>
+            <li><a href="#how">How it works</a></li>
+            <li><a href="#">Documentation</a></li>
+            <li><a href="#">Changelog</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Studio</h4>
+          <ul>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Residencies</a></li>
+            <li><a href="#">Press kit</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer__col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="#">GitHub</a></li>
+            <li><a href="#">Discord</a></li>
+            <li><a href="#">Mastodon</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p class="footer__copy">&copy; 2024 VEKTRA GmbH</p>
+        <p class="footer__address">Rosenheimer Str. 145, 10439 Berlin</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

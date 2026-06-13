@@ -1,0 +1,152 @@
+/* ============================================================
+   VEKTRA — Brand Tokens
+   ------------------------------------------------------------
+   Single source of truth for every color, font, and space.
+   Other stylesheets must use var(--*) — never hex.
+
+   Palette philosophy:
+   - Near-black, never #000. Surfaces carry a warm cast.
+   - One accent. Signal Amber. Used as a tuned frequency,
+     not decoration.
+   - Type is monospace-first where it counts.
+   ============================================================ */
+
+:root {
+  /* -- Surfaces (dark, default) -------------------------------- */
+  --color-bg-primary:      #0E0E0C;  /* page background            */
+  --color-bg-secondary:    #161613;  /* card / section             */
+  --color-surface:         #1D1D18;  /* raised UI                  */
+  --color-surface-hover:   #25251F;  /* raised UI, hovered         */
+  --color-overlay:         #00000080;/* scrim                      */
+
+  /* -- Surfaces (light) ---------------------------------------- */
+  --color-bg-primary-light:   #F4F2EC;  /* off-white, paper          */
+  --color-bg-secondary-light: #ECEAE3;
+  --color-surface-light:      #FFFFFF;
+  --color-border-light:       #1B1B18;
+
+  /* -- Accent ------------------------------------------------- */
+  --color-accent:         #FF5C1F;  /* Signal Amber.  Use sparingly.*/
+  --color-accent-dim:     #B83F12;  /* hover/disabled on accent   */
+  --color-accent-glow:    #FF5C1F40;/* 25% alpha — for halos      */
+  --color-accent-fg:      #0E0E0C;  /* text ON accent (dark)      */
+
+  /* -- Text --------------------------------------------------- */
+  --color-text-primary:   #F4F2EC;  /* off-white on dark          */
+  --color-text-secondary: #B5B2A8;  /* muted on dark              */
+  --color-text-muted:     #6B6960;  /* labels, captions           */
+  --color-text-inverse:   #0E0E0C;  /* text on light bg           */
+
+  /* -- Lines -------------------------------------------------- */
+  --color-border:         #2A2A24;
+  --color-border-strong:  #3D3D35;
+  --color-grid:           #1F1F1B;  /* gridlines, rule lines      */
+
+  /* -- Status (used sparingly) -------------------------------- */
+  --color-signal:         #FF5C1F;  /* same as accent — "on air"  */
+  --color-silence:        #2A2A24;  /* inactive gridline          */
+
+  /* ============================================================
+     Typography
+     ============================================================ */
+  --font-sans:    "Space Grotesk", system-ui, -apple-system, sans-serif;
+  --font-mono:    "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-display: "JetBrains Mono", ui-monospace, monospace;
+
+  /* Type scale — editorial range, 1.25 (major third) up to display */
+  --fs-11: 11px;
+  --fs-12: 12px;
+  --fs-13: 13px;
+  --fs-14: 14px;
+  --fs-16: 16px;
+  --fs-18: 18px;
+  --fs-22: 22px;
+  --fs-28: 28px;
+  --fs-36: 36px;
+  --fs-48: 48px;
+  --fs-64: 64px;
+  --fs-88: 88px;
+  --fs-128: 128px;
+
+  --lh-tight:   1.05;
+  --lh-snug:    1.2;
+  --lh-normal:  1.5;
+  --lh-relaxed: 1.7;
+
+  --tracking-tight:  -0.02em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.04em;
+  --tracking-mono:    0.02em;
+
+  /* ============================================================
+     Spacing — 4px base, powers of 2 with two in-between
+     ============================================================ */
+  --s-1: 4px;
+  --s-2: 8px;
+  --s-3: 12px;
+  --s-4: 16px;
+  --s-5: 24px;
+  --s-6: 32px;
+  --s-7: 48px;
+  --s-8: 64px;
+  --s-9: 96px;
+  --s-10: 128px;
+  --s-11: 192px;
+
+  /* ============================================================
+     Geometry
+     ============================================================ */
+  --radius-0: 0;
+  --radius-1: 2px;
+  --radius-2: 4px;
+  --radius-3: 8px;
+  --radius-pill: 999px;
+
+  --container-max: 1440px;
+  --gutter:        var(--s-5);
+  --grid-cols:     12;
+
+  /* ============================================================
+     Motion — curves specified in milliseconds, by someone
+     who thinks about time at the sample level.
+     ============================================================ */
+  --ease-out-snap:  cubic-bezier(0.16, 1, 0.3, 1);     /* default reveal */
+  --ease-in-out:    cubic-bezier(0.65, 0, 0.35, 1);    /* signal pulse   */
+  --ease-out-back:  cubic-bezier(0.34, 1.56, 0.64, 1); /* tactile hover  */
+  --ease-linear:    linear;                            /* scope trace    */
+
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 360ms;
+  --dur-4: 600ms;
+  --dur-5: 1200ms;
+
+  /* ============================================================
+     Layered effects
+     ============================================================ */
+  --shadow-1: 0 1px 0 0 #FFFFFF08;            /* hairline highlight  */
+  --shadow-2: 0 8px 24px -8px #00000080;      /* card lift           */
+  --halo-accent: 0 0 0 1px var(--color-accent), 0 0 24px var(--color-accent-glow);
+
+  /* ============================================================
+     Layout helpers
+     ============================================================ */
+  --nav-height: 64px;
+}
+
+/* Light mode — toggle via [data-theme="light"] or prefers-color-scheme */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --color-bg-primary:   var(--color-bg-primary-light);
+    --color-bg-secondary: var(--color-bg-secondary-light);
+    --color-surface:      var(--color-surface-light);
+    --color-surface-hover:#F0EEE6;
+    --color-text-primary:   var(--color-text-inverse);
+    --color-text-secondary: #4A4A40;
+    --color-text-muted:     #75736A;
+    --color-border:         var(--color-border-light);
+    --color-border-strong:  #0E0E0C;
+    --color-grid:           #D9D7CE;
+    --color-silence:        #D9D7CE;
+  }
+}

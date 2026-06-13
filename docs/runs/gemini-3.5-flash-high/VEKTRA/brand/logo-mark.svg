@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60" width="60" height="60">
+  <defs>
+    <style>
+      .logomark {
+        fill: none;
+        stroke: #caff00;
+        stroke-width: 3.5;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+      }
+      .logodot {
+        fill: #caff00;
+      }
+    </style>
+  </defs>
+  <!-- Centered vector signal mark inside 60x60 canvas -->
+  <g transform="translate(1, 10)">
+    <path class="logomark" d="M 12 10 L 27 34 L 38 16 L 41 24 L 44 8 L 47 20 L 50 12" />
+    <circle class="logodot" cx="54.5" cy="12" r="2.5" />
+  </g>
+</svg>

@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA Logo Animation</title>
+    <style>
+        :root {
+            --color-bg-primary: #0A0A0A;
+            --color-bg-secondary: #121212;
+            --color-surface: #1E1E1E;
+            --color-accent: #00F5FF;
+            --color-accent-dim: #00BFC7;
+            --color-text-primary: #FFFFFF;
+            --color-text-secondary: #E0E0E0;
+            --color-text-muted: #8E8E8E;
+            --color-border: #2A2A2A;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--color-bg-primary);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .logo-container {
+            width: 240px;
+            height: 60px;
+            position: relative;
+        }
+        
+        /* Mark elements */
+        .baseline {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 2px;
+            background-color: var(--color-text-primary);
+            top: 50%;
+            opacity: 0;
+        }
+        
+        .waveform {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 100px;
+            height: 30px;
+            transform: translate(-50%, -50%);
+            stroke: var(--color-accent);
+            stroke-width: 2.5;
+            fill: none;
+            opacity: 0;
+        }
+        
+        .vector-arrow {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 40px;
+            height: 30px;
+            transform: translate(50%, -50%);
+            opacity: 0;
+        }
+        
+        .vector-arrow polygon {
+            fill: var(--color-accent);
+        }
+        
+        /* Logotype */
+        .logotype {
+            position: absolute;
+            left: 120px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Space Mono', monospace;
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: -0.02em;
+            color: var(--color-text-primary);
+            opacity: 0;
+        }
+        
+        /* Animations */
+        @keyframes drawBaseline {
+            from { opacity: 0; width: 0; }
+            to { opacity: 1; width: 80px; }
+        }
+        
+        @keyframes drawWaveform {
+            from { opacity: 0; stroke-dashoffset: 100; }
+            to { opacity: 1; stroke-dashoffset: 0; }
+        }
+        
+        @keyframes drawVector {
+            from { opacity: 0; transform: translate(50%, -50%) scale(0); }
+            to { opacity: 1; transform: translate(50%, -50%) scale(1); }
+        }
+        
+        @keyframes fadeInLogotype {
+            from { opacity: 0; transform: translateY(-50%) translateX(-10px); }
+            to { opacity: 1; transform: translateY(-50%) translateX(0); }
+        }
+        
+        /* Apply animations */
+        .baseline {
+            animation: drawBaseline 0.5s ease-out forwards;
+            animation-delay: 0.2s;
+        }
+        
+        .waveform {
+            animation: drawWaveform 1.2s ease-out forwards;
+            animation-delay: 0.7s;
+        }
+        
+        .vector-arrow {
+            animation: drawVector 0.3s ease-out forwards;
+            animation-delay: 1.9s;
+        }
+        
+        .logotype {
+            animation: fadeInLogotype 0.8s ease-out forwards;
+            animation-delay: 2.2s;
+        }
+        
+        /* Load font */
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@700&display=swap');
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <!-- Baseline -->
+        <div class="baseline"></div>
+        
+        <!-- Waveform SVG -->
+        <svg class="waveform" viewBox="0 0 100 30">
+            <path d="M0,15 
+                     C10,0 20,0 30,15 
+                     C40,30 50,30 60,15 
+                     C70,0 80,0 90,15"/>
+        </svg>
+        
+        <!-- Vector Arrow -->
+        <div class="vector-arrow">
+            <svg viewBox="0 0 40 30">
+                <polygon points="0,15 25,0 25,30"/>
+            </svg>
+        </div>
+        
+        <!-- Logotype -->
+        <div class="logotype">VEKTRA</div>
+    </div>
+</body>
+</html>

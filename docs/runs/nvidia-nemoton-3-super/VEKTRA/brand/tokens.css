@@ -1,0 +1,46 @@
+/*
+VEKTRA Brand Color Palette
+Accent color: Cold cyan (#00F5FF) - chosen for its technical precision and uncommon use in creative tools
+Dark surface: Near-black warm gray with barely perceptible tint
+Light surface: Off-white for documentation
+*/
+
+:root {
+  /* Dark surfaces - VEKTRA is dark-first */
+  --color-bg-primary: #0A0A0A;      /* Near-black warm gray */
+  --color-bg-secondary: #121212;    /* Slightly lighter for layering */
+  --color-surface: #1E1E1E;         /* Component surfaces */
+  
+  /* Accent color - electric cyan, tuned for precision */
+  --color-accent: #00F5FF;          /* Cold cyan - electric but not harsh */
+  --color-accent-dim: #00BFC7;      /* Dimmed variant for subtle use */
+  
+  /* Text colors */
+  --color-text-primary: #FFFFFF;    /* Pure black for type on dark (per brief) */
+  --color-text-secondary: #E0E0E0;  /* Secondary text */
+  --color-text-muted: #8E8E8E;      /* Muted text, captions */
+  
+  /* Borders and dividers */
+  --color-border: #2A2A2A;          /* Subtle borders */
+  
+  /* Light surface for documentation/light mode */
+  --color-bg-light: #F8F8F8;        /* Off-white, not pure white */
+  --color-surface-light: #FFFFFF;   /* Pure white for cards/etc in light mode */
+  --color-text-light-primary: #0A0A0A; /* Dark text for light mode */
+  --color-text-light-secondary: #2A2A2A;
+  --color-text-light-muted: #555555;
+  --color-border-light: #E0E0E0;
+}
+
+/* Light mode overrides */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-bg-primary: var(--color-bg-light);
+    --color-bg-secondary: var(--color-surface-light);
+    --color-surface: var(--color-surface-light);
+    --color-text-primary: var(--color-text-light-primary);
+    --color-text-secondary: var(--color-text-light-secondary);
+    --color-text-muted: var(--color-text-light-muted);
+    --color-border: var(--color-border-light);
+  }
+}

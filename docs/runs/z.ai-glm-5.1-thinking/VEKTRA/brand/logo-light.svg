@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 48" width="280" height="48">
+  <!-- VEKTRA logo optimized for light backgrounds -->
+  <!-- Mark: signal-peak V with apex gap -->
+  <g fill="none" stroke="#1A1A1D" stroke-width="3" stroke-linecap="square">
+    <line x1="2" y1="42" x2="22" y2="5"/>
+    <line x1="25" y1="5" x2="42" y2="42"/>
+  </g>
+  <!-- Logotype -->
+  <text x="56" y="34" font-family="'Space Mono', monospace" font-size="20" font-weight="700" fill="#1A1A1D" letter-spacing="3">VEKTRA</text>
+</svg>

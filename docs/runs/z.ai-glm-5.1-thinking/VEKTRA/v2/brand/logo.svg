@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 56" width="320" height="56">
+  <!-- VEKTRA v2 primary logo: multi-path signal mark + logotype -->
+  <!-- Mark: three strokes converging — a waveform resolving into a vector -->
+  <!-- The accent dot marks the frequency peak where the signal resolves -->
+  <defs>
+    <linearGradient id="markGrad" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0%" stop-color="#4A4740"/>
+      <stop offset="100%" stop-color="#EDECEA"/>
+    </linearGradient>
+  </defs>
+  <!-- Outer stroke (left wing) -->
+  <path d="M 2 50 L 18 10 Q 22 2 26 10 L 32 26" fill="none" stroke="url(#markGrad)" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Inner stroke (right wing) -->
+  <path d="M 32 26 L 38 10 Q 42 2 46 10 L 62 50" fill="none" stroke="#EDECEA" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Signal trace (center waveform) -->
+  <path d="M 12 38 Q 18 34 22 26 Q 26 18 30 14 Q 32 12 34 14 Q 38 18 42 26 Q 46 34 52 38" fill="none" stroke="#FF5E1A" stroke-width="1.5" stroke-linecap="round" opacity="0.8"/>
+  <!-- Peak dot -->
+  <circle cx="32" cy="11" r="2.5" fill="#FF5E1A"/>
+  <!-- Logotype -->
+  <text x="78" y="38" font-family="'JetBrains Mono', 'Space Mono', monospace" font-size="22" font-weight="700" fill="#EDECEA" letter-spacing="4">VEKTRA</text>
+</svg>

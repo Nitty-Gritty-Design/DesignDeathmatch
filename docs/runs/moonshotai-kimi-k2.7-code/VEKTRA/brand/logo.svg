@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 180 40" width="240" height="53">
+  <title>VEKTRA logo</title>
+  <g fill="none" stroke="#F5F4EF" stroke-width="4" stroke-linecap="butt" stroke-linejoin="miter">
+    <!-- Crossbar -->
+    <line x1="8" y1="14" x2="32" y2="14" />
+    <!-- Diagonal strokes forming V -->
+    <line x1="8" y1="14" x2="20" y2="34" />
+    <line x1="32" y1="14" x2="20" y2="34" />
+  </g>
+  <!-- Central node -->
+  <circle cx="20" cy="14" r="3" fill="#F5F4EF" />
+  <!-- Logotype -->
+  <text x="50" y="27" font-family="Space Grotesk, Helvetica Neue, Arial, sans-serif" font-size="24" font-weight="600" letter-spacing="-0.03em" fill="#F5F4EF">VEKTRA</text>
+</svg>

@@ -1,0 +1,53 @@
+/* VEKTRA Brand Tokens
+   Dark-first, signal-driven palette.
+   All colors, families, and spacing scale are defined here.
+   Non-token files must use var(--...) exclusively. */
+
+:root {
+  /* === Color Palette === */
+
+  --color-bg-primary: #0D0C0B;
+  --color-bg-secondary: #141312;
+  --color-surface: #1A1918;
+  --color-accent: #FF4D2A;
+  --color-accent-dim: rgba(255, 77, 42, 0.15);
+  --color-text-primary: #F2F0EB;
+  --color-text-secondary: #A09D96;
+  --color-text-muted: #5C5955;
+  --color-border: #2A2724;
+
+  /* === Typefaces === */
+
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: 'Space Grotesk', sans-serif;
+
+  /* === Spacing Scale (4px base) === */
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* === Motion === */
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-linear: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-fast: 180ms;
+  --duration-med: 400ms;
+  --duration-slow: 700ms;
+
+  /* === Layout === */
+
+  --grid-columns: 12;
+  --grid-gap: var(--space-6);
+  --max-width: 1280px;
+  --nav-height: 56px;
+}

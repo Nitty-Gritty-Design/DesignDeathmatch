@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEKTRA — Generative Audio-Visual Instruments</title>
+    <link rel="icon" href="../brand/logo-mark.svg" type="image/svg+xml">
+    <!-- Import brand tokens -->
+    <link rel="stylesheet" href="../brand/tokens.css">
+    <!-- Import typefaces -->
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <img src="../brand/logo.svg" alt="VEKTRA logo" width="120" height="30">
+            </a>
+            <div class="nav-links">
+                <a href="#what-it-is">What it is</a>
+                <a href="#how-it-works">How it works</a>
+                <a href="#who-uses-it">Who uses it</a>
+                <a href="#data-viz">Data visualization</a>
+            </div>
+            <button class="cta-button">Get Started</button>
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>VEKTRA treats sound, motion, and code as a single continuous signal</h1>
+                <p class="hero-subtitle">Where changing frequency reshapes color, and gesture rewrites structure in real time.</p>
+                <a href="#get-started" class="cta-button primary">Explore VEKTRA</a>
+            </div>
+            <div class="hero-background">
+                <!-- Generative background will be injected here -->
+                <div id="generative-background"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What it is -->
+    <section id="what-it-is" class="section">
+        <div class="container">
+            <h2>What it is</h2>
+            <p>VEKTRA is a software environment where sound, motion, and code are treated as a single medium. It is used by electronic composers, installation artists, interaction designers, and researchers who want to make things that behave, not just things that look. It is not a DAW. It is not a creative suite. It is not a plugin. It is closer to a language — a way of thinking about time, signal, and form simultaneously.</p>
+        </div>
+    </section>
+
+    <!-- How it works -->
+    <section id="how-it-works" class="section">
+        <div class="container">
+            <h2>How it works</h2>
+            <div class="features">
+                <div class="feature">
+                    <h3>Unified Signal Graph</h3>
+                    <p>All parameters exist in a single inspectable graph where audio frequencies drive visual amplitudes, LFOs modulate particle systems, and envelopes shape both sound and form simultaneously.</p>
+                </div>
+                <div class="feature">
+                    <h3>Live Code Editing</h3>
+                    <p>Modify your patch in real time with immediate feedback. Every change propagates through the system like a signal through a circuit — no recompiling, no restarting, just pure live evolution.</p>
+                </div>
+                <div class="feature">
+                    <h3>Generative Output</h3>
+                    <p>Create systems that generate endless variations. Set rules, introduce controlled randomness, and watch as your instrument produces behaviors that surprise even its creator.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Who uses it -->
+    <section id="who-uses-it" class="section">
+        <div class="container">
+            <h2>Who uses it</h2>
+            <div="users">
+                <div class="user">
+                    <h3>Electronic Composer</h3>
+                    <p>Creates evolving soundscapes where timbre shifts in response to generative visual patterns, blurring the line between audio synthesis and visual composition.</p>
+                </div>
+                <div class="user">
+                    <h3>Installation Artist</h3>
+                    <p>Builds reactive environments where audience movement alters both sonic and visual elements through a shared parameter space.</p>
+                </div>
+                <div class="user">
+                    <h3>Creative Developer</h3>
+                    <p>Extends the system with custom nodes while benefiting from the unified signal framework — treating DSP and graphics as complementary aspects of the same computation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Data visualization preview -->
+    <section id="data-viz" class="section">
+        <div class="container">
+            <h2>Data visualization</h2>
+            <p>See how VEKTRA users typically connect parameters in a typical generative patch:</p>
+            <div class="viz-preview">
+                <a href="../site/viz.html" class="viz-link">
+                    <svg width="400" height="200" viewBox="0 0 400 200">
+                        <!-- Sample patch visualization -->
+                        <rect x="50" y="50" width="80" height="40" fill="var(--color-surface)" stroke="var(--color-border)">
+                            <text x="90" y="75" text-anchor="middle" fill="var(--color-text-secondary)" font-size="12" font-family="'Space Mono', monospace">Oscillator 1</text>
+                        </rect>
+                        <rect x="270" y="50" width="80" height="40" fill="var(--color-surface)" stroke="var(--color-border)">
+                            <text x="310" y="75" text-anchor="middle" fill="var(--color-text-secondary)" font-size="12" font-family="'Space Mono', monospace">Filter</text>
+                        </rect>
+                        <rect x="160" y="120" width="80" height="40" fill="var(--color-surface)" stroke="var(--color-border)">
+                            <text x="200" y="145" text-anchor="middle" fill="var(--color-text-secondary)" font-size="12" font-family="'Space Mono', monospace">Amplifier</text>
+                        </rect>
+                        <!-- Connections -->
+                        <path d="M130 70 C150 40 190 40 210 70" stroke="var(--color-accent)" stroke-width="2" fill="none"/>
+                        <path d="M250 70 C230 100 190 100 170 120" stroke="var(--color-accent-dim)" stroke-width="2" fill="none"/>
+                        <circle cx="130" cy="70" r="4" fill="var(--color-accent)"/>
+                        <circle cx="210" cy="70" r="4" fill="var(--color-accent)"/>
+                        <circle cx="170" cy="120" r="4" fill="var(--color-accent-dim)"/>
+                    </svg>
+                </a>
+                <p class="viz-caption">View full visualization →</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <p>VEKTRA Studio<br>Berlin, Germany<br>info@vektra.studio</p>
+                </div>
+                <div class="footer-links">
+                    <a href="#">Documentation</a>
+                    <a href="#">Download</a>
+                    <a href="#">Community</a>
+                    <a href="#">GitHub</a>
+                </div>
+                <div class="footer-note">
+                    <p>Everything should be inspectable, forkable, and alive.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="./main.js" defer></script>
+</body>
+</html>

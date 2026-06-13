@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VEKTRA v2 — Generative Background</title>
+<!-- Wildcard 6.1 v2: Multi-layered signal field with particle system, Perlin-like noise,
+     and reactive glow zones. Vanilla Canvas API, 60fps via requestAnimationFrame.
+     Three distinct layers: noise field, signal lines, and floating particles. -->
+<style>*{margin:0;padding:0}body{background:#08080A;overflow:hidden}canvas{display:block}</style>
+</head>
+<body>
+<canvas id="c"></canvas>
+<script>
+(function(){
+'use strict';
+const C=document.getElementById('c'),X=C.getContext('2d');
+let W,H,t=0,mx=0.5,my=0.5;
+const A={r:240,g:160,b:0};
+
+// Simple hash-based noise
+function noise(x,y){const n=Math.sin(x*127.1+y*311.7)*43758.5453;return n-Math.floor(n)}
+function smoothNoise(x,y){
+  const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy;
+  const sx=fx*fx*(3-2*fx),sy=fy*fy*(3-2*fy);
+  const a=noise(ix,iy),b=noise(ix+1,iy),c=noise(ix,iy+1),d=noise(ix+1,iy+1);
+  return a+(b-a)*sx+(c-a)*sy+(d-a-c+a+b-d+c-b)*sx*sy;
+}
+function fbm(x,y){return smoothNoise(x,y)*0.5+smoothNoise(x*2,y*2)*0.3+smoothNoise(x*4,y*4)*0.2}
+
+// Particles
+const PCOUNT=60;
+const particles=[];
+function initParticles(){
+  particles.length=0;
+  for(let i=0;i<PCOUNT;i++){
+    particles.push({x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-0.5)*0.3,vy:(Math.random()-0.5)*0.2,
+      size:0.5+Math.random()*1.5,alpha:0.1+Math.random()*0.3,
+      phase:Math.random()*Math.PI*2});
+  }
+}
+
+// Signal lines (more complex than v1)
+const LCOUNT=32;
+const lines=[];
+function initLines(){
+  lines.length=0;
+  for(let i=0;i<LCOUNT;i++){
+    lines.push({yR:i/LCOUNT,
+      f1:0.001+Math.random()*0.003,f2:0.003+Math.random()*0.005,
+      a1:12+Math.random()*28,a2:4+Math.random()*12,
+      p1:Math.random()*6.28,p2:Math.random()*6.28,
+      spd:0.15+Math.random()*0.6,
+      alpha:0.015+Math.random()*0.04});
+  }
+}
+
+function resize(){W=C.width=innerWidth;H=C.height=innerHeight;initParticles();initLines()}
+addEventListener('resize',resize);
+addEventListener('mousemove',e=>{mx=e.clientX/W;my=e.clientY/H});
+resize();
+
+function draw(){
+  // Fade trail instead of clear — creates motion blur
+  X.fillStyle='rgba(8,8,10,0.12)';
+  X.fillRect(0,0,W,H);
+  t+=0.008;
+
+  // Layer 1: Noise field (very subtle grain)
+  const imgD=X.createImageData(W>>2,H>>2);
+  const d=imgD.data;
+  const sw=imgD.width,sh=imgD.height;
+  for(let py=0;py<sh;py++){
+    for(let px=0;px<sw;px++){
+      const nx=px*0.02+t*0.5,ny=py*0.02+t*0.3;
+      const v=fbm(nx,ny);
+      const dx=(px/sw)-mx,dy=(py/sh)-my;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      const glow=Math.max(0,1-dist/0.35)*0.08;
+      const brightness=v*0.04+glow;
+      const idx=(py*sw+px)*4;
+      d[idx]=A.r*brightness|0;d[idx+1]=A.g*brightness|0;d[idx+2]=A.b*brightness*0.5|0;d[idx+3]=255;
+    }
+  }
+  X.putImageData(imgD,0,0);
+  // Scale up
+  X.save();X.imageSmoothingEnabled=true;
+  X.drawImage(C,0,0,sw,sh,0,0,W,H);
+  X.restore();
+
+  // Layer 2: Signal waveforms
+  for(const l of lines){
+    X.beginPath();
+    const by=l.yR*H;
+    for(let x=0;x<=W;x+=3){
+      const xr=x/W;
+      const dx=xr-mx,dy=l.yR-my;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      const inf=Math.max(0,1-dist/0.32);
+      const y1=Math.sin(x*l.f1+t*l.spd+l.p1)*(l.a1+inf*35);
+      const y2=Math.sin(x*l.f2+t*l.spd*1.7+l.p2)*l.a2;
+      const y=by+y1+y2;
+      x===0?X.moveTo(x,y):X.lineTo(x,y);
+    }
+    X.strokeStyle=`rgba(${A.r},${A.g},${A.b},${l.alpha})`;
+    X.lineWidth=0.8;X.stroke();
+  }
+
+  // Layer 3: Floating particles
+  for(const p of particles){
+    // Drift with noise-based flow
+    const nx=p.x*0.003+t,ny=p.y*0.003;
+    const angle=smoothNoise(nx,ny)*Math.PI*4;
+    p.x+=Math.cos(angle)*0.4+p.vx;
+    p.y+=Math.sin(angle)*0.3+p.vy;
+    // Wrap
+    if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+    if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+    // Draw with glow
+    const pulse=0.5+0.5*Math.sin(t*2+p.phase);
+    const a=p.alpha*pulse;
+    X.beginPath();
+    X.arc(p.x,p.y,p.size,0,Math.PI*2);
+    X.fillStyle=`rgba(${A.r},${A.g},${A.b},${a})`;
+    X.fill();
+    // Glow halo
+    X.beginPath();
+    X.arc(p.x,p.y,p.size*4,0,Math.PI*2);
+    X.fillStyle=`rgba(${A.r},${A.g},${A.b},${a*0.08})`;
+    X.fill();
+  }
+
+  // Mouse glow zone
+  const gx=mx*W,gy=my*H;
+  const grad=X.createRadialGradient(gx,gy,0,gx,gy,200);
+  grad.addColorStop(0,`rgba(${A.r},${A.g},${A.b},0.03)`);
+  grad.addColorStop(1,'rgba(0,0,0,0)');
+  X.fillStyle=grad;
+  X.fillRect(gx-200,gy-200,400,400);
+
+  requestAnimationFrame(draw);
+}
+
+// Initial clear
+X.fillStyle='#08080A';X.fillRect(0,0,W,H);
+draw();
+})();
+</script>
+</body>
+</html>

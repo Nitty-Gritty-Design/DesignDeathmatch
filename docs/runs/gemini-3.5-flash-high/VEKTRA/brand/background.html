@@ -1,0 +1,402 @@
+<!-- 
+  Wildcard Choice: 6.1 Generative Animated Background
+  Rationale: A floating node-connection particle grid represents the mathematical coordinates of VEKTRA's vector rendering engine, mapping user cursor coordinates to active physical force vectors.
+-->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VEKTRA — Signal Field Generative Background</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--color-bg-primary, #0f0f10);
+      color: var(--color-text-primary, #eff0f2);
+      font-family: var(--font-mono, monospace);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      cursor: crosshair;
+    }
+
+    #canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      display: block;
+    }
+
+    /* Overlay HUD for presentation and controls */
+    .hud {
+      position: absolute;
+      top: var(--spacing-8, 32px);
+      left: var(--spacing-8, 32px);
+      z-index: 10;
+      background: rgba(15, 15, 16, 0.85);
+      border: 1px solid var(--color-border, #2d2e33);
+      padding: var(--spacing-6, 24px);
+      border-radius: var(--radius-sm, 2px);
+      backdrop-filter: var(--backdrop-blur, blur(10px));
+      max-width: 340px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-4, 16px);
+      transition: all var(--duration-normal, 300ms) var(--ease-out-expo);
+    }
+
+    .hud-title {
+      font-family: var(--font-sans, sans-serif);
+      font-size: var(--size-md, 18px);
+      font-weight: var(--weight-bold, 700);
+      letter-spacing: -0.01em;
+      border-bottom: 1px solid var(--color-border, #2d2e33);
+      padding-bottom: var(--spacing-2, 8px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .hud-label {
+      font-size: var(--size-3xs, 10px);
+      color: var(--color-text-secondary, #afb0b3);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .hud-value {
+      color: var(--color-accent, #caff00);
+    }
+
+    .hud-btn {
+      background: transparent;
+      border: 1px solid var(--color-border, #2d2e33);
+      color: var(--color-text-secondary, #afb0b3);
+      font-family: var(--font-mono, monospace);
+      font-size: var(--size-3xs, 10px);
+      padding: var(--spacing-2, 8px);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      border-radius: var(--radius-sm, 2px);
+      cursor: pointer;
+      transition: all var(--duration-fast, 150ms) var(--ease-out-expo);
+    }
+
+    .hud-btn:hover {
+      border-color: var(--color-accent, #caff00);
+      color: var(--color-text-primary, #eff0f2);
+    }
+
+    .control-row {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-1, 4px);
+    }
+
+    .slider {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 2px;
+      background: var(--color-border, #2d2e33);
+      outline: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 10px;
+      height: 10px;
+      background: var(--color-accent, #caff00);
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    /* Back Link */
+    .back-link {
+      position: absolute;
+      bottom: var(--spacing-8, 32px);
+      left: var(--spacing-8, 32px);
+      z-index: 10;
+      font-size: var(--size-3xs, 10px);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--color-text-muted, #6b6d72);
+      border: 1px solid var(--color-border, #2d2e33);
+      padding: var(--spacing-2, 8px) var(--spacing-4, 16px);
+      border-radius: var(--radius-sm, 2px);
+      background: rgba(15, 15, 16, 0.85);
+      backdrop-filter: var(--backdrop-blur, blur(10px));
+    }
+
+    .back-link:hover {
+      border-color: var(--color-accent, #caff00);
+      color: var(--color-text-primary, #eff0f2);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Floating HUD Panel -->
+  <div class="hud" role="dialog" aria-label="Signal Control Panel">
+    <div class="hud-title">
+      <span>SIGNAL FIELD v1.2</span>
+      <span class="hud-value">●</span>
+    </div>
+    <p style="font-size: var(--size-3xs); line-height: 1.4; color: var(--color-text-muted);">
+      A generative, interactive particle matrix mimicking coordinate voltage vectors within VEKTRA's audio-visual rendering paths.
+    </p>
+
+    <!-- Node Count Control -->
+    <div class="control-row">
+      <div class="hud-label">
+        <span>Active Nodes</span>
+        <span class="hud-value" id="val-nodes">60</span>
+      </div>
+      <input type="range" class="slider" id="ctrl-nodes" min="10" max="150" step="5" value="60" aria-label="Node Count Slider">
+    </div>
+
+    <!-- Node Speed Control -->
+    <div class="control-row">
+      <div class="hud-label">
+        <span>Signal velocity</span>
+        <span class="hud-value" id="val-velocity">1.0x</span>
+      </div>
+      <input type="range" class="slider" id="ctrl-velocity" min="0.1" max="3.0" step="0.1" value="1.0" aria-label="Velocity Slider">
+    </div>
+
+    <!-- Max connection distance -->
+    <div class="control-row">
+      <div class="hud-label">
+        <span>Connection Range</span>
+        <span class="hud-value" id="val-range">100px</span>
+      </div>
+      <input type="range" class="slider" id="ctrl-range" min="50" max="250" step="10" value="100" aria-label="Connection Range Slider">
+    </div>
+
+    <button class="hud-btn" id="btn-theme">Toggle Theme</button>
+    <button class="hud-btn" id="btn-gravity">Force Gravitation: OFF</button>
+  </div>
+
+  <!-- Main Canvas -->
+  <canvas id="canvas" aria-label="Generative Particle Web Canvas"></canvas>
+
+  <!-- Back link to website -->
+  <a href="../site/index.html" class="back-link">← Return to VEKTRA</a>
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+    // Controls
+    const ctrlNodes = document.getElementById('ctrl-nodes');
+    const ctrlVelocity = document.getElementById('ctrl-velocity');
+    const ctrlRange = document.getElementById('ctrl-range');
+    const btnTheme = document.getElementById('btn-theme');
+    const btnGravity = document.getElementById('btn-gravity');
+
+    // Values display
+    const valNodes = document.getElementById('val-nodes');
+    const valVelocity = document.getElementById('val-velocity');
+    const valRange = document.getElementById('val-range');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    
+    let nodes = [];
+    let mouse = { x: null, y: null, active: false };
+    let gravityMode = false;
+
+    // Theme values read
+    let accentColor = '';
+    let borderColor = '';
+    
+    function readColors() {
+      const styles = window.getComputedStyle(document.documentElement);
+      accentColor = styles.getPropertyValue('--color-accent').trim();
+      borderColor = styles.getPropertyValue('--color-border').trim();
+    }
+    readColors();
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+      initNodes();
+    });
+
+    // Mouse movement listeners
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    });
+
+    window.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
+    function initNodes() {
+      nodes = [];
+      const count = parseInt(ctrlNodes.value);
+      valNodes.textContent = count;
+
+      for (let i = 0; i < count; i++) {
+        nodes.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          radius: Math.random() * 2 + 1
+        });
+      }
+    }
+
+    // Controls listeners
+    ctrlNodes.addEventListener('input', () => {
+      initNodes();
+    });
+
+    ctrlVelocity.addEventListener('input', () => {
+      const mult = parseFloat(ctrlVelocity.value);
+      valVelocity.textContent = mult.toFixed(1) + 'x';
+    });
+
+    ctrlRange.addEventListener('input', () => {
+      const val = parseInt(ctrlRange.value);
+      valRange.textContent = val + 'px';
+    });
+
+    btnTheme.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', next);
+      // Let style render, then read
+      setTimeout(readColors, 50);
+    });
+
+    btnGravity.addEventListener('click', () => {
+      gravityMode = !gravityMode;
+      btnGravity.textContent = 'Force Gravitation: ' + (gravityMode ? 'ON' : 'OFF');
+      btnGravity.style.borderColor = gravityMode ? accentColor : 'var(--color-border)';
+    });
+
+    // Animation Loop
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+
+      const speedMult = parseFloat(ctrlVelocity.value);
+      const rangeLimit = parseInt(ctrlRange.value);
+
+      // Draw horizontal and vertical grid guide lines (to reinforce the scope visual)
+      ctx.strokeStyle = borderColor;
+      ctx.lineWidth = 0.3;
+      ctx.globalAlpha = 0.15;
+      
+      const gridStep = 80;
+      for (let x = 0; x < width; x += gridStep) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+      for (let y = 0; y < height; y += gridStep) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(width, y);
+        ctx.stroke();
+      }
+      ctx.globalAlpha = 1.0;
+
+      // Update and draw particles
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        
+        n.x += n.vx * speedMult;
+        n.y += n.vy * speedMult;
+
+        // Bounce off walls
+        if (n.x < 0 || n.x > width) n.vx *= -1;
+        if (n.y < 0 || n.y > height) n.vy *= -1;
+
+        // Gravity pull
+        if (mouse.active) {
+          const dx = mouse.x - n.x;
+          const dy = mouse.y - n.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 200) {
+            const pullForce = (200 - dist) / 200 * (gravityMode ? 0.05 : 0.015);
+            n.x += dx * pullForce;
+            n.y += dy * pullForce;
+          }
+        }
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.radius, 0, Math.PI * 2);
+        ctx.fillStyle = accentColor;
+        ctx.globalAlpha = 0.4;
+        ctx.fill();
+      }
+
+      // Draw web lines
+      ctx.lineWidth = 0.8;
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const n1 = nodes[i];
+          const n2 = nodes[j];
+          
+          const dx = n1.x - n2.x;
+          const dy = n1.y - n2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < rangeLimit) {
+            const alpha = (rangeLimit - dist) / rangeLimit * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(n1.x, n1.y);
+            ctx.lineTo(n2.x, n2.y);
+            ctx.strokeStyle = accentColor;
+            ctx.globalAlpha = alpha;
+            ctx.stroke();
+          }
+        }
+
+        // Connect nodes to cursor if close
+        if (mouse.active) {
+          const n = nodes[i];
+          const dx = mouse.x - n.x;
+          const dy = mouse.y - n.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 150) {
+            const alpha = (150 - dist) / 150 * 0.45;
+            ctx.beginPath();
+            ctx.moveTo(n.x, n.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.strokeStyle = accentColor;
+            ctx.globalAlpha = alpha;
+            ctx.stroke();
+          }
+        }
+      }
+
+      ctx.globalAlpha = 1.0;
+      requestAnimationFrame(animate);
+    }
+
+    // Boot
+    initNodes();
+    animate();
+  </script>
+</body>
+</html>

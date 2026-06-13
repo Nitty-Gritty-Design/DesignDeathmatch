@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 56" width="320" height="56" role="img" aria-label="VEKTRA — light version">
+  <title>VEKTRA (light)</title>
+  <line x1="0" y1="43" x2="52" y2="43" stroke="#5C6A00" stroke-width="1.5" stroke-linecap="round" opacity="0.35"/>
+  <line x1="2" y1="43" x2="26" y2="6" stroke="#5C6A00" stroke-width="2" stroke-linecap="round"/>
+  <line x1="26" y1="6" x2="50" y2="43" stroke="#5C6A00" stroke-width="2" stroke-linecap="round" opacity="0.75"/>
+  <circle cx="26" cy="6" r="3" fill="#5C6A00"/>
+  <circle cx="2" cy="43" r="1.5" fill="#5C6A00" opacity="0.4"/>
+  <circle cx="50" cy="43" r="1.5" fill="#5C6A00" opacity="0.4"/>
+  <text x="68" y="37" font-family="'JetBrains Mono','Courier New',monospace" font-size="28" font-weight="700" fill="#0E0E12" letter-spacing="4">VEKTRA</text>
+  <text x="68" y="50" font-family="'JetBrains Mono',monospace" font-size="8" font-weight="400" fill="#9494A0" letter-spacing="2">GENERATIVE INSTRUMENTS</text>
+</svg>
