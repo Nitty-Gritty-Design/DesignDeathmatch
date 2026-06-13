@@ -1,0 +1,13 @@
+{
+  "modelId": "nvidia-nemoton-3-super",
+  "humanScore": 3,
+  "breakdown": {
+    "taste": 1,
+    "coherence": 1,
+    "ambition": 1
+  },
+  "comments": "",
+  "user": "Nitty-Gritty-Design",
+  "submittedAt": "2026-06-13T23:32:43.502Z",
+  "issueUrl": "https://github.com/Nitty-Gritty-Design/DesignDeathmatch/issues/6"
+}
