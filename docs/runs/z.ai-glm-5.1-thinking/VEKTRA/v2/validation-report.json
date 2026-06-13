@@ -1,0 +1,33 @@
+{
+  "score": 92.5,
+  "maxScore": 127.5,
+  "deductions": [
+    "Missing file: brand/typography.md (-2.5 pts)",
+    "Missing file: brand/voice.md (-2.5 pts)",
+    "Missing file: brand/logo-concept.md (-2.5 pts)",
+    "Missing file: brand/styleguide.html (-2.5 pts)",
+    "Found hardcoded hex colors in site/style.css (3 instances) (-5 pts)"
+  ],
+  "checks": {
+    "brand/tokens.css": true,
+    "brand/typography.md": false,
+    "brand/voice.md": false,
+    "brand/logo-concept.md": false,
+    "brand/logo.svg": true,
+    "brand/logo-mark.svg": true,
+    "brand/logo-animated.html": true,
+    "brand/logo-light.svg": true,
+    "site/index.html": true,
+    "site/style.css": true,
+    "site/main.js": true,
+    "brand/styleguide.html": false,
+    "site/viz.html": false,
+    "no_hardcoded_hex": false,
+    "no_broken_links": true,
+    "logo_animated_valid": true,
+    "brand/logo.svg_valid": true,
+    "brand/logo-mark.svg_valid": true,
+    "brand/logo-light.svg_valid": true,
+    "wildcard_completed": true
+  }
+}

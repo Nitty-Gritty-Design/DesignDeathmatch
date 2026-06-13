@@ -1,0 +1,36 @@
+{
+  "score": 66,
+  "maxScore": 127.5,
+  "deductions": [
+    "Missing file: brand/tokens.css (-2.5 pts)",
+    "Missing file: brand/typography.md (-2.5 pts)",
+    "Missing file: brand/voice.md (-2.5 pts)",
+    "Missing file: brand/logo-concept.md (-2.5 pts)",
+    "Missing file: brand/logo-animated.html (-4 pts)",
+    "Missing file: site/index.html (-5 pts)",
+    "Missing file: site/style.css (-5 pts)",
+    "Missing file: site/main.js (-5 pts)",
+    "Missing file: brand/styleguide.html (-2.5 pts)",
+    "Missing visualization (-5 pts)",
+    "No wildcard tasks completed (0 bonus pts)"
+  ],
+  "checks": {
+    "brand/tokens.css": false,
+    "brand/typography.md": false,
+    "brand/voice.md": false,
+    "brand/logo-concept.md": false,
+    "brand/logo.svg": true,
+    "brand/logo-mark.svg": true,
+    "brand/logo-animated.html": false,
+    "brand/logo-light.svg": true,
+    "site/index.html": false,
+    "site/style.css": false,
+    "site/main.js": false,
+    "brand/styleguide.html": false,
+    "site/viz.html": false,
+    "brand/logo.svg_valid": true,
+    "brand/logo-mark.svg_valid": true,
+    "brand/logo-light.svg_valid": true,
+    "wildcard_completed": false
+  }
+}

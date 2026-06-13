@@ -8,11 +8,11 @@
       "site": "runs/claude-opus-4.7-thinking/VEKTRA/v2/site/index.html",
       "v1_site": "runs/claude-opus-4.7-thinking/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 102.5,
+        "v2": 95,
+        "automated": 102.5,
         "human": 0,
-        "total": 0
+        "total": 102.5
       },
       "phases": {
         "foundation": 10,
@@ -32,11 +32,11 @@
       "site": "runs/claude-sonnet-4.6-thinking/VEKTRA/v2/index.html",
       "v1_site": "runs/claude-sonnet-4.6-thinking/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 112.5,
+        "v2": 54,
+        "automated": 112.5,
         "human": 0,
-        "total": 0
+        "total": 112.5
       },
       "phases": {
         "foundation": 10,
@@ -152,11 +152,11 @@
       "site": "runs/gemini-3.5-flash-high/VEKTRA/v2/site/index.html",
       "v1_site": "runs/gemini-3.5-flash-high/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 107.5,
+        "v2": 105,
+        "automated": 107.5,
         "human": 0,
-        "total": 0
+        "total": 107.5
       },
       "phases": {
         "foundation": 10,
@@ -224,11 +224,11 @@
       "site": "runs/minimax-m3/VEKTRA/v2/site/index.html",
       "v1_site": "runs/minimax-m3/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 107.5,
+        "v2": 100,
+        "automated": 107.5,
         "human": 0,
-        "total": 0
+        "total": 107.5
       },
       "phases": {
         "foundation": 10,
@@ -272,11 +272,11 @@
       "site": "runs/moonshotai-kimi-k2.7-code/VEKTRA/v2/site/index.html",
       "v1_site": "runs/moonshotai-kimi-k2.7-code/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 107.5,
+        "v2": 107.5,
+        "automated": 107.5,
         "human": 0,
-        "total": 0
+        "total": 107.5
       },
       "phases": {
         "foundation": 10,
@@ -296,11 +296,11 @@
       "site": "runs/nvidia-nemoton-3-super/VEKTRA/site/index.html",
       "v1_site": "runs/nvidia-nemoton-3-super/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
+        "v1": 100,
         "v2": 0,
-        "automated": 0,
+        "automated": 100,
         "human": 0,
-        "total": 0
+        "total": 100
       },
       "phases": {
         "foundation": 10,
@@ -344,11 +344,11 @@
       "site": "runs/step-3.7-flash-high/VEKTRA/v2/site/index_v2.html",
       "v1_site": "runs/step-3.7-flash-high/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 107.5,
+        "v2": 66,
+        "automated": 107.5,
         "human": 0,
-        "total": 0
+        "total": 107.5
       },
       "phases": {
         "foundation": 10,
@@ -392,11 +392,11 @@
       "site": "runs/z.ai-glm-5.1-thinking/VEKTRA/v2/site/index.html",
       "v1_site": "runs/z.ai-glm-5.1-thinking/VEKTRA/site/index.html",
       "score": {
-        "v1": 0,
-        "v2": 0,
-        "automated": 0,
+        "v1": 107.5,
+        "v2": 92.5,
+        "automated": 107.5,
         "human": 0,
-        "total": 0
+        "total": 107.5
       },
       "phases": {
         "foundation": 10,
